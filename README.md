@@ -10,6 +10,16 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![Dependency review](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678)
+<p align="center">
+    <br>
+    <a href="https://github.com//SwaragThaikkandi/SMdRQA/releases">
+       <img alt="GitHub all releases" src="https://img.shields.io/github/downloads//SwaragThaikkandi/SMdRQA/total?color=yellow&label=Downloads%28Github%29">
+    </a>
+    <a href="https://pypi.org/project/SMdRQA/">
+        <img alt="PYPI" src="https://static.pepy.tech/personalized-badge/SMdRQA?period=total&units=international_system&left_color=grey&right_color=yellow&left_text=Downloads(PYPI)">
+    </a>
+</p>
+
 
 # SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 
