@@ -1,0 +1,23 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  analyze_changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm run build
+
+      - name: Analyze changes
+        run: |
+          # Perform analysis on code changes
+          git diff --name-only ${{ github.base_ref }} ${{ github.head_ref }}
