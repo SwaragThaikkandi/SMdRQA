@@ -1,0 +1,12 @@
+numpy
+scipy
+operator-courier
+contextlib2
+pytest-warnings
+matplotlib
+pandas
+tqdm
+memory_profiler
+kuramoto
+networkx
+p_tqdm
