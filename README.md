@@ -8,6 +8,7 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA)
 ![GitHub Repo stars](https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
+[![Dependency review](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
 
 # SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 
