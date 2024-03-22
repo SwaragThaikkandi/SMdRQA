@@ -43,19 +43,19 @@ import ast
 from kuramoto import Kuramoto, plot_phase_coherence, plot_activity # see https://github.com/fabridamicelli/kuramoto
 # For installing the kuramoto package run: pip install kuramoto
 
-from RP_maker import RP_computer
+from SMdRQA.RP_maker import RP_computer
 
-from Extract_from_RP import Mode
-from Extract_from_RP import Check_Int_Array
-from Extract_from_RP import Sliding_window
-from Extract_from_RP import Whole_window
-from Extract_from_RP import windowed_RP
-from Extract_from_RP import First_middle_last_avg
-from Extract_from_RP import First_middle_last_sliding_windows
-from Extract_from_RP import First_middle_last_sliding_windows_all_vars
+from SMdRQA.Extract_from_RP import Mode
+from SMdRQA.Extract_from_RP import Check_Int_Array
+from SMdRQA.Extract_from_RP import Sliding_window
+from SMdRQA.Extract_from_RP import Whole_window
+from SMdRQA.Extract_from_RP import windowed_RP
+from SMdRQA.Extract_from_RP import First_middle_last_avg
+from SMdRQA.Extract_from_RP import First_middle_last_sliding_windows
+from SMdRQA.Extract_from_RP import First_middle_last_sliding_windows_all_vars
 
-from cross_validation import feature_selection
-from cross_validation import nested_cv
+from SMdRQA.cross_validation import feature_selection
+from SMdRQA.cross_validation import nested_cv
 import networkx as nx
 ############################################################### Define function for adding noise ############################################################################
 def add_noise(signal, snr):
