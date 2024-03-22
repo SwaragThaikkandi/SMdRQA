@@ -38,7 +38,7 @@ from functools import partial
 from scipy.interpolate import pchip_interpolate
 import memory_profiler
 import ast
-from SlidingMdRQApackage.RQA_functions import *
+from SMdRQA.RQA_functions import *
 
     
 def test_findtau():
