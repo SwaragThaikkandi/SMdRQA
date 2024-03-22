@@ -9,7 +9,7 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-# SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
+# SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data.
 
 This is a step by step tutorial about how to use the functions provided in the github repository. Here, we are providing codes, using which the RQA measures can be estimated after a parameter search for finding the embedding dimension. 
 ## Installing SMdRQA
