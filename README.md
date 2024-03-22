@@ -1,6 +1,7 @@
 [![Python package](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml)
 [![Upload to PIP](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml)
 [![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
+[![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
 
 # SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 
