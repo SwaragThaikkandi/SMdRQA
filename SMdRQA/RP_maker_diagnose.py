@@ -38,28 +38,28 @@ from functools import partial
 from scipy.interpolate import pchip_interpolate
 import memory_profiler
 
-from RQA_functions import doanes_formula
-from RQA_functions import binscalc
-from RQA_functions import mutualinfo
-from RQA_functions import timedelayMI
-from RQA_functions import findtau
-from RQA_functions import delayseries
-from RQA_functions import nearest
-from RQA_functions import fnnratio
-from RQA_functions import fnnhitszero
-from RQA_functions import findm
-from RQA_functions import reccplot
-from RQA_functions import reccrate
-from RQA_functions import findeps
-from RQA_functions import plotwindow
-from RQA_functions import vert_hist
-from RQA_functions import onedhist
-from RQA_functions import diaghist
-from RQA_functions import percentmorethan
-from RQA_functions import mode
-from RQA_functions import maxi
-from RQA_functions import average
-from RQA_functions import entropy
+from SMdRQA.RQA_functions import doanes_formula
+from SMdRQA.RQA_functions import binscalc
+from SMdRQA.RQA_functions import mutualinfo
+from SMdRQA.RQA_functions import timedelayMI
+from SMdRQA.RQA_functions import findtau
+from SMdRQA.RQA_functions import delayseries
+from SMdRQA.RQA_functions import nearest
+from SMdRQA.RQA_functions import fnnratio
+from SMdRQA.RQA_functions import fnnhitszero
+from SMdRQA.RQA_functions import findm
+from SMdRQA.RQA_functions import reccplot
+from SMdRQA.RQA_functions import reccrate
+from SMdRQA.RQA_functions import findeps
+from SMdRQA.RQA_functions import plotwindow
+from SMdRQA.RQA_functions import vert_hist
+from SMdRQA.RQA_functions import onedhist
+from SMdRQA.RQA_functions import diaghist
+from SMdRQA.RQA_functions import percentmorethan
+from SMdRQA.RQA_functions import mode
+from SMdRQA.RQA_functions import maxi
+from SMdRQA.RQA_functions import average
+from SMdRQA.RQA_functions import entropy
 import seaborn as sns
 
 def fnnhitszero_Plot(u,n,d,m,tau,sig,delta,Rmin,Rmax,rdiv):
