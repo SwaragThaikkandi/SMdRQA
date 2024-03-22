@@ -3,6 +3,11 @@
 [![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
 [![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
 [![license badge](https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA)](./LICENSE)
+![PyPI](https://img.shields.io/pypi/v/SMdRQA)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/SMdRQA)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA)
+![GitHub Repo stars](https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 # SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 
