@@ -1,27 +1,39 @@
-[![Python package](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml)
-[![Upload to PIP](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml)
-[![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
-[![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
+# SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678)
 [![license badge](https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA)](./LICENSE)
+## Package integrity
+[![Python package](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml)
+## PyPI Package Information
+[![Upload to PIP](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml)
 ![PyPI](https://img.shields.io/pypi/v/SMdRQA)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/SMdRQA)
+![PyPI - Format](https://img.shields.io/pypi/format/SMdRQA)
+![PyPI - Status](https://img.shields.io/pypi/status/SMdRQA)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/SMdRQA)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/SMdRQA)
+
+![PyPI Downloads](https://img.shields.io/pypi/dm/SMdRQA?label=Downloads&cacheSeconds=3600)
+## Security
+[![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
+[![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
+[![Dependency review](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
+## GitHub
+![GitHub Release](https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA)
 ![GitHub Repo stars](https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![Dependency review](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678)
-<p align="center">
-    <br>
-    <a href="https://github.com//SwaragThaikkandi/SMdRQA/releases">
-       <img alt="GitHub all releases" src="https://img.shields.io/github/downloads//SwaragThaikkandi/SMdRQA/total?color=yellow&label=Downloads%28Github%29">
-    </a>
-    <a href="https://pypi.org/project/SMdRQA/">
-        <img alt="PYPI" src="https://static.pepy.tech/personalized-badge/SMdRQA?period=total&units=international_system&left_color=grey&right_color=yellow&left_text=Downloads(PYPI)">
-    </a>
-</p>
+![GitHub language count](https://img.shields.io/github/languages/count/SwaragThaikkandi/SMdRQA)
+![GitHub search hit counter](https://img.shields.io/github/search/:user/SwaragThaikkandi/SMdRQA)
+![GitHub top language](https://img.shields.io/github/languages/top/SwaragThaikkandi/SMdRQA)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/SwaragThaikkandi/SMdRQA)
+![GitHub repo file or directory count](https://img.shields.io/github/directory-file-count/SwaragThaikkandi/SMdRQA)
+![GitHub repo size](https://img.shields.io/github/repo-size/SwaragThaikkandi/SMdRQA)
+![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/SwaragThaikkandi/SMdRQA)
+![Gitlab Code Coverage](https://img.shields.io/gitlab/pipeline-coverage/SwaragThaikkandi/SMdRQA)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/SwaragThaikkandi/SMdRQA/total)
+![GitHub Discussions](https://img.shields.io/github/discussions/SwaragThaikkandi/SMdRQA)
+![Github Created At](https://img.shields.io/github/created-at/SwaragThaikkandi/SMdRQA)
 
-
-# SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 
 This is a step by step tutorial about how to use the functions provided in the github repository. Here, we are providing codes, using which the RQA measures can be estimated after a parameter search for finding the embedding dimension. 
 ## Installing SMdRQA
