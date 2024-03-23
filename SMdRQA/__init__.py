@@ -2,7 +2,7 @@
 
 __docformat__ = "restructuredtext"
 
-__version__ = "0.0.1"
+__version__ = "2024.03.24"
 
 import numpy as np
 from scipy.integrate import solve_ivp
