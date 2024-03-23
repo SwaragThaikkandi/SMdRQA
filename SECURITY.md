@@ -9,6 +9,7 @@ Currently, our project is provided under the GNU Public License and is available
 | 0.1.0    | :x:                |
 | 2024.3.22| :x:                |
 | 2024.3.23| :x:                |
+| 2024.3.24| :x:                |
 
 
 ## Reporting a Vulnerability
