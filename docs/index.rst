@@ -17,7 +17,7 @@ Home
 Welcome to **MdRQA**'s documentation, where you can find information and learn about SMdRQA.
 
 
-You can navigate to the different sections using the left panel. We recommend checking out the **guides** and **examples**, where you can find tutorials and hands-on walkthroughs.
+You can navigate to the different sections using the left panel. We recommend checking out the **examples**, where you can find tutorials and hands-on walkthroughs.
 
 .. toctree::
    :maxdepth: 1
