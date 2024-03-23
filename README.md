@@ -11,7 +11,7 @@
 ![PyPI - Status](https://img.shields.io/pypi/status/SMdRQA)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/SMdRQA)
 ![PyPI - Wheel](https://img.shields.io/pypi/wheel/SMdRQA)
-![PyPI Downloads](https://img.shields.io/pypi/dm/SMdRQA?label=Downloads&cacheSeconds=3600)
+[![PyPI - Downloads(total)](https://static.pepy.tech/badge/SMdRQA)](https://pepy.tech/project/SMdRQA)
 ## Security
 [![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
 [![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
