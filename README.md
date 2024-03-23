@@ -33,6 +33,7 @@
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/SwaragThaikkandi/SMdRQA/total)
 ![GitHub Discussions](https://img.shields.io/github/discussions/SwaragThaikkandi/SMdRQA)
 ![Github Created At](https://img.shields.io/github/created-at/SwaragThaikkandi/SMdRQA)
+[![Labeler](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml)
 
 
 This is a step by step tutorial about how to use the functions provided in the github repository. Here, we are providing codes, using which the RQA measures can be estimated after a parameter search for finding the embedding dimension. 
