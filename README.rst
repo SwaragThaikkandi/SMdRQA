@@ -5,7 +5,7 @@ SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of 
         :target: https://doi.org/10.5281/zenodo.10854678
 
 .. image:: https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA
-        :target: ./LICENSE
+        :target: https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA/LICENSE
 
 Package integrity
 -----------------
