@@ -36,7 +36,7 @@ def find_author():
 
 
 project = "SMdRQA"
-copyright = f"2024–{datetime.datetime.now().year}"
+copyright = f"2024"
 author = 'Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.'
 
 # The short X.Y version.
