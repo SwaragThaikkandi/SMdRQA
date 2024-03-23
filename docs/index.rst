@@ -33,7 +33,7 @@ You can navigate to the different sections using the left panel. We recommend ch
    Repository <https://github.com/SwaragThaikkandi/SMdRQA>
 
 
-.. include::  ../README.md
+.. include::  ../README
     :start-after: .. used_at_section
 
 .. * :ref:`genindex`
