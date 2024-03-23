@@ -45,7 +45,7 @@ jobs:
                   pip install kuramoto
                   pip install networkx
                   pip install p_tqdm
-                  pip install https://github.com/SwaragThaikkandi/SMdRQA
+                  pip install git+https://github.com/SwaragThaikkandi/SMdRQA
 
             - name: Build documentation 📜
               run: |
