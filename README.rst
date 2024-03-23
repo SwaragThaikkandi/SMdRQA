@@ -1,5 +1,5 @@
 SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
-===========================================================
+============================================================================================================
 
 .. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg
    :target: https://doi.org/10.5281/zenodo.10854678
