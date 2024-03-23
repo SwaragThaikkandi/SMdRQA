@@ -20,7 +20,6 @@
 ![GitHub Release](https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA)
 ![GitHub Repo stars](https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 ![GitHub language count](https://img.shields.io/github/languages/count/SwaragThaikkandi/SMdRQA)
 ![GitHub search hit counter](https://img.shields.io/github/search/:user/SwaragThaikkandi/SMdRQA)
 ![GitHub top language](https://img.shields.io/github/languages/top/SwaragThaikkandi/SMdRQA)
