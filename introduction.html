@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Overview &#8212; SMdRQA 0.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=e645c8fa"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'introduction';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Time Series Data Analysis Using SMdRQA" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 0.0.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/cross_validation.html">cross_validation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/introduction.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Fintroduction.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/introduction.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Overview</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
+<p># SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
+[![DOI](<a class="reference external" href="https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678">https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678</a>)
+[![license badge](<a class="reference external" href="https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA)](./LICENSE">https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA)](./LICENSE</a>)
+## Package integrity
+[![Python package](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml">SwaragThaikkandi/SMdRQA</a>)
+## PyPI Package Information
+[![Upload to PIP](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-publish.yml">SwaragThaikkandi/SMdRQA</a>)
+![PyPI](<a class="reference external" href="https://img.shields.io/pypi/v/SMdRQA">https://img.shields.io/pypi/v/SMdRQA</a>)
+![PyPI - Python Version](<a class="reference external" href="https://img.shields.io/pypi/pyversions/SMdRQA">https://img.shields.io/pypi/pyversions/SMdRQA</a>)
+![PyPI - Format](<a class="reference external" href="https://img.shields.io/pypi/format/SMdRQA">https://img.shields.io/pypi/format/SMdRQA</a>)
+![PyPI - Status](<a class="reference external" href="https://img.shields.io/pypi/status/SMdRQA">https://img.shields.io/pypi/status/SMdRQA</a>)
+![PyPI - Implementation](<a class="reference external" href="https://img.shields.io/pypi/implementation/SMdRQA">https://img.shields.io/pypi/implementation/SMdRQA</a>)
+![PyPI - Wheel](<a class="reference external" href="https://img.shields.io/pypi/wheel/SMdRQA">https://img.shields.io/pypi/wheel/SMdRQA</a>)
+[![PyPI - Downloads(total)](<a class="reference external" href="https://static.pepy.tech/badge/SMdRQA)](https://pepy.tech/project/SMdRQA">https://static.pepy.tech/badge/SMdRQA)](https://pepy.tech/project/SMdRQA</a>)
+## Security
+[![CodeQL](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql">SwaragThaikkandi/SMdRQA</a>)
+[![Bandit](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml">SwaragThaikkandi/SMdRQA</a>)
+[![Dependency review](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml">SwaragThaikkandi/SMdRQA</a>)
+[![DevSkim](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml">SwaragThaikkandi/SMdRQA</a>)
+[![OSSAR](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml">SwaragThaikkandi/SMdRQA</a>)
+## GitHub
+![GitHub Release](<a class="reference external" href="https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA</a>)
+![GitHub pull requests](<a class="reference external" href="https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA</a>)
+![GitHub Repo stars](<a class="reference external" href="https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/stars/SwaragThaikkandi/SMdRQA</a>)
+![GitHub language count](<a class="reference external" href="https://img.shields.io/github/languages/count/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/languages/count/SwaragThaikkandi/SMdRQA</a>)
+![GitHub search hit counter](<a class="reference external" href="https://img.shields.io/github/search/:user/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/search/:user/SwaragThaikkandi/SMdRQA</a>)
+![GitHub top language](<a class="reference external" href="https://img.shields.io/github/languages/top/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/languages/top/SwaragThaikkandi/SMdRQA</a>)
+![GitHub code size in bytes](<a class="reference external" href="https://img.shields.io/github/languages/code-size/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/languages/code-size/SwaragThaikkandi/SMdRQA</a>)
+![GitHub repo file or directory count](<a class="reference external" href="https://img.shields.io/github/directory-file-count/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/directory-file-count/SwaragThaikkandi/SMdRQA</a>)
+![GitHub repo size](<a class="reference external" href="https://img.shields.io/github/repo-size/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/repo-size/SwaragThaikkandi/SMdRQA</a>)
+![Gitlab Pipeline Status](<a class="reference external" href="https://img.shields.io/gitlab/pipeline-status/SwaragThaikkandi/SMdRQA">https://img.shields.io/gitlab/pipeline-status/SwaragThaikkandi/SMdRQA</a>)
+![Gitlab Code Coverage](<a class="reference external" href="https://img.shields.io/gitlab/pipeline-coverage/SwaragThaikkandi/SMdRQA">https://img.shields.io/gitlab/pipeline-coverage/SwaragThaikkandi/SMdRQA</a>)
+![GitHub Downloads (all assets, all releases)](<a class="reference external" href="https://img.shields.io/github/downloads/SwaragThaikkandi/SMdRQA/total">https://img.shields.io/github/downloads/SwaragThaikkandi/SMdRQA/total</a>)
+![GitHub Discussions](<a class="reference external" href="https://img.shields.io/github/discussions/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/discussions/SwaragThaikkandi/SMdRQA</a>)
+![Github Created At](<a class="reference external" href="https://img.shields.io/github/created-at/SwaragThaikkandi/SMdRQA">https://img.shields.io/github/created-at/SwaragThaikkandi/SMdRQA</a>)
+[![Labeler](<a class="github reference external" href="https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml">SwaragThaikkandi/SMdRQA</a>)</p>
+<p>This is a step by step tutorial about how to use the functions provided in the github repository. Here, we are providing codes, using which the RQA measures can be estimated after a parameter search for finding the embedding dimension.
+## Installing SMdRQA
+You can install the package using PyPI
+<code class="docutils literal notranslate"><span class="pre">`shell-session</span>
+<span class="pre">pip</span> <span class="pre">install</span> <span class="pre">SMdRQA</span>
+<span class="pre">`</span></code>
+## import packages
+We will begin with importing packages and functions. Note that the python files should be copied to the mail analysis directory
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+import numpy as np
+from scipy.integrate import solve_ivp
+import operator
+import contextlib
+import functools
+import operator
+import warnings
+from numpy.core import overrides
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use(‘Agg’)
+import pandas as pd
+from os import listdir
+from os.path import isfile, join
+from collections import defaultdict
+import csv
+from tqdm import tqdm
+import os
+import numpy as np
+import operator
+import contextlib
+import functools
+import operator
+import warnings
+from numpy.core import overrides
+import matplotlib.pyplot as plt
+import pandas as pd
+from os import listdir
+from os.path import isfile, join
+from collections import defaultdict
+import csv
+from tqdm import tqdm
+import pickle
+import random
+from scipy.stats import skew
+from p_tqdm import p_map
+from functools import partial
+from scipy.interpolate import pchip_interpolate
+import memory_profiler
+import ast</p>
+<p>from kuramoto import Kuramoto, plot_phase_coherence, plot_activity # see <a class="github reference external" href="https://github.com/fabridamicelli/kuramoto">fabridamicelli/kuramoto</a>
+# For installing the kuramoto package run: pip install kuramoto</p>
+<p>from SMdRQA.RP_maker import RP_computer</p>
+<p>from SMdRQA.Extract_from_RP import Mode
+from SMdRQA.Extract_from_RP import Check_Int_Array
+from SMdRQA.Extract_from_RP import Sliding_window
+from SMdRQA.Extract_from_RP import Whole_window
+from SMdRQA.Extract_from_RP import windowed_RP
+from SMdRQA.Extract_from_RP import First_middle_last_avg
+from SMdRQA.Extract_from_RP import First_middle_last_sliding_windows
+from SMdRQA.Extract_from_RP import First_middle_last_sliding_windows_all_vars</p>
+<p>from SMdRQA.cross_validation import feature_selection
+from SMdRQA.cross_validation import nested_cv
+<a href="#id5"><span class="problematic" id="id6">``</span></a>`
+## Example 1: Kuramoto Model
+In this example, we will be simulating the Kuramoto model, varying number of scillators, length of time series, and the coupling strength. The number of oscillators will be randomly choosen from a descrete uniform distribution of integers from 3 to 6. Time series length is also choosen similarly. Coupling strength is sampled from a continuous uniform distribution from 0 to 2Kc, where Kc is the critical coupling strength.
+We are using the mean field Kuramoto model, where the coupling strength between any two oscillator is the same. The system is given by the differential equation:</p>
+<p>$$dot{theta_{i}} = omega_{i} + sum_{j=1}^{N} K_{ij} sin{(theta_{j}-theta{i})}, i=1, …, N$$</p>
+<p>We will sample the frequencies($$omega_{i}$$) from a standard normal distribution. And the critical coupling strength for mean field model is given by:</p>
+<p>$$K_{c} = <a href="#id7"><span class="problematic" id="id8">|</span></a>omega_{max}-omega_{min}|$$</p>
+<p>And in the case of mean field model, the coupling strength is given by:</p>
+<p>$$K_{ij} = K/N &gt;0, forall i,j in {1,2,3,…,N}$$</p>
+<p>Here, synchrony of the system is defined in terms of a complex valued order parameter($$r$$), which is given by:</p>
+<p>$$r e^{ipsi} =  frac{1}{N} sum_{j=1}^{N}e^{i theta_{j}}$$</p>
+<p>Here $$psi$$ is the average phase value. To arrive at  an expression that makes the dependence of synchrony on values of K explicit, we begin with multiplying both sides by $$e^{-i theta_{i}}$$.</p>
+<p>$$r e^{ipsi} e^{-i theta_{i}} = left( frac{1}{N} sum_{j=1}^{N}e^{i theta_{j}}right) e^{-i theta_{i}}$$</p>
+<p>$$r e^{i(psi -theta_{i})}= frac{1}{N} sum_{j=1}^{N}e^{i(theta_{j}-theta_{i})}$$</p>
+<p>$$dot{theta_{i}} = omega_{i} + K r sin{(psi -theta_{i})}$$</p>
+<p>Here, when the coupling strength is tending to zero, the oscillators would be oscillating in their natural frequencies.
+### What is the order parameter? How does it matter?
+&lt;div style=”position: relative; width: 100%;”&gt;</p>
+<blockquote>
+<div><p>&lt;img src=”<a class="github reference external" href="https://github.com/SwaragThaikkandi/Sliding_MdRQA/blob/main/Fig14-1.png">SwaragThaikkandi/Sliding_MdRQA</a>” style=”width: 750px;”&gt;</p>
+</div></blockquote>
+<p>&lt;/div&gt;
+Figure shows order parameter plotted against time, and the color coding is for the coupling strength. We can see that, above the critical couping strengh, the critical coupling strength increases and stays there. Below critical coupling strength also, we can see high r values, but, it is not sustained. So, we can see that, more that r value itself, estimated at a point in time, coupling strength is more informative about the system. Now, we had seen this we can go through the analysis pipeline:
+First we define a function to add noise to the signals. This function will change the signal to noise ratio of the signals</p>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>python</p>
+<dl>
+<dt>def add_noise(signal, snr):</dt><dd><p>“””
+Add Gaussian noise to a signal with a specific signal-to-noise ratio (SNR).</p>
+<p>Parameters:
+signal (array): Input signal.
+snr (float): Signal-to-noise ratio (SNR) as a ratio.</p>
+<p>Returns:
+noisy_signal (array): Signal with added noise.
+“””
+# Clip signal to maximum value of 1 to prevent overflow errors</p>
+<p># Calculate signal power
+signal_power = np.mean(np.var(signal))</p>
+<p># Calculate noise power
+noise_power = signal_power / snr</p>
+<p># Generate Gaussian noise
+noise = np.random.normal(0, np.sqrt(noise_power), len(signal))</p>
+<p># Add noise to signal
+noisy_signal = signal + noise</p>
+<p># Clip noisy signal to maximum value of 1 to prevent overflow errors
+#noisy_signal = np.clip(noisy_signal, np.min(signal), np.max(signal))</p>
+<p>return noisy_signal</p>
+</dd>
+</dl>
+<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<p>Now, we will simulate the system using Kuramoto package available at “<a class="github reference external" href="https://github.com/fabridamicelli/kuramoto">fabridamicelli/kuramoto</a>”. We will simulate the system, add noise and will save it to a directory( as numpy files). These files will be later accessed for computing RPs.</p>
+<p><a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a>python
+SNRu=[0.25, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5]                                      # These are the range of SNR values
+np.random.seed(301)
+random.seed(301)
+for i in tqdm(range(10)):</p>
+<blockquote>
+<div><p>N=random.sample(range(3, 7), 1)[0]                                                # Selecting a random size for the number of oscillators, between 3 and 6
+omega = np.random.normal(0,1,size=N)                                              # Sampling the natural frequencies of the oscillators from a normal distribution
+Ks=(np.max(omega)-np.min(omega))                                                  # Computing the critical coupling strength for the population of oscillators
+K_sample=np.random.uniform(low=0, high=2*Ks,size=10)                              # Sampling the coupling strength from a uniform distribution from 0 to 2Ks so</p>
+<blockquote>
+<div><p># that there is equal probability for finding a system having coupling strength below and
+# above critical coupling strength</p>
+</div></blockquote>
+<p>rp_sizes = random.sample(range(15, 45), len(K_sample))                            # Selecting a random length for the time series
+graph_nx = nx.erdos_renyi_graph(n=N, p=1)                                         # Defining an all-to-all connected graph
+graph = nx.to_numpy_array(graph_nx)                                               # Converting connection matrix to numpy matrix
+for k2 in tqdm(range(len(K_sample))):                                             # Looping over different coupling strengths</p>
+<blockquote>
+<div><p>K_used=K_sample[k2]
+model = Kuramoto(coupling=K_used, dt=0.01, T=rp_sizes[k2], n_nodes=N,natfreqs=omega)  # Defining the Kuramoto model, dt is the timestep
+act_mat = model.run(adj_mat=graph)                                              # Activation matrix from running the model
+THETA=act_mat.T                                                                 # Taking transpose to get data from each oscillator as a column
+for snr in tqdm(SNRu):                                                          # Loop over different signal to noise ratios</p>
+<blockquote>
+<div><p>signals=signals_ori
+for j in range(N):                                                            # Add noise to the signals</p>
+<blockquote>
+<div><p>signals[:,j]=add_noise(signals[:,j], snr)</p>
+</div></blockquote>
+<p>signals = signals[::10,:]
+np.save(‘/user/swarag/Kuramoto/signals/(‘+str(snr)+’,’+str(N)+’,’+str(Ks)+’,’+str(K_used)+’,’+str(rp_sizes[k2])+’)~.npy’,signals)  # Save the data to a numpy file</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<p><a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<p>Now we have saved the time series data to a folder, we can access the folder for creating RPs. Note that the folder containig the data files shouldn’t contain any other files. The function we defined are making use of the “listdir” function from os package, and the code doesn’t handle exceptions. Now we can generate the RPs</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">input_path</span> <span class="pre">=</span> <span class="pre">'/user/swarag/Kuramoto/signals'</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">directory</span> <span class="pre">to</span> <span class="pre">which</span> <span class="pre">the</span> <span class="pre">signals</span> <span class="pre">are</span> <span class="pre">saved</span>
+<span class="pre">RP_dir</span> <span class="pre">=</span> <span class="pre">'/user/swarag/Kuramoto/RP'</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">directory</span> <span class="pre">to</span> <span class="pre">which</span> <span class="pre">we</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">the</span> <span class="pre">RPs</span>
+<span class="pre">RP_computer(input_path,</span> <span class="pre">RP_dir)</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">generating</span> <span class="pre">RPs</span> <span class="pre">and</span> <span class="pre">saving</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">folder</span>
+<span class="pre">`</span></code>
+One may think that the function is so simple, only asking the user to input information about the directories. However, if you access the original python script, there we can see many inputs, but with some default values. Two of those default values may have to change for some datasets, about which we would discuss later in this tutorial. Now we have saved the RPs, the RPs would look like the following:
+&lt;div style=”position: relative; width: 100%;”&gt;</p>
+<blockquote>
+<div><p>&lt;img src=”<a class="github reference external" href="https://github.com/SwaragThaikkandi/Sliding_MdRQA/blob/main/Fig11C-1.png">SwaragThaikkandi/Sliding_MdRQA</a>” style=”width: 750px;”&gt;</p>
+</div></blockquote>
+<p>&lt;/div&gt;
+Nest step is to compute the RQA values and their central tendency measures from the sliding windowws. An important step for that is to determine the window size, which again is subjective to the experimentor and data. Let’s see how window size estimate can be done, in this case using the variable percentage determinism.</p>
+<p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a>python
+from window size import Sliding_windowBS_sub_percent_det
+from window size import Sliding_windowBS
+from window size import Sliding_window_whole_data</p>
+<p>windowing_data = Sliding_window_whole_data(RP_dir, ‘percent_det’)</p>
+<p><a href="#id29"><span class="problematic" id="id30">``</span></a>`
+From this, what we will get is a dataframe, which contains the difference between 95th percentile and 5th percentile for each file. Now we have to plot it for different noise levels.</p>
+<p><a href="#id31"><span class="problematic" id="id32">``</span></a><a href="#id33"><span class="problematic" id="id34">`</span></a>python
+FILE = np.array(windowing_data[‘group’])                                                      # In the output data, the field named ‘group’ will have file name which contains details
+SNR =[]
+NUM =[]
+Kc =[]
+K =[]
+SIZE =[]
+for FI in FILE:</p>
+<blockquote>
+<div><p>info = ast.literal_eval(FI)
+SNR.append(info[0])
+NUM.append(info[1])
+Kc.append(info[2])
+K.append(info[3])
+SIZE.append(info[4])</p>
+</div></blockquote>
+<p>windowing_data[‘snr’] = SNR
+windowing_data[‘N’] = NUM
+windowing_data[‘Kc’] = Kc
+windowing_data[‘K’] = K
+windowing_data[‘length’] = SIZE
+<a href="#id35"><span class="problematic" id="id36">``</span></a><a href="#id37"><span class="problematic" id="id38">`</span></a></p>
+<p>Now since we have added these columns to the dataframe, we can use seaborn package for plotting</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">plt.figure(figsize</span> <span class="pre">=</span> <span class="pre">(16,12))</span>
+<span class="pre">sns.pointplot(data</span> <span class="pre">=</span> <span class="pre">windowing_data,</span> <span class="pre">x</span> <span class="pre">=</span> <span class="pre">'WINSIZE',</span> <span class="pre">y</span> <span class="pre">=</span> <span class="pre">'95%</span> <span class="pre">quantile-</span> <span class="pre">5%</span> <span class="pre">quantile',</span> <span class="pre">hue</span> <span class="pre">=</span> <span class="pre">'snr')</span>
+<span class="pre">plt.show()</span>
+<span class="pre">`</span></code>
+&lt;div style=”position: relative; width: 100%;”&gt;</p>
+<blockquote>
+<div><p>&lt;img src=”<a class="github reference external" href="https://github.com/SwaragThaikkandi/Sliding_MdRQA/blob/main/determinism_win_size.png">SwaragThaikkandi/Sliding_MdRQA</a>” style=”width: 750px;”&gt;</p>
+</div></blockquote>
+<p>&lt;/div&gt;
+We considered some value near window size  = 70 to be good enough, and took 68 as the window size. Note that, due to monotonously decreasing nature of the graph, it is impossible to get an optimal value, which is not subjective.
+Now that we decided about the window size, we can estimate RQA variables from the sliding windows having the given size.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">Dict_RPs=windowed_RP(68,</span> <span class="pre">'RP')</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Specifying</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">and</span> <span class="pre">folder</span> <span class="pre">in</span> <span class="pre">which</span> <span class="pre">RPs</span> <span class="pre">are</span> <span class="pre">saved</span>
+<span class="pre">First_middle_last_sliding_windows_all_vars(Dict_RPs,'Kuramoto_data.csv')</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Saving</span> <span class="pre">RQA</span> <span class="pre">variables</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">csv</span> <span class="pre">file</span>
+<span class="pre">`</span></code></p>
+<p>The resulting dataframe that is getting saved will have a column, “group”, which will have the file name(excluding “.npy”). In this code, we are coding information regarding synchrony using the file name, as given below:</p>
+<p><a href="#id39"><span class="problematic" id="id40">``</span></a><a href="#id41"><span class="problematic" id="id42">`</span></a>python
+data = pd.read_csv(‘Kuramoto_data.csv’)
+FILE = np.array(data[‘group’])                                                      # In the output data, the field named ‘group’ will have file name which contains details
+SNR =[]
+NUM =[]
+Kc =[]
+K =[]
+SIZE =[]
+for FI in FILE:</p>
+<blockquote>
+<div><p>info = ast.literal_eval(FI)
+SNR.append(info[0])
+NUM.append(info[1])
+Kc.append(info[2])
+K.append(info[3])
+SIZE.append(info[4])</p>
+</div></blockquote>
+<p>data[‘snr’] = SNR
+data[‘N’] = NUM
+data[‘Kc’] = Kc
+data[‘K’] = K
+data[‘length’] = SIZE
+K = np.array(K)
+Kc = np.array(Kc)
+SYNCH = 1*(K&gt;Kc)                                                                   # Defining synchrony condition, coupling strength grater than that of the critical coupling strength
+data[‘synch’] = SYNCH
+<a href="#id43"><span class="problematic" id="id44">``</span></a><a href="#id45"><span class="problematic" id="id46">`</span></a></p>
+<p>Now, we need to select an SNR value, scale the variables and run the classifier
+<a href="#id47"><span class="problematic" id="id48">``</span></a><a href="#id49"><span class="problematic" id="id50">`</span></a>python
+################################################################## Select the value of SNR ################################################################################################
+<a href="#id107"><span class="problematic" id="id108">data_</span></a> = data[data[‘snr’]==1.0].reset_index(drop = True)
+<a href="#id109"><span class="problematic" id="id110">data_</span></a> = data_[data[‘window’]== ‘mode’].reset_index(drop = True)                   # mode of RQA variables from the sliding windows
+################################################################## Scale the data #########################################################################################################features=[‘recc_rate’,</p>
+<blockquote>
+<div><p>‘percent_det’,
+‘avg_diag’,
+‘max_diag’,
+‘percent_lam’,
+‘avg_vert’,
+‘vert_ent’,
+‘diag_ent’,
+‘vert_max’]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>for feature in features:</dt><dd><p>arr = np.array(data_[feature])
+data_[feature] = (arr - np.mean(arr))/(np.std(arr) + 10**(-9))</p>
+</dd>
+</dl>
+<p>################################################################# Run the classification ###################################################################################################
+nested_cv(<a href="#id111"><span class="problematic" id="id112">data_</span></a>, features, ‘synch’, ‘Kuramotot(SNR=1.0)’, repeats=100, inner_repeats=10, outer_splits=3, inner_splits=2)
+#################################################################   DONE ! ################################################################################################################
+<a href="#id51"><span class="problematic" id="id52">``</span></a><a href="#id53"><span class="problematic" id="id54">`</span></a></p>
+<p># Troubleshooting: Parameter Search for embedding dimension</p>
+<p>If you were suspecious about the oversimplified look of the function “RP_computer”, you are correct. This function also implements a parameter search method for finding the embedding dimensions under the hood. Even though some default values are there, they may not be applicable to all datasets. In such cases, we need to see, what can be set. We had to do this while analyzing data from Koul et al(2023), and it is for this, we have some functions in “RP_maker_diagnose.py”. We will see how we can use these functions</p>
+<p><a href="#id55"><span class="problematic" id="id56">``</span></a><a href="#id57"><span class="problematic" id="id58">`</span></a>python
+from RP_maker_diagnose import fnnhitszero_Plot
+from RP_maker_diagnose import findm_Plot
+from RP_maker_diagnose import RP_diagnose
+from RP_maker_diagnose import get_minFNN_distribution_plot</p>
+<p>input_path = ‘/user/swarag/Koul et al/data_npy’                                        # directory to which the signals are saved
+diagnose_dir = ‘/user/swarag/Koul et al/diagnose’                                            # directory in which pickle files from this function are saved
+RP_diagnose(input_path, diagnose_dir)
+<a href="#id59"><span class="problematic" id="id60">``</span></a>`
+Now, we have saved the picke files to a directory, we can use those pickle files in the next function. Following function estimates the lower and upper bound (2.5th and 975th percentile) of the distribution of minimum false nearest beighbour(FNN) values for different embedding dimensions. It gives a plot and a CSV file.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">get_minFNN_distribution_plot(path,</span> <span class="pre">'Koul_et_al_RP_diagnose')</span>
+<span class="pre">`</span></code></p>
+<dl class="simple">
+<dt>&lt;div style=”position: relative; width: 100%;”&gt;</dt><dd><p>&lt;img src=”<a class="github reference external" href="https://github.com/SwaragThaikkandi/Sliding_MdRQA/blob/main/Koul_et_al_RP_diagnose.png">SwaragThaikkandi/Sliding_MdRQA</a>” style=”width: 750px;”&gt;</p>
+</dd>
+</dl>
+<p>&lt;/div&gt;
+&lt;div style=”position: relative; width: 100%;”&gt;</p>
+<blockquote>
+<div><p>&lt;img src=”<a class="github reference external" href="https://github.com/SwaragThaikkandi/Sliding_MdRQA/blob/main/Koul_et_al_RP_diagnos_csv.png">SwaragThaikkandi/Sliding_MdRQA</a>” style=”width: 300px;”&gt;</p>
+</div></blockquote>
+<p>&lt;/div&gt;
+We can see that the minimum value of FNN goes down as we increases the embedding diension. But, the value of delta, which is a parameter that determines whether a particular value of embedding dimnesion can be effectively considered as zero or not, should include most of these values. Generally m=1 is less useful, hence, we can consider the upper bound from m=2 onwards. Then we can set this limit for defining the r value at which FNN hits zero and then we can find out desired value of embedding dimension by setting a threshold value for r(at which FNN hits zero) vs embedding dimension plot.</p>
+<p>## Example 2: Rossler Attractor
+Firstly, we will define functions for simulating Rossler attractor</p>
+<p><a href="#id61"><span class="problematic" id="id62">``</span></a><a href="#id63"><span class="problematic" id="id64">`</span></a>python
+def rossler(t, X, a, b, c):</p>
+<blockquote>
+<div><p>“””The Rössler equations.”””
+x, y, z = X
+xp = -y - z
+yp = x + a*y
+zp = b + z*(x - c)
+return xp, yp, zp</p>
+</div></blockquote>
+<dl>
+<dt>def rossler_time_series(tmax,n, Xi, a, b, c):</dt><dd><p>x, y, z = Xi
+X=[x]
+Y=[y]
+Z=[z]
+dt=0.0001
+for i in range(1, tmax):</p>
+<blockquote>
+<div><p>#print(‘Xi:’, Xi)
+x, y, z = Xi
+xp, yp, zp=rossler(t, Xi, a, b, c)
+x_next=x+dt*xp
+y_next=y+dt*yp
+z_next=z+dt*zp
+X.append(x_next)
+Y.append(y_next)
+Z.append(z_next)
+Xi=(x+dt*xp,y+dt*yp,z+dt*zp)</p>
+</div></blockquote>
+<p>X=np.array(X)
+Y=np.array(Y)
+Z=np.array(Z)</p>
+<p>step=int(tmax/n)
+indices = np.arange(0,tmax, step)
+#print(‘IS NAN X:’,np.sum(np.isnan(X[indices])))
+#print(‘IS NAN Y:’,np.sum(np.isnan(Y[indices])))
+#print(‘IS NAN Z:’,np.sum(np.isnan(Z[indices])))</p>
+<p>return X[indices], Y[indices], Z[indices]</p>
+</dd>
+</dl>
+<p><a href="#id65"><span class="problematic" id="id66">``</span></a>`
+Now, define the parameter values. We are mainly varying a, while keeping b and c the same for getting transition from periodic to chaotic attractor.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">b</span> <span class="pre">=</span> <span class="pre">0.2</span>
+<span class="pre">c</span> <span class="pre">=</span> <span class="pre">5.7</span>
+<span class="pre">a_array</span> <span class="pre">=</span> <span class="pre">[0.1,0.15,0.2,0.25,0.3]</span>
+<span class="pre">SNR</span> <span class="pre">=</span> <span class="pre">[0.125,0.25,0.5,0.75,1.0,1.25,1.5,1.75,2.0]</span>
+<span class="pre">`</span></code></p>
+<p>Now we will simulate the data for different nose levels, and will save it to a directory</p>
+<p><a href="#id67"><span class="problematic" id="id68">``</span></a><a href="#id69"><span class="problematic" id="id70">`</span></a>python
+for snr in tqdm(SNR):                                                                             # Looping over SNR values</p>
+<blockquote>
+<div><dl>
+<dt>for j in tqdm(range(len(a_array)):                                                              # Looping over values of parameter a</dt><dd><p>a=a_array[j]
+random.seed(1)
+np.random.seed(seed=301)
+rp_sizes = random.sample(range(150, 251), 10)                                                 # selecting a length for time series
+for k in tqdm(range(5)):                                                                      # Repeats</p>
+<blockquote>
+<div><p>u0, v0, w0 = 0+(1*np.random.randn()), 0+(1*np.random.randn()), 10+(1*np.random.randn()) # Setting initial conditions</p>
+<dl>
+<dt>for k2 in tqdm(range(len(rp_sizes))):                                                   # Looping over different RP sizes(time series length)</dt><dd><p>tmax, n = int(1000000*(rp_sizes[k2]/250)), rp_sizes[k2]
+print(‘started model’)
+Xi=(u0, v0, w0)
+t = np.linspace(0, tmax, n)
+x, y, z=rossler_time_series(tmax,n, Xi, a, b, c)</p>
+<p>x=add_noise(x, snr)                                                                  # Adding noise
+y=add_noise(y, snr)
+z=add_noise(z, snr)
+u[:,0]=x                                                                             # Defining the output matrix
+u[:,1]=y
+u[:,2]=z
+np.save(‘/user/swarag/Rossler/signals/(‘+str(snr)+’,’+str(a)+’,’+str(u0)+’,’+str(v0)+’,’+str(w0)+’,’+str(rp_sizes[k2])+’)~.npy’,u)  # Save the data to a numpy file</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<p><a href="#id71"><span class="problematic" id="id72">``</span></a><a href="#id73"><span class="problematic" id="id74">`</span></a></p>
+<p>Since we have saved the time series data to a folder, we can repeat the same steps</p>
+<p><a href="#id75"><span class="problematic" id="id76">``</span></a><cite>python
+input_path = ‘/user/swarag/Rossler/signals’                                        # directory to which the signals are saved
+RP_dir = ‘/user/swarag/Rossler/RP’                                                 # directory to which we want to save the RPs
+RP_computer(input_path, RP_dir)                                                    # generating RPs and saving to the specified folder
+`</cite></p>
+<p>Since we have generated the RPs at this step, we can extract the variables from it. We have selected same window size for the sliding window approach.</p>
+<p><code class="docutils literal notranslate"><span class="pre">`python</span>
+<span class="pre">Dict_RPs=windowed_RP(68,</span> <span class="pre">'RP')</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Specifying</span> <span class="pre">window</span> <span class="pre">size</span> <span class="pre">and</span> <span class="pre">folder</span> <span class="pre">in</span> <span class="pre">which</span> <span class="pre">RPs</span> <span class="pre">are</span> <span class="pre">saved</span>
+<span class="pre">First_middle_last_sliding_windows_all_vars(Dict_RPs,'Rossler_data.csv')</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">Saving</span> <span class="pre">RQA</span> <span class="pre">variables</span> <span class="pre">to</span> <span class="pre">a</span> <span class="pre">csv</span> <span class="pre">file</span>
+<span class="pre">`</span></code></p>
+<p>Now we need to add additional columns to the data for later analysis</p>
+<p><a href="#id77"><span class="problematic" id="id78">``</span></a><a href="#id79"><span class="problematic" id="id80">`</span></a>python
+data = pd.read_csv(‘Rossler_data.csv’)
+FILE = np.array(data[‘group’])                                                      # In the output data, the field named ‘group’ will have file name which contains details
+SNR =[]
+A =[]
+U0 =[]
+V0 =[]
+W0 =[]
+SIZE =[]
+for FI in FILE:</p>
+<blockquote>
+<div><p>info = ast.literal_eval(FI)
+SNR.append(info[0])
+A.append(info[1])
+U0.append(info[2])
+V0.append(info[3])
+W0.append(info[4])
+SIZE.append(info[5])</p>
+</div></blockquote>
+<p>data[‘snr’] = SNR
+data[‘a’] = A
+data[‘u0’] = U0
+data[‘v0’] = V0
+data[‘w0’] = W0
+data[‘length’] = SIZE
+A = np.array(A)</p>
+<p>SYNCH = 1*(A&gt;0.2)                                                                   # Defining synchrony condition, parameter value belonging to the chaotic region
+data[‘synch’] = SYNCH
+<a href="#id81"><span class="problematic" id="id82">``</span></a>`
+Now, we need to select an SNR value, scale the variables and run the classifier
+<a href="#id83"><span class="problematic" id="id84">``</span></a><a href="#id85"><span class="problematic" id="id86">`</span></a>python
+################################################################## Select the value of SNR ################################################################################################
+<a href="#id113"><span class="problematic" id="id114">data_</span></a> = data[data[‘snr’]==1.0].reset_index(drop = True)
+<a href="#id115"><span class="problematic" id="id116">data_</span></a> = data_[data[‘window’]== ‘mode’].reset_index(drop = True)                   # mode of RQA variables from the sliding windows
+################################################################## Scale the data #########################################################################################################features=[‘recc_rate’,</p>
+<blockquote>
+<div><p>‘percent_det’,
+‘avg_diag’,
+‘max_diag’,
+‘percent_lam’,
+‘avg_vert’,
+‘vert_ent’,
+‘diag_ent’,
+‘vert_max’]</p>
+</div></blockquote>
+<dl class="simple">
+<dt>for feature in features:</dt><dd><p>arr = np.array(data_[feature])
+data_[feature] = (arr - np.mean(arr))/(np.std(arr) + 10**(-9))</p>
+</dd>
+</dl>
+<p>################################################################# Run the classification ###################################################################################################
+nested_cv(<a href="#id117"><span class="problematic" id="id118">data_</span></a>, features, ‘synch’, ‘Kuramotot(SNR=1.0)’, repeats=100, inner_repeats=10, outer_splits=3, inner_splits=2)
+#################################################################   DONE ! ################################################################################################################
+<a href="#id87"><span class="problematic" id="id88">``</span></a><a href="#id89"><span class="problematic" id="id90">`</span></a></p>
+<p>## Example 3: Data from Koul et al(2023)
+Data was originally provided in the form of CSV files, which we converted into numpy(.npy) files and that is used for later analysis. We will also show the step in which we are converting the CSV files into numpy files, as at this stage, we had to use interpolation methods to supply missing values. Firstly, we defined three functions for interpolation.</p>
+<p><a href="#id91"><span class="problematic" id="id92">``</span></a><a href="#id93"><span class="problematic" id="id94">`</span></a>python
+def MovingAVG(array, winsize):                                                                                # For computing moving average</p>
+<blockquote>
+<div><p>avg = []
+for i in range(len(array) - winsize + 1):</p>
+<blockquote>
+<div><p>avg.append(np.sum(array[i:i+winsize]) / winsize)</p>
+</div></blockquote>
+<p>avg = np.array(avg)</p>
+<p>return avg</p>
+</div></blockquote>
+<dl>
+<dt>def Interpolate_time_series(data):                                                                          # For interpolating the data using PCHIP</dt><dd><p>x = np.arange(len(data))
+valid_indices = np.where(np.isfinite(data))
+filled_data = data.copy()
+filled_data[np.isnan(data)] = pchip_interpolate(x[valid_indices], data[valid_indices], x[np.isnan(data)])
+return filled_data</p>
+</dd>
+<dt>def process_n_return_distances(path, x_column, y_column, winsize, distance):                               # This function does interpolation and moving average, returns either Euclidian or</dt><dd><blockquote>
+<div><p>angular distance</p>
+</div></blockquote>
+<p>data = pd.read_csv(path)</p>
+<p>x = np.array(data[x_column])
+if np.sum(np.isnan(x))&gt;0:</p>
+<blockquote>
+<div><p>x = Interpolate_time_series(x)</p>
+</div></blockquote>
+<p>x = MovingAVG(x , winsize)
+y = np.array(data[y_column])
+if np.sum(np.isnan(y))&gt;0:</p>
+<blockquote>
+<div><p>y = Interpolate_time_series(y)</p>
+</div></blockquote>
+<p>y = MovingAVG(y , winsize)</p>
+<p>print(‘nans in original x:’,np.sum(np.isnan(x)))
+print(‘nans in original y:’,np.sum(np.isnan(y)))</p>
+<dl class="simple">
+<dt>if distance == ‘Euclidian’:</dt><dd><p>dist= np.sqrt( (x*x) + (y*y))</p>
+</dd>
+<dt>elif distance == ‘angle’:</dt><dd><p>dist= np.arctan(y/x)</p>
+</dd>
+</dl>
+<p>return dist</p>
+</dd>
+</dl>
+<p><a href="#id95"><span class="problematic" id="id96">``</span></a><a href="#id97"><span class="problematic" id="id98">`</span></a></p>
+<p>Now we will proceed with converting the csv files into numpy files</p>
+<p><a href="#id99"><span class="problematic" id="id100">``</span></a><a href="#id101"><span class="problematic" id="id102">`</span></a>python
+column = ‘RAnkle’
+y_column = column+’_y’
+x_column = column+’_x’
+path=’bodymovements’</p>
+<p>dyads = range(1,24)
+conds = [‘FaNoOcc’,’FaOcc’,’NeNoOcc’,’NeOcc’]
+trials = range(1,4)
+sbjs = range(2)</p>
+<p>DICT = {}
+for cnd in conds:</p>
+<blockquote>
+<div><dl>
+<dt>for trl in range(1,4):</dt><dd><dl>
+<dt>for dyad in range(1,24):</dt><dd><p>dyd_files = []
+for sbj in range(2):</p>
+<blockquote>
+<div><p>path_sub = path +’/’+’<a href="#id119"><span class="problematic" id="id120">results_video_</span></a>’+str(sbj)+’_’+cnd+’_’+str(trl)+’_pose_body_unprocessed-‘+str(dyad)+’.csv’
+dyd_files.append(path_sub)</p>
+</div></blockquote>
+<p>DICT[‘(‘+cnd+’,’+str(trl)+’,’+str(dyad)+’,’+column+’)’] = dyd_files</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<p>comb_files = list(DICT.keys())</p>
+<p>for KEY in tqdm(comb_files):</p>
+<blockquote>
+<div><p>data = []
+for File in DICT[KEY]:</p>
+<blockquote>
+<div><p>data.append(process_n_return_distances(File, x_column, y_column, 30, ‘Euclidian’))</p>
+</div></blockquote>
+<p>data = np.array(data)
+data = data.T
+data = data[::6,:]
+np.save(‘/user/swarag/Koul_et_al/signals/(‘+cnd+’,’+str(trl)+’,’+str(dyad)+’)~.npy’,data)  # Save the data to a numpy file</p>
+</div></blockquote>
+<p><a href="#id103"><span class="problematic" id="id104">``</span></a><a href="#id105"><span class="problematic" id="id106">`</span></a></p>
+<p>Remaining steps are same, except that the vision condition(visual contact vs no visual contact) and proximity(near vs far) will be derived from variable “cnd”.</p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Time Series Data Analysis Using SMdRQA</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="installation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024–2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
