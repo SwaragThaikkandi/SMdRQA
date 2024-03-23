@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 
 def feature_selection(x_train, y_train, features, y_name, inner_splits, select_k=False, repeats=5): # inner loop function
     '''
-    Function used for feature selection in nested CV, using best subset setection and average cross validation accuracy
+    Function used for feature selection  using best subset setection and average cross validation accuracy
     Input:____________________________________________________________________________________________________________________________________________
     x_train                   : training set from the outer loops of nested cross validation function
     y_train                   : output variables for the training set from the outer loops of the nested cross validation
