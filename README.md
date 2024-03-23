@@ -16,6 +16,8 @@
 [![CodeQL](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
 [![Bandit](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
 [![Dependency review](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
+[![DevSkim](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml)
+[![OSSAR](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml)
 ## GitHub
 ![GitHub Release](https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/SwaragThaikkandi/SMdRQA)
