@@ -105,3 +105,7 @@ GitHub
 
 .. image:: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml/badge.svg
    :target: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml
+
+.. image:: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/docs-build.yml/badge.svg
+   :target: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/docs-build.yml
+
