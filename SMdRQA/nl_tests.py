@@ -212,7 +212,7 @@ def preprocessing(sig, fs):
 
 
     """
-    sig = sig - mean(sig)
+    sig = sig - np.mean(sig)
     t = linspace(0, len(sig) / fs, len(sig))
     L = len(sig)
     p = 10  # Find pair of points which minimizes mismatch between p consecutive
@@ -459,7 +459,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         matr = max(abs(sig[:, :] - sig[:, k] * ones(1, L)) for k in range(L))
         ssig, mind = min(matr[matr > 0], axis=1)
         _, pl = min(matr[: round(L / 2), L])
-        rho = 0.7 * mean(ssig)
+        rho = 0.7 * np.mean(ssig)
         for x in range(N):
             kn = randi(L, 1)  # Choose random starting point
             for j in range(
@@ -538,7 +538,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         en = sig[I[-1] :]
         parts = [sig[I[j] : I[j + 1] - 1] for j in range(len(I) - 1)]
         for k in range(N):
-            surr[k, :] = np.unwrap(np.hstack((st, parts[randperm(len(parts))], en)))
+            surr[k, :] = np.unwrap(np.hstack((st, parts[np.random.permutation(len(parts))], en)))
     params["runtime"] = (datetime.now() - z).total_seconds()
     params["type"] = method
     return surr, params
