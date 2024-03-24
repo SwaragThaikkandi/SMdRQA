@@ -213,7 +213,7 @@ def preprocessing(sig, fs):
 
     """
     sig = sig - np.mean(sig)
-    t = linspace(0, len(sig) / fs, len(sig))
+    t = np.linspace(0, len(sig) / fs, len(sig))
     L = len(sig)
     p = 10  # Find pair of points which minimizes mismatch between p consecutive
     # points and the beginning and the end of the signal
@@ -229,7 +229,7 @@ def preprocessing(sig, fs):
         for k in range(len(k2) - p):
             d[j, k] = sum(abs(k1[j : j + p] - k2[k : k + p]))
     v, I = min(abs(d), axis=1)
-    I2 = argmin(v)  # Minimum mismatch
+    I2 = np.argmin(v)  # Minimum mismatch
     kstart = I2
     kend = I[I2] + len(sig[:-K2])
     if kend > len(sig):
@@ -309,9 +309,9 @@ def surrogate(sig, N, method, pp, fs, *args):
     if pp:
         sig, time, ks, ke = preprocessing(sig, fs)
     else:
-        time = linspace(0, len(sig) / fs, len(sig))
+        time = np.linspace(0, len(sig) / fs, len(sig))
     L = len(sig)
-    L2 = ceil(L / 2)
+    L2 = np.ceil(L / 2)
     if pp == 1:
         params["preprocessing"] = "on"
         params["cutsig"] = sig
@@ -324,11 +324,11 @@ def surrogate(sig, N, method, pp, fs, *args):
     if method == "RP":
         surr = np.zeros((N, len(sig)))
         for k in range(N):
-            surr[k, :] = sig[randperm(L)]
+            surr[k, :] = sig[np.random.permutation(L)]
     # Fourier transform (FT) surrogate
     elif method == "FT":
         a = 0
-        b = 2 * pi
+        b = 2 * np.pi
         if len(args) > 0:
             eta = args[0]
         else:
@@ -338,8 +338,8 @@ def surrogate(sig, N, method, pp, fs, *args):
         ftrp[:, 0] = ftsig[0]
         F = ftsig[1:L2]
         F = F[np.ones(N), :]
-        ftrp[:, 1:L2] = F * (exp(1j * eta))
-        ftrp[:, 2 + L - L2 : L] = conj(fliplr(ftrp[:, 2:L2]))
+        ftrp[:, 1:L2] = F * (np.exp(1j * eta))
+        ftrp[:, 2 + L - L2 : L] = np.conj(np.fliplr(ftrp[:, 2:L2]))
         surr = ifft(ftrp, axis=1)
         params["rphases"] = eta
     # Amplitude adjusted Fourier transform surrogate
@@ -361,8 +361,8 @@ def surrogate(sig, N, method, pp, fs, *args):
         F = ftgn[:, 1:L2]
         surr = np.zeros((N, len(sig)))
         surr[:, 0] = gn[:, 0]
-        surr[:, 1:L2] = F * exp(1j * eta)
-        surr[:, 2 + L - L2 : L] = conj(fliplr(surr[:, 2:L2]))
+        surr[:, 1:L2] = F * np.exp(1j * eta)
+        surr[:, 2 + L - L2 : L] = np.conj(fliplr(surr[:, 2:L2]))
         surr = ifft(surr, axis=1)
         _, ind2 = sort_matlab(surr, dim=1)  # Sort surrogate
         rrank = np.zeros(L)
@@ -376,17 +376,17 @@ def surrogate(sig, N, method, pp, fs, *args):
         rankind = np.zeros(L)  # Rank the values
         rankind[ind] = range(L)
         ftsig = fft(sig)
-        F = ftsig[ones(N), :]
+        F = ftsig[np.ones(N), :]
         surr = np.zeros((N, L))
         it = 1
-        irank = rankind[ones(N), :]
+        irank = rankind[np.ones(N), :]
         irank2 = np.zeros(L)
         oldrank = np.zeros((N, L))
         iind = np.zeros((N, L))
         iterf = np.zeros((N, L))
         while max(max(abs(oldrank - irank), axis=1)) != 0 and it < maxit:
             go = max(abs(oldrank - irank), axis=1)
-            inc = where(go != 0)[0]
+            inc = np.where(go != 0)[0]
             oldrank = irank
             iterf[inc, :] = np.real(
                 ifft(
