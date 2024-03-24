@@ -13,7 +13,7 @@ from SMdRQA.RQA_functions import embedded_signal
 from scipy import signal
 import random
 
-def wrapToPi(x):
+def wrapTo2Pi(x):
     xwrap = np.remainder(x, 2 * np.pi)
     mask = np.abs(xwrap) > np.pi
     xwrap[mask] -= 2 * np.pi * np.sign(xwrap[mask])
