@@ -13,8 +13,8 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/SwaragThaikkandi/Sliding_MdRQA",
     packages=find_packages(),
-    install_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm'],
-    setup_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm'],
+    install_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm','nolitsa'],
+    setup_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm','nolitsa'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
