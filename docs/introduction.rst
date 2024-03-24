@@ -13,6 +13,10 @@ Package integrity
 .. image:: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg
         :target: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml
 
+.. image:: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/pages/pages-build-deployment/badge.svg
+   :target: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/pages/pages-build-deployment
+   :alt: pages-build-deployment
+
 PyPI Package Information
 ------------------------
 
