@@ -1027,6 +1027,31 @@ document.write(`
 <div class="viewcode-block" id="vert_hist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.vert_hist">[docs]</a>
 <span class="k">def</span> <span class="nf">vert_hist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="c1">##### Functio to calculate vertical line distribution</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute vertical line distribution(counts of line lengths)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m   : ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">nvert</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">counter</span><span class="o">=</span><span class="mi">0</span>
@@ -1058,6 +1083,31 @@ document.write(`
 <div class="viewcode-block" id="diaghist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.diaghist">[docs]</a>
 <span class="k">def</span> <span class="nf">diaghist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="c1">#Function to calculate diagonal line distribution</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute diagonal line distribution(counts of line lengths)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m   : ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">dghist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">diag</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
@@ -1078,6 +1128,39 @@ document.write(`
 <div class="viewcode-block" id="percentmorethan">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.percentmorethan">[docs]</a>
 <span class="k">def</span> <span class="nf">percentmorethan</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute determinism and laminarity from the histogram distribution of lines</span>
+
+<span class="sd">    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either </span>
+<span class="sd">    vertical or horizontal. The definition of a linear structure on an RP is based on the minimum length(mini)</span>
+<span class="sd">    given as an input</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">numer</span><span class="o">=</span><span class="mi">0</span>
     <span class="n">denom</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
@@ -1090,6 +1173,35 @@ document.write(`
 <div class="viewcode-block" id="mode">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mode">[docs]</a>
 <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find mode of the line distributions</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    p : int</span>
+<span class="sd">       mode of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">p</span><span class="o">=</span><span class="n">mini</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">hst</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
@@ -1100,6 +1212,35 @@ document.write(`
 <div class="viewcode-block" id="maxi">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">[docs]</a>
 <span class="k">def</span> <span class="nf">maxi</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    maximum value in the line length distribution</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    plmax : int</span>
+<span class="sd">       max of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">lmax</span><span class="o">=</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
       <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
@@ -1110,6 +1251,35 @@ document.write(`
 <div class="viewcode-block" id="average">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.average">[docs]</a>
 <span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find mean of the line distributions</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    mu : double</span>
+<span class="sd">       mean of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">numer</span><span class="o">=</span><span class="mi">0</span>
     <span class="n">denom</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
@@ -1119,6 +1289,35 @@ document.write(`
 
     
 <span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find entropy of the line distributions</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    ent : int</span>
+<span class="sd">       entropy of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">summ</span><span class="o">=</span><span class="mi">0</span>
     <span class="n">entr</span><span class="o">=</span><span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
