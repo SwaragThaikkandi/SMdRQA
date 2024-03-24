@@ -48,15 +48,6 @@ def Chi2_test(signal):
     p : float
         p-vaue for chi-square test
 
-    Examples
-    ----------
-    .. ipython:: python
-
-      from SMdRQA.nl_test import Chi2_test
-
-      signals = np.random.rand(1000)
-      chisq,p = Chi2_test(signal)
-
     References
     ----------
     - Isliker, Heinz, and Juergen Kurths. "A test for stationarity: finding parts in time series apt for correlation dimension estimates.
