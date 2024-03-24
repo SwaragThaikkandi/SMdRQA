@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>nl_tests &#8212; SMdRQA 2024.03.24 documentation</title>
+    <title>nl_tests &#8212; SMdRQA 2024.03.25 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
   <script src="../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
 
-    <script src="../_static/documentation_options.js?v=c03c033d"></script>
+    <script src="../_static/documentation_options.js?v=7bc08120"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">SMdRQA 2024.03.24 documentation</p>
+    <p class="title logo__title">SMdRQA 2024.03.25 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -386,11 +386,26 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi2-test"><em>Chi2_test()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-sum-plot"><em>Correlation_sum_plot()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-irreversibility"><em>time_irreversibility()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing"><em>preprocessing()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate"><em>surrogate()</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi2-test"><em>Chi2_test()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.Chi2_test"><code class="docutils literal notranslate"><span class="pre">Chi2_test()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-sum-plot"><em>Correlation_sum_plot()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.Correlation_sum_plot"><code class="docutils literal notranslate"><span class="pre">Correlation_sum_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-irreversibility"><em>time_irreversibility()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.time_irreversibility"><code class="docutils literal notranslate"><span class="pre">time_irreversibility()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing"><em>preprocessing()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.preprocessing"><code class="docutils literal notranslate"><span class="pre">preprocessing()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate"><em>surrogate()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.surrogate"><code class="docutils literal notranslate"><span class="pre">surrogate()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -410,18 +425,186 @@ document.write(`
 <h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
 <section id="chi2-test">
 <h3><em>Chi2_test()</em><a class="headerlink" href="#chi2-test" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.nl_tests.Chi2_test">
+<span class="sig-name descname"><span class="pre">Chi2_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/nl_tests.html#Chi2_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.nl_tests.Chi2_test" title="Link to this definition">#</a></dt>
+<dd><p>Stationarity test for time series data</p>
+<p>The stationarity test proposed by Isliker &amp; Kurths (1993)
+compares the distribution of the first half of the time series with
+the distribution of the entire time series using a chi-squared test.
+If there is no significant difference in the two distributions, we
+can consider the time series to be stationary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>signal</strong> (<em>array</em>) – One diensional time series signal</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>chisq</strong> (<em>float</em>) – Chi-square statistic value</p></li>
+<li><p><strong>p</strong> (<em>float</em>) – p-vaue for chi-square test</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Isliker, Heinz, and Juergen Kurths. “A test for stationarity: finding parts in time series apt for correlation dimension estimates.
+“ International Journal of Bifurcation and Chaos 3.06 (1993): 1573-1579.</p></li>
+<li><p>Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. “Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105.”
+The Astrophysical Journal 833.2 (2016): 208.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="correlation-sum-plot">
 <h3><em>Correlation_sum_plot()</em><a class="headerlink" href="#correlation-sum-plot" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.nl_tests.Correlation_sum_plot">
+<span class="sig-name descname"><span class="pre">Correlation_sum_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chebyshev'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/nl_tests.html#Correlation_sum_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.nl_tests.Correlation_sum_plot" title="Link to this definition">#</a></dt>
+<dd><p>Compute the correlation sum plots.</p>
+<p>Computes the correlation sum of the given time series for the specified distances (Grassberger &amp; Procaccia 1983).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sig</strong> (<em>ndarray</em>) – N-dimensional real input array containing points in the phase space.</p></li>
+<li><p><strong>r</strong> (<em>int or array, optional (default = 100)</em>) – Distances for which the correlation sum should be calculated.
+If r is an int, then the distances are taken to be a geometric progression between a minimum and maximum length scale
+(estimated according to the metric and the input series).</p></li>
+<li><p><strong>metric</strong> (<em>string, optional (default = ‘chebyshev’)</em>) – Metric to use for distance computation.  Must be one of
+“chebyshev” (aka the maximum norm metric), “cityblock” (aka the Manhattan metric), or “euclidean”.</p></li>
+<li><p><strong>window</strong> (<em>int, optional (default = 10)</em>) – Minimum temporal separation (Theiler window) that should exist between pairs.</p></li>
+<li><p><strong>save_path</strong> (<em>str(optional)</em>) – File name for saving the figure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>figure</em></p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Grassberger, Peter, and Itamar Procaccia. “Characterization of strange attractors.” Physical review letters 50.5 (1983): 346.</p></li>
+<li><p>Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. “Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105.” The Astrophysical Journal 833.2 (2016): 208.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="time-irreversibility">
 <h3><em>time_irreversibility()</em><a class="headerlink" href="#time-irreversibility" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.nl_tests.time_irreversibility">
+<span class="sig-name descname"><span class="pre">time_irreversibility</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/nl_tests.html#time_irreversibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.nl_tests.time_irreversibility" title="Link to this definition">#</a></dt>
+<dd><p>Compute the time irriversibility .</p>
+<p>Computes the time irriversibility of the signal</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sig</strong> (<em>ndarray</em>) – N-dimensional real input array containing points in the phase
+space.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TI</strong> (<em>float</em>) – time irriversibility of the signal</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Discrimination power of measures for nonlinearity in a time series. Physical Review E, 55 (5), 5443.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="preprocessing">
 <h3><em>preprocessing()</em><a class="headerlink" href="#preprocessing" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.nl_tests.preprocessing">
+<span class="sig-name descname"><span class="pre">preprocessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/nl_tests.html#preprocessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.nl_tests.preprocessing" title="Link to this definition">#</a></dt>
+<dd><p>pre processing for surrogate data generation</p>
+<p>function is used to truncate the input signal based on minimizing the mismatch between consecutive points at
+the beginning and end of the signal, along with some initial processing steps like    mean subtraction and
+time vector generation. Adapted from Gemma, et al.,2018</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sig</strong> (<em>ndarray</em>) – 1-dimensional real input array containing points in the phase
+space.</p></li>
+<li><p><strong>fs</strong> (<em>int</em>) – sampling rate of the signal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>cutsig</strong> (<em>ndarray</em>) – 1-dimensional array of truncated signal</p></li>
+<li><p><strong>t2</strong> (<em>float</em>) – total length(in terms of time) of the truncated signal</p></li>
+<li><p><strong>kstart</strong> (<em>float</em>) – starting point of the truncated signal w.r.t the original signal</p></li>
+<li><p><strong>kend</strong> (<em>float</em>) – ending point of the truncated signal w.r.t the original signal</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Lancaster, Gemma, et al. “Surrogate data for hypothesis testing of physical systems.” Physics Reports 748 (2018): 1-60.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="surrogate">
 <h3><em>surrogate()</em><a class="headerlink" href="#surrogate" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.nl_tests.surrogate">
+<span class="sig-name descname"><span class="pre">surrogate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/nl_tests.html#surrogate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.nl_tests.surrogate" title="Link to this definition">#</a></dt>
+<dd><p>pre processing for surrogate data generation</p>
+<p>function is used to truncate the input signal based on minimizing the mismatch between consecutive points at
+the beginning and end of the signal, along with some initial processing steps like    mean subtraction and
+time vector generation. Adapted from Gemma, et al.,2018</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sig</strong> (<em>ndarray</em>) – 1-dimensional real input array containing points in the phase
+space.</p></li>
+<li><p><strong>N</strong> (<em>int</em>) – Number of surrogates to calculate</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>fs<span class="classifier">int</span></dt><dd><p>sampling rate of the signal</p>
+</dd>
+<dt>pp<span class="classifier">bool(default = True)</span></dt><dd><p>preprocessing on (True) or off (False)</p>
+</dd>
+<dt>method<span class="classifier">str</span></dt><dd><p>Method used for generating surrogates
+- RP : Random permutation surrogates
+- FT : Fourier transform surrogates
+- AAFT : Amplitude adjusted Fourier transform
+- IAAFT1 : Iterative amplitude adjusted Fourier transform with exact distribution
+- IAAFT2 : Iterative amplitude adjusted Fourier transform with exact spectrum
+- CPP : Cyclic phase permutation
+- PPS : Pseudo-periodic
+- TS : Twin
+- tshift : Time shifted
+- CSS : Cycle shuffled surrogates. Require that the signal can be</p>
+<blockquote>
+<div><p>separated into distinct cycles. May require adjustment of peak finding
+parameters.</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>surr</strong> (<em>ndarray</em>) – surrogate data</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – parameters from the generation, including truncation locations if preprocessed and runtime.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Lancaster, Gemma, et al. “Surrogate data for hypothesis testing of physical systems.” Physics Reports 748 (2018): 1-60.</p></li>
+<li><p>Theiler, James, et al. “Testing for nonlinearity in time series: the method of surrogate data.” Physica D: Nonlinear Phenomena 58.1-4 (1992): 77-94.</p></li>
+<li><p>Schreiber, Thomas, and Andreas Schmitz. “Improved surrogate data for nonlinearity tests.” Physical review letters 77.4 (1996): 635.</p></li>
+<li><p>Small, Michael, Dejin Yu, and Robert G. Harrison. “Surrogate test for pseudoperiodic time series data.” Physical Review Letters 87.18 (2001): 188101.</p></li>
+<li><p>Thiel, Marco, et al. “Twin surrogates to test for complex synchronisation.” Europhysics Letters 75.4 (2006): 535.</p></li>
+<li><p>Theiler, James. “On the evidence for low-dimensional chaos in an epileptic electroencephalogram.” Physics Letters A 196.1-2 (1994): 335-341.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -472,11 +655,26 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi2-test"><em>Chi2_test()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-sum-plot"><em>Correlation_sum_plot()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-irreversibility"><em>time_irreversibility()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing"><em>preprocessing()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate"><em>surrogate()</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chi2-test"><em>Chi2_test()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.Chi2_test"><code class="docutils literal notranslate"><span class="pre">Chi2_test()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlation-sum-plot"><em>Correlation_sum_plot()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.Correlation_sum_plot"><code class="docutils literal notranslate"><span class="pre">Correlation_sum_plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-irreversibility"><em>time_irreversibility()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.time_irreversibility"><code class="docutils literal notranslate"><span class="pre">time_irreversibility()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#preprocessing"><em>preprocessing()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.preprocessing"><code class="docutils literal notranslate"><span class="pre">preprocessing()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate"><em>surrogate()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.nl_tests.surrogate"><code class="docutils literal notranslate"><span class="pre">surrogate()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
