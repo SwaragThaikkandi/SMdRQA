@@ -45,7 +45,9 @@ jobs:
                   pip install kuramoto
                   pip install networkx
                   pip install p_tqdm
+                  pip install git+https://github.com/manu-mannattil/nolitsa.git
                   pip install git+https://github.com/SwaragThaikkandi/SMdRQA
+
 
             - name: Build documentation 📜
               run: |
