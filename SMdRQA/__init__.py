@@ -2,7 +2,7 @@
 
 __docformat__ = "restructuredtext"
 
-__version__ = "2024.03.24"
+__version__ = "2024.03.25"
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -44,6 +44,7 @@ from functools import partial
 from scipy.interpolate import pchip_interpolate
 import memory_profiler
 import ast
+import numba
 
 from kuramoto import Kuramoto, plot_phase_coherence, plot_activity # see https://github.com/fabridamicelli/kuramoto
 # For installing the kuramoto package run: pip install kuramoto
