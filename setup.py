@@ -17,7 +17,7 @@ setup(
     setup_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm','numba'],
     classifiers=[
         "Programming Language :: Python :: 3.8 | 3.9 | 3.10 | 3.11",
-        "License ::OSI Approved:: GNU General Public License v3 (GPLv3)",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
