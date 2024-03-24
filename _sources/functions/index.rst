@@ -8,10 +8,11 @@ You can find here the API documentation of SMdRQA, with a description of all the
    :caption: Modules
    :titlesonly:
 
+   nl_tests
    RQA_functions
    RP_maker
    window_size
    Extract_from_RP
    RP_maker_diagnose
    cross_validation
-   nl_tests
+   
