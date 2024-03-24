@@ -25,7 +25,7 @@ def wrapTo2Pi(x):
 
 def Chi2_test(signal):
     '''
-    **Stationarity test for time series data**
+    Stationarity test for time series data
 
     The stationarity test proposed by Isliker & Kurths (1993)
     compares the distribution of the first half of the time series with
@@ -58,9 +58,9 @@ def Chi2_test(signal):
 
     References
     ----------
-    * Isliker, Heinz, and Juergen Kurths. "A test for stationarity: finding parts in time series apt for correlation dimension estimates.
+    - Isliker, Heinz, and Juergen Kurths. "A test for stationarity: finding parts in time series apt for correlation dimension estimates.
       " International Journal of Bifurcation and Chaos 3.06 (1993): 1573-1579.
-    * Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105."
+    - Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105."
       The Astrophysical Journal 833.2 (2016): 208.
 
     '''
@@ -113,9 +113,9 @@ def Correlation_sum_plot(
 
     References
     ----------
-    * Grassberger, Peter, and Itamar Procaccia. "Characterization of strange attractors." Physical review letters 50.5 (1983): 346.
-    * Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105." The Astrophysical Journal 833.2 (2016): 208.
-    """
+    - Grassberger, Peter, and Itamar Procaccia. "Characterization of strange attractors." Physical review letters 50.5 (1983): 346.
+    - Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105." The Astrophysical Journal 833.2 (2016): 208.
+    '''
     r, c = d2.c2(sig, r=r, metric=metric, window=window)
     plt.figure(figsize=(16, 12))
     plt.plot(r, c, "b-")
@@ -129,7 +129,8 @@ def Correlation_sum_plot(
 
 
 def time_irreversibility(sig):
-    """Compute the time irriversibility .
+    '''
+    Compute the time irriversibility .
 
     Computes the time irriversibility of the signal
 
@@ -146,7 +147,7 @@ def time_irreversibility(sig):
 
     References
     ----------
-    * Discrimination power of measures for nonlinearity in a time series. Physical Review E, 55 (5), 5443.
+    - Discrimination power of measures for nonlinearity in a time series. Physical Review E, 55 (5), 5443.
 
 
     '''
@@ -221,7 +222,7 @@ def preprocessing(sig, fs):
 
     References
     ----------
-    * Lancaster, Gemma, et al. "Surrogate data for hypothesis testing of physical systems." Physics Reports 748 (2018): 1-60.
+    - Lancaster, Gemma, et al. "Surrogate data for hypothesis testing of physical systems." Physics Reports 748 (2018): 1-60.
 
 
     '''
@@ -279,16 +280,16 @@ def surrogate(sig, N, method, pp, fs, *args):
 
     method : str
        Method used for generating surrogates
-       * RP : Random permutation surrogates
-       * FT : Fourier transform surrogates
-       * AAFT : Amplitude adjusted Fourier transform
-       * IAAFT1 : Iterative amplitude adjusted Fourier transform with exact distribution
-       * IAAFT2 : Iterative amplitude adjusted Fourier transform with exact spectrum
-       * CPP : Cyclic phase permutation
-       * PPS : Pseudo-periodic
-       * TS : Twin
-       * tshift : Time shifted
-       * CSS : Cycle shuffled surrogates. Require that the signal can be
+       - RP : Random permutation surrogates
+       - FT : Fourier transform surrogates
+       - AAFT : Amplitude adjusted Fourier transform
+       - IAAFT1 : Iterative amplitude adjusted Fourier transform with exact distribution
+       - IAAFT2 : Iterative amplitude adjusted Fourier transform with exact spectrum
+       - CPP : Cyclic phase permutation
+       - PPS : Pseudo-periodic
+       - TS : Twin
+       - tshift : Time shifted
+       - CSS : Cycle shuffled surrogates. Require that the signal can be
          separated into distinct cycles. May require adjustment of peak finding
          parameters.
 
@@ -303,12 +304,12 @@ def surrogate(sig, N, method, pp, fs, *args):
 
     References
     ----------
-    * Lancaster, Gemma, et al. "Surrogate data for hypothesis testing of physical systems." Physics Reports 748 (2018): 1-60.
-    * Theiler, James, et al. "Testing for nonlinearity in time series: the method of surrogate data." Physica D: Nonlinear Phenomena 58.1-4 (1992): 77-94.
-    * Schreiber, Thomas, and Andreas Schmitz. "Improved surrogate data for nonlinearity tests." Physical review letters 77.4 (1996): 635.
-    * Small, Michael, Dejin Yu, and Robert G. Harrison. "Surrogate test for pseudoperiodic time series data." Physical Review Letters 87.18 (2001): 188101.
-    * Thiel, Marco, et al. "Twin surrogates to test for complex synchronisation." Europhysics Letters 75.4 (2006): 535.
-    * Theiler, James. "On the evidence for low-dimensional chaos in an epileptic electroencephalogram." Physics Letters A 196.1-2 (1994): 335-341.
+    - Lancaster, Gemma, et al. "Surrogate data for hypothesis testing of physical systems." Physics Reports 748 (2018): 1-60.
+    - Theiler, James, et al. "Testing for nonlinearity in time series: the method of surrogate data." Physica D: Nonlinear Phenomena 58.1-4 (1992): 77-94.
+    - Schreiber, Thomas, and Andreas Schmitz. "Improved surrogate data for nonlinearity tests." Physical review letters 77.4 (1996): 635.
+    - Small, Michael, Dejin Yu, and Robert G. Harrison. "Surrogate test for pseudoperiodic time series data." Physical Review Letters 87.18 (2001): 188101.
+    - Thiel, Marco, et al. "Twin surrogates to test for complex synchronisation." Europhysics Letters 75.4 (2006): 535.
+    - Theiler, James. "On the evidence for low-dimensional chaos in an epileptic electroencephalogram." Physics Letters A 196.1-2 (1994): 335-341.
 
 
     '''
