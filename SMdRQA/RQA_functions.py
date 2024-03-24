@@ -243,6 +243,18 @@ def reccplot(u,n,d,m,tau,eps):
             if np.linalg.norm(s[i]-s[j])<eps:
                 rplot[i,j]=1          
     return rplot
+
+def embedded_signal(data = None,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound=0.2, reqrr=0.1, rr_delta=0.005, epsmin=0, epsmax=10, epsdiv=1001):
+    (M,N)=data.shape
+    data = (data - np.mean(data, axis=0, keepdims=True))/np.std(data, axis=0, keepdims=True)
+    n=M
+    d=N
+    u=data
+    sd=3*np.std(u)
+    tau=findtau(u,n,d,0)
+    m=findm(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound)
+    embedded = delayseries(u,n,d,tau,m) 
+    return embedded, tau, m
     
 def reccrate(rplot,n):
     return float(np.sum(rplot))/(n*n)    
