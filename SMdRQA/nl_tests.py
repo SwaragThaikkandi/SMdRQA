@@ -10,7 +10,18 @@ from scipy.interpolate import interp1d
 from numpy.random import rand, randn
 from datetime import datetime
 from SMdRQA.RQA_functions import embedded_signal
+from scipy import signal
+import random
 
+def wrapToPi(x):
+    xwrap = np.remainder(x, 2 * np.pi)
+    mask = np.abs(xwrap) > np.pi
+    xwrap[mask] -= 2 * np.pi * np.sign(xwrap[mask])
+    mask1 = x < 0
+    mask2 = np.remainder(x, np.pi) == 0
+    mask3 = np.remainder(x, 2 * np.pi) != 0
+    xwrap[mask1 & mask2 & mask3] -= 2 * np.pi
+    return xwrap
 
 def Chi2_test(signal):
     """**Stationarity test for time series data**
@@ -362,7 +373,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         surr = np.zeros((N, len(sig)))
         surr[:, 0] = gn[:, 0]
         surr[:, 1:L2] = F * np.exp(1j * eta)
-        surr[:, 2 + L - L2 : L] = np.conj(fliplr(surr[:, 2:L2]))
+        surr[:, 2 + L - L2 : L] = np.conj(np.flipr(surr[:, 2:L2]))
         surr = ifft(surr, axis=1)
         _, ind2 = sort_matlab(surr, dim=1)  # Sort surrogate
         rrank = np.zeros(L)
@@ -390,7 +401,7 @@ def surrogate(sig, N, method, pp, fs, *args):
             oldrank = irank
             iterf[inc, :] = np.real(
                 ifft(
-                    abs(F[inc, :]) * exp(1j * angle(fft(surr[inc, :], axis=1))), axis=1
+                    abs(F[inc, :]) * np.exp(1j * np.angle(fft(surr[inc, :], axis=1))), axis=1
                 )
             )
             _, iind[inc, :] = sort_matlab(iterf[inc, :], dim=1)
@@ -406,21 +417,21 @@ def surrogate(sig, N, method, pp, fs, *args):
         rankind = np.zeros(L)  # Rank the values
         rankind[ind] = range(L)
         ftsig = fft(sig)
-        F = ftsig[ones(N), :]
+        F = ftsig[np.ones(N), :]
         surr = np.zeros((N, L))
         it = 1
-        irank = rankind[ones(N), :]
+        irank = rankind[np.ones(N), :]
         irank2 = np.zeros(L)
         oldrank = np.zeros((N, L))
         iind = np.zeros((N, L))
         iterf = np.zeros((N, L))
         while max(max(abs(oldrank - irank), axis=1)) != 0 and it < maxit:
             go = max(abs(oldrank - irank), axis=1)
-            inc = where(go != 0)[0]
+            inc = np.where(go != 0)[0]
             oldrank = irank
             iterf[inc, :] = np.real(
                 ifft(
-                    abs(F[inc, :]) * exp(1j * angle(fft(surr[inc, :], axis=1))), axis=1
+                    abs(F[inc, :]) * np.exp(1j * np.angle(fft(surr[inc, :], axis=1))), axis=1
                 )
             )
             _, iind[inc, :] = sort_matlab(iterf[inc, :], dim=1)
@@ -434,7 +445,7 @@ def surrogate(sig, N, method, pp, fs, *args):
     elif method == "CPP":
         phi = wrapTo2Pi(sig)
         pdiff = phi[1:] - phi[:-1]
-        locs = where(pdiff < -pi)[0]
+        locs = np.where(pdiff < -np.pi)[0]
         parts = []
         for j in range(len(locs) - 1):
             tsig = phi[locs[j] + 1 : locs[j + 1]]
@@ -443,25 +454,25 @@ def surrogate(sig, N, method, pp, fs, *args):
         en = phi[locs[-1] + 1 :]
         surr = np.zeros((N, L))
         for k in range(N):
-            surr[k, :] = unwrap(horzcat(st, parts[randperm(len(parts))], en))
+            surr[k, :] = np.unwrap(np.hstack((st, parts[np.random.permutation(len(parts))], en)))
     # Pseudo-periodic surrogates (PPS)
     elif method == "PPS":
         # Embedding of original signal
         sig, tau, m = embedded_signal(data=np.reshape(sig, (len(sig), 1)))
         L = len(sig)
-        L2 = ceil(L / 2)
-        time = linspace(0, len(sig) / fs, len(sig))
+        L2 = np.ceil(L / 2)
+        time = np.linspace(0, len(sig) / fs, len(sig))
         params["embed_delay"] = tau
         params["embed_dim"] = m
         params["embed_sig"] = sig
         # Find the index of the first nearest neighbour from the first half of the
         # embedded signal to its last value to avoid cycling near last value
-        matr = max(abs(sig[:, :] - sig[:, k] * ones(1, L)) for k in range(L))
+        matr = max(abs(sig[:, :] - sig[:, k] * np.ones(1, L)) for k in range(L))
         ssig, mind = min(matr[matr > 0], axis=1)
         _, pl = min(matr[: round(L / 2), L])
         rho = 0.7 * np.mean(ssig)
         for x in range(N):
-            kn = randi(L, 1)  # Choose random starting point
+            kn = random.randint(L)  # Choose random starting point
             for j in range(
                 L
             ):  # Length of surrogate is the same as the embedded time series
@@ -472,7 +483,7 @@ def surrogate(sig, N, method, pp, fs, *args):
                     0, kn
                 ]  # Set surrogate to current value for kn (choose first component, can be any)
                 sigdist = max(
-                    abs(sig[:, :] - sig[:, kn] * ones(1, L))
+                    abs(sig[:, :] - sig[:, kn] * np.ones(1, L))
                 )  # Find the maximum
                 # distance between each point in the original signal and the current
                 # values with noise added
@@ -482,8 +493,8 @@ def surrogate(sig, N, method, pp, fs, *args):
         # Embedding of original signal
         sig, tau, m = embedded_signal(data=np.reshape(sig, (len(sig), 1)))
         L = len(sig)
-        L2 = ceil(L / 2)
-        time = linspace(0, len(sig) / fs, len(sig))
+        L2 = np.ceil(L / 2)
+        time = np.linspace(0, len(sig) / fs, len(sig))
         params["embed_delay"] = tau
         params["embed_dim"] = m
         params["embed_sig"] = sig
@@ -491,7 +502,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         alpha = 0.1
         Rij = np.zeros((L, L))
         for k in range(1, L):
-            Rij[k, :k] = max(abs(sig[:, :k] - sig[:, k] * ones(1, k)))
+            Rij[k, :k] = max(abs(sig[:, :k] - sig[:, k] * np.ones(1, k)))
         Rij = Rij + Rij.T
         _, pl = min(Rij[: round(L / 2), L])
         Sij = sort_matlab(Rij.flatten())
@@ -506,24 +517,24 @@ def surrogate(sig, N, method, pp, fs, *args):
         while len(remp) > 0:
             twn = remp[0]
             ind[twn] = remp[
-                max(abs(Rij[:, remp] - Rij[:, twn] * ones(1, len(remp)))) == 0
+                max(abs(Rij[:, remp] - Rij[:, twn] * np.ones(1, len(remp)))) == 0
             ]
             ind[ind[twn]] = ind[twn]
             eln[ind[twn]] = len(ind[twn])
             twind[ind[twn]] = 0
             remp = twind[twind > 0]
         for sn in range(N):
-            kn = randi(L, 1) - 1
+            kn = random.randint(L) - 1
             for j in range(dL):
                 kn += 1
                 surr[sn, j] = sig[0, kn]
-                kn = ind[kn][randi(eln[kn], 1)]
+                kn = ind[kn][random.randint(eln[kn])]
                 if kn == L:
                     kn = pl
     # Time-shifted surrogates
     elif method == "tshift":
         for sn in range(N):
-            startp = randi(L - 1, 1)
+            startp = random.randint(L - 1)
             surr[sn, :] = np.hstack((sig[1 + startp : L], sig[1:startp]))
     # Cycle shuffled surrogates
     elif method == "CSS":
@@ -533,7 +544,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         else:
             MPH = 0
             MPD = fs
-        _, I = findpeaks(sig, "MinPeakHeight", MPH, "MinPeakDistance", MPD)
+        I = signal.find_peaks(sig, height = MPH, distance = MPD)
         st = sig[: I[0] - 1]
         en = sig[I[-1] :]
         parts = [sig[I[j] : I[j + 1] - 1] for j in range(len(I) - 1)]
