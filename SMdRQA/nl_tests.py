@@ -272,16 +272,26 @@ def surrogate(sig, N, method, pp, fs, *args):
 
     method : str
        Method used for generating surrogates
-       - RP : Random permutation surrogates
-       - FT : Fourier transform surrogates
-       - AAFT : Amplitude adjusted Fourier transform
-       - IAAFT1 : Iterative amplitude adjusted Fourier transform with exact distribution
-       - IAAFT2 : Iterative amplitude adjusted Fourier transform with exact spectrum
-       - CPP : Cyclic phase permutation
-       - PPS : Pseudo-periodic
-       - TS : Twin
-       - tshift : Time shifted
-       - CSS : Cycle shuffled surrogates. Require that the signal can be
+       
+       *RP* : Random permutation surrogates
+       
+       *FT* : Fourier transform surrogates
+       
+       *AAFT* : Amplitude adjusted Fourier transform
+       
+       *IAAFT1* : Iterative amplitude adjusted Fourier transform with exact distribution
+       
+       *IAAFT2* : Iterative amplitude adjusted Fourier transform with exact spectrum
+       
+       *CPP* : Cyclic phase permutation
+       
+       *PPS* : Pseudo-periodic
+       
+       *TS* : Twin
+       
+       *tshift* : Time shifted
+       
+       *CSS* : Cycle shuffled surrogates. Require that the signal can be
          separated into distinct cycles. May require adjustment of peak finding
          parameters.
 
