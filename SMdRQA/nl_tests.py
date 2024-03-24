@@ -247,11 +247,9 @@ def preprocessing(sig, fs):
 
 def surrogate(sig, N, method, pp, fs, *args):
     '''
-    pre processing for surrogate data generation
+    function for generating surrogate data 
 
-    function is used to truncate the input signal based on minimizing the mismatch between consecutive points at
-    the beginning and end of the signal, along with some initial processing steps like    mean subtraction and
-    time vector generation. Adapted from Gemma, et al.,2018
+    function is used to generate surrogate data for hypothesis testing. Adapted from Gemma, et al.,2018
 
     Parameters
     ----------
