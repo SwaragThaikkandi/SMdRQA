@@ -665,6 +665,31 @@ def plotwindow(M,n,win,i,j):
     return window
 
 def vert_hist(M,n):   ##### Functio to calculate vertical line distribution
+    '''
+    Function to compute vertical line distribution(counts of line lengths)
+    Parameters
+    ----------
+    m   : ndarray
+        recurrence plot
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    nvert : array
+       an array containing counts of line lengths
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     nvert=np.zeros(n+1)
     for i in range(n):
         counter=0
@@ -690,6 +715,31 @@ def onedhist(M,n):
     return hst
 
 def diaghist(M,n):   #Function to calculate diagonal line distribution
+    '''
+    Function to compute diagonal line distribution(counts of line lengths)
+    Parameters
+    ----------
+    m   : ndarray
+        recurrence plot
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    nvert : array
+       an array containing counts of line lengths
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     dghist=np.zeros(n+1)
     for i in range(n):
         diag=np.zeros(n-i)
@@ -707,6 +757,39 @@ def diaghist(M,n):   #Function to calculate diagonal line distribution
 ### Measures to capture probability distributions #######################################################################################################################################
 
 def percentmorethan(hst,mini,n):
+    '''
+    Function to compute determinism and laminarity from the histogram distribution of lines
+
+    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either 
+    vertical or horizontal. The definition of a linear structure on an RP is based on the minimum length(mini)
+    given as an input
+    
+    Parameters
+    ----------
+    hst   : array
+        histogram counts of line lengths
+
+    mini  : int
+        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    nvert : array
+       an array containing counts of line lengths
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     numer=0
     denom=10**(-7)
     for i in range(mini,n+1):
@@ -716,6 +799,35 @@ def percentmorethan(hst,mini,n):
     return numer/denom
 
 def mode(hst,mini,n):
+    '''
+    Function to find mode of the line distributions
+    
+    Parameters
+    ----------
+    hst   : array
+        histogram counts of line lengths
+
+    mini  : int
+        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    p : int
+       mode of line length distribution
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     p=mini
     for i in range(mini+1,n+1):
         if hst[i]>hst[p]:
@@ -723,6 +835,35 @@ def mode(hst,mini,n):
     return p
     
 def maxi(hst,mini,n):
+    '''
+    maximum value in the line length distribution
+    
+    Parameters
+    ----------
+    hst   : array
+        histogram counts of line lengths
+
+    mini  : int
+        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    plmax : int
+       max of line length distribution
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     lmax=1
     for i in range(1,n-1):
       if hst[i]!=0:
@@ -730,6 +871,35 @@ def maxi(hst,mini,n):
     return lmax
 
 def average(hst,mini,n):
+    '''
+    Function to find mean of the line distributions
+    
+    Parameters
+    ----------
+    hst   : array
+        histogram counts of line lengths
+
+    mini  : int
+        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    mu : double
+       mean of line length distribution
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     numer=0
     denom=10**(-7)
     for i in range(mini,n+1):
@@ -738,6 +908,35 @@ def average(hst,mini,n):
     return numer/denom
     
 def entropy(hst,mini,n):
+    '''
+    Function to find entropy of the line distributions
+    
+    Parameters
+    ----------
+    hst   : array
+        histogram counts of line lengths
+
+    mini  : int
+        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line
+
+    n   : int 
+        length of RP
+
+    Returns
+    -------
+
+    ent : int
+       entropy of line length distribution
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
     summ=0
     entr=0
     for i in range(mini,n+1):
