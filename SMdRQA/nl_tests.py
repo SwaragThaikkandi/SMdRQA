@@ -112,18 +112,16 @@ def Correlation_sum_plot(sig = None, r=100, metric='chebyshev', window=10, save_
 
     
     """
-  
-  r,c=d2.c2(sig, r=r, metric=metric, window = window)
-
-  plt.figure(figsize=(16,12))
-  plt.plot(r,c,'b-')
-  plt.title('Correlation Sum Plot')
-  plt.xlabel('r')
-  plt.ylabel('C(r)')
-  if save_name != None: 
-     plt.savefig(save_name)
-  elif save_name == None:
-     plt.show()
+    r,c=d2.c2(sig, r=r, metric=metric, window = window)
+    plt.figure(figsize=(16,12))
+    plt.plot(r,c,'b-')
+    plt.title('Correlation Sum Plot')
+    plt.xlabel('r')
+    plt.ylabel('C(r)')
+    if save_name != None: 
+       plt.savefig(save_name)
+    elif save_name == None:
+       plt.show()
      
 
 def time_irreversibility(sig):
