@@ -717,8 +717,10 @@ def onedhist(M,n):
 def diaghist(M,n):   #Function to calculate diagonal line distribution
     '''
     Function to compute diagonal line distribution(counts of line lengths)
+    
     Parameters
     ----------
+    
     m   : ndarray
         recurrence plot
 
