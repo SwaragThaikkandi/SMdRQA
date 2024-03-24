@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
-with open("README.rst", "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="SMdRQA",
-    version="2024.03.25",
+    version="2024.03.25.2",
     author="Swarag Thaikkandi, K.M. Sharika, Miss Nivedita",
     author_email="tsk4at@gmail.com",
     description="A Python implementation of MdRQA",
