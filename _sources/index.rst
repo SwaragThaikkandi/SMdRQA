@@ -30,6 +30,7 @@ You can navigate to the different sections using the left panel. We recommend ch
    cite_us
    examples/index
    functions/index
+   references
    Repository <https://github.com/SwaragThaikkandi/SMdRQA>
 
 
