@@ -56,15 +56,32 @@ def doanes_formula(data,n):
     return k
     
 def binscalc(X,n,d, method):
-    """
-    Function to calculate number of bins in a histogram using a generalised Freedman–Diaconis rule.
-    
-    Arguments:  X    double array of shape (n,d)    time series. Think of it as n points in a d dimensional space
-                n    int                            number of samples in time series
-                d    int                            number of measurements at each time step
-                
-    Output:          int array of shape (d)         Number of bins along each axis
-    """
+    '''
+    Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.
+
+    Parameters
+    ----------
+    x   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+        
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    Returns
+    -------
+
+    Bins : array
+         number of bins along each dimension
+
+    References
+    ----------
+    - Freedman, David, and Persi Diaconis. "On the histogram as a density estimator: L 2 theory." Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.
+    - Birgé, Lucien, and Yves Rozenholc. "How many bins should be put in a regular histogram." ESAIM: Probability and Statistics 10 (2006): 24-45.
+
+    '''
     if method == 'FD': #generalised Freedman–Diaconis rule.
       mult_fact=(n**(1/(2+d+10**(-9)))) # Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))
       Bins=np.zeros(d)
@@ -114,6 +131,35 @@ def mutualinfo(X,Y,n,d):
                 
     Output:          double                         mutual information between X,Y
     """
+    '''
+    Function to calculate mutual information between to time series
+
+    Parameters
+    ----------
+    x   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    y   : ndarray
+        double array of shape (n,d).  second time series
+        
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between time series
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+
+    '''
+
     points=np.concatenate((X,Y),axis=1)
     bins=binscalc(points,n,2*d,'FD')   
     print('BINS:', bins)    
@@ -128,30 +174,62 @@ def mutualinfo(X,Y,n,d):
     return np.sum(p_xy*np.log2(p_xy))-np.sum(p_x*np.log2(p_x))-np.sum(p_y*np.log2(p_y)) # formula for mutual information
 
 def timedelayMI(u,n,d,tau):
-    """
+    '''
     Function to calculate mutual information between a time series and a delayed version of itself
-    
-    Arguments:  u    double array of shape (n,d)    time series
-                n    int                            number of samples in time series
-                d    int                            number of measurements at each time step
-                tau  double                         amount of delay
-                
-    Output:          double                         mutual information between u and u delayed by tau
-    """
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+        amount of delay
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between u and u delayed by tau
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+
+    '''
+
     X=u[0:n-tau,:]
     Y=u[tau:n,:]
     return mutualinfo(X,Y,n-tau,d)
     
 def findtau(u,n,d,grp):
-    """
-    Function to calculate correct delay for estimating embedding dimension
+    '''
+    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    Returns
+    -------
+
+    tau : double
+         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn't exist)
+
+    '''
     
-    Arguments:  u    double array of shape (n,d)    time series
-                n    int                            number of samples in time series
-                d    int                            number of measurements at each time step
-                
-    Output:          double                         delay such that the mutual information between u and u delayed by tau is at its first minimum as a function of tau
-    """
     TAU=[]
     MIARR=[]
     minMI=timedelayMI(u,n,d,1)
@@ -170,7 +248,37 @@ def findtau(u,n,d,grp):
 #### Calculation of m ###################################################################################################################################################################
 
 def delayseries(u,n,d,tau,m):
-    """Delay series"""
+    '''
+    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    Returns
+    -------
+
+    s : ndarray
+       3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal
+
+    References
+    ----------
+    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.
+    
+    '''
     s=np.zeros((n-(m-1)*tau,m,d))
     for i in range(n-(m-1)*tau):
         for j in range(m):
@@ -178,6 +286,37 @@ def delayseries(u,n,d,tau,m):
     return s
 
 def nearest(s,n,d,tau,m):
+    '''
+    Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations
+
+    Parameters
+    ----------
+    s   : ndarray
+        3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    Returns
+    -------
+
+    nn : array
+       an array denoting index of nearest neighbour for each observation
+
+    References
+    ----------
+    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.
+    
+    '''
     nn=np.zeros(n-m*tau,dtype=int)
     nn[0]=n-m*tau-1
     for i in range(n-m*tau):
@@ -187,7 +326,43 @@ def nearest(s,n,d,tau,m):
     return nn
                 
 def fnnratio(u,n,d,m,tau,r,sig):
-    """Calculates the ratio of false nearest neighbours. Vary m to find stabilising trend"""
+    '''
+    Function that calculates the ratio of false nearest neighbours
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    r    : double
+         ratio parameter
+
+    sig : double
+         standard deviation of the data
+
+    Returns
+    -------
+
+    FNN : double
+       ratio of false nearest neighbours, for a given embedding dimension m, when compared an embedding dimension m+1
+
+    References
+    ----------
+    - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+    
+    '''
     s1=delayseries(u,n,d,tau,m)     # embedding in m dimensions
     s2=delayseries(u,n,d,tau,m+1)   # embedding in m+1 dimensions
     nn=nearest(s1,n,d,tau,m)        # containg nearest neghbours after embedding in m dimensions
@@ -203,6 +378,55 @@ def fnnratio(u,n,d,m,tau,r,sig):
     return sum(isneigh*isfalse)/(sum(isneigh)+10**(-9))
 
 def fnnhitszero(u,n,d,m,tau,sig,delta,Rmin,Rmax,rdiv):
+    '''
+    Function that finds the value of r at which the FNN ratio can be effectively considered as zero
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    r    : double
+         ratio parameter
+
+    sig : double
+         standard deviation of the data
+
+    delta: double
+         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero
+
+    Rmin : double
+         minimum value of r from where we would start the parameter search
+
+    Rmax : double
+         maximum value of r for defining the upper limit of parameter search
+
+    rdiv : Int
+         number of divisions between Rmin and Rmax for parameter search
+
+    Returns
+    -------
+
+    r : double
+       value of r at which the value of FNN ratio effectively hits zero
+
+    References
+    ----------
+    - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
+    
+    '''
     Rarr=np.linspace(Rmin,Rmax,rdiv)
     for i in range(rdiv):
         if fnnratio(u,n,d,m,tau,Rarr[i],sig)<delta:
@@ -210,6 +434,58 @@ def fnnhitszero(u,n,d,m,tau,sig,delta,Rmin,Rmax,rdiv):
     return -1
     
 def findm(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound):
+    '''
+    Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    r    : double
+         ratio parameter
+
+    sig : double
+         standard deviation of the data
+
+    delta: double
+         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero
+
+    Rmin : double
+         minimum value of r from where we would start the parameter search
+
+    Rmax : double
+         maximum value of r for defining the upper limit of parameter search
+
+    rdiv : Int
+         number of divisions between Rmin and Rmax for parameter search
+
+    bound: double
+         bound value for terminating the parameter serch
+
+    Returns
+    -------
+
+    m : double
+       value of embedding dimension
+
+    References
+    ----------
+    - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
+    
+    '''
    
     mmax=int((3*d+11)/2)
     rm=fnnhitszero(u,n,d,mmax,tau,sd,delta,Rmin,Rmax,rdiv)
@@ -233,7 +509,41 @@ def findm(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound):
 ### Calculation of epsilon ######################################################################################################################################################
    
 def reccplot(u,n,d,m,tau,eps):
-    """"Creates reccurrence plot"""
+    '''
+    Function that computes the recurrence plot
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    eps  : double
+         radius of the neighbourhood for computing recurrence
+
+
+    Returns
+    -------
+
+    rplot : ndarray
+       recurrence plot
+
+    References
+    ----------
+    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.
+    
+    '''
     #normarr=[]
     s=delayseries(u,n,d,tau,m) 
     rplot=np.zeros((n-(m-1)*tau,n-(m-1)*tau),dtype=int)
@@ -257,9 +567,79 @@ def embedded_signal(data = None,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound=0.
     return embedded, tau, m
     
 def reccrate(rplot,n):
+    '''
+    Function that computes the recurrence plot
+
+    Parameters
+    ----------
+    rplot: ndarray
+        recurrence plot
+
+    n   : int 
+        length of RP
+
+
+    Returns
+    -------
+
+    reccrate : double
+       recurrence rate
+
+    References
+    ----------
+    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.
+    
+    '''
     return float(np.sum(rplot))/(n*n)    
     
 def findeps(u,n,d,m,tau,reqrr,rr_delta,epsmin,epsmax,epsdiv):
+    '''
+    Function that computes the recurrence plot
+
+    Parameters
+    ----------
+    u   : ndarray
+        multidimensional time series data
+
+    n   : int 
+        number of observations
+
+    d   : int
+        number of dimensions
+
+    tau : int
+        amount of delay
+
+    m   : int
+        embedding dimension
+
+    reqrr : doubld
+        required recurrence rate specified in the input
+
+    rr_delta: double
+        tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr
+
+    epsmin : double
+        lower bound for the parameter search for epsilon(neighbourhood radius)
+
+    epsmax : double
+        upper bound for the parameter search for epsilon(neighbourhood radius)
+
+    epsdiv : double
+        number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax
+
+
+    Returns
+    -------
+
+    eps   : double
+       epsilon(neighbourhood radius)
+
+    References
+    ----------
+    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.
+    
+    '''
     eps=np.linspace(epsmin,epsmax,epsdiv)
     s=delayseries(u,n,d,tau,m) 
     for k in range(epsdiv):
