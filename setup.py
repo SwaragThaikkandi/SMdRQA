@@ -16,10 +16,15 @@ setup(
     install_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm','numba'],
     setup_requires=['numpy','scipy','operator-courier','contextlib2','pytest-warnings','matplotlib','pandas','tqdm','memory_profiler','kuramoto','networkx','p_tqdm','numba'],
     classifiers=[
-        "Programming Language :: Python :: 3.8 | 3.9 | 3.10 | 3.11",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
 )
+
 
