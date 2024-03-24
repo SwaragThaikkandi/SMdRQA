@@ -74,47 +74,54 @@ def Chi2_test(signal):
   return chisq,p
   
 
-def Correlation_sum_plot(sig=None, r=100, metric='chebyshev', window=10, save_name=None):
-    """
-    Compute the correlation sum plots.
+def Correlation_sum_plot(sig = None, r=100, metric='chebyshev', window=10, save_name = None):
+   """Compute the correlation sum plots.
 
-    Computes the correlation sum of the given time series for the specified distances (Grassberger & Procaccia 1983).
+    Computes the correlation sum of the given time series for the
+    specified distances (Grassberger & Procaccia 1983).
 
     Parameters
     ----------
     sig : ndarray
-        N-dimensional real input array containing points in the phase space.
+        N-dimensional real input array containing points in the phase
+        space.
     r : int or array, optional (default = 100)
         Distances for which the correlation sum should be calculated.
-        If r is an int, then the distances are taken to be a geometric progression between a minimum and maximum length scale
+        If r is an int, then the distances are taken to be a geometric
+        progression between a minimum and maximum length scale
         (estimated according to the metric and the input series).
     metric : string, optional (default = 'chebyshev')
         Metric to use for distance computation.  Must be one of
-        "chebyshev" (aka the maximum norm metric), "cityblock" (aka the Manhattan metric), or "euclidean".
+        "chebyshev" (aka the maximum norm metric), "cityblock" (aka the
+        Manhattan metric), or "euclidean".
     window : int, optional (default = 10)
-        Minimum temporal separation (Theiler window) that should exist between pairs.
+        Minimum temporal separation (Theiler window) that should exist
+        between pairs.
     save_path: str(optional)
         File name for saving the figure
 
     Returns
     -------
     figure
-
+    
     References
     ----------
     * Grassberger, Peter, and Itamar Procaccia. "Characterization of strange attractors." Physical review letters 50.5 (1983): 346.
-    * Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105." The Astrophysical Journal 833.2 (2016): 208.
+    * Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105." 
+      The Astrophysical Journal 833.2 (2016): 208.
+
+    
     """
-    r, c = d2.c2(sig, r=r, metric=metric, window=window)
-    plt.figure(figsize=(16, 12))
-    plt.plot(r, c, 'b-')
+	r,c=d2.c2(sig, r=r, metric=metric, window = window)
+        plt.figure(figsize=(16,12))
+    plt.plot(r,c,'b-')
     plt.title('Correlation Sum Plot')
     plt.xlabel('r')
     plt.ylabel('C(r)')
-    if save_name:
-        plt.savefig(save_name)
-    else:
-        plt.show()
+    if save_name != None: 
+       plt.savefig(save_name)
+    elif save_name == None:
+       plt.show()
      
 
 def time_irreversibility(sig):
@@ -362,14 +369,14 @@ def surrogate(sig, N, method, pp, fs, *args):
         _, ind2 = sort_matlab(surr, dim=1) # Sort surrogate
         rrank = np.zeros(L)
         for k in range(N):
-            rrank[ind2[k, :]] = 1:L
+            rrank[ind2[k, :]] = range(L)
             surr[k, :] = val[rrank]
     # Iterated amplitude adjusted Fourier transform (IAAFT-1) with exact distribution
     elif method == 'IAAFT1':
         maxit = 1000
         val, ind = sort_matlab(sig)  # Sorted list of values
         rankind = np.zeros(L) # Rank the values
-        rankind[ind] = 1:L
+        rankind[ind] = range(L)
         ftsig = fft(sig)
         F = ftsig[ones(N), :]
         surr = np.zeros((N, L))
@@ -386,7 +393,7 @@ def surrogate(sig, N, method, pp, fs, *args):
             iterf[inc, :] = np.real(ifft(abs(F[inc, :])*exp(1j*angle(fft(surr[inc, :], axis=1))), axis=1))
             _, iind[inc, :] = sort_matlab(iterf[inc, :], dim=1)
             for k in inc:
-                irank2[iind[k, :]] = 1:L
+                irank2[iind[k, :]] = range(L)
                 irank[k, :] = irank2
                 surr[k, :] = val[irank2]
             it += 1
@@ -395,7 +402,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         maxit = 1000
         val, ind = sort_matlab(sig)  # Sorted list of values
         rankind = np.zeros(L) # Rank the values
-        rankind[ind] = 1:L
+        rankind[ind] = range(L)
         ftsig = fft(sig)
         F = ftsig[ones(N), :]
         surr = np.zeros((N, L))
@@ -412,7 +419,7 @@ def surrogate(sig, N, method, pp, fs, *args):
             iterf[inc, :] = np.real(ifft(abs(F[inc, :])*exp(1j*angle(fft(surr[inc, :], axis=1))), axis=1))
             _, iind[inc, :] = sort_matlab(iterf[inc, :], dim=1)
             for k in inc:
-                irank2[iind[k, :]] = 1:L
+                irank2[iind[k, :]] = range(L)
                 irank[k, :] = irank2
                 surr[k, :] = val[irank2]
             it += 1
