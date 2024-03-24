@@ -12,6 +12,7 @@ from datetime import datetime
 from SMdRQA.RQA_functions import embedded_signal
 from scipy import signal
 import random
+import numba
 
 def wrapTo2Pi(x):
     xwrap = np.remainder(x, 2 * np.pi)
