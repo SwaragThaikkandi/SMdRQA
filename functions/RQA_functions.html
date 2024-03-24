@@ -488,13 +488,24 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.binscalc">
 <span class="sig-name descname"><span class="pre">binscalc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#binscalc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.binscalc" title="Link to this definition">#</a></dt>
-<dd><p>Function to calculate number of bins in a histogram using a generalised Freedman–Diaconis rule.</p>
-<dl class="simple">
-<dt>Arguments:  X    double array of shape (n,d)    time series. Think of it as n points in a d dimensional space</dt><dd><p>n    int                            number of samples in time series
-d    int                            number of measurements at each time step</p>
+<dd><p>Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Bins</strong> (<em>array</em>) – number of bins along each dimension</p>
 </dd>
 </dl>
-<p>Output:          int array of shape (d)         Number of bins along each axis</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Freedman, David, and Persi Diaconis. “On the histogram as a density estimator: L 2 theory.” Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.</p></li>
+<li><p>Birgé, Lucien, and Yves Rozenholc. “How many bins should be put in a regular histogram.” ESAIM: Probability and Statistics 10 (2006): 24-45.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -519,13 +530,23 @@ d    int                            number of measurements at each time step</p>
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.timedelayMI">
 <span class="sig-name descname"><span class="pre">timedelayMI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#timedelayMI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.timedelayMI" title="Link to this definition">#</a></dt>
 <dd><p>Function to calculate mutual information between a time series and a delayed version of itself</p>
-<dl class="simple">
-<dt>Arguments:  u    double array of shape (n,d)    time series</dt><dd><p>n    int                            number of samples in time series
-d    int                            number of measurements at each time step
-tau  double                         amount of delay</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>MI</strong> (<em>double</em>) – mutual information between u and u delayed by tau</p>
 </dd>
 </dl>
-<p>Output:          double                         mutual information between u and u delayed by tau</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Shannon, Claude Elwood. “A mathematical theory of communication.” The Bell system technical journal 27.3 (1948): 379-423.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -534,13 +555,19 @@ tau  double                         amount of delay</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.findtau">
 <span class="sig-name descname"><span class="pre">findtau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findtau" title="Link to this definition">#</a></dt>
-<dd><p>Function to calculate correct delay for estimating embedding dimension</p>
-<dl class="simple">
-<dt>Arguments:  u    double array of shape (n,d)    time series</dt><dd><p>n    int                            number of samples in time series
-d    int                            number of measurements at each time step</p>
+<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tau</strong> (<em>double</em>) – optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn’t exist)</p>
 </dd>
 </dl>
-<p>Output:          double                         delay such that the mutual information between u and u delayed by tau is at its first minimum as a function of tau</p>
 </dd></dl>
 
 </section>
@@ -549,7 +576,25 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.delayseries">
 <span class="sig-name descname"><span class="pre">delayseries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#delayseries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.delayseries" title="Link to this definition">#</a></dt>
-<dd><p>Delay series</p>
+<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>s</strong> (<em>ndarray</em>) – 3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -558,7 +603,26 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.nearest">
 <span class="sig-name descname"><span class="pre">nearest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#nearest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.nearest" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> (<em>ndarray</em>) – 3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>nn</strong> (<em>array</em>) – an array denoting index of nearest neighbour for each observation</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</p></li>
+</ul>
+</dd></dl>
 
 </section>
 <section id="fnnratio">
@@ -566,7 +630,27 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.fnnratio">
 <span class="sig-name descname"><span class="pre">fnnratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#fnnratio"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.fnnratio" title="Link to this definition">#</a></dt>
-<dd><p>Calculates the ratio of false nearest neighbours. Vary m to find stabilising trend</p>
+<dd><p>Function that calculates the ratio of false nearest neighbours</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – ratio parameter</p></li>
+<li><p><strong>sig</strong> (<em>double</em>) – standard deviation of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FNN</strong> (<em>double</em>) – ratio of false nearest neighbours, for a given embedding dimension m, when compared an embedding dimension m+1</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Kennel, M. B., Brown, R., &amp; Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -575,7 +659,32 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.fnnhitszero">
 <span class="sig-name descname"><span class="pre">fnnhitszero</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rdiv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#fnnhitszero"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.fnnhitszero" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Function that finds the value of r at which the FNN ratio can be effectively considered as zero</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – ratio parameter</p></li>
+<li><p><strong>sig</strong> (<em>double</em>) – standard deviation of the data</p></li>
+<li><p><strong>delta</strong> (<em>double</em>) – the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</p></li>
+<li><p><strong>Rmin</strong> (<em>double</em>) – minimum value of r from where we would start the parameter search</p></li>
+<li><p><strong>Rmax</strong> (<em>double</em>) – maximum value of r for defining the upper limit of parameter search</p></li>
+<li><p><strong>rdiv</strong> (<em>Int</em>) – number of divisions between Rmin and Rmax for parameter search</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>r</strong> (<em>double</em>) – value of r at which the value of FNN ratio effectively hits zero</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</p></li>
+</ul>
+</dd></dl>
 
 </section>
 <section id="findm">
@@ -583,7 +692,33 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.findm">
 <span class="sig-name descname"><span class="pre">findm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Rmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rdiv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bound</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findm" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – ratio parameter</p></li>
+<li><p><strong>sig</strong> (<em>double</em>) – standard deviation of the data</p></li>
+<li><p><strong>delta</strong> (<em>double</em>) – the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</p></li>
+<li><p><strong>Rmin</strong> (<em>double</em>) – minimum value of r from where we would start the parameter search</p></li>
+<li><p><strong>Rmax</strong> (<em>double</em>) – maximum value of r for defining the upper limit of parameter search</p></li>
+<li><p><strong>rdiv</strong> (<em>Int</em>) – number of divisions between Rmin and Rmax for parameter search</p></li>
+<li><p><strong>bound</strong> (<em>double</em>) – bound value for terminating the parameter serch</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>m</strong> (<em>double</em>) – value of embedding dimension</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</p></li>
+</ul>
+</dd></dl>
 
 </section>
 <section id="reccplot">
@@ -591,7 +726,26 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.reccplot">
 <span class="sig-name descname"><span class="pre">reccplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#reccplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.reccplot" title="Link to this definition">#</a></dt>
-<dd><p>“Creates reccurrence plot</p>
+<dd><p>Function that computes the recurrence plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – number of embedding dimensions</p></li>
+<li><p><strong>eps</strong> (<em>double</em>) – radius of the neighbourhood for computing recurrence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>rplot</strong> (<em>ndarray</em>) – recurrence plot</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -600,7 +754,23 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.reccrate">
 <span class="sig-name descname"><span class="pre">reccrate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rplot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#reccrate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.reccrate" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Function that computes the recurrence plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rplot</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – length of RP</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>reccrate</strong> (<em>double</em>) – recurrence rate</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</p></li>
+</ul>
+</dd></dl>
 
 </section>
 <section id="findeps">
@@ -608,7 +778,31 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.findeps">
 <span class="sig-name descname"><span class="pre">findeps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reqrr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rr_delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsdiv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findeps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findeps" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Function that computes the recurrence plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – multidimensional time series data</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of observations</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of dimensions</p></li>
+<li><p><strong>tau</strong> (<em>int</em>) – amount of delay</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – embedding dimension</p></li>
+<li><p><strong>reqrr</strong> (<em>doubld</em>) – required recurrence rate specified in the input</p></li>
+<li><p><strong>rr_delta</strong> (<em>double</em>) – tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr</p></li>
+<li><p><strong>epsmin</strong> (<em>double</em>) – lower bound for the parameter search for epsilon(neighbourhood radius)</p></li>
+<li><p><strong>epsmax</strong> (<em>double</em>) – upper bound for the parameter search for epsilon(neighbourhood radius)</p></li>
+<li><p><strong>epsdiv</strong> (<em>double</em>) – number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>eps</strong> (<em>double</em>) – epsilon(neighbourhood radius)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</p></li>
+</ul>
+</dd></dl>
 
 </section>
 <section id="vert-hist">
@@ -672,13 +866,19 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="id0">
 <span class="sig-name descname"><span class="pre">findtau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
-<dd><p>Function to calculate correct delay for estimating embedding dimension</p>
-<dl class="simple">
-<dt>Arguments:  u    double array of shape (n,d)    time series</dt><dd><p>n    int                            number of samples in time series
-d    int                            number of measurements at each time step</p>
+<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tau</strong> (<em>double</em>) – optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn’t exist)</p>
 </dd>
 </dl>
-<p>Output:          double                         delay such that the mutual information between u and u delayed by tau is at its first minimum as a function of tau</p>
 </dd></dl>
 
 </section>

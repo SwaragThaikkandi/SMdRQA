@@ -382,15 +382,32 @@ document.write(`
 <div class="viewcode-block" id="binscalc">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">[docs]</a>
 <span class="k">def</span> <span class="nf">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to calculate number of bins in a histogram using a generalised Freedman–Diaconis rule.</span>
-<span class="sd">    </span>
-<span class="sd">    Arguments:  X    double array of shape (n,d)    time series. Think of it as n points in a d dimensional space</span>
-<span class="sd">                n    int                            number of samples in time series</span>
-<span class="sd">                d    int                            number of measurements at each time step</span>
-<span class="sd">                </span>
-<span class="sd">    Output:          int array of shape (d)         Number of bins along each axis</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+<span class="sd">        </span>
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Bins : array</span>
+<span class="sd">         number of bins along each dimension</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Freedman, David, and Persi Diaconis. &quot;On the histogram as a density estimator: L 2 theory.&quot; Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.</span>
+<span class="sd">    - Birgé, Lucien, and Yves Rozenholc. &quot;How many bins should be put in a regular histogram.&quot; ESAIM: Probability and Statistics 10 (2006): 24-45.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FD&#39;</span><span class="p">:</span> <span class="c1">#generalised Freedman–Diaconis rule.</span>
       <span class="n">mult_fact</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">+</span><span class="n">d</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))))</span> <span class="c1"># Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))</span>
       <span class="n">Bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -443,6 +460,35 @@ document.write(`
 <span class="sd">                </span>
 <span class="sd">    Output:          double                         mutual information between X,Y</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between to time series</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+<span class="sd">        </span>
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
     <span class="n">points</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">d</span><span class="p">,</span><span class="s1">&#39;FD&#39;</span><span class="p">)</span>   
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BINS:&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>    
@@ -460,16 +506,35 @@ document.write(`
 <div class="viewcode-block" id="timedelayMI">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[docs]</a>
 <span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
-<span class="sd">    </span>
-<span class="sd">    Arguments:  u    double array of shape (n,d)    time series</span>
-<span class="sd">                n    int                            number of samples in time series</span>
-<span class="sd">                d    int                            number of measurements at each time step</span>
-<span class="sd">                tau  double                         amount of delay</span>
-<span class="sd">                </span>
-<span class="sd">    Output:          double                         mutual information between u and u delayed by tau</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between u and u delayed by tau</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
     <span class="n">X</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="n">tau</span><span class="p">,:]</span>
     <span class="n">Y</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,:]</span>
     <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">tau</span><span class="p">,</span><span class="n">d</span><span class="p">)</span></div>
@@ -478,15 +543,28 @@ document.write(`
 <div class="viewcode-block" id="findtau">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
 <span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">grp</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to calculate correct delay for estimating embedding dimension</span>
-<span class="sd">    </span>
-<span class="sd">    Arguments:  u    double array of shape (n,d)    time series</span>
-<span class="sd">                n    int                            number of samples in time series</span>
-<span class="sd">                d    int                            number of measurements at each time step</span>
-<span class="sd">                </span>
-<span class="sd">    Output:          double                         delay such that the mutual information between u and u delayed by tau is at its first minimum as a function of tau</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    
     <span class="n">TAU</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">MIARR</span><span class="o">=</span><span class="p">[]</span>
     <span class="n">minMI</span><span class="o">=</span><span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -508,7 +586,37 @@ document.write(`
 <div class="viewcode-block" id="delayseries">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.delayseries">[docs]</a>
 <span class="k">def</span> <span class="nf">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Delay series&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    s : ndarray</span>
+<span class="sd">       3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
@@ -519,6 +627,37 @@ document.write(`
 <div class="viewcode-block" id="nearest">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.nearest">[docs]</a>
 <span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s   : ndarray</span>
+<span class="sd">        3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nn : array</span>
+<span class="sd">       an array denoting index of nearest neighbour for each observation</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">nn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">nn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="o">-</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
@@ -531,7 +670,43 @@ document.write(`
 <div class="viewcode-block" id="fnnratio">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnratio">[docs]</a>
 <span class="k">def</span> <span class="nf">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">sig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the ratio of false nearest neighbours. Vary m to find stabilising trend&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that calculates the ratio of false nearest neighbours</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    FNN : double</span>
+<span class="sd">       ratio of false nearest neighbours, for a given embedding dimension m, when compared an embedding dimension m+1</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kennel, M. B., Brown, R., &amp; Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">s1</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>     <span class="c1"># embedding in m dimensions</span>
     <span class="n">s2</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># embedding in m+1 dimensions</span>
     <span class="n">nn</span><span class="o">=</span><span class="n">nearest</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>        <span class="c1"># containg nearest neghbours after embedding in m dimensions</span>
@@ -550,6 +725,55 @@ document.write(`
 <div class="viewcode-block" id="fnnhitszero">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnhitszero">[docs]</a>
 <span class="k">def</span> <span class="nf">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sig</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that finds the value of r at which the FNN ratio can be effectively considered as zero</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    delta: double</span>
+<span class="sd">         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</span>
+
+<span class="sd">    Rmin : double</span>
+<span class="sd">         minimum value of r from where we would start the parameter search</span>
+
+<span class="sd">    Rmax : double</span>
+<span class="sd">         maximum value of r for defining the upper limit of parameter search</span>
+
+<span class="sd">    rdiv : Int</span>
+<span class="sd">         number of divisions between Rmin and Rmax for parameter search</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    r : double</span>
+<span class="sd">       value of r at which the value of FNN ratio effectively hits zero</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">Rarr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rdiv</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">sig</span><span class="p">)</span><span class="o">&lt;</span><span class="n">delta</span><span class="p">:</span>
@@ -560,6 +784,58 @@ document.write(`
 <div class="viewcode-block" id="findm">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findm">[docs]</a>
 <span class="k">def</span> <span class="nf">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">,</span><span class="n">bound</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    delta: double</span>
+<span class="sd">         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</span>
+
+<span class="sd">    Rmin : double</span>
+<span class="sd">         minimum value of r from where we would start the parameter search</span>
+
+<span class="sd">    Rmax : double</span>
+<span class="sd">         maximum value of r for defining the upper limit of parameter search</span>
+
+<span class="sd">    rdiv : Int</span>
+<span class="sd">         number of divisions between Rmin and Rmax for parameter search</span>
+
+<span class="sd">    bound: double</span>
+<span class="sd">         bound value for terminating the parameter serch</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    m : double</span>
+<span class="sd">       value of embedding dimension</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
    
     <span class="n">mmax</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">d</span><span class="o">+</span><span class="mi">11</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">rm</span><span class="o">=</span><span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">mmax</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
@@ -586,7 +862,41 @@ document.write(`
 <div class="viewcode-block" id="reccplot">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccplot">[docs]</a>
 <span class="k">def</span> <span class="nf">reccplot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">eps</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;Creates reccurrence plot&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of samples or observations in the time series</span>
+<span class="sd">        </span>
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    eps  : double</span>
+<span class="sd">         radius of the neighbourhood for computing recurrence</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    rplot : ndarray</span>
+<span class="sd">       recurrence plot</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1">#normarr=[]</span>
     <span class="n">s</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> 
     <span class="n">rplot</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -613,12 +923,82 @@ document.write(`
 <div class="viewcode-block" id="reccrate">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">[docs]</a>
 <span class="k">def</span> <span class="nf">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rplot: ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        length of RP</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    reccrate : double</span>
+<span class="sd">       recurrence rate</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rplot</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>    </div>
 
     
 <div class="viewcode-block" id="findeps">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findeps">[docs]</a>
 <span class="k">def</span> <span class="nf">findeps</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">reqrr</span><span class="p">,</span><span class="n">rr_delta</span><span class="p">,</span><span class="n">epsmin</span><span class="p">,</span><span class="n">epsmax</span><span class="p">,</span><span class="n">epsdiv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        multidimensional time series data</span>
+
+<span class="sd">    n   : int </span>
+<span class="sd">        number of observations</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of dimensions</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    m   : int</span>
+<span class="sd">        embedding dimension</span>
+
+<span class="sd">    reqrr : doubld</span>
+<span class="sd">        required recurrence rate specified in the input</span>
+
+<span class="sd">    rr_delta: double</span>
+<span class="sd">        tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr</span>
+
+<span class="sd">    epsmin : double</span>
+<span class="sd">        lower bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsmax : double</span>
+<span class="sd">        upper bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsdiv : double</span>
+<span class="sd">        number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    eps   : double</span>
+<span class="sd">       epsilon(neighbourhood radius)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">eps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span><span class="n">epsmax</span><span class="p">,</span><span class="n">epsdiv</span><span class="p">)</span>
     <span class="n">s</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> 
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epsdiv</span><span class="p">):</span>
