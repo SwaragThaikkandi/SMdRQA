@@ -24,7 +24,8 @@ def wrapTo2Pi(x):
     return xwrap
 
 def Chi2_test(signal):
-    """**Stationarity test for time series data**
+    '''
+    **Stationarity test for time series data**
 
     The stationarity test proposed by Isliker & Kurths (1993)
     compares the distribution of the first half of the time series with
@@ -62,7 +63,7 @@ def Chi2_test(signal):
     * Mannattil, Manu, Himanshu Gupta, and Sagar Chakraborty. "Revisiting evidence of chaos in X-ray light curves: the case of GRS 1915+ 105."
       The Astrophysical Journal 833.2 (2016): 208.
 
-    """
+    '''
 
     N = len(signal)
     reminder = N % 2
@@ -85,7 +86,7 @@ def Chi2_test(signal):
 def Correlation_sum_plot(
     sig=None, r=100, metric="chebyshev", window=10, save_name=None
 ):
-    """
+    '''
     Compute the correlation sum plots.
 
     Computes the correlation sum of the given time series for the specified distances (Grassberger & Procaccia 1983).
@@ -148,7 +149,7 @@ def time_irreversibility(sig):
     * Discrimination power of measures for nonlinearity in a time series. Physical Review E, 55 (5), 5443.
 
 
-    """
+    '''
     before = sig[:-1]
     after = sig[1:]
     array = (after - before) ** 3
@@ -157,7 +158,7 @@ def time_irreversibility(sig):
 
 
 def sort_matlab(arr, dim=None):
-    """
+    '''
     Sorts the elements of an array along a specified dimension in ascending order,
     similar to MATLAB's sort function.
 
@@ -175,7 +176,7 @@ def sort_matlab(arr, dim=None):
 
     sorted_indices : numpy.ndarray
         The indices that would sort the original array.
-    """
+    '''
     if dim is not None:
         sorted_indices = np.argsort(arr, axis=dim)
         sorted_arr = np.take_along_axis(arr, sorted_indices, axis=dim)
@@ -188,7 +189,8 @@ def sort_matlab(arr, dim=None):
 
 
 def preprocessing(sig, fs):
-    """pre processing for surrogate data generation
+    '''
+    pre processing for surrogate data generation
 
     function is used to truncate the input signal based on minimizing the mismatch between consecutive points at
     the beginning and end of the signal, along with some initial processing steps like    mean subtraction and
@@ -222,7 +224,7 @@ def preprocessing(sig, fs):
     * Lancaster, Gemma, et al. "Surrogate data for hypothesis testing of physical systems." Physics Reports 748 (2018): 1-60.
 
 
-    """
+    '''
     sig = sig - np.mean(sig)
     t = np.linspace(0, len(sig) / fs, len(sig))
     L = len(sig)
@@ -251,7 +253,8 @@ def preprocessing(sig, fs):
 
 
 def surrogate(sig, N, method, pp, fs, *args):
-    """pre processing for surrogate data generation
+    '''
+    pre processing for surrogate data generation
 
     function is used to truncate the input signal based on minimizing the mismatch between consecutive points at
     the beginning and end of the signal, along with some initial processing steps like    mean subtraction and
@@ -308,7 +311,7 @@ def surrogate(sig, N, method, pp, fs, *args):
     * Theiler, James. "On the evidence for low-dimensional chaos in an epileptic electroencephalogram." Physics Letters A 196.1-2 (1994): 335-341.
 
 
-    """
+    '''
     origsig = sig
     params = {}
     params["origsig"] = origsig
