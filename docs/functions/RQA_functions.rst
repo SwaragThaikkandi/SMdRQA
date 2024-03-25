@@ -81,4 +81,4 @@ Features
 
 *entropy()*
 """"""""""""
-.. autofunction:: SMdRQA.RQA_functions.findtau
+.. autofunction:: SMdRQA.RQA_functions.entropy
