@@ -47,6 +47,9 @@ PyPI Package Information
 Security
 --------
 
+.. image:: https://snyk.io//advisor/python/SMdRQA/badge.svg
+        :target: https://snyk.io//advisor/python/SMdRQA
+
 .. image:: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg
         :target: https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql
 
