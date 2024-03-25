@@ -1291,6 +1291,8 @@ document.write(`
     <span class="k">return</span> <span class="n">numer</span><span class="o">/</span><span class="n">denom</span></div>
 
     
+<div class="viewcode-block" id="entropy">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.entropy">[docs]</a>
 <span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to find entropy of the line distributions</span>
@@ -1328,7 +1330,8 @@ document.write(`
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
             <span class="n">entr</span><span class="o">-=</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">summ</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">summ</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">entr</span>
+    <span class="k">return</span> <span class="n">entr</span></div>
+
     
 
 </pre></div>

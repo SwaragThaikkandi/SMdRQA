@@ -464,7 +464,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy"><em>entropy()</em></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">findtau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.entropy"><code class="docutils literal notranslate"><span class="pre">entropy()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -992,21 +992,29 @@ given as an input</p>
 <section id="entropy">
 <h3><em>entropy()</em><a class="headerlink" href="#entropy" title="Link to this heading">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">findtau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">#</a></dt>
-<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</p>
+<dt class="sig sig-object py" id="SMdRQA.RQA_functions.entropy">
+<span class="sig-name descname"><span class="pre">entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.entropy" title="Link to this definition">#</a></dt>
+<dd><p>Function to find entropy of the line distributions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
-<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
-<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>hst</strong> (<em>array</em>) – histogram counts of line lengths</p></li>
+<li><p><strong>mini</strong> (<em>int</em>) – minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – length of RP</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>tau</strong> (<em>double</em>) – optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn’t exist)</p>
+<dd class="field-even"><p><strong>ent</strong> (<em>int</em>) – entropy of line length distribution</p>
 </dd>
 </dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</p></li>
+<li><p>Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</p></li>
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</p></li>
+<li><p>Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</p></li>
+<li><p>Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -1136,7 +1144,7 @@ given as an input</p>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#entropy"><em>entropy()</em></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id0"><code class="docutils literal notranslate"><span class="pre">findtau()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.entropy"><code class="docutils literal notranslate"><span class="pre">entropy()</span></code></a></li>
 </ul>
 </li>
 </ul>
