@@ -53,3 +53,4 @@
 [![image](https://img.shields.io/github/created-at/SwaragThaikkandi/SMdRQA)](https://github.com/SwaragThaikkandi/SMdRQA)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/label.yml)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/docs-build.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/docs-build.yml)
+![Code Coverage](https://codecov.io/gh/SwaragThaikkandi/SMdRQA/graphs/sunburst.svg?token=OD96V7PI5K)
