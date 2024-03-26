@@ -92,9 +92,3 @@ jobs:
           minColorRange: 50
           maxColorRange: 90
           valColorRange: ${{ env.total }}
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v4.1.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: SwaragThaikkandi/SMdRQA
