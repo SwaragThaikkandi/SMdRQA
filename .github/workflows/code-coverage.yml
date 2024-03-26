@@ -45,11 +45,16 @@ jobs:
         run: |
           python -m tox
 
-      - name: "Upload coverage data"
-        uses: actions/upload-artifact@v3
-        with:
-          name: covdata
-          path: .coverage.*
+      - name: "Save coverage data to repository"
+        run: |
+          coverage json -o coverage.json
+
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+
+          git add coverage.json
+          git commit -m "Add coverage data for Python ${{ matrix.python-version }}"
+          git push origin ${{ github.ref }}
 
   coverage:
     name: Coverage
@@ -68,14 +73,10 @@ jobs:
         run: |
           python -m pip install tox tox-gh-actions
 
-      - name: "Download coverage data"
-        uses: actions/download-artifact@v3
-        with:
-          name: covdata
-
-      - name: "Combine"
+      - name: "Recall coverage data from repository"
         run: |
-          python -m tox -e coverage
+          git pull origin ${{ github.ref }}
+          # Assuming coverage.json contains the coverage data
           export TOTAL=$(python -c "import json;print(json.load(open('coverage.json'))['totals']['percent_covered_display'])")
           echo "total=$TOTAL" >> $GITHUB_ENV
           echo "### Total coverage: ${TOTAL}%" >> $GITHUB_STEP_SUMMARY
@@ -85,7 +86,7 @@ jobs:
         with:
           # GIST_TOKEN is a GitHub personal access token with scope "gist".
           auth: ${{ secrets.GH_TOKEN }}
-          gistID: 123abc456def789   # replace with your real Gist id.
+          gistID: a036eaf0fad75d0d203bcd2bca7c31af   # replace with your real Gist id.
           filename: covbadge.json
           label: Coverage
           message: ${{ env.total }}%
