@@ -19,37 +19,86 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Generate Metrics
+      - name: Half-year calendar
         uses: lowlighter/metrics@latest
         with:
+          filename: metrics.plugin.isocalendar.fullyear.svg
           token: ${{ secrets.METRICS_TOKEN }}
-          # Example configuration for more elaborate metrics
-          config: |
-            template: default
-            title: "GitHub Metrics Report"
-            commits: { range: "12mo" }
-            lines: 100
-            languages: ["python", "javascript", "html", "css"]
-            repositories: { exclude: "^lowlighter/metrics$" }
-            activity: { commits: true, issues: true, pull_requests: true }
-            community: true
-            dependencies: true
-            traffic: true
-            details: true
-            hide: "stars"
-            base: "main"
-            plugins:
-              - activity
-              - community
-              - dependencies
-              - traffic
-              - details
-            pull_requests:
-              filters:
-                categories:
-                  - name: "Security Updates"
-                    conditions: "label:security"
-                  - name: "Feature Development"
-                    conditions: "-label:security"
-                  # Add more categories as needed
+          base: ""
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: full-year
+      - name: Most used
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.languages.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_languages: yes
+          plugin_languages_ignored: >-
+            html, css, tex, less, dockerfile, makefile, qmake, lex, cmake, shell,
+            gnuplot
+          plugin_languages_limit: 4
+      - name: Repositories and diff history
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.lines.history.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_lines: yes
+          plugin_lines_delay: 30
+          plugin_lines_sections: repositories, history
+          plugin_lines_repositories_limit: 2
+          plugin_lines_history_limit: 1
+          repositories_skipped: |
+            @use.patterns
+            */*
+            +lowlighter/metrics
+      - name: Licenses with open-source ratio graphs
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.licenses.ratio.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          template: repository
+          repo: metrics
+          plugin_licenses: yes
+          plugin_licenses_setup: bash -c '[[ -f package.json ]] && npm ci || true'
+          plugin_licenses_legal: no
+          plugin_licenses_ratio: yes
 
+      - name: Contributors by categories
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.contributors.categories.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          template: repository
+          repo: metrics
+          plugin_contributors: yes
+          plugin_contributors_sections: categories
+          plugin_contributors_categories: |
+           {
+              "🧩 Plugins / 🖼️ templates":["source/plugins/**", "source/templates/**"],
+              "📚 Documentation":["README.md", "**/README.md", "**/metadata.yml"],
+              "💻 Code (other)":["source/**", "Dockerfile"]
+           }
+
+      - name: Comment reactions
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.reactions.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_reactions: yes
+          plugin_reactions_limit: 100
+          plugin_reactions_details: percentage
+
+      - name: Full history calendar
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.calendar.full.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          plugin_calendar: yes
+          plugin_calendar_limit: 0
+          
