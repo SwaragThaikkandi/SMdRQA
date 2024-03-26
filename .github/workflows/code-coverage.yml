@@ -26,7 +26,7 @@ jobs:
 
       - name: "Run tests and collect coverage"
         run: |
-          coverage run -m pytest tests/
+          coverage run -m pytest SMdRQA/tests/
           coverage report -m
           coverage xml -o coverage.xml
 
