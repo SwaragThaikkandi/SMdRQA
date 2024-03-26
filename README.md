@@ -34,6 +34,7 @@
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/devskim.yml)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/ossar.yml)
 
+
 ## GitHub
 
 [![image](https://img.shields.io/github/v/release/SwaragThaikkandi/SMdRQA)](https://github.com/SwaragThaikkandi/SMdRQA/releases)
