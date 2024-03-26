@@ -19,6 +19,14 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Example
+        uses: lowlighter/metrics@latest
+        with:
+          template: repository
+          filename: metrics.repository.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: SwaragThaikkandi
+          repo: SMdRQA
       - name: Half-year calendar
         uses: lowlighter/metrics@latest
         with:
@@ -53,18 +61,6 @@ jobs:
             @use.patterns
             */*
             +lowlighter/metrics
-      - name: Licenses with open-source ratio graphs
-        uses: lowlighter/metrics@latest
-        with:
-          filename: metrics.plugin.licenses.ratio.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          template: repository
-          repo: metrics
-          plugin_licenses: yes
-          plugin_licenses_setup: bash -c '[[ -f package.json ]] && npm ci || true'
-          plugin_licenses_legal: no
-          plugin_licenses_ratio: yes
 
       - name: Contributors by categories
         uses: lowlighter/metrics@latest
