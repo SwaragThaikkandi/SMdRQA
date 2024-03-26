@@ -26,6 +26,7 @@
 ## Security
 
 [![Synk- Package Health](https://snyk.io//advisor/python/SMdRQA/badge.svg)](https://snyk.io//advisor/python/SMdRQA)
+[![Scorecards supply-chain security](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/scorecard.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/scorecard.yml)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/github-code-scanning/codeql)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/bandit.yml)
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/dependency-review.yml)
