@@ -122,15 +122,6 @@ def binscalc(X,n,d, method):
     
 
 def mutualinfo(X,Y,n,d):
-    """
-    Function to calculate mutual information between to time series
-    
-    Arguments:  X,Y  double array of shape (n,d)    time serieses
-                n    int                            number of samples in time series
-                d    int                            number of measurements at each time step
-                
-    Output:          double                         mutual information between X,Y
-    """
     '''
     Function to calculate mutual information between to time series
 
@@ -667,6 +658,7 @@ def plotwindow(M,n,win,i,j):
 def vert_hist(M,n):   ##### Functio to calculate vertical line distribution
     '''
     Function to compute vertical line distribution(counts of line lengths)
+    
     Parameters
     ----------
     m   : ndarray
