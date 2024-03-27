@@ -65,6 +65,19 @@ import scipy.stats as ss
 def Mode(array):
   '''
   Function to compute mode from a continuous data
+    
+  Parameters
+  ----------
+    
+  array : array
+      a numpy array
+      
+  Returns
+  -------
+
+  mode : double
+       mode of continuous data
+
   '''
   (counts, edges)=np.histogram(array)
   avgs=(edges[1:]+edges[:-1])/2
@@ -74,6 +87,19 @@ def Mode(array):
 def Check_Int_Array(array):
   '''
   This function checks whether an array consists of integers or not
+  
+  Parameters
+  ----------
+    
+  array : array
+      a numpy array
+      
+  Returns
+  -------
+
+  status : bool
+       whether the array is consisting only of integers(1) or not(0)
+
   '''
   N=len(array)
   sum=0
@@ -91,12 +117,25 @@ def Check_Int_Array(array):
 def Sliding_window(RP, maxsize, winsize):
   '''
   This is a function that would extract RQA variables from each sliding window for a given RP and for a specified window size
-  Inputs _______________________________________________________________________
-  RP                            : recurrence plot(numpy 2D matrix)
-  maxsize                       : maximum size of the recurrence plot
-  winsize                       : size of the window we are using
-  Outputs_______________________________________________________________________
-  Dict                          : dictionary containing RQA variables from all sliding windows, keys are window number
+  
+  Parameters
+  ----------
+    
+  RP    : ndarray
+      recurrence plot(numpy 2D matrix)
+
+  maxsize : int
+      size of the recurrence plot
+
+  winsize : int
+      size of the window we are using
+      
+  Returns
+  -------
+
+  Dict : dict
+       dictionary containing RQA variables from all sliding windows, keys are window number
+       
   '''
   num_windows=maxsize-winsize+1
   Dict={}
@@ -121,12 +160,23 @@ def Sliding_window(RP, maxsize, winsize):
   
 def Whole_window(RP,maxsize):
   '''
-  Inputs _______________________________________________________________________
   Function for computing the RQA variables from the whole RP
-  RP                             : recurrence plot(numpy 2D matrix)
-  maxsize                        : size of RP
-  Outputs ______________________________________________________________________
-  sub_dict                       : dictionary containing values of each of the RQA variables from the entire RP
+  
+  Parameters
+  ----------
+    
+  RP    : ndarray
+      recurrence plot(numpy 2D matrix)
+
+  maxsize : int
+      size of the recurrence plot
+      
+  Returns
+  -------
+
+  Dict : dict
+       dictionary containing values of each of the RQA variables from the entire RP
+       
   '''
   Dict={}
   
@@ -149,14 +199,26 @@ def Whole_window(RP,maxsize):
   
 def windowed_RP(winsize,RP_dir, save_path):
   '''
-  Inputs _______________________________________________________________________
   This function computes RQA variable from each window and stores that in a dictionary
-  type                            : Type of data, whether its GD/pre GD/randomized
-  winsize                         : Size of window to be used
-  RP_dir                          : directory where the RPs are stored as numpy files
-  save_path                       : directory in which the dictionary should be saved in the form of a pickle file
-  Output _______________________________________________________________________
-  Dict                            : Dictionary containing RQA variables from the sliding windows
+  
+  Parameters
+  ----------
+    
+  RP_dir  : str
+      path to the directory where the RPs are stored as numpy files
+
+  winsize : int
+      Size of window to be used
+
+  save_path : str
+      path to the file in which the dictionary should be saved in the form of a pickle file
+      
+  Returns
+  -------
+
+  Dict : dict
+       dictionary containing values of each of the RQA variables from the entire RP
+       
   '''
   dir=RP_dir
   files=os.listdir(dir)
@@ -179,11 +241,42 @@ def windowed_RP(winsize,RP_dir, save_path):
 def First_middle_last_avg(DICT, var, win_loc):
   '''
   This is a function to compute different summary statistics from the RQA variable distribution that we would get from the windows
-  Inputs _______________________________________________________________________
-  DICT_pre                          : dictionary containing RQA variables from data
-  win_loc: window of interest(fist/last/mean/median etc)
-  Outputs ______________________________________________________________________
-  data                              : pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets
+  
+  Parameters
+  ----------
+    
+  DICT_pre  : str
+      dictionary containing RQA variables from data(computed using the function WindowedRP)
+
+  var       : str
+      RQA variable name
+      
+  win_loc : str
+      Definition of the RQA estimate to be extracted
+
+      *first* : RQA variables from the first window of the sliding windows
+
+      *middle* : RQA variables from the middle window of the sliding windows
+
+      *last* : RQA variables from the last window of the sliding windows
+
+      *max* : maximum value of the RQA variables from the sliding windows
+
+      *avg* : average value of the RQA variables from the sliding windows
+
+      *mode* : mode of the RQA variables from the sliding windows
+
+      *median* : median of the RQA variables from the sliding windows
+
+      *whole* : RQA variable from the whole RP
+      
+      
+  Returns
+  -------
+
+  data : dataframe
+       pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets
+       
   '''
   Grp_IDs=list(DICT.keys())
   num_plots=len(Grp_IDs)
@@ -247,16 +340,29 @@ def First_middle_last_avg(DICT, var, win_loc):
   #sns.displot(data=data, x=var, kde=True,hue=['label','outcome'],kind='hist',norm_hist=True)
   return data
   
-def First_middle_last_sliding_windows(DICT, var):
+def First_middle_last_sliding_windows(DICT, var, win_locs):
   '''
   Function to compute all summary statistics that we want for a given RQA variable
-  Inputs _______________________________________________________________________
-  DICT                          : dictionary containing RQA variables from data collected 
-  var                               : specific RQA variable we are looking for
-  Outputs ______________________________________________________________________
-  full_data                         : pandas dataframe containing all summary statistics that we want for a given RQA variable
+  
+  Parameters
+  ----------
+    
+  DICT  : str
+      dictionary containing RQA variables from data(computed using the function WindowedRP)
+
+  var   : str
+      RQA variable name
+
+  win_locs : array
+      Definitions of the RQA estimates to be extracted
+      
+  Returns
+  -------
+
+  data : dataframe
+       pandas dataframe containing the calculated  set of summary statistic(specified) for the specified variable across different datasets
+       
   '''
-  win_locs=['avg','median','mode', 'whole']
   dfs=[]
   for win_loc in tqdm(win_locs):
     data=First_middle_last_avg(DICT,var, win_loc)
@@ -271,19 +377,34 @@ def First_middle_last_sliding_windows(DICT, var):
   #g.map(sns.histplot,x=a,hue='outcome',norm_hist=True)
   return full_data
   
-def First_middle_last_sliding_windows_all_vars(DICT, save_path):
+def First_middle_last_sliding_windows_all_vars(DICT, save_path, win_locs, vars):
   '''
-  Function to compute all summary statistics that we want for all RQA variables
-  Inputs _______________________________________________________________________
-  DICT                          : dictionary containing RQA variables from data collected 
-  Outputs ______________________________________________________________________
-  data_out                         : pandas dataframe containing all summary statistics that we want for all RQA variable
+  Function to compute all summary statistics that we want across all RQA variables we want
+  
+  Parameters
+  ----------
+    
+  DICT  : dict
+      dictionary containing RQA variables from data(computed using the function WindowedRP)
+
+  vars   : array
+      RQA variables to be extracted
+
+  win_locs : array
+      Definitions of the RQA estimates to be extracted
+
+  save_path : str
+      Path to the file where the data will be saved
+      
+  Returns
+  -------
+
+  Saves the data, no output will be given by this function
   '''
-  win_locs=['avg','median','mode', 'whole']
-  vars=['recc_rate','percent_det','avg_diag','max_diag','percent_lam','avg_vert','vert_ent','diag_ent','vert_max']
+  
   dfs=[]
   for var in tqdm(vars):
-    df=First_middle_last_sliding_windows(DICT, var)
+    df=First_middle_last_sliding_windows(DICT, var, win_locs)
     dfs.append(df)
 
   data_out=pd.concat(dfs,axis=1)
