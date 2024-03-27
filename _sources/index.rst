@@ -31,6 +31,7 @@ You can navigate to the different sections using the left panel. We recommend ch
    examples/index
    functions/index
    references
+   repo_details
    Repository <https://github.com/SwaragThaikkandi/SMdRQA>
 
 
