@@ -64,10 +64,56 @@ import seaborn as sns
 
 def fnnhitszero_Plot(u,n,d,m,tau,sig,delta,Rmin,Rmax,rdiv):
     '''
-    This function, insted of giving value of r that is giving sufficiently small FNN to be called as the value at which it hits zero. This is done as we need to find a value out of it
-    returns:
-    Rarr           : array of values of r values
-    FNN            : corresponding false nearest neighbour values
+    Function that calculates the ratio of false nearest neighbours
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    m    : int
+         number of embedding dimensions
+
+    r    : double
+         ratio parameter
+
+    sig : double
+         standard deviation of the data
+
+    delta: double
+         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero
+
+    Rmin : double
+         minimum value of r from where we would start the parameter search
+
+    Rmax : double
+         maximum value of r for defining the upper limit of parameter search
+
+    rdiv : Int
+         number of divisions between Rmin and Rmax for parameter search
+
+    Returns
+    -------
+
+    Rarr : array
+       an array of r values
+
+    FNN : array
+       corresponding false nearest neighbour values
+
+    References
+    ----------
+    - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+    
     '''
     Rarr=np.linspace(Rmin,Rmax,rdiv)
     FNN = []
@@ -76,7 +122,58 @@ def fnnhitszero_Plot(u,n,d,m,tau,sig,delta,Rmin,Rmax,rdiv):
             
     return Rarr, FNN
     
-def findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound, save_path, plot=False):
+def findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound, save_path):
+    '''
+    This is an effort to make plot given in Kantz, & Schreiber(2004) section 3.3.1
+
+    Parameters
+    ----------
+    u   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    n   : int 
+        number of samples or observations in the time series
+        
+    d   : int
+        number of measurements or dimensions of the data
+
+    tau : int
+         amount of delay
+
+    r    : double
+         ratio parameter
+
+    sig : double
+         standard deviation of the data
+
+    delta: double
+         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero
+
+    Rmin : double
+         minimum value of r from where we would start the parameter search
+
+    Rmax : double
+         maximum value of r for defining the upper limit of parameter search
+
+    rdiv : Int
+         number of divisions between Rmin and Rmax for parameter search
+
+    bound: double
+         bound value for terminating the parameter serch for m
+
+    Returns
+    -------
+
+    Saves a figure and a pickle file
+
+    References
+    ----------
+    - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+
+    - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
+    
+    '''
+    plot = True
     if plot == True:
       mmax=int((3*d+11)/2)
       
@@ -98,22 +195,51 @@ def findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound, save_path, plot=False):
           pickle.dump(DICT, handle)
 
 def RP_diagnose(input_path, diagnose_dir,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound=0.2):
-  '''
-  Input arguments_____________________________________________________________________________
-  input_path       : folder containing the numpy files, rows> number of samples, columns> number of streams
-  diagnose_dir     : directory in which the pickles containing FNN vs r data should be stored
-  rdiv             : number of divisions(resolution) for the variable r during parameter search for embedding dimension
-  Rmin             : minimum value for the variable r during parameter search for embedding dimension
-  Rmax             : maximum value for the variable r during parameter search for embedding dimension
-  delta            : the tolerance value below which an FNN value will be considered as zero
-  bound            : This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
-  
-  Output_______________________________________________________________________________________
-  
-  RPs              : recurrence plots saved as npy files in the given directory
-  Error_Report_Sheet : Analogous to a log file, will record those instances where RP computation failed either due to memory error or due to value error
-  param_Sheet      : RQA parameter estimated for each files
-  '''
+   '''
+    Function to diagnose issues in finding the embedding dimension. It is similar to RP maker, but it deos not generate RP, nstead saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory
+    
+    Parameters
+    ----------
+    
+    input_path : str
+        folder containing the numpy files, rows> number of samples, columns> number of streams
+
+    diagnose_dir : str
+        folder where the plots needed for checks should be saved
+        
+    rdiv       : int
+        number of divisions(resolution) for the variable r during parameter search for embedding dimension
+
+    Rmax       : double
+        maximum value for the variable r during parameter search for embedding dimension
+
+    Rmin       : double
+        minimum value for the variable r during parameter search for embedding dimension
+
+    delta      : double
+        the tolerance value below which an FNN value will be considered as zero
+
+    bound      : double
+         This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
+
+
+    Returns
+    -------
+
+    Saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory to a path specified as diagnose directory
+
+    Error_Report_Sheet : file
+           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError. This is due to an issue at the time delay estimation part, check dimensionality of the data
+
+
+    References
+    ----------
+
+    - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+
+    - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
+    
+    '''
   path=input_path
   files=os.listdir(path)
   ERROROCC=[]
@@ -147,7 +273,7 @@ def RP_diagnose(input_path, diagnose_dir,rdiv=451, Rmin=1, Rmax=10, delta=0.001,
         #try: 
       File_out = File.split('.')[0]
       try:
-        findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound,diagnose_dir+'/'+File_out,plot=True)
+        findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound,diagnose_dir+'/'+File_out)
         
         
       except ValueError:
@@ -171,9 +297,24 @@ def get_minFNN_distribution_plot(path, save_name):
   of minimum FNN value for different embedding dimensions(m). It computes the upper(2.5% quantile)
   and lower(97.5% quantile) and when we want to get r(at FNN hitting zero) vs m graph, generally the 
   delta value should be more than the highest upper bound(most likely for m=1) is choosen
-  Input:__________________________________________________________________________________________
-  path    : path to folder containing pickes files computed using "RP_diagnose" function
-  savename: The output plot and CSV file would be saved in the name specified
+
+  Parameters
+  ----------
+  path   : str
+      path to folder containing pickes files computed using "RP_diagnose" function
+
+  savename : str 
+       The output plot and CSV file would be saved in the name specified
+        
+  Returns
+  -------
+
+  Saves a plot and a CSV file  
+
+  References
+  ----------
+  - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+     
   '''
   files = os.listdir(path)
   M=[]
