@@ -35,17 +35,6 @@ jobs:
           output_file: "metrics.tree.diagram.svg"
           branch: "graphs"
 
-      - name: Community
-        uses: lowlighter/metrics@latest
-        with:
-          filename: metrics.plugin.people.repository.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          template: repository
-          repo: metrics
-          plugin_people: yes
-          plugin_people_types: contributors, stargazers, watchers, sponsors
-
       - name: Half-year calendar
         uses: lowlighter/metrics@latest
         with:
