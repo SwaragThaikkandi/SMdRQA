@@ -110,7 +110,7 @@ def RP_computer(input_path, RP_dir,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound
     Saves RPs for each of the signal present in the input directory. Additionally, in your root directory check for following files
 
     Error_Report_Sheet : file
-           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError
+           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError. This is due to an issue at the time delay estimation part, check dimensionality of the data
 
     param_Sheet        : file
            The RQA parameter values for those signals for which the RPs were computed without any fail
