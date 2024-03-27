@@ -391,26 +391,67 @@ document.write(`
 <a class="viewcode-back" href="../../functions/RP_maker.html#SMdRQA.RP_maker.RP_computer">[docs]</a>
 <span class="k">def</span> <span class="nf">RP_computer</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">RP_dir</span><span class="p">,</span><span class="n">rdiv</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span> <span class="n">Rmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Rmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rr_delta</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">epsmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">epsdiv</span><span class="o">=</span><span class="mi">1001</span><span class="p">,</span> <span class="n">windnumb</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  Input arguments_____________________________________________________________________________</span>
-<span class="sd">  input_path       : folder containing the numpy files, rows&gt; number of samples, columns&gt; number of streams</span>
-<span class="sd">  RP_dir           : directory in which the RPs should be stored</span>
-<span class="sd">  rdiv             : number of divisions(resolution) for the variable r during parameter search for embedding dimension</span>
-<span class="sd">  Rmin             : minimum value for the variable r during parameter search for embedding dimension</span>
-<span class="sd">  Rmax             : maximum value for the variable r during parameter search for embedding dimension</span>
-<span class="sd">  delta            : the tolerance value below which an FNN value will be considered as zero</span>
-<span class="sd">  bound            : This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension</span>
-<span class="sd">  req_rr           : This is a variable that user can define. This controls the overall recurrence rate of the whole RP</span>
-<span class="sd">  rr_delta         : this variable is used to define tolerance for accepting a value of neighbourhood radius. If the absolte differenece between the resccurence rate value to that of the desired value is less than this tolerance, the value of epsilon is accepted</span>
-<span class="sd">  eps_min          : Minimum value of the neighbourhood radius value to being with for fixing the reccurrence rate</span>
-<span class="sd">  eps_max          : Maximum value of the neighbourhood radius value above which the search won&#39;t progress</span>
-<span class="sd">  eps_div          : Number of divisions between eps_min and eps_max</span>
-<span class="sd">  windnumb         : number of windows getting extracted</span>
-<span class="sd">  Output_______________________________________________________________________________________</span>
-<span class="sd">  </span>
-<span class="sd">  RPs              : recurrence plots saved as npy files in the given directory</span>
-<span class="sd">  Error_Report_Sheet : Analogous to a log file, will record those instances where RP computation failed either due to memory error or due to value error</span>
-<span class="sd">  param_Sheet      : RQA parameter estimated for each files</span>
-<span class="sd">  &#39;&#39;&#39;</span>
+<span class="sd">    Function to compute diagonal line distribution(counts of line lengths)</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    input_path : str</span>
+<span class="sd">        folder containing the numpy files, rows&gt; number of samples, columns&gt; number of streams</span>
+
+<span class="sd">    RP_dir     : str </span>
+<span class="sd">        directory in which the RPs should be stored</span>
+
+<span class="sd">    rdiv       : int</span>
+<span class="sd">        number of divisions(resolution) for the variable r during parameter search for embedding dimension</span>
+
+<span class="sd">    Rmax       : double</span>
+<span class="sd">        maximum value for the variable r during parameter search for embedding dimension</span>
+
+<span class="sd">    Rmin       : double</span>
+<span class="sd">        minimum value for the variable r during parameter search for embedding dimension</span>
+
+<span class="sd">    delta      : double</span>
+<span class="sd">        the tolerance value below which an FNN value will be considered as zero</span>
+
+<span class="sd">    bound      : double</span>
+<span class="sd">         This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension</span>
+
+<span class="sd">    req_rr     : double</span>
+<span class="sd">         This is a variable that user can define. This controls the overall recurrence rate of the whole RP</span>
+
+<span class="sd">    rr_delta   : double</span>
+<span class="sd">         This variable is used to define tolerance for accepting a value of neighbourhood radius. If the absolte differenece between the resccurence rate value to that of the desired value is less than this tolerance, the value of epsilon is accepted</span>
+
+<span class="sd">    eps_min    : double</span>
+<span class="sd">         Minimum value of the neighbourhood radius value to begin with for fixing the reccurrence rate</span>
+
+<span class="sd">    eps_max    : double</span>
+<span class="sd">         Maximum value of the neighbourhood radius value above which the search won&#39;t progress</span>
+
+<span class="sd">    eps_div    : double</span>
+<span class="sd">         Number of divisions between eps_min and eps_max</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Saves RPs for each of the signal present in the input directory. Additionally, in your root directory check for following files</span>
+
+<span class="sd">    Error_Report_Sheet : file</span>
+<span class="sd">           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError</span>
+
+<span class="sd">    param_Sheet        : file</span>
+<span class="sd">           The RQA parameter values for those signals for which the RPs were computed without any fail</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
   <span class="n">path</span><span class="o">=</span><span class="n">input_path</span>
   <span class="n">files</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
   <span class="n">ERROROCC</span><span class="o">=</span><span class="p">[]</span>
