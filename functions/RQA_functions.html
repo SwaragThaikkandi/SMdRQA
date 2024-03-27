@@ -517,12 +517,23 @@ document.write(`
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.mutualinfo">
 <span class="sig-name descname"><span class="pre">mutualinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#mutualinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.mutualinfo" title="Link to this definition">#</a></dt>
 <dd><p>Function to calculate mutual information between to time series</p>
-<dl class="simple">
-<dt>Arguments:  X,Y  double array of shape (n,d)    time serieses</dt><dd><p>n    int                            number of samples in time series
-d    int                            number of measurements at each time step</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>y</strong> (<em>ndarray</em>) – double array of shape (n,d).  second time series</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>MI</strong> (<em>double</em>) – mutual information between time series</p>
 </dd>
 </dl>
-<p>Output:          double                         mutual information between X,Y</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Shannon, Claude Elwood. “A mathematical theory of communication.” The Bell system technical journal 27.3 (1948): 379-423.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -812,16 +823,16 @@ d    int                            number of measurements at each time step</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.vert_hist">
 <span class="sig-name descname"><span class="pre">vert_hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">M</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#vert_hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.vert_hist" title="Link to this definition">#</a></dt>
-<dd><p>Function to compute vertical line distribution(counts of line lengths)
-:Parameters: * <strong>m</strong> (<em>ndarray</em>) – recurrence plot</p>
-<blockquote>
-<div><ul class="simple">
+<dd><p>Function to compute vertical line distribution(counts of line lengths)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<em>ndarray</em>) – recurrence plot</p></li>
 <li><p><strong>n</strong> (<em>int</em>) – length of RP</p></li>
 </ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>nvert</strong> (<em>array</em>) – an array containing counts of line lengths</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>nvert</strong> (<em>array</em>) – an array containing counts of line lengths</p>
 </dd>
 </dl>
 <p class="rubric">References</p>
