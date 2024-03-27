@@ -45,6 +45,35 @@ import itertools
 from tqdm import tqdm
 
 def HistogramSampling(histogram,bins_midpoints, samples):
+  '''
+    Function for doing histogram sampling from a distribution
+
+    Parameters
+    ----------
+    
+    histogram : array
+        histogram counts normalised to get a sum =1
+        
+    bins_midpoints : array
+        values corresponding to the probability values given as "histogram"
+        
+    samples : int
+        number of histograms samples 
+
+    Returns
+    -------
+
+    hist2 : array
+         histogram counts of the resulting distribution
+
+    bins_midpoints : array
+         midpoints of bins corresponding to hist2
+
+    References
+    ----------
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+    '''
   cdf=np.cumsum(histogram)
   cdf = cdf / cdf[-1]
   values = np.random.rand(samples)
