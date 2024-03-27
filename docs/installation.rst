@@ -10,6 +10,13 @@ Open your terminal and run:
 
     pip install SMdRQA
 
+or run:
+
+.. code-block:: console
+
+    docker pull tsk365/smdrqa
+
+
 Then, at the top of each of your Python script, you should be able to import the module:
 
 .. code-block:: python
@@ -74,6 +81,6 @@ From conda
 
 Currently no conda releases are available
 
-`pip` is the preferred methods to install SMdRQA, as they will install the most up-to-date stable release.
+`pip` or docker is the preferred methods to install SMdRQA, as they will install the most up-to-date stable release.
 
 
