@@ -27,16 +27,12 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           user: SwaragThaikkandi
           repo: SMdRQA
-      - name: Contributors with contributions count
-        uses: lowlighter/metrics@latest
+      - name: Create Repository Tree
+        uses: actions/checkout@master
+      - name: Update Repository Tree
+        uses: githubocto/repo-visualizer@0.7.1
         with:
-          filename: metrics.plugin.contributors.contributions.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          template: repository
-          repo: metrics
-          plugin_contributors: yes
-          plugin_contributors_contributions: yes
+          output_file: "metrics.diagram.svg"
 
       - name: Community
         uses: lowlighter/metrics@latest
