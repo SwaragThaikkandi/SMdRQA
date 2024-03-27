@@ -29,5 +29,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/SMdRQA:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/smdrqa:latest
 
