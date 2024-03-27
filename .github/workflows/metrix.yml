@@ -33,8 +33,7 @@ jobs:
         uses: githubocto/repo-visualizer@0.7.1
         with:
           output_file: "metrics.tree.diagram.svg"
-          branch: "main"
-          file_colors: '{"py": "red","rst": "green","md":"blue"}'
+          branch: "graphs"
 
       - name: Community
         uses: lowlighter/metrics@latest
