@@ -30,7 +30,7 @@ jobs:
       - name: Create Repository Tree
         uses: actions/checkout@master
       - name: Update Repository Tree
-        uses: githubocto/repo-visualizer@0.7.1
+        uses: githubocto/repo-visualizer@0.9.1
         with:
           output_file: "metrics.tree.diagram.svg"
           branch: "graphs"
