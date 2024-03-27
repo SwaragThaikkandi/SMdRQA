@@ -32,7 +32,8 @@ jobs:
       - name: Update Repository Tree
         uses: githubocto/repo-visualizer@0.7.1
         with:
-          output_file: "metrics.diagram.svg"
+          filename: metrics.tree.diagram.svg
+          token: ${{ secrets.METRICS_TOKEN }}
 
       - name: Community
         uses: lowlighter/metrics@latest
