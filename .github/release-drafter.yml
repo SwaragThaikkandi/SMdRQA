@@ -11,3 +11,8 @@ template: |
 
   <!-- TEMPLATE -->
   $CHANGES
+
+paginate:
+  limit: 10
+  field: 'createdAt'
+  direction: 'desc'
