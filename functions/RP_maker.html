@@ -435,7 +435,7 @@ document.write(`
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><em>Saves RPs for each of the signal present in the input directory. Additionally, in your root directory check for following files</em></p></li>
-<li><p><strong>Error_Report_Sheet</strong> (<em>file</em>) – This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError</p></li>
+<li><p><strong>Error_Report_Sheet</strong> (<em>file</em>) – This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError. This is due to an issue at the time delay estimation part, check dimensionality of the data</p></li>
 <li><p><strong>param_Sheet</strong> (<em>file</em>) – The RQA parameter values for those signals for which the RPs were computed without any fail</p></li>
 </ul>
 </p>
