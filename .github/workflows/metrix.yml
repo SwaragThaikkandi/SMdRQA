@@ -27,6 +27,28 @@ jobs:
           token: ${{ secrets.METRICS_TOKEN }}
           user: SwaragThaikkandi
           repo: SMdRQA
+      - name: Contributors with contributions count
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.contributors.contributions.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          template: repository
+          repo: metrics
+          plugin_contributors: yes
+          plugin_contributors_contributions: yes
+
+      - name: Community
+        uses: lowlighter/metrics@latest
+        with:
+          filename: metrics.plugin.people.repository.svg
+          token: ${{ secrets.METRICS_TOKEN }}
+          base: ""
+          template: repository
+          repo: metrics
+          plugin_people: yes
+          plugin_people_types: contributors, stargazers, watchers, sponsors
+
       - name: Half-year calendar
         uses: lowlighter/metrics@latest
         with:
@@ -61,24 +83,7 @@ jobs:
             @use.patterns
             */*
             +lowlighter/metrics
-
-      - name: Contributors by categories
-        uses: lowlighter/metrics@latest
-        with:
-          filename: metrics.plugin.contributors.categories.svg
-          token: ${{ secrets.METRICS_TOKEN }}
-          base: ""
-          template: repository
-          repo: metrics
-          plugin_contributors: yes
-          plugin_contributors_sections: categories
-          plugin_contributors_categories: |
-           {
-              "🧩 Plugins / 🖼️ templates":["source/plugins/**", "source/templates/**"],
-              "📚 Documentation":["README.md", "**/README.md", "**/metadata.yml"],
-              "💻 Code (other)":["source/**", "Dockerfile"]
-           }
-
+            
       - name: Comment reactions
         uses: lowlighter/metrics@latest
         with:
