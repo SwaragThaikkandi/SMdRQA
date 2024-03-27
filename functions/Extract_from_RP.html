@@ -443,6 +443,14 @@ document.write(`
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.Mode">
 <span class="sig-name descname"><span class="pre">Mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#Mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.Mode" title="Link to this definition">#</a></dt>
 <dd><p>Function to compute mode from a continuous data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>array</em>) – a numpy array</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mode</strong> (<em>double</em>) – mode of continuous data</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -452,6 +460,14 @@ document.write(`
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.Check_Int_Array">
 <span class="sig-name descname"><span class="pre">Check_Int_Array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#Check_Int_Array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.Check_Int_Array" title="Link to this definition">#</a></dt>
 <dd><p>This function checks whether an array consists of integers or not</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>array</em>) – a numpy array</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>status</strong> (<em>bool</em>) – whether the array is consisting only of integers(1) or not(0)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -460,13 +476,19 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.Sliding_window">
 <span class="sig-name descname"><span class="pre">Sliding_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#Sliding_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.Sliding_window" title="Link to this definition">#</a></dt>
-<dd><p>This is a function that would extract RQA variables from each sliding window for a given RP and for a specified window size
-Inputs _______________________________________________________________________
-RP                            : recurrence plot(numpy 2D matrix)
-maxsize                       : maximum size of the recurrence plot
-winsize                       : size of the window we are using
-Outputs_______________________________________________________________________
-Dict                          : dictionary containing RQA variables from all sliding windows, keys are window number</p>
+<dd><p>This is a function that would extract RQA variables from each sliding window for a given RP and for a specified window size</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot(numpy 2D matrix)</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – size of the recurrence plot</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) – size of the window we are using</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Dict</strong> (<em>dict</em>) – dictionary containing RQA variables from all sliding windows, keys are window number</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -475,12 +497,18 @@ Dict                          : dictionary containing RQA variables from all sli
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.Whole_window">
 <span class="sig-name descname"><span class="pre">Whole_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#Whole_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.Whole_window" title="Link to this definition">#</a></dt>
-<dd><p>Inputs _______________________________________________________________________
-Function for computing the RQA variables from the whole RP
-RP                             : recurrence plot(numpy 2D matrix)
-maxsize                        : size of RP
-Outputs ______________________________________________________________________
-sub_dict                       : dictionary containing values of each of the RQA variables from the entire RP</p>
+<dd><p>Function for computing the RQA variables from the whole RP</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot(numpy 2D matrix)</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – size of the recurrence plot</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Dict</strong> (<em>dict</em>) – dictionary containing values of each of the RQA variables from the entire RP</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -489,14 +517,19 @@ sub_dict                       : dictionary containing values of each of the RQA
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.windowed_RP">
 <span class="sig-name descname"><span class="pre">windowed_RP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">RP_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#windowed_RP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.windowed_RP" title="Link to this definition">#</a></dt>
-<dd><p>Inputs _______________________________________________________________________
-This function computes RQA variable from each window and stores that in a dictionary
-type                            : Type of data, whether its GD/pre GD/randomized
-winsize                         : Size of window to be used
-RP_dir                          : directory where the RPs are stored as numpy files
-save_path                       : directory in which the dictionary should be saved in the form of a pickle file
-Output _______________________________________________________________________
-Dict                            : Dictionary containing RQA variables from the sliding windows</p>
+<dd><p>This function computes RQA variable from each window and stores that in a dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>RP_dir</strong> (<em>str</em>) – path to the directory where the RPs are stored as numpy files</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) – Size of window to be used</p></li>
+<li><p><strong>save_path</strong> (<em>str</em>) – path to the file in which the dictionary should be saved in the form of a pickle file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Dict</strong> (<em>dict</em>) – dictionary containing values of each of the RQA variables from the entire RP</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -505,12 +538,28 @@ Dict                            : Dictionary containing RQA variables from the s
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.First_middle_last_avg">
 <span class="sig-name descname"><span class="pre">First_middle_last_avg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DICT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_loc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#First_middle_last_avg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.First_middle_last_avg" title="Link to this definition">#</a></dt>
-<dd><p>This is a function to compute different summary statistics from the RQA variable distribution that we would get from the windows
-Inputs _______________________________________________________________________
-DICT_pre                          : dictionary containing RQA variables from data
-win_loc: window of interest(fist/last/mean/median etc)
-Outputs ______________________________________________________________________
-data                              : pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets</p>
+<dd><p>This is a function to compute different summary statistics from the RQA variable distribution that we would get from the windows</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>DICT_pre</strong> (<em>str</em>) – dictionary containing RQA variables from data(computed using the function WindowedRP)</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – RQA variable name</p></li>
+<li><p><strong>win_loc</strong> (<em>str</em>) – Definition of the RQA estimate to be extracted</p>
+<p><em>first</em> : RQA variables from the first window of the sliding windows</p>
+<p><em>middle</em> : RQA variables from the middle window of the sliding windows</p>
+<p><em>last</em> : RQA variables from the last window of the sliding windows</p>
+<p><em>max</em> : maximum value of the RQA variables from the sliding windows</p>
+<p><em>avg</em> : average value of the RQA variables from the sliding windows</p>
+<p><em>mode</em> : mode of the RQA variables from the sliding windows</p>
+<p><em>median</em> : median of the RQA variables from the sliding windows</p>
+<p><em>whole</em> : RQA variable from the whole RP</p>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> (<em>dataframe</em>) – pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -518,13 +567,20 @@ data                              : pandas dataframe containing the calculated s
 <h3><em>First_middle_last_sliding_windows()</em><a class="headerlink" href="#first-middle-last-sliding-windows" title="Link to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.First_middle_last_sliding_windows">
-<span class="sig-name descname"><span class="pre">First_middle_last_sliding_windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DICT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#First_middle_last_sliding_windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows" title="Link to this definition">#</a></dt>
-<dd><p>Function to compute all summary statistics that we want for a given RQA variable
-Inputs _______________________________________________________________________
-DICT                          : dictionary containing RQA variables from data collected
-var                               : specific RQA variable we are looking for
-Outputs ______________________________________________________________________
-full_data                         : pandas dataframe containing all summary statistics that we want for a given RQA variable</p>
+<span class="sig-name descname"><span class="pre">First_middle_last_sliding_windows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DICT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_locs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#First_middle_last_sliding_windows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows" title="Link to this definition">#</a></dt>
+<dd><p>Function to compute all summary statistics that we want for a given RQA variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DICT</strong> (<em>str</em>) – dictionary containing RQA variables from data(computed using the function WindowedRP)</p></li>
+<li><p><strong>var</strong> (<em>str</em>) – RQA variable name</p></li>
+<li><p><strong>win_locs</strong> (<em>array</em>) – Definitions of the RQA estimates to be extracted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>data</strong> (<em>dataframe</em>) – pandas dataframe containing the calculated  set of summary statistic(specified) for the specified variable across different datasets</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -532,12 +588,21 @@ full_data                         : pandas dataframe containing all summary stat
 <h3><em>First_middle_last_sliding_windows_all_vars()</em><a class="headerlink" href="#first-middle-last-sliding-windows-all-vars" title="Link to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.Extract_from_RP.First_middle_last_sliding_windows_all_vars">
-<span class="sig-name descname"><span class="pre">First_middle_last_sliding_windows_all_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DICT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#First_middle_last_sliding_windows_all_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows_all_vars" title="Link to this definition">#</a></dt>
-<dd><p>Function to compute all summary statistics that we want for all RQA variables
-Inputs _______________________________________________________________________
-DICT                          : dictionary containing RQA variables from data collected
-Outputs ______________________________________________________________________
-data_out                         : pandas dataframe containing all summary statistics that we want for all RQA variable</p>
+<span class="sig-name descname"><span class="pre">First_middle_last_sliding_windows_all_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DICT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">win_locs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/Extract_from_RP.html#First_middle_last_sliding_windows_all_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows_all_vars" title="Link to this definition">#</a></dt>
+<dd><p>Function to compute all summary statistics that we want across all RQA variables we want</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>DICT</strong> (<em>dict</em>) – dictionary containing RQA variables from data(computed using the function WindowedRP)</p></li>
+<li><p><strong>vars</strong> (<em>array</em>) – RQA variables to be extracted</p></li>
+<li><p><strong>win_locs</strong> (<em>array</em>) – Definitions of the RQA estimates to be extracted</p></li>
+<li><p><strong>save_path</strong> (<em>str</em>) – Path to the file where the data will be saved</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Saves the data, no output will be given by this function</em></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

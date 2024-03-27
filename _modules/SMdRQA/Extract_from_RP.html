@@ -393,6 +393,19 @@ document.write(`
 <span class="k">def</span> <span class="nf">Mode</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  Function to compute mode from a continuous data</span>
+<span class="sd">    </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  array : array</span>
+<span class="sd">      a numpy array</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  mode : double</span>
+<span class="sd">       mode of continuous data</span>
+
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
   <span class="n">avgs</span><span class="o">=</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">+</span><span class="n">edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
@@ -405,6 +418,19 @@ document.write(`
 <span class="k">def</span> <span class="nf">Check_Int_Array</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  This function checks whether an array consists of integers or not</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  array : array</span>
+<span class="sd">      a numpy array</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  status : bool</span>
+<span class="sd">       whether the array is consisting only of integers(1) or not(0)</span>
+
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="n">N</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
   <span class="nb">sum</span><span class="o">=</span><span class="mi">0</span>
@@ -425,12 +451,25 @@ document.write(`
 <span class="k">def</span> <span class="nf">Sliding_window</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">winsize</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  This is a function that would extract RQA variables from each sliding window for a given RP and for a specified window size</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
-<span class="sd">  RP                            : recurrence plot(numpy 2D matrix)</span>
-<span class="sd">  maxsize                       : maximum size of the recurrence plot</span>
-<span class="sd">  winsize                       : size of the window we are using</span>
-<span class="sd">  Outputs_______________________________________________________________________</span>
-<span class="sd">  Dict                          : dictionary containing RQA variables from all sliding windows, keys are window number</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  RP    : ndarray</span>
+<span class="sd">      recurrence plot(numpy 2D matrix)</span>
+
+<span class="sd">  maxsize : int</span>
+<span class="sd">      size of the recurrence plot</span>
+
+<span class="sd">  winsize : int</span>
+<span class="sd">      size of the window we are using</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  Dict : dict</span>
+<span class="sd">       dictionary containing RQA variables from all sliding windows, keys are window number</span>
+<span class="sd">       </span>
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="n">num_windows</span><span class="o">=</span><span class="n">maxsize</span><span class="o">-</span><span class="n">winsize</span><span class="o">+</span><span class="mi">1</span>
   <span class="n">Dict</span><span class="o">=</span><span class="p">{}</span>
@@ -458,12 +497,23 @@ document.write(`
 <a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Whole_window">[docs]</a>
 <span class="k">def</span> <span class="nf">Whole_window</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span><span class="n">maxsize</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
 <span class="sd">  Function for computing the RQA variables from the whole RP</span>
-<span class="sd">  RP                             : recurrence plot(numpy 2D matrix)</span>
-<span class="sd">  maxsize                        : size of RP</span>
-<span class="sd">  Outputs ______________________________________________________________________</span>
-<span class="sd">  sub_dict                       : dictionary containing values of each of the RQA variables from the entire RP</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  RP    : ndarray</span>
+<span class="sd">      recurrence plot(numpy 2D matrix)</span>
+
+<span class="sd">  maxsize : int</span>
+<span class="sd">      size of the recurrence plot</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  Dict : dict</span>
+<span class="sd">       dictionary containing values of each of the RQA variables from the entire RP</span>
+<span class="sd">       </span>
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="n">Dict</span><span class="o">=</span><span class="p">{}</span>
   
@@ -489,14 +539,26 @@ document.write(`
 <a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.windowed_RP">[docs]</a>
 <span class="k">def</span> <span class="nf">windowed_RP</span><span class="p">(</span><span class="n">winsize</span><span class="p">,</span><span class="n">RP_dir</span><span class="p">,</span> <span class="n">save_path</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
 <span class="sd">  This function computes RQA variable from each window and stores that in a dictionary</span>
-<span class="sd">  type                            : Type of data, whether its GD/pre GD/randomized</span>
-<span class="sd">  winsize                         : Size of window to be used</span>
-<span class="sd">  RP_dir                          : directory where the RPs are stored as numpy files</span>
-<span class="sd">  save_path                       : directory in which the dictionary should be saved in the form of a pickle file</span>
-<span class="sd">  Output _______________________________________________________________________</span>
-<span class="sd">  Dict                            : Dictionary containing RQA variables from the sliding windows</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  RP_dir  : str</span>
+<span class="sd">      path to the directory where the RPs are stored as numpy files</span>
+
+<span class="sd">  winsize : int</span>
+<span class="sd">      Size of window to be used</span>
+
+<span class="sd">  save_path : str</span>
+<span class="sd">      path to the file in which the dictionary should be saved in the form of a pickle file</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  Dict : dict</span>
+<span class="sd">       dictionary containing values of each of the RQA variables from the entire RP</span>
+<span class="sd">       </span>
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="nb">dir</span><span class="o">=</span><span class="n">RP_dir</span>
   <span class="n">files</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
@@ -522,11 +584,42 @@ document.write(`
 <span class="k">def</span> <span class="nf">First_middle_last_avg</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_loc</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  This is a function to compute different summary statistics from the RQA variable distribution that we would get from the windows</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
-<span class="sd">  DICT_pre                          : dictionary containing RQA variables from data</span>
-<span class="sd">  win_loc: window of interest(fist/last/mean/median etc)</span>
-<span class="sd">  Outputs ______________________________________________________________________</span>
-<span class="sd">  data                              : pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  DICT_pre  : str</span>
+<span class="sd">      dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">  var       : str</span>
+<span class="sd">      RQA variable name</span>
+<span class="sd">      </span>
+<span class="sd">  win_loc : str</span>
+<span class="sd">      Definition of the RQA estimate to be extracted</span>
+
+<span class="sd">      *first* : RQA variables from the first window of the sliding windows</span>
+
+<span class="sd">      *middle* : RQA variables from the middle window of the sliding windows</span>
+
+<span class="sd">      *last* : RQA variables from the last window of the sliding windows</span>
+
+<span class="sd">      *max* : maximum value of the RQA variables from the sliding windows</span>
+
+<span class="sd">      *avg* : average value of the RQA variables from the sliding windows</span>
+
+<span class="sd">      *mode* : mode of the RQA variables from the sliding windows</span>
+
+<span class="sd">      *median* : median of the RQA variables from the sliding windows</span>
+
+<span class="sd">      *whole* : RQA variable from the whole RP</span>
+<span class="sd">      </span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  data : dataframe</span>
+<span class="sd">       pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets</span>
+<span class="sd">       </span>
 <span class="sd">  &#39;&#39;&#39;</span>
   <span class="n">Grp_IDs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">DICT</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
   <span class="n">num_plots</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">Grp_IDs</span><span class="p">)</span>
@@ -593,16 +686,29 @@ document.write(`
   
 <div class="viewcode-block" id="First_middle_last_sliding_windows">
 <a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows">[docs]</a>
-<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">  Function to compute all summary statistics that we want for a given RQA variable</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
-<span class="sd">  DICT                          : dictionary containing RQA variables from data collected </span>
-<span class="sd">  var                               : specific RQA variable we are looking for</span>
-<span class="sd">  Outputs ______________________________________________________________________</span>
-<span class="sd">  full_data                         : pandas dataframe containing all summary statistics that we want for a given RQA variable</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  DICT  : str</span>
+<span class="sd">      dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">  var   : str</span>
+<span class="sd">      RQA variable name</span>
+
+<span class="sd">  win_locs : array</span>
+<span class="sd">      Definitions of the RQA estimates to be extracted</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  data : dataframe</span>
+<span class="sd">       pandas dataframe containing the calculated  set of summary statistic(specified) for the specified variable across different datasets</span>
+<span class="sd">       </span>
 <span class="sd">  &#39;&#39;&#39;</span>
-  <span class="n">win_locs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span><span class="s1">&#39;median&#39;</span><span class="p">,</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;whole&#39;</span><span class="p">]</span>
   <span class="n">dfs</span><span class="o">=</span><span class="p">[]</span>
   <span class="k">for</span> <span class="n">win_loc</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">win_locs</span><span class="p">):</span>
     <span class="n">data</span><span class="o">=</span><span class="n">First_middle_last_avg</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span><span class="n">var</span><span class="p">,</span> <span class="n">win_loc</span><span class="p">)</span>
@@ -620,19 +726,34 @@ document.write(`
   
 <div class="viewcode-block" id="First_middle_last_sliding_windows_all_vars">
 <a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows_all_vars">[docs]</a>
-<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">save_path</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
 <span class="w">  </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">  Function to compute all summary statistics that we want for all RQA variables</span>
-<span class="sd">  Inputs _______________________________________________________________________</span>
-<span class="sd">  DICT                          : dictionary containing RQA variables from data collected </span>
-<span class="sd">  Outputs ______________________________________________________________________</span>
-<span class="sd">  data_out                         : pandas dataframe containing all summary statistics that we want for all RQA variable</span>
+<span class="sd">  Function to compute all summary statistics that we want across all RQA variables we want</span>
+<span class="sd">  </span>
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">    </span>
+<span class="sd">  DICT  : dict</span>
+<span class="sd">      dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">  vars   : array</span>
+<span class="sd">      RQA variables to be extracted</span>
+
+<span class="sd">  win_locs : array</span>
+<span class="sd">      Definitions of the RQA estimates to be extracted</span>
+
+<span class="sd">  save_path : str</span>
+<span class="sd">      Path to the file where the data will be saved</span>
+<span class="sd">      </span>
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+
+<span class="sd">  Saves the data, no output will be given by this function</span>
 <span class="sd">  &#39;&#39;&#39;</span>
-  <span class="n">win_locs</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;avg&#39;</span><span class="p">,</span><span class="s1">&#39;median&#39;</span><span class="p">,</span><span class="s1">&#39;mode&#39;</span><span class="p">,</span> <span class="s1">&#39;whole&#39;</span><span class="p">]</span>
-  <span class="nb">vars</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">,</span><span class="s1">&#39;percent_det&#39;</span><span class="p">,</span><span class="s1">&#39;avg_diag&#39;</span><span class="p">,</span><span class="s1">&#39;max_diag&#39;</span><span class="p">,</span><span class="s1">&#39;percent_lam&#39;</span><span class="p">,</span><span class="s1">&#39;avg_vert&#39;</span><span class="p">,</span><span class="s1">&#39;vert_ent&#39;</span><span class="p">,</span><span class="s1">&#39;diag_ent&#39;</span><span class="p">,</span><span class="s1">&#39;vert_max&#39;</span><span class="p">]</span>
+  
   <span class="n">dfs</span><span class="o">=</span><span class="p">[]</span>
   <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
-    <span class="n">df</span><span class="o">=</span><span class="n">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">)</span>
     <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
   <span class="n">data_out</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
