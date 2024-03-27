@@ -32,3 +32,7 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: devskim-results.sarif
+      - name: GPG signing with Software Trust Manager
+        uses: digicert/ssm-gpg-signing@v0.0.2
+
+
