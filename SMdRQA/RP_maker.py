@@ -63,26 +63,67 @@ from SMdRQA.RQA_functions import entropy
 
 def RP_computer(input_path, RP_dir,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound=0.2, reqrr=0.1, rr_delta=0.005, epsmin=0, epsmax=10, epsdiv=1001, windnumb=1):
   '''
-  Input arguments_____________________________________________________________________________
-  input_path       : folder containing the numpy files, rows> number of samples, columns> number of streams
-  RP_dir           : directory in which the RPs should be stored
-  rdiv             : number of divisions(resolution) for the variable r during parameter search for embedding dimension
-  Rmin             : minimum value for the variable r during parameter search for embedding dimension
-  Rmax             : maximum value for the variable r during parameter search for embedding dimension
-  delta            : the tolerance value below which an FNN value will be considered as zero
-  bound            : This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
-  req_rr           : This is a variable that user can define. This controls the overall recurrence rate of the whole RP
-  rr_delta         : this variable is used to define tolerance for accepting a value of neighbourhood radius. If the absolte differenece between the resccurence rate value to that of the desired value is less than this tolerance, the value of epsilon is accepted
-  eps_min          : Minimum value of the neighbourhood radius value to being with for fixing the reccurrence rate
-  eps_max          : Maximum value of the neighbourhood radius value above which the search won't progress
-  eps_div          : Number of divisions between eps_min and eps_max
-  windnumb         : number of windows getting extracted
-  Output_______________________________________________________________________________________
-  
-  RPs              : recurrence plots saved as npy files in the given directory
-  Error_Report_Sheet : Analogous to a log file, will record those instances where RP computation failed either due to memory error or due to value error
-  param_Sheet      : RQA parameter estimated for each files
-  '''
+    Function to compute diagonal line distribution(counts of line lengths)
+    
+    Parameters
+    ----------
+    
+    input_path : str
+        folder containing the numpy files, rows> number of samples, columns> number of streams
+
+    RP_dir     : str 
+        directory in which the RPs should be stored
+
+    rdiv       : int
+        number of divisions(resolution) for the variable r during parameter search for embedding dimension
+
+    Rmax       : double
+        maximum value for the variable r during parameter search for embedding dimension
+
+    Rmin       : double
+        minimum value for the variable r during parameter search for embedding dimension
+
+    delta      : double
+        the tolerance value below which an FNN value will be considered as zero
+
+    bound      : double
+         This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
+
+    req_rr     : double
+         This is a variable that user can define. This controls the overall recurrence rate of the whole RP
+
+    rr_delta   : double
+         This variable is used to define tolerance for accepting a value of neighbourhood radius. If the absolte differenece between the resccurence rate value to that of the desired value is less than this tolerance, the value of epsilon is accepted
+
+    eps_min    : double
+         Minimum value of the neighbourhood radius value to begin with for fixing the reccurrence rate
+
+    eps_max    : double
+         Maximum value of the neighbourhood radius value above which the search won't progress
+
+    eps_div    : double
+         Number of divisions between eps_min and eps_max
+
+    Returns
+    -------
+
+    Saves RPs for each of the signal present in the input directory. Additionally, in your root directory check for following files
+
+    Error_Report_Sheet : file
+           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError
+
+    param_Sheet        : file
+           The RQA parameter values for those signals for which the RPs were computed without any fail
+
+    References
+    ----------
+    - Webber Jr, C. L., & Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.
+    - Webber Jr, C. L., & Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.
+    - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+    - Marwan, N., Schinkel, S., & Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.
+    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
+    
+    '''
   path=input_path
   files=os.listdir(path)
   ERROROCC=[]
