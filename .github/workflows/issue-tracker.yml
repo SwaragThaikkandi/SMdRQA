@@ -1,0 +1,34 @@
+# A workflow config example
+name: Test tracker
+
+on:
+  # a cron schedule to run periodically
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  test_issue_tracker:
+    runs-on: ubuntu-latest
+    name: A job to test issue tracker
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Track issues
+      id: tracking
+      uses: actioncloud/issue-tracker-action@master
+      with:
+        github-token: ${{ secrets.GH_TOKEN }}
+    # you need git commit to push the issue data to the folder: .github/actioncloud
+    - name: Git commit
+      run: |
+        # git commit if there's any change
+        if test -n "$(git status --porcelain 2>/dev/null)"; then
+            git config --global user.email "idegorepl@gmail.com"
+            git config --global user.name "ActionCloud Bot"
+            git add .
+            git commit -m "Update forks data"
+            git push
+        fi
+    # you can get badge code of ActionCloud viewer App, and click it to view your data
+    - name: Check output
+      run: echo '${{ steps.tracking.outputs.actioncloud-badge }}'
