@@ -195,51 +195,51 @@ def findm_Plot(u,n,d,tau,sd,delta,Rmin,Rmax,rdiv,bound, save_path):
           pickle.dump(DICT, handle)
 
 def RP_diagnose(input_path, diagnose_dir,rdiv=451, Rmin=1, Rmax=10, delta=0.001, bound=0.2):
-   '''
-    Function to diagnose issues in finding the embedding dimension. It is similar to RP maker, but it deos not generate RP, nstead saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory
+  '''
+  Function to diagnose issues in finding the embedding dimension. It is similar to RP maker, but it deos not generate RP, nstead saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory
     
-    Parameters
-    ----------
+  Parameters
+  ----------
     
-    input_path : str
-        folder containing the numpy files, rows> number of samples, columns> number of streams
+  input_path : str
+       folder containing the numpy files, rows> number of samples, columns> number of streams
 
-    diagnose_dir : str
-        folder where the plots needed for checks should be saved
+  diagnose_dir : str
+      folder where the plots needed for checks should be saved
         
-    rdiv       : int
-        number of divisions(resolution) for the variable r during parameter search for embedding dimension
+  rdiv       : int
+       number of divisions(resolution) for the variable r during parameter search for embedding dimension
 
-    Rmax       : double
-        maximum value for the variable r during parameter search for embedding dimension
+  Rmax       : double
+       maximum value for the variable r during parameter search for embedding dimension
 
-    Rmin       : double
-        minimum value for the variable r during parameter search for embedding dimension
+  Rmin       : double
+       minimum value for the variable r during parameter search for embedding dimension
 
-    delta      : double
-        the tolerance value below which an FNN value will be considered as zero
+  delta      : double
+       the tolerance value below which an FNN value will be considered as zero
 
-    bound      : double
-         This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
-
-
-    Returns
-    -------
-
-    Saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory to a path specified as diagnose directory
-
-    Error_Report_Sheet : file
-           This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError. This is due to an issue at the time delay estimation part, check dimensionality of the data
+  bound      : double
+       This is the value in the r value(at which FNN hits zero) va embedding dimension plot. The search is terminated if the value goes below this tolerance value and the value just below tolerance value is reported for embedding dimmension
 
 
-    References
-    ----------
+  Returns
+  -------
 
-    - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+  Saves r vs FNN plot varying embedding dimensions and such plots are saved for each of the time series files present in the input directory to a path specified as diagnose directory
 
-    - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
+  Error_Report_Sheet : file
+          This is a csv file containing details of the files for which RP calculation was failed because of numpy.core._exceptions.MemoryError. This is due to an issue at the time delay estimation part, check dimensionality of the data
+
+
+  References
+  ----------
+
+  - Kennel, M. B., Brown, R., & Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.
+
+  - Kantz, H., & Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1
     
-    '''
+  '''
   path=input_path
   files=os.listdir(path)
   ERROROCC=[]
