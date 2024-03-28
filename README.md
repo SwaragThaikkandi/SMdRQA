@@ -20,7 +20,7 @@ SMdRQA with sliding window functionality empowers users to:
 - Gain insights into evolving system dynamics and behavior patterns with continuous monitoring and analysis.
 - Make informed decisions based on comprehensive temporal analysis results.
 
-**Who Should Use SMdRQA:**  
+**Who Might be Using the Package:**  
 - Researchers and academics studying temporal dynamics and patterns in multidimensional data using a sliding window approach.
 - Data scientists and analysts working with time series data from diverse domains requiring dynamic pattern detection.
 - Professionals seeking advanced tools for temporal analysis, pattern recognition, and dynamic modeling with sliding window analysis.
@@ -28,8 +28,63 @@ SMdRQA with sliding window functionality empowers users to:
 
 **Get Started with SMdRQA:**  
 Start leveraging the capabilities of Sliding Window Multidimensional Recurrent Quantification Analysis with SMdRQA. Dive into your time series data, uncover recurrent patterns dynamically, and gain valuable insights into temporal dynamics. Install SMdRQA now and embark on a journey of advanced temporal analysis and discovery with sliding window functionality.
+## Documentation
 
 For detailed documentation and usage instructions, visit the [SMdRQA Documentation](https://swaragthaikkandi.github.io/SMdRQA/repo_details.html).
+
+## Obtain SMdRQA
+
+You can obtain SMdRQA by following these steps:
+1. Clone the repository from GitHub using Git and install(cuttig edge version)
+   - Cloning
+     ```bash
+     git clone https://github.com/SwaragThaikkandi/SMdRQA.git
+     ```
+
+   - Installing
+     ```bash
+     pip install -e path/to/cloned/repository
+     ```
+2. Install directly from GitHub
+   ```bash
+   pip install git+https://github.com/SwaragThaikkandi/SMdRQA.git
+   ```
+3. Install using PyPI
+   ```bash
+   pip install SMdRQA
+   ```
+4. Install using Docker
+   ```bash
+   docker pull tsk365/smdrqa
+   ```
+## Provide Feedback
+
+Your feedback is valuable for improving SMdRQA. You can provide feedback in the following ways:
+
+- Report bugs or issues: Submit bug reports and issues on the [GitHub Issue Tracker](https://github.com/SwaragThaikkandi/SMdRQA/issues).
+- Suggest enhancements or new features: Share your ideas and suggestions for enhancements on the Issue Tracker.
+
+## Contribute to SMdRQA
+
+### Requirements for Acceptable Contributions
+
+- Ensure that your contributions align with the project's goals and objectives.
+- Follow the coding standards and guidelines outlined in our [Coding Standards](https://github.com/SwaragThaikkandi/SMdRQA/blob/main/CODING_STANDARDS.md) document.
+- Provide clear and detailed descriptions of your contributions, including any changes or enhancements made.
+- Test your code thoroughly to ensure it functions as intended and does not introduce any regressions.
+- Adhere to the project's licensing terms and copyright policies.
+
+### You can contribute to the development of SMdRQA by:
+
+1. Fork the repository on GitHub.
+2. Create a new branch for your contributions (`git checkout -b feature/your-feature-name`).
+3. Make your changes and commit them with clear and descriptive commit messages.
+4. Push your changes to your forked repository (`git push origin feature/your-feature-name`).
+5. Submit a pull request (PR) to the main repository for review and integration.
+
+We welcome contributions from the community to improve and enhance SMdRQA!
+
+For more detailed information on how to use SMdRQA, refer to the [SMdRQA Documentation](https://swaragthaikkandi.github.io/SMdRQA/repo_details.html).
 
 
 
