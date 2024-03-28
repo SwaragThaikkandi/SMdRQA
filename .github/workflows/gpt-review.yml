@@ -47,8 +47,8 @@ jobs:
 
       - name: Update RST file
         run: |
-          echo "Date: $(date)" >> /docs/gpt.rst
-          echo "Prompt:" >> /docs/GPT.rst
-          echo "${{ env.PROMPT }}" >> /docs/gpt.rst
-          echo "Output:" >> docs/GPT.rst
-          echo "${{ steps.gpt_code_review.outputs.response }}" >> /docs/gpt.rst
+          echo "Date: $(date)" >> gpt_output.rst
+          echo "Prompt:" >> gpt_output.rst
+          echo "${{ env.PROMPT }}" >> gpt_output.rst
+          echo "Output:" >> gpt_output.rst
+          echo "${{ steps.gpt_code_review.outputs.response }}" >> gpt_output.rst
