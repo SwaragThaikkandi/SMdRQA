@@ -23,9 +23,6 @@ jobs:
           pip install flake8 pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       
-      - name: PR Metrics
-        uses: microsoft/PR-Metrics@v1.5.12
-      
       - name: PR Description
         uses: platisd/openai-pr-description@master
         with:
