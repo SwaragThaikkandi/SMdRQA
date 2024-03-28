@@ -40,6 +40,8 @@ copyright = f"2024"
 author = 'Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.'
 
 # The short X.Y version.
+
+
 def find_version():
     result = re.search(
         r'{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format("__version__"),
@@ -93,7 +95,8 @@ napoleon_numpy_docstring = True
 napoleon_use_param = False
 napoleon_use_ivar = False
 napoleon_use_rtype = False
-add_module_names = False  # If true, the current module name will be prepended to all description
+# If true, the current module name will be prepended to all description
+add_module_names = False
 
 # -- Options for ipython directive  ----------------------------------------
 
