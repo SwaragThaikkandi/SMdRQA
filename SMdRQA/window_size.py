@@ -3,7 +3,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-import statannot
 from sklearn.metrics import log_loss
 
 from SMdRQA.RQA_functions import doanes_formula
