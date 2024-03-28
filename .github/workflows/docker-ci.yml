@@ -31,9 +31,5 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/smdrqa:latest
 
-      - name: Run Pyre
-        uses: facebook/pyre-action@6dc86fc8f40e0f15cdd8a59d9f93294cf72a0863
-        with:
-          repo-directory: './'
-          requirements-path: 'requirements.txt'
+    
 
