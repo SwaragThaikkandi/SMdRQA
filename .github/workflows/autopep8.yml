@@ -1,24 +1,32 @@
 name: autopep8
-on: pull_request
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Manual trigger
+
 jobs:
   autopep8:
-    # Check if the PR is not from a fork
-    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
           ref: ${{ github.head_ref }}
+
+      - name: Install autopep8
+        run: pip install autopep8
+
       - name: autopep8
         id: autopep8
-        uses: peter-evans/autopep8@v2
-        with:
-          args: --exit-code --recursive --in-place --aggressive --aggressive .
+        run: |
+          autopep8 --exit-code --recursive --in-place --aggressive --aggressive .
+
       - name: Commit autopep8 changes
         if: steps.autopep8.outputs.exit-code == 2
         run: |
-          git config --global user.name 'Peter Evans'
-          git config --global user.email 'peter-evans@users.noreply.github.com'
+          git config --global user.name ${{ secrets.GIT_USER_NAME }}
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
           git commit -am "Automated autopep8 fixes"
           git push
