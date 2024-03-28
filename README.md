@@ -155,7 +155,7 @@ For more detailed information on how to use SMdRQA, refer to the [SMdRQA Documen
 [![image](https://zenodo.org/badge/DOI/10.5281/zenodo.10854678.svg)](https://doi.org/10.5281/zenodo.10854678)
 [![image](https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA)](https://img.shields.io/github/license/SwaragThaikkandi/SMdRQA/LICENSE)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8707/badge)](https://www.bestpractices.dev/projects/8707)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/8719/badge)](https://www.bestpractices.dev/projects/8719)
 
 ## Package integrity
 
