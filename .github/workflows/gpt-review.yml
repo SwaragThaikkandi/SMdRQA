@@ -1,12 +1,15 @@
-name: GPT Code Review
+name: GPT Code Review and Update
 
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+  issues:
+    types: [opened, edited]
 
 jobs:
   test:
@@ -16,16 +19,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # Optional
-          LANGUAGE: Chinese
+          # Set language to English
+          LANGUAGE: English
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
           MODEL: gpt-3.5-turbo
           PROMPT: |
-            Please check if there are any confusions or irregularities in the codes.
+            Please check if there are any confusions or irregularities in the code.
 
             Additional Prompts:
-            - "Please check for any code sections that can be refactored for improved clarity."
-            - "Review the code for readability and suggest any changes to enhance understanding."
+            - "Please review the code for readability and suggest any changes to enhance understanding."
             - "Verify if the code follows best practices for modularization and structure."
             - "Assess the code's handling of error conditions and suggest improvements for robustness."
             - "Check for edge cases that might not be adequately handled in the code."
@@ -39,3 +41,34 @@ jobs:
           temperature: 1
           max_tokens: 10000
           MAX_PATCH_LENGTH: 10000
+
+      - name: Track and Label Issues
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: issues } = await github.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+            });
+            
+            const issueNumbers = issues.map(issue => issue.number);
+            core.setOutput('issueNumbers', issueNumbers.join(', '));
+
+            const newLabel = 'GPT Reviewed';
+            for (const issueNumber of issueNumbers) {
+              await github.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                labels: [newLabel],
+              });
+            }
+
+      - name: Update .md Files
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update README and other .md files"
+          commit_options: '--no-verify'
+          branch: ${{ github.event.repository.default_branch }}
