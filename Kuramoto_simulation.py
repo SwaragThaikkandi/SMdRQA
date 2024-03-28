@@ -1,4 +1,3 @@
-# import packahge
 import networkx as nx
 from SMdRQA.cross_validation import nested_cv
 from SMdRQA.cross_validation import feature_selection
