@@ -332,9 +332,10 @@ document.write(`
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
 
+
 <div class="viewcode-block" id="feature_selection">
 <a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.feature_selection">[docs]</a>
-<span class="k">def</span> <span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span> <span class="c1"># inner loop function</span>
+<span class="k">def</span> <span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function used for feature selection  using best subset setection and average cross validation accuracy</span>
 <span class="sd">    Input:____________________________________________________________________________________________________________________________________________</span>
@@ -352,148 +353,160 @@ document.write(`
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
     <span class="c1"># Load the data into a pandas DataFrame</span>
-    
-    <span class="k">if</span> <span class="n">select_k</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span> 
-      <span class="n">X</span><span class="o">=</span><span class="n">x_train</span>
-      <span class="n">Y</span><span class="o">=</span><span class="n">y_train</span>
-      <span class="c1"># Split the data into features and outcome variable=</span>
 
-      <span class="c1"># Define the number of features to consider in each subset</span>
-      <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">select_k</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">x_train</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="c1"># Split the data into features and outcome variable=</span>
 
-      <span class="c1"># Define the cross-validation scheme</span>
-      <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Define the number of features to consider in each subset</span>
+        <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-      <span class="c1"># Initialize variables to store the best feature set and its score</span>
-      <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">best_roc_auc</span><span class="o">=</span><span class="mi">0</span>
-      <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Define the cross-validation scheme</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-      <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
-      <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
-          <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-              <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
+        <span class="c1"># Initialize variables to store the best feature set and its score</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
 
-              <span class="c1"># Evaluate the score using cross-validation</span>
-              <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-              <span class="n">roc_aucs</span><span class="o">=</span><span class="p">[]</span>
-              <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-                  <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
-                  <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+        <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
 
-                  <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
-                  <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-                  <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
-                  <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
-                  <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-                  <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+                <span class="c1"># Evaluate the score using cross-validation</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
-              <span class="c1"># Calculate the mean score across cross-validation repeats</span>
-              <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-              <span class="n">mean_roc_auc</span><span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
+                    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+                    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                    <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                        <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
 
-              <span class="c1"># Update the best feature set if necessary</span>
-              <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
-                  <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
-                  <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
-                  <span class="n">best_roc_auc</span><span class="o">=</span> <span class="n">mean_roc_auc</span>
+                <span class="c1"># Calculate the mean score across cross-validation repeats</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="n">mean_roc_auc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
 
-      <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span>
-      
-    <span class="k">elif</span> <span class="n">select_k</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
-      <span class="n">X</span><span class="o">=</span><span class="n">x_train</span>
-      <span class="n">Y</span><span class="o">=</span><span class="n">y_train</span>
-      <span class="n">k_max</span><span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-      
-      
-             
-      
-      <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c1"># Update the best feature set if necessary</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
+                    <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="n">mean_roc_auc</span>
 
-      <span class="c1"># Define the cross-validation scheme</span>
-      <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span>
 
-      <span class="c1"># Initialize variables to store the best feature set and its score</span>
-      <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">best_roc_auc</span><span class="o">=</span><span class="mi">0</span>
-      <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="n">select_k</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">x_train</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="n">k_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
-      <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
-      <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
-          <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-              <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
+        <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 
-              <span class="c1"># Evaluate the score using cross-validation</span>
-              <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
-              <span class="n">roc_aucs</span><span class="o">=</span><span class="p">[]</span>
-              <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-                  <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
-                  <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+        <span class="c1"># Define the cross-validation scheme</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-                  <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
-                  <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-                  <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
-                  <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
-                  <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-                  <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+        <span class="c1"># Initialize variables to store the best feature set and its score</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
 
-              <span class="c1"># Calculate the mean score across cross-validation repeats</span>
-              <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
-              <span class="n">mean_roc_auc</span><span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
+        <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
 
-              <span class="c1"># Update the best feature set if necessary</span>
-              <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
-                  <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
-                  <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
-                  <span class="n">best_roc_auc</span><span class="o">=</span> <span class="n">mean_roc_auc</span>
-      
-      
-      <span class="n">neighbour_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k_max</span><span class="p">)</span>
-      
-      <span class="n">cv1</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span><span class="o">*</span><span class="n">repeats</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-      
-      <span class="n">best_score1</span><span class="o">=</span><span class="mi">0</span>
-      <span class="n">best_roc_suc1</span><span class="o">=</span><span class="mi">0</span>
-      <span class="n">best_neigh</span><span class="o">=</span> <span class="kc">None</span>
-      <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">)]</span>
-      <span class="k">for</span> <span class="n">neigh</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">neighbour_values</span><span class="p">):</span>
-          <span class="n">scores1</span><span class="o">=</span><span class="p">[]</span>
-          <span class="n">roc_aucs1</span><span class="o">=</span><span class="p">[]</span>
-          <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
-              <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
-              <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
-              <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">neigh</span><span class="p">)</span>
-              <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-              <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
-              <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
-              <span class="n">scores1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-              <span class="n">roc_aucs1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
-              
-          <span class="n">mean_score1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span>
-          <span class="n">mean_roc_auc1</span><span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span>
-          
-          <span class="k">if</span> <span class="n">mean_score1</span> <span class="o">&gt;</span> <span class="n">best_score1</span><span class="p">:</span>
-             <span class="n">best_score1</span> <span class="o">=</span> <span class="n">mean_score1</span>
-             <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">neigh</span>
-             <span class="n">best_roc_auc1</span><span class="o">=</span> <span class="n">mean_roc_auc1</span> 
-             
-          
-          
-      <span class="c1">#best_neigh = max(best_neigh, 5) </span>
-                
-      <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span></div>
+                <span class="c1"># Evaluate the score using cross-validation</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
-          
-      
-      
+                    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+                    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                    <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                        <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+                <span class="c1"># Calculate the mean score across cross-validation repeats</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="n">mean_roc_auc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
+
+                <span class="c1"># Update the best feature set if necessary</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
+                    <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="n">mean_roc_auc</span>
+
+        <span class="n">neighbour_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k_max</span><span class="p">)</span>
+
+        <span class="n">cv1</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">best_score1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_suc1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_neigh</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">neigh</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">neighbour_values</span><span class="p">):</span>
+            <span class="n">scores1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">roc_aucs1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">neigh</span><span class="p">)</span>
+                <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                    <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">scores1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                <span class="n">roc_aucs1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+            <span class="n">mean_score1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span>
+            <span class="n">mean_roc_auc1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">mean_score1</span> <span class="o">&gt;</span> <span class="n">best_score1</span><span class="p">:</span>
+                <span class="n">best_score1</span> <span class="o">=</span> <span class="n">mean_score1</span>
+                <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">neigh</span>
+                <span class="n">best_roc_auc1</span> <span class="o">=</span> <span class="n">mean_roc_auc1</span>
+
+        <span class="c1"># best_neigh = max(best_neigh, 5)</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span></div>
+
+
 
 <div class="viewcode-block" id="nested_cv">
 <a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.nested_cv">[docs]</a>
-<span class="k">def</span> <span class="nf">nested_cv</span><span class="p">(</span><span class="n">data_file</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">outname</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">nested_cv</span><span class="p">(</span>
+        <span class="n">data_file</span><span class="p">,</span>
+        <span class="n">features</span><span class="p">,</span>
+        <span class="n">y_name</span><span class="p">,</span>
+        <span class="n">outname</span><span class="p">,</span>
+        <span class="n">repeats</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection</span>
 <span class="sd">    Input:__________________________________________________________________________________________________________________</span>
-<span class="sd">    data_file             : pandas dataframe </span>
+<span class="sd">    data_file             : pandas dataframe</span>
 <span class="sd">    features              : features that should be used (column names)</span>
 <span class="sd">    y_name                : outcome column name</span>
 <span class="sd">    outname               : Name that should be added to the output file</span>
@@ -505,9 +518,7 @@ document.write(`
 <span class="sd">    CSV File              : containing cross validation accuracy and ROC AUC for each of the outer loops</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-    
 
-      
     <span class="c1"># Load the data into a pandas DataFrame</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">data_file</span>
 
@@ -516,23 +527,27 @@ document.write(`
     <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">y_name</span><span class="p">]</span>
 
     <span class="c1"># Define the cross-validation scheme for the outer loop</span>
-    <span class="n">outer_cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="n">outer_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span><span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">outer_cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+        <span class="n">n_splits</span><span class="o">=</span><span class="n">outer_splits</span><span class="p">,</span>
+        <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Initialize variables to store the best feature set and its score</span>
     <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">FEATURES</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">ACCURACY</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">ROC_AUC</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">val_ACC</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">val_ROC_AUC</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">FEATURES</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ACCURACY</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ROC_AUC</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">val_ACC</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">val_ROC_AUC</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Iterate over the outer cross-validation splits</span>
     <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">outer_cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)):</span>
         <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
         <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
 
         <span class="c1"># Define the cross-validation scheme for the inner loop</span>
-        <span class="n">best_features</span><span class="p">,</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">feature_selection</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span><span class="n">select_k</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">inner_repeats</span><span class="p">)</span>
+        <span class="n">best_features</span><span class="p">,</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">feature_selection</span><span class="p">(</span>
+            <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">inner_repeats</span><span class="p">)</span>
         <span class="n">val_ACC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_score</span><span class="p">)</span>
         <span class="n">val_ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_roc_auc</span><span class="p">)</span>
         <span class="n">FEATURES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_features</span><span class="p">)</span>
@@ -542,14 +557,18 @@ document.write(`
         <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">]))</span>
         <span class="n">ACCURACY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;accuracy:&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
-        <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">])[:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+            <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span>
+                <span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">])[</span>
+                <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
         <span class="n">ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
 
-    
-    <span class="n">DF_out</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;features&#39;</span><span class="p">:</span><span class="n">FEATURES</span><span class="p">,</span> <span class="s1">&#39;validation_ROC_AUC&#39;</span><span class="p">:</span><span class="n">val_ROC_AUC</span><span class="p">,</span> <span class="s1">&#39;validation_accuracy&#39;</span><span class="p">:</span><span class="n">val_ACC</span><span class="p">,</span><span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span><span class="n">ACCURACY</span><span class="p">,</span> <span class="s1">&#39;test_ROC_AUC&#39;</span><span class="p">:</span><span class="n">ROC_AUC</span><span class="p">})</span>
-    <span class="n">DF_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Nested_CV_&#39;</span><span class="o">+</span><span class="n">outname</span><span class="o">+</span><span class="s1">&#39;_fin_results.csv&#39;</span><span class="p">)</span></div>
-
-
+    <span class="n">DF_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">FEATURES</span><span class="p">,</span>
+                                     <span class="s1">&#39;validation_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">val_ROC_AUC</span><span class="p">,</span>
+                                     <span class="s1">&#39;validation_accuracy&#39;</span><span class="p">:</span> <span class="n">val_ACC</span><span class="p">,</span>
+                                     <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">ACCURACY</span><span class="p">,</span>
+                                     <span class="s1">&#39;test_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">ROC_AUC</span><span class="p">})</span>
+    <span class="n">DF_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Nested_CV_&#39;</span> <span class="o">+</span> <span class="n">outname</span> <span class="o">+</span> <span class="s1">&#39;_fin_results.csv&#39;</span><span class="p">)</span></div>
 
 </pre></div>
 

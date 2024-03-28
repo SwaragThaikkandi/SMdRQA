@@ -324,7 +324,21 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for SMdRQA.RQA_functions</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="kn">import</span> <span class="nn">memory_profiler</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
 <span class="kn">import</span> <span class="nn">operator</span>
 <span class="kn">import</span> <span class="nn">contextlib</span>
@@ -335,55 +349,29 @@ document.write(`
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
-<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
-<span class="kn">import</span> <span class="nn">memory_profiler</span>
 
-<span class="k">def</span> <span class="nf">doanes_formula</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">doanes_formula</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Functions for computing number of bins for data using Doane&#39;s formula</span>
 <span class="sd">    data : input array</span>
 <span class="sd">    n : number of elements in data</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    
+
     <span class="n">g1</span> <span class="o">=</span> <span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">sigma_g1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)))</span>
 
     <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma_g1</span><span class="p">)</span>
-    
+
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span>
-      <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>  <span class="c1"># Round up to the nearest integer</span>
+        <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>  <span class="c1"># Round up to the nearest integer</span>
 
     <span class="k">return</span> <span class="n">k</span>
-    
+
+
 <div class="viewcode-block" id="binscalc">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">[docs]</a>
-<span class="k">def</span> <span class="nf">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.</span>
 
@@ -391,10 +379,10 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    x   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
-<span class="sd">        </span>
-<span class="sd">    n   : int </span>
+
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -410,49 +398,49 @@ document.write(`
 <span class="sd">    - Birgé, Lucien, and Yves Rozenholc. &quot;How many bins should be put in a regular histogram.&quot; ESAIM: Probability and Statistics 10 (2006): 24-45.</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FD&#39;</span><span class="p">:</span> <span class="c1">#generalised Freedman–Diaconis rule.</span>
-      <span class="n">mult_fact</span><span class="o">=</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">+</span><span class="n">d</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))))</span> <span class="c1"># Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-      <span class="n">inf_arr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-      <span class="n">sup_arr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-      <span class="n">q25</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-      <span class="n">q75</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mf">0.75</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-      <span class="n">IQR</span><span class="o">=</span><span class="p">(</span><span class="n">q75</span><span class="o">-</span><span class="n">q25</span><span class="p">)</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;IQR:&#39;</span><span class="p">,</span><span class="n">IQR</span><span class="p">)</span>
-      <span class="n">Bins_1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mult_fact</span><span class="o">*</span><span class="p">(</span><span class="n">sup_arr</span><span class="o">-</span><span class="n">inf_arr</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">IQR</span><span class="p">))</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span><span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
-      <span class="n">ns</span><span class="o">=</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">d</span>
-      <span class="n">Bins_1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-      
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FD&#39;</span><span class="p">:</span>  <span class="c1"># generalised Freedman–Diaconis rule.</span>
+        <span class="c1"># Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))</span>
+        <span class="n">mult_fact</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">inf_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sup_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q25</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q75</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">IQR</span> <span class="o">=</span> <span class="p">(</span><span class="n">q75</span> <span class="o">-</span> <span class="n">q25</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;IQR:&#39;</span><span class="p">,</span> <span class="n">IQR</span><span class="p">)</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mult_fact</span> <span class="o">*</span> <span class="p">(</span><span class="n">sup_arr</span> <span class="o">-</span> <span class="n">inf_arr</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;rice&#39;</span><span class="p">:</span>
-      <span class="n">ns</span><span class="o">=</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">d</span>
-      <span class="n">Bins_1</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sturges&#39;</span><span class="p">:</span>
-      <span class="n">ns</span><span class="o">=</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">*</span><span class="n">d</span>
-      <span class="n">Bins_1</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span><span class="o">==</span> <span class="s1">&#39;doanes&#39;</span><span class="p">:</span>
-      <span class="n">Bins_1</span><span class="o">=</span><span class="n">doanes_formula</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-      
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;doanes&#39;</span><span class="p">:</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">doanes_formula</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
-      <span class="n">Bins</span><span class="o">=</span><span class="mi">15</span>
-      
-    
-    <span class="c1">#print(&#39;inf:&#39;,inf)</span>
-    <span class="c1">#print(&#39;sup:&#39;,sup)</span>
-    <span class="c1">#print(&#39;IQR:&#39;,iqr)</span>
-     
+        <span class="n">Bins</span> <span class="o">=</span> <span class="mi">15</span>
+
+    <span class="c1"># print(&#39;inf:&#39;,inf)</span>
+    <span class="c1"># print(&#39;sup:&#39;,sup)</span>
+    <span class="c1"># print(&#39;IQR:&#39;,iqr)</span>
+
     <span class="k">return</span> <span class="n">Bins</span></div>
 
-    
+
 
 <div class="viewcode-block" id="mutualinfo">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[docs]</a>
-<span class="k">def</span> <span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate mutual information between to time series</span>
 
@@ -463,10 +451,10 @@ document.write(`
 
 <span class="sd">    y   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  second time series</span>
-<span class="sd">        </span>
-<span class="sd">    n   : int </span>
+
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -482,23 +470,28 @@ document.write(`
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">points</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">d</span><span class="p">,</span><span class="s1">&#39;FD&#39;</span><span class="p">)</span>   
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BINS:&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>    
-    <span class="c1">###print(&#39;bins:&#39;,bins.shape)</span>
-    <span class="c1">###print(&#39;points:&#39;,points.shape)</span>
-    <span class="n">p_xy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">d</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span> <span class="c1"># 10^-9 added so that x log x does not diverge when x=0 in the calculation of mutual information</span>
-    <span class="n">p_x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">p_y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">p_xy</span><span class="o">/=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span><span class="p">)</span> <span class="c1"># Normalising the probability distribution</span>
-    <span class="n">p_x</span><span class="o">/=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span><span class="p">)</span>
-    <span class="n">p_y</span><span class="o">/=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_xy</span><span class="p">))</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_x</span><span class="p">))</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span> <span class="c1"># formula for mutual information</span></div>
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;FD&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BINS:&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="c1"># print(&#39;bins:&#39;,bins.shape)</span>
+    <span class="c1"># print(&#39;points:&#39;,points.shape)</span>
+    <span class="c1"># 10^-9 added so that x log x does not diverge when x=0 in the calculation</span>
+    <span class="c1"># of mutual information</span>
+    <span class="n">p_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span>
+        <span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_xy</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span><span class="p">)</span>  <span class="c1"># Normalising the probability distribution</span>
+    <span class="n">p_x</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_xy</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_x</span><span class="p">))</span> <span class="o">-</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span>  <span class="c1"># formula for mutual information</span></div>
+
 
 
 <div class="viewcode-block" id="timedelayMI">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[docs]</a>
-<span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
 
@@ -507,9 +500,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -528,14 +521,15 @@ document.write(`
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">X</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span><span class="o">-</span><span class="n">tau</span><span class="p">,:]</span>
-    <span class="n">Y</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,:]</span>
-    <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">tau</span><span class="p">,</span><span class="n">d</span><span class="p">)</span></div>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span></div>
 
-    
+
+
 <div class="viewcode-block" id="findtau">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
-<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">grp</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
@@ -544,9 +538,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -557,28 +551,27 @@ document.write(`
 <span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    
-    <span class="n">TAU</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">MIARR</span><span class="o">=</span><span class="p">[]</span>
-    <span class="n">minMI</span><span class="o">=</span><span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
-        <span class="n">nextMI</span><span class="o">=</span><span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">)</span>
+
+    <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">minMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
         <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
         <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">nextMI</span><span class="o">&gt;</span><span class="n">minMI</span><span class="p">:</span>
-          <span class="k">break</span>
-        <span class="n">minMI</span><span class="o">=</span><span class="n">nextMI</span>
-        
-        
-    
-    <span class="k">return</span> <span class="n">tau</span><span class="o">-</span><span class="mi">1</span></div>
+        <span class="k">if</span> <span class="n">nextMI</span> <span class="o">&gt;</span> <span class="n">minMI</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">minMI</span> <span class="o">=</span> <span class="n">nextMI</span>
+
+    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
-<span class="c1">#### Calculation of m ###################################################################################################################################################################</span>
+<span class="c1">#### Calculation of m ####################################################</span>
+
 
 <div class="viewcode-block" id="delayseries">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.delayseries">[docs]</a>
-<span class="k">def</span> <span class="nf">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
@@ -587,9 +580,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -608,18 +601,19 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
-            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">*</span><span class="n">tau</span><span class="p">]</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tau</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">s</span></div>
+
 
 
 <div class="viewcode-block" id="nearest">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.nearest">[docs]</a>
-<span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations</span>
 
@@ -628,9 +622,9 @@ document.write(`
 <span class="sd">    s   : ndarray</span>
 <span class="sd">        3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -649,20 +643,22 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">nn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">nn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="o">-</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">j</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">&lt;</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])):</span>
-                <span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">j</span>
+    <span class="n">nn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">nn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                    <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])):</span>
+                <span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
     <span class="k">return</span> <span class="n">nn</span></div>
 
-                
+
+
 <div class="viewcode-block" id="fnnratio">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnratio">[docs]</a>
-<span class="k">def</span> <span class="nf">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">sig</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that calculates the ratio of false nearest neighbours</span>
 
@@ -671,9 +667,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -698,26 +694,28 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Kennel, M. B., Brown, R., &amp; Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">s1</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>     <span class="c1"># embedding in m dimensions</span>
-    <span class="n">s2</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># embedding in m+1 dimensions</span>
-    <span class="n">nn</span><span class="o">=</span><span class="n">nearest</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>        <span class="c1"># containg nearest neghbours after embedding in m dimensions</span>
-    <span class="n">isneigh</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>
-    <span class="n">isfalse</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">m</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-        <span class="n">disto</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s1</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-        <span class="n">distp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s2</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">disto</span><span class="o">&lt;</span><span class="n">sig</span><span class="o">/</span><span class="n">r</span><span class="p">):</span>
-            <span class="n">isneigh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">distp</span><span class="o">/</span><span class="n">disto</span><span class="o">&gt;</span><span class="n">r</span><span class="p">):</span>
-                <span class="n">isfalse</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span><span class="o">*</span><span class="n">isfalse</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span><span class="p">)</span><span class="o">+</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span></div>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>     <span class="c1"># embedding in m dimensions</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># embedding in m+1 dimensions</span>
+    <span class="c1"># containg nearest neghbours after embedding in m dimensions</span>
+    <span class="n">nn</span> <span class="o">=</span> <span class="n">nearest</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">isneigh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">isfalse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="n">disto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s1</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">distp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s2</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">disto</span> <span class="o">&lt;</span> <span class="n">sig</span> <span class="o">/</span> <span class="n">r</span><span class="p">):</span>
+            <span class="n">isneigh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">distp</span> <span class="o">/</span> <span class="n">disto</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">):</span>
+                <span class="n">isfalse</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span> <span class="o">*</span> <span class="n">isfalse</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span></div>
+
 
 
 <div class="viewcode-block" id="fnnhitszero">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnhitszero">[docs]</a>
-<span class="k">def</span> <span class="nf">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sig</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that finds the value of r at which the FNN ratio can be effectively considered as zero</span>
 
@@ -726,9 +724,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -765,18 +763,19 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">Rarr</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
+    <span class="n">Rarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rdiv</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">sig</span><span class="p">)</span><span class="o">&lt;</span><span class="n">delta</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sig</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">delta</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
 
-    
+
+
 <div class="viewcode-block" id="findm">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findm">[docs]</a>
-<span class="k">def</span> <span class="nf">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">,</span><span class="n">bound</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">,</span> <span class="n">bound</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)</span>
 
@@ -785,9 +784,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -827,34 +826,31 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-   
-    <span class="n">mmax</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">d</span><span class="o">+</span><span class="mi">11</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rm</span><span class="o">=</span><span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">mmax</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
-    <span class="n">rmp</span><span class="o">=</span><span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">mmax</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
-    
-    <span class="k">if</span><span class="p">(</span><span class="n">rm</span><span class="o">-</span><span class="n">rmp</span><span class="o">&gt;</span><span class="n">bound</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">mmax</span><span class="o">+</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mmax</span><span class="p">):</span>
-        <span class="n">rmp</span><span class="o">=</span><span class="n">rm</span>
-        <span class="n">rm</span><span class="o">=</span><span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">mmax</span><span class="o">-</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rm-rmp:&#39;</span><span class="p">,</span><span class="n">rm</span><span class="o">-</span><span class="n">rmp</span><span class="p">)</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">rm</span><span class="o">-</span><span class="n">rmp</span><span class="o">&gt;</span><span class="n">bound</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">mmax</span><span class="o">+</span><span class="mi">1</span><span class="o">-</span><span class="n">m</span>
-              
-          
-            
-    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> </div>
 
-      
-    
-    
-<span class="c1">### Calculation of epsilon ######################################################################################################################################################</span>
-   
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">mmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">11</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+    <span class="n">rmp</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mmax</span><span class="p">):</span>
+        <span class="n">rmp</span> <span class="o">=</span> <span class="n">rm</span>
+        <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">-</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rm-rmp:&#39;</span><span class="p">,</span> <span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">m</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+
+<span class="c1">### Calculation of epsilon ###############################################</span>
+
 <div class="viewcode-block" id="reccplot">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccplot">[docs]</a>
-<span class="k">def</span> <span class="nf">reccplot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">eps</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">reccplot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
@@ -863,9 +859,9 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of samples or observations in the time series</span>
-<span class="sd">        </span>
+
 <span class="sd">    d   : int</span>
 <span class="sd">        number of measurements or dimensions of the data</span>
 
@@ -888,34 +884,48 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1">#normarr=[]</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> 
-    <span class="n">rplot</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-            <span class="c1">#normarr.append(np.linalg.norm(s[i]-s[j]))</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">&lt;</span><span class="n">eps</span><span class="p">:</span>
-                <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>          
+    <span class="c1"># normarr=[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="c1"># normarr.append(np.linalg.norm(s[i]-s[j]))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
+                <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">rplot</span></div>
 
 
-<span class="k">def</span> <span class="nf">embedded_signal</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="n">rdiv</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span> <span class="n">Rmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Rmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rr_delta</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">epsmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">epsdiv</span><span class="o">=</span><span class="mi">1001</span><span class="p">):</span>
-    <span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">n</span><span class="o">=</span><span class="n">M</span>
-    <span class="n">d</span><span class="o">=</span><span class="n">N</span>
-    <span class="n">u</span><span class="o">=</span><span class="n">data</span>
-    <span class="n">sd</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
-    <span class="n">tau</span><span class="o">=</span><span class="n">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">m</span><span class="o">=</span><span class="n">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">sd</span><span class="p">,</span><span class="n">delta</span><span class="p">,</span><span class="n">Rmin</span><span class="p">,</span><span class="n">Rmax</span><span class="p">,</span><span class="n">rdiv</span><span class="p">,</span><span class="n">bound</span><span class="p">)</span>
-    <span class="n">embedded</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> 
+
+<span class="k">def</span> <span class="nf">embedded_signal</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rdiv</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+        <span class="n">Rmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">Rmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">rr_delta</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>
+        <span class="n">epsmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">epsmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">epsdiv</span><span class="o">=</span><span class="mi">1001</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">/</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">M</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">,</span> <span class="n">bound</span><span class="p">)</span>
+    <span class="n">embedded</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">embedded</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span>
-    
+
+
 <div class="viewcode-block" id="reccrate">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">[docs]</a>
-<span class="k">def</span> <span class="nf">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
@@ -924,7 +934,7 @@ document.write(`
 <span class="sd">    rplot: ndarray</span>
 <span class="sd">        recurrence plot</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 
@@ -937,14 +947,15 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rplot</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>    </div>
 
-    
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rplot</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="findeps">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findeps">[docs]</a>
-<span class="k">def</span> <span class="nf">findeps</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">reqrr</span><span class="p">,</span><span class="n">rr_delta</span><span class="p">,</span><span class="n">epsmin</span><span class="p">,</span><span class="n">epsmax</span><span class="p">,</span><span class="n">epsdiv</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findeps</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
@@ -953,7 +964,7 @@ document.write(`
 <span class="sd">    u   : ndarray</span>
 <span class="sd">        multidimensional time series data</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        number of observations</span>
 
 <span class="sd">    d   : int</span>
@@ -990,45 +1001,46 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">eps</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span><span class="n">epsmax</span><span class="p">,</span><span class="n">epsdiv</span><span class="p">)</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">,</span><span class="n">tau</span><span class="p">,</span><span class="n">m</span><span class="p">)</span> 
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epsdiv</span><span class="p">):</span>
-        <span class="n">rplot</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">&lt;</span><span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
-                    <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
-        <span class="n">rr</span><span class="o">=</span><span class="n">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="p">(</span><span class="n">m</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rr</span><span class="o">-</span><span class="n">reqrr</span><span class="p">)</span><span class="o">&lt;</span><span class="n">rr_delta</span><span class="p">:</span>
+        <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                    <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rr</span> <span class="o">-</span> <span class="n">reqrr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rr_delta</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-        
-          
+
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
 
 
-<span class="c1">### Calculation of RQA parameters #######################################################################################################################################################</span>
+<span class="c1">### Calculation of RQA parameters ########################################</span>
 
-<span class="k">def</span> <span class="nf">plotwindow</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">win</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">):</span>
-    <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">win</span><span class="p">,</span><span class="n">win</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">plotwindow</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">win</span><span class="p">,</span> <span class="n">win</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">win</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">win</span><span class="p">):</span>
-            <span class="n">window</span><span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span><span class="o">=</span><span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">a</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">b</span><span class="p">]</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">window</span>
+
 
 <div class="viewcode-block" id="vert_hist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.vert_hist">[docs]</a>
-<span class="k">def</span> <span class="nf">vert_hist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="c1">##### Functio to calculate vertical line distribution</span>
+<span class="k">def</span> <span class="nf">vert_hist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Functio to calculate vertical line distribution</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to compute vertical line distribution(counts of line lengths)</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    m   : ndarray</span>
 <span class="sd">        recurrence plot</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1044,49 +1056,51 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">nvert</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">nvert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="n">counter</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-                <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">nvert</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">counter</span><span class="p">)]</span><span class="o">+=</span><span class="mi">1</span>
-                <span class="n">counter</span><span class="o">=</span><span class="mi">0</span>
-        <span class="n">nvert</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">nvert</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">counter</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">nvert</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">nvert</span></div>
+
 
 
 <div class="viewcode-block" id="onedhist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.onedhist">[docs]</a>
-<span class="k">def</span> <span class="nf">onedhist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">hst</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">counter</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">def</span> <span class="nf">onedhist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">hst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">counter</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
-            <span class="n">counter</span><span class="o">=</span><span class="mi">0</span>
-    <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">hst</span></div>
+
 
 
 <div class="viewcode-block" id="diaghist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.diaghist">[docs]</a>
-<span class="k">def</span> <span class="nf">diaghist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>   <span class="c1">#Function to calculate diagonal line distribution</span>
+<span class="k">def</span> <span class="nf">diaghist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Function to calculate diagonal line distribution</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to compute diagonal line distribution(counts of line lengths)</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    </span>
+
 <span class="sd">    m   : ndarray</span>
 <span class="sd">        recurrence plot</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1102,35 +1116,34 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">dghist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">dghist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="n">diag</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">):</span>
-            <span class="n">diag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
-        <span class="n">subdiaghist</span><span class="o">=</span><span class="n">onedhist</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">dghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">+=</span><span class="n">subdiaghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
-    <span class="n">dghist</span><span class="o">*=</span><span class="mi">2</span>
-    <span class="n">dghist</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">/=</span><span class="mi">2</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">subdiaghist</span> <span class="o">=</span> <span class="n">onedhist</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">subdiaghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">dghist</span> <span class="o">*=</span> <span class="mi">2</span>
+    <span class="n">dghist</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">dghist</span></div>
 
 
 
-    
-<span class="c1">### Measures to capture probability distributions #######################################################################################################################################</span>
+<span class="c1">### Measures to capture probability distributions ########################</span>
 
 <div class="viewcode-block" id="percentmorethan">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.percentmorethan">[docs]</a>
-<span class="k">def</span> <span class="nf">percentmorethan</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">percentmorethan</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to compute determinism and laminarity from the histogram distribution of lines</span>
 
-<span class="sd">    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either </span>
+<span class="sd">    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either</span>
 <span class="sd">    vertical or horizontal. The definition of a linear structure on an RP is based on the minimum length(mini)</span>
 <span class="sd">    given as an input</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    hst   : array</span>
@@ -1139,7 +1152,7 @@ document.write(`
 <span class="sd">    mini  : int</span>
 <span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1155,23 +1168,24 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">numer</span><span class="o">=</span><span class="mi">0</span>
-    <span class="n">denom</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">numer</span><span class="o">+=</span><span class="n">i</span><span class="o">*</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">denom</span><span class="o">+=</span><span class="n">i</span><span class="o">*</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">numer</span><span class="o">/</span><span class="n">denom</span></div>
+    <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">numer</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">denom</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">denom</span></div>
+
 
 
 <div class="viewcode-block" id="mode">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mode">[docs]</a>
-<span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to find mode of the line distributions</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    hst   : array</span>
@@ -1180,7 +1194,7 @@ document.write(`
 <span class="sd">    mini  : int</span>
 <span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1196,21 +1210,22 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">p</span><span class="o">=</span><span class="n">mini</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;</span><span class="n">hst</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
-            <span class="n">p</span><span class="o">=</span><span class="n">i</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">mini</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">hst</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
     <span class="k">return</span> <span class="n">p</span></div>
 
-    
+
+
 <div class="viewcode-block" id="maxi">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">[docs]</a>
-<span class="k">def</span> <span class="nf">maxi</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">maxi</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    maximum value in the line length distribution</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    hst   : array</span>
@@ -1219,7 +1234,7 @@ document.write(`
 <span class="sd">    mini  : int</span>
 <span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1235,21 +1250,22 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">lmax</span><span class="o">=</span><span class="mi">1</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-      <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
-        <span class="n">lmax</span><span class="o">=</span><span class="n">i</span>
+    <span class="n">lmax</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lmax</span> <span class="o">=</span> <span class="n">i</span>
     <span class="k">return</span> <span class="n">lmax</span></div>
+
 
 
 <div class="viewcode-block" id="average">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.average">[docs]</a>
-<span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to find mean of the line distributions</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    hst   : array</span>
@@ -1258,7 +1274,7 @@ document.write(`
 <span class="sd">    mini  : int</span>
 <span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1274,22 +1290,23 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">numer</span><span class="o">=</span><span class="mi">0</span>
-    <span class="n">denom</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">numer</span><span class="o">+=</span><span class="n">i</span><span class="o">*</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">denom</span><span class="o">+=</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">numer</span><span class="o">/</span><span class="n">denom</span></div>
 
-    
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">numer</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">denom</span> <span class="o">+=</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">denom</span></div>
+
+
+
 <div class="viewcode-block" id="entropy">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.entropy">[docs]</a>
-<span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to find entropy of the line distributions</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    hst   : array</span>
@@ -1298,7 +1315,7 @@ document.write(`
 <span class="sd">    mini  : int</span>
 <span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
 
-<span class="sd">    n   : int </span>
+<span class="sd">    n   : int</span>
 <span class="sd">        length of RP</span>
 
 <span class="sd">    Returns</span>
@@ -1314,18 +1331,16 @@ document.write(`
 <span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
-<span class="sd">    </span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">summ</span><span class="o">=</span><span class="mi">0</span>
-    <span class="n">entr</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">summ</span><span class="o">+=</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">):</span>
-            <span class="n">entr</span><span class="o">-=</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">summ</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">summ</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">entr</span></div>
 
-    
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">summ</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">entr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">summ</span> <span class="o">+=</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">entr</span> <span class="o">-=</span> <span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">summ</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">summ</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">entr</span></div>
 
 </pre></div>
 
