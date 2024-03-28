@@ -80,7 +80,7 @@ Your feedback is valuable for improving SMdRQA. You can provide feedback in the 
 2. Create a new branch for your contributions (`git checkout -b feature/your-feature-name`).
 3. Make your changes and commit them with clear and descriptive commit messages.
 4. Push your changes to your forked repository (`git push origin feature/your-feature-name`).
-5. Submit a pull request (PR) to the main repository for review and integration.
+5. Submit a pull request (PR) to the main repository for review and integration
 
 We welcome contributions from the community to improve and enhance SMdRQA!
 
