@@ -52,3 +52,5 @@ jobs:
           echo "${{ env.PROMPT }}" >> gpt_output.rst
           echo "Output:" >> gpt_output.rst
           echo "${{ steps.gpt_code_review.outputs.response }}" >> gpt_output.rst
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
