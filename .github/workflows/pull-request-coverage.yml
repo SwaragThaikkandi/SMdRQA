@@ -1,0 +1,35 @@
+name: Pull Request Coverage
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  review_pull_request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Build coverage file
+        run: |
+          pytest --cache-clear --cov=app test/ > pytest-coverage.txt
+      
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
+      
+      - name: Complete Review
+        run: |
+          echo "Review completed for pull request"
