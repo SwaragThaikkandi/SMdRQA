@@ -17,6 +17,7 @@ These coding standards are intended to ensure consistency, readability, and main
 - Use consistent indentation with four spaces for each level of indentation.
 - Limit lines to a maximum of 79 characters to ensure readability.
 - Use blank lines to separate logical sections of code for clarity.
+- This repository has auto PIP8 formatting enabled
 
 ### Comments and Documentation
 
