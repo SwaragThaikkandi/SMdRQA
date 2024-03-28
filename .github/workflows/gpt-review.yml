@@ -54,3 +54,6 @@ jobs:
           echo "${{ steps.gpt_code_review.outputs.response }}" >> gpt_output.rst
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Check if RST file exists
+        run: ls -l gpt_output.rst
