@@ -47,13 +47,19 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: issues } = await github.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-            });
-            
-            const issueNumbers = issues.map(issue => issue.number);
+            const { issues } = await github.graphql(`
+              query {
+                repository(owner: "${{ github.repository_owner }}", name: "${{ github.event.repository.name }}") {
+                  issues(states: OPEN) {
+                    nodes {
+                      number
+                    }
+                  }
+                }
+              }
+            `);
+      
+            const issueNumbers = issues.repository.issues.nodes.map(issue => issue.number);
             core.setOutput('issueNumbers', issueNumbers.join(', '));
 
             const newLabel = 'GPT Reviewed';
@@ -65,6 +71,7 @@ jobs:
                 labels: [newLabel],
               });
             }
+
 
       - name: Update .md Files
         uses: stefanzweifel/git-auto-commit-action@v4
