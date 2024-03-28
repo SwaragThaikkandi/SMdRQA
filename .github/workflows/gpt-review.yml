@@ -15,10 +15,10 @@ jobs:
   update_rst:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
+      - name: Checkout reviews branch
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: reviews
       
       - name: Run GPT Code Review
         id: gpt_code_review
@@ -57,8 +57,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --local user.email "swaragthaikkandi@gmail.com"
-          git config --local user.name "SwaragThaikkandi"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add gpt_output.rst
           git commit -m "Update GPT review in RST file"
       
