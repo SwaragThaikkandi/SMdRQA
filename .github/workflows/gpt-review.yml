@@ -67,7 +67,7 @@ jobs:
             }
 
       - name: Update .md Files
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update README and other .md files"
           commit_options: '--no-verify'
