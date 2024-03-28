@@ -15,9 +15,11 @@ jobs:
   update_rst:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+      
       - name: Run GPT Code Review
         id: gpt_code_review
         uses: anc95/ChatGPT-CodeReview@main
@@ -52,8 +54,15 @@ jobs:
           echo "${{ env.PROMPT }}" >> gpt_output.rst
           echo "Output:" >> gpt_output.rst
           echo "${{ steps.gpt_code_review.outputs.response }}" >> gpt_output.rst
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Check if RST file exists
-        run: ls -l gpt_output.rst
+      - name: Commit changes
+        run: |
+          git config --local user.email ${{ secrets.GIT_USER_EMAIL }}
+          git config --local user.name ${{ secrets.GIT_USER_NAME }}
+          git add gpt_output.rst
+          git commit -m "Update GPT review in RST file"
+      
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
