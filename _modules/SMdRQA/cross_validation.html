@@ -338,18 +338,49 @@ document.write(`
 <span class="k">def</span> <span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function used for feature selection  using best subset setection and average cross validation accuracy</span>
-<span class="sd">    Input:____________________________________________________________________________________________________________________________________________</span>
-<span class="sd">    x_train                   : training set from the outer loops of nested cross validation function</span>
-<span class="sd">    y_train                   : output variables for the training set from the outer loops of the nested cross validation</span>
-<span class="sd">    features                  : total set of features from which features are being selected</span>
-<span class="sd">    y_name                    : column name for the outcome variable</span>
-<span class="sd">    inner_splits              : cross validation splits for feature selection</span>
-<span class="sd">    select_k                  : whether the user wants to tune k also based on training set, default = False, k=5</span>
-<span class="sd">    repeats                   : number of repeats for cross validation for feature selection</span>
-<span class="sd">    Output:_____________________________________________________________________________________________________________________________________________</span>
-<span class="sd">    best_features             : list of features got selected</span>
-<span class="sd">    best_score                : avg accuracy for the best feature subset</span>
-<span class="sd">    best_roc_auc              : avg ROC AUC for the best feature subset</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    x_train : array</span>
+<span class="sd">        training set from the outer loops of nested cross validation function</span>
+
+<span class="sd">    y_train : array</span>
+<span class="sd">        output variables for the training set from the outer loops of the nested cross validation</span>
+
+<span class="sd">    features : list</span>
+<span class="sd">        total set of features from which features are being selected</span>
+
+<span class="sd">    y_name : str</span>
+<span class="sd">        column name for the outcome variable</span>
+
+<span class="sd">    inner_splits : int</span>
+<span class="sd">        cross validation splits for feature selection</span>
+
+<span class="sd">    select_k : bool</span>
+<span class="sd">        whether the user wants to tune k also based on training set, default = False, k=5</span>
+
+<span class="sd">    repeats : int</span>
+<span class="sd">        number of repeats for cross validation for feature selection</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    best_features : list</span>
+<span class="sd">        list of features got selected</span>
+
+<span class="sd">    best_score : double</span>
+<span class="sd">         average accuracy for the best feature subset</span>
+
+<span class="sd">    best_roc_auc : double</span>
+<span class="sd">         average ROC AUC for the best feature subset</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
+
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
     <span class="c1"># Load the data into a pandas DataFrame</span>
@@ -505,17 +536,46 @@ document.write(`
         <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection</span>
-<span class="sd">    Input:__________________________________________________________________________________________________________________</span>
-<span class="sd">    data_file             : pandas dataframe</span>
-<span class="sd">    features              : features that should be used (column names)</span>
-<span class="sd">    y_name                : outcome column name</span>
-<span class="sd">    outname               : Name that should be added to the output file</span>
-<span class="sd">    repeats               : number of times the outer loops should repeat</span>
-<span class="sd">    inner_repeat          : number of times the inner loop should repeat</span>
-<span class="sd">    outer split           : number of cross validation splits for the outer loop</span>
-<span class="sd">    inner_split           : number of cross validation splits for the inner loop</span>
-<span class="sd">    Output:___________________________________________________________________________________________________________________</span>
-<span class="sd">    CSV File              : containing cross validation accuracy and ROC AUC for each of the outer loops</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    </span>
+<span class="sd">    data_file : dataframe</span>
+<span class="sd">        pandas dataframe containing input data</span>
+
+<span class="sd">    features : list</span>
+<span class="sd">        total set of features from which features are being selected</span>
+
+<span class="sd">    y_name : str</span>
+<span class="sd">        column name for the outcome variable</span>
+
+<span class="sd">    outname : str</span>
+<span class="sd">         name to be included in the output csv file&#39;s name</span>
+
+<span class="sd">    outer_splits : int</span>
+<span class="sd">        number of cross validation splits for the outer loop</span>
+
+<span class="sd">    inner_splits : int</span>
+<span class="sd">        number of cross validation splits for the inner loop</span>
+
+<span class="sd">    repeats : int</span>
+<span class="sd">        number of repeats for the outer loop</span>
+
+<span class="sd">    inner_repeats : int</span>
+<span class="sd">        number of repeats for the inner loop(feature selection)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    file : CSV</span>
+<span class="sd">        containing cross validation accuracy and ROC AUC for each of the outer loops</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
+
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
 

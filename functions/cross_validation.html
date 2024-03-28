@@ -418,19 +418,33 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.cross_validation.feature_selection">
 <span class="sig-name descname"><span class="pre">feature_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/cross_validation.html#feature_selection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.cross_validation.feature_selection" title="Link to this definition">#</a></dt>
-<dd><p>Function used for feature selection  using best subset setection and average cross validation accuracy
-Input:____________________________________________________________________________________________________________________________________________
-x_train                   : training set from the outer loops of nested cross validation function
-y_train                   : output variables for the training set from the outer loops of the nested cross validation
-features                  : total set of features from which features are being selected
-y_name                    : column name for the outcome variable
-inner_splits              : cross validation splits for feature selection
-select_k                  : whether the user wants to tune k also based on training set, default = False, k=5
-repeats                   : number of repeats for cross validation for feature selection
-Output:_____________________________________________________________________________________________________________________________________________
-best_features             : list of features got selected
-best_score                : avg accuracy for the best feature subset
-best_roc_auc              : avg ROC AUC for the best feature subset</p>
+<dd><p>Function used for feature selection  using best subset setection and average cross validation accuracy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>array</em>) – training set from the outer loops of nested cross validation function</p></li>
+<li><p><strong>y_train</strong> (<em>array</em>) – output variables for the training set from the outer loops of the nested cross validation</p></li>
+<li><p><strong>features</strong> (<em>list</em>) – total set of features from which features are being selected</p></li>
+<li><p><strong>y_name</strong> (<em>str</em>) – column name for the outcome variable</p></li>
+<li><p><strong>inner_splits</strong> (<em>int</em>) – cross validation splits for feature selection</p></li>
+<li><p><strong>select_k</strong> (<em>bool</em>) – whether the user wants to tune k also based on training set, default = False, k=5</p></li>
+<li><p><strong>repeats</strong> (<em>int</em>) – number of repeats for cross validation for feature selection</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>best_features</strong> (<em>list</em>) – list of features got selected</p></li>
+<li><p><strong>best_score</strong> (<em>double</em>) – average accuracy for the best feature subset</p></li>
+<li><p><strong>best_roc_auc</strong> (<em>double</em>) – average ROC AUC for the best feature subset</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html">Scikit-Learn Nested Cross-Validation Example</a></p></li>
+<li><p>Cawley, Gavin C., and Nicola LC Talbot. “On over-fitting in model selection and subsequent selection bias in performance evaluation.” The Journal of Machine Learning Research 11 (2010): 2079-2107.</p></li>
+</ul>
 </dd></dl>
 
 </section>
@@ -439,18 +453,29 @@ best_roc_auc              : avg ROC AUC for the best feature subset</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.cross_validation.nested_cv">
 <span class="sig-name descname"><span class="pre">nested_cv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_repeats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/cross_validation.html#nested_cv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.cross_validation.nested_cv" title="Link to this definition">#</a></dt>
-<dd><p>This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection
-Input:__________________________________________________________________________________________________________________
-data_file             : pandas dataframe
-features              : features that should be used (column names)
-y_name                : outcome column name
-outname               : Name that should be added to the output file
-repeats               : number of times the outer loops should repeat
-inner_repeat          : number of times the inner loop should repeat
-outer split           : number of cross validation splits for the outer loop
-inner_split           : number of cross validation splits for the inner loop
-Output:___________________________________________________________________________________________________________________
-CSV File              : containing cross validation accuracy and ROC AUC for each of the outer loops</p>
+<dd><p>This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_file</strong> (<em>dataframe</em>) – pandas dataframe containing input data</p></li>
+<li><p><strong>features</strong> (<em>list</em>) – total set of features from which features are being selected</p></li>
+<li><p><strong>y_name</strong> (<em>str</em>) – column name for the outcome variable</p></li>
+<li><p><strong>outname</strong> (<em>str</em>) – name to be included in the output csv file’s name</p></li>
+<li><p><strong>outer_splits</strong> (<em>int</em>) – number of cross validation splits for the outer loop</p></li>
+<li><p><strong>inner_splits</strong> (<em>int</em>) – number of cross validation splits for the inner loop</p></li>
+<li><p><strong>repeats</strong> (<em>int</em>) – number of repeats for the outer loop</p></li>
+<li><p><strong>inner_repeats</strong> (<em>int</em>) – number of repeats for the inner loop(feature selection)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>file</strong> (<em>CSV</em>) – containing cross validation accuracy and ROC AUC for each of the outer loops</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html">Scikit-Learn Nested Cross-Validation Example</a></p></li>
+<li><p>Cawley, Gavin C., and Nicola LC Talbot. “On over-fitting in model selection and subsequent selection bias in performance evaluation.” The Journal of Machine Learning Research 11 (2010): 2079-2107.</p></li>
+</ul>
 </dd></dl>
 
 </section>
