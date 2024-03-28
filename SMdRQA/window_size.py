@@ -91,6 +91,36 @@ def HistogramSampling(histogram,bins_midpoints, samples):
 
 
 def Sliding_windowBS_sub_per_lam(RP, maxsize, winsize,n_boot):  #for percenthage laminarity
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for percentage laminarity
+
+  Parameters
+  ----------
+    
+  RP : ndarray
+      recurrence plot
+        
+  maxsize : int
+      RP size
+
+  winsize : int
+      size of the sliding window
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  CI : double
+      confidence interval(95% quantile - 5% quantile)
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   num_windows=maxsize-winsize+1
   P=[]
   P_bar=[]
@@ -123,6 +153,36 @@ def Sliding_windowBS_sub_per_lam(RP, maxsize, winsize,n_boot):  #for percenthage
   return np.quantile(VAR,0.95)-np.quantile(VAR,0.05)
   
 def Sliding_windowBS_sub_avg_vert(RP, maxsize, winsize,n_boot):
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for average vertical line length
+
+  Parameters
+  ----------
+    
+  RP : ndarray
+      recurrence plot
+        
+  maxsize : int
+      RP size
+
+  winsize : int
+      size of the sliding window
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  CI : double
+      confidence interval(95% quantile - 5% quantile)
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   num_windows=maxsize-winsize+1
   P=[]
   P_bar=[]
@@ -155,6 +215,36 @@ def Sliding_windowBS_sub_avg_vert(RP, maxsize, winsize,n_boot):
   return np.quantile(VAR,0.95)-np.quantile(VAR,0.05)
 
 def Sliding_windowBS_sub_percent_det(RP, maxsize, winsize,n_boot):
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for percentage determinism
+
+  Parameters
+  ----------
+    
+  RP : ndarray
+      recurrence plot
+        
+  maxsize : int
+      RP size
+
+  winsize : int
+      size of the sliding window
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  CI : double
+      confidence interval(95% quantile - 5% quantile)
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   num_windows=maxsize-winsize+1
   P=[]
   P_bar=[]
@@ -187,6 +277,36 @@ def Sliding_windowBS_sub_percent_det(RP, maxsize, winsize,n_boot):
   return np.quantile(VAR,0.95)-np.quantile(VAR,0.05)
   
 def Sliding_windowBS_sub_avg_diag(RP, maxsize, winsize,n_boot):
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for average diagonal line length
+
+  Parameters
+  ----------
+    
+  RP : ndarray
+      recurrence plot
+        
+  maxsize : int
+      RP size
+
+  winsize : int
+      size of the sliding window
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  CI : double
+      confidence interval(95% quantile - 5% quantile)
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   num_windows=maxsize-winsize+1
   P=[]
   P_bar=[]
@@ -218,18 +338,60 @@ def Sliding_windowBS_sub_avg_diag(RP, maxsize, winsize,n_boot):
   #return np.std(VAR)**2
   return np.quantile(VAR,0.95)-np.quantile(VAR,0.05)
     
-def Sliding_windowBS(RP,maxsize,var):
+def Sliding_windowBS(RP,maxsize,var, n_boot = 1000):
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10
+
+  Parameters
+  ----------
+    
+  RP : ndarray
+      recurrence plot
+        
+  maxsize : int
+      RP size
+
+  var : str
+      RQA variable name
+
+      *percent_lam* : percentage laminarity
+
+      *percent_det* : percentage determinism
+
+      *avg_vert* : average value of vertical line distribution
+
+      *avg_diag* : average value of diagonal line distribution
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  data : dataframe
+      dataframe containing the CI estimate of corresponding window sizes, columns are
+
+      *WINSIZE* : window size
+
+      *95% quantile- 5% quantile* : confidence interval
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   WINSIZE=[]
   VAR=[]
   for i in tqdm(range(20,maxsize,10)):
     if var == 'percent_lam':
-      var_std=Sliding_windowBS_sub_per_lam(RP, maxsize, i,1000)
+      var_std=Sliding_windowBS_sub_per_lam(RP, maxsize, i,n_boot)
     elif var == 'percent_det':
-      var_std=Sliding_windowBS_sub_percent_det(RP, maxsize, i,1000)
+      var_std=Sliding_windowBS_sub_percent_det(RP, maxsize, i,n_boot)
     elif var == 'avg_vert':
-      var_std=Sliding_windowBS_sub_avg_vert(RP, maxsize, i,1000)
+      var_std=Sliding_windowBS_sub_avg_vert(RP, maxsize, i,n_boot)
     elif var == 'avg_diag':
-      var_std=Sliding_windowBS_sub_avg_diag(RP, maxsize, i,1000)
+      var_std=Sliding_windowBS_sub_avg_diag(RP, maxsize, i,n_boot)
     
     WINSIZE.append(i)
     VAR.append(var_std)
@@ -238,7 +400,48 @@ def Sliding_windowBS(RP,maxsize,var):
   df=pd.DataFrame.from_dict(DICT)
   return df
   
-def Sliding_window_whole_data(RP_dir, var):
+def Sliding_window_whole_data(RP_dir, var,n_boot = 1000):
+  '''
+  Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10. Done for all datasets in the folder specified
+
+  Parameters
+  ----------
+    
+  RP_dir : str
+      directory containing all the RP files(.npy)
+        
+  var : str
+      RQA variable name
+
+      *percent_lam* : percentage laminarity
+
+      *percent_det* : percentage determinism
+
+      *avg_vert* : average value of vertical line distribution
+
+      *avg_diag* : average value of diagonal line distribution
+        
+   n_boot : int
+      number of bootstrap samples
+
+  Returns
+  -------
+
+  data : dataframe
+      dataframe containing the CI estimate of corresponding window sizes, columns are
+
+      *WINSIZE* : window size
+
+      *95% quantile- 5% quantile* : confidence interval
+
+      *group* : filename of the RPs
+
+
+  References
+  ----------
+  - Marwan, N., Romano, M. C., Thiel, M., & Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.
+
+  '''
   files = os.listdir(RP_dir)
   DFs = []
   for File in files:
@@ -246,7 +449,7 @@ def Sliding_window_whole_data(RP_dir, var):
     info = File.split('-')[0]
     RP = np.load(path)
     maxsize = len(RP)
-    df = Sliding_windowBS(RP,maxsize,var)
+    df = Sliding_windowBS(RP,maxsize,var,n_boot=n_boot)
     df['group'] = info
     DFs.append(df)
     
