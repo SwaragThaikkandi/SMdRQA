@@ -1,0 +1,41 @@
+name: GPT Code Review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: anc95/ChatGPT-CodeReview@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Optional
+          LANGUAGE: Chinese
+          OPENAI_API_ENDPOINT: https://api.openai.com/v1
+          MODEL: gpt-3.5-turbo
+          PROMPT: |
+            Please check if there are any confusions or irregularities in the codes.
+
+            Additional Prompts:
+            - "Please check for any code sections that can be refactored for improved clarity."
+            - "Review the code for readability and suggest any changes to enhance understanding."
+            - "Verify if the code follows best practices for modularization and structure."
+            - "Assess the code's handling of error conditions and suggest improvements for robustness."
+            - "Check for edge cases that might not be adequately handled in the code."
+            - "Review the code for potential security vulnerabilities and suggest mitigations."
+            - "Evaluate the code's performance and identify areas for optimization."
+            - "Check if the code has sufficient documentation and comments for clarity."
+            - "Assess the code's test coverage and suggest additional test cases if needed."
+            - "Verify that version control practices are followed correctly in the codebase."
+
+          top_p: 1
+          temperature: 1
+          max_tokens: 10000
+          MAX_PATCH_LENGTH: 10000
