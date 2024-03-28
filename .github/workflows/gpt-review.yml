@@ -1,4 +1,4 @@
-name: GPT Code Review and Update
+name: Update GPT Review in RST
 
 permissions:
   contents: read
@@ -12,14 +12,18 @@ on:
     types: [opened, edited]
 
 jobs:
-  test:
+  update_rst:
     runs-on: ubuntu-latest
     steps:
-      - uses: anc95/ChatGPT-CodeReview@main
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run GPT Code Review
+        id: gpt_code_review
+        uses: anc95/ChatGPT-CodeReview@main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # Set language to English
           LANGUAGE: English
           OPENAI_API_ENDPOINT: https://api.openai.com/v1
           MODEL: gpt-3.5-turbo
@@ -36,9 +40,15 @@ jobs:
             - "Check if the code has sufficient documentation and comments for clarity."
             - "Assess the code's test coverage and suggest additional test cases if needed."
             - "Verify that version control practices are followed correctly in the codebase."
-
           top_p: 1
           temperature: 1
           max_tokens: 10000
           MAX_PATCH_LENGTH: 10000
 
+      - name: Update RST file
+        run: |
+          echo "Date: $(date)" >> docs/GPT.rst
+          echo "Prompt:" >> docs/GPT.rst
+          echo "${{ env.PROMPT }}" >> docs/GPT.rst
+          echo "Output:" >> docs/GPT.rst
+          echo "${{ steps.gpt_code_review.outputs.response }}" >> docs/GPT.rst
