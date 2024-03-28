@@ -37,7 +37,7 @@ jobs:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
 
       - name: GitHub Actions ChatGPT PR Reviewer
-        uses: osl-incubator/github-actions-chatgpt-pr-reviewer@1.0.3
+        uses: osl-incubator/github-actions-chatgpt-pr-reviewer@1.0.4
         with:
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}  # required
           openai_model: 'gpt-4-1106-preview'  # optional
