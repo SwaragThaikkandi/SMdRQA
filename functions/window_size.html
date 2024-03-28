@@ -388,13 +388,34 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsampling"><em>HistogramSampling()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-per-lam"><em>Sliding_windowBS_sub_per_lam()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-vert"><em>Sliding_windowBS_sub_avg_vert()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-percent-det"><em>Sliding_windowBS_sub_percent_det()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-diag"><em>Sliding_windowBS_sub_avg_diag()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs"><em>Sliding_windowBS()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-window-whole-data"><em>Sliding_window_whole_data()</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsampling"><em>HistogramSampling()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.HistogramSampling"><code class="docutils literal notranslate"><span class="pre">HistogramSampling()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-per-lam"><em>Sliding_windowBS_sub_per_lam()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_per_lam"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_per_lam()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-vert"><em>Sliding_windowBS_sub_avg_vert()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_avg_vert()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-percent-det"><em>Sliding_windowBS_sub_percent_det()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_percent_det"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_percent_det()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-diag"><em>Sliding_windowBS_sub_avg_diag()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_avg_diag()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs"><em>Sliding_windowBS()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-window-whole-data"><em>Sliding_window_whole_data()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_window_whole_data"><code class="docutils literal notranslate"><span class="pre">Sliding_window_whole_data()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -414,24 +435,233 @@ document.write(`
 <h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
 <section id="histogramsampling">
 <h3><em>HistogramSampling()</em><a class="headerlink" href="#histogramsampling" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.HistogramSampling">
+<span class="sig-name descname"><span class="pre">HistogramSampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">histogram</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_midpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#HistogramSampling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.HistogramSampling" title="Link to this definition">#</a></dt>
+<dd><p>Function for doing histogram sampling from a distribution</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>histogram</strong> (<em>array</em>) –   histogram counts normalised to get a sum =1</p>
+<dl class="simple">
+<dt>bins_midpoints<span class="classifier">array</span></dt><dd><p>values corresponding to the probability values given as “histogram”</p>
+</dd>
+<dt>samples<span class="classifier">int</span></dt><dd><p>number of histograms samples</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hist2</strong> (<em>array</em>) – histogram counts of the resulting distribution</p></li>
+<li><p><strong>bins_midpoints</strong> (<em>array</em>) – midpoints of bins corresponding to hist2</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="sliding-windowbs-sub-per-lam">
 <h3><em>Sliding_windowBS_sub_per_lam()</em><a class="headerlink" href="#sliding-windowbs-sub-per-lam" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_windowBS_sub_per_lam">
+<span class="sig-name descname"><span class="pre">Sliding_windowBS_sub_per_lam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_windowBS_sub_per_lam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_windowBS_sub_per_lam" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for percentage laminarity</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – RP size</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) –    size of the sliding window</p>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>CI</strong> (<em>double</em>) – confidence interval(95% quantile - 5% quantile)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="sliding-windowbs-sub-avg-vert">
 <h3><em>Sliding_windowBS_sub_avg_vert()</em><a class="headerlink" href="#sliding-windowbs-sub-avg-vert" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">
+<span class="sig-name descname"><span class="pre">Sliding_windowBS_sub_avg_vert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_windowBS_sub_avg_vert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for average vertical line length</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – RP size</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) –    size of the sliding window</p>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>CI</strong> (<em>double</em>) – confidence interval(95% quantile - 5% quantile)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="sliding-windowbs-sub-percent-det">
 <h3><em>Sliding_windowBS_sub_percent_det()</em><a class="headerlink" href="#sliding-windowbs-sub-percent-det" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_windowBS_sub_percent_det">
+<span class="sig-name descname"><span class="pre">Sliding_windowBS_sub_percent_det</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_windowBS_sub_percent_det"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_windowBS_sub_percent_det" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for percentage determinism</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – RP size</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) –    size of the sliding window</p>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>CI</strong> (<em>double</em>) – confidence interval(95% quantile - 5% quantile)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="sliding-windowbs-sub-avg-diag">
 <h3><em>Sliding_windowBS_sub_avg_diag()</em><a class="headerlink" href="#sliding-windowbs-sub-avg-diag" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">
+<span class="sig-name descname"><span class="pre">Sliding_windowBS_sub_avg_diag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_windowBS_sub_avg_diag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for average diagonal line length</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – RP size</p></li>
+<li><p><strong>winsize</strong> (<em>int</em>) –    size of the sliding window</p>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>CI</strong> (<em>double</em>) – confidence interval(95% quantile - 5% quantile)</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="sliding-windowbs">
 <h3><em>Sliding_windowBS()</em><a class="headerlink" href="#sliding-windowbs" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_windowBS">
+<span class="sig-name descname"><span class="pre">Sliding_windowBS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_windowBS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_windowBS" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP</strong> (<em>ndarray</em>) – recurrence plot</p></li>
+<li><p><strong>maxsize</strong> (<em>int</em>) – RP size</p></li>
+<li><p><strong>var</strong> (<em>str</em>) –    RQA variable name</p>
+<blockquote>
+<div><p><em>percent_lam</em> : percentage laminarity</p>
+<p><em>percent_det</em> : percentage determinism</p>
+<p><em>avg_vert</em> : average value of vertical line distribution</p>
+<p><em>avg_diag</em> : average value of diagonal line distribution</p>
+</div></blockquote>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>dataframe</em>) – dataframe containing the CI estimate of corresponding window sizes, columns are</p>
+<p><em>WINSIZE</em> : window size</p>
+<p><em>95% quantile- 5% quantile</em> : confidence interval</p>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 <section id="sliding-window-whole-data">
 <h3><em>Sliding_window_whole_data()</em><a class="headerlink" href="#sliding-window-whole-data" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.window_size.Sliding_window_whole_data">
+<span class="sig-name descname"><span class="pre">Sliding_window_whole_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">RP_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/window_size.html#Sliding_window_whole_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.window_size.Sliding_window_whole_data" title="Link to this definition">#</a></dt>
+<dd><p>Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10. Done for all datasets in the folder specified</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul>
+<li><p><strong>RP_dir</strong> (<em>str</em>) – directory containing all the RP files(.npy)</p></li>
+<li><p><strong>var</strong> (<em>str</em>) –    RQA variable name</p>
+<blockquote>
+<div><p><em>percent_lam</em> : percentage laminarity</p>
+<p><em>percent_det</em> : percentage determinism</p>
+<p><em>avg_vert</em> : average value of vertical line distribution</p>
+<p><em>avg_diag</em> : average value of diagonal line distribution</p>
+</div></blockquote>
+<dl class="simple">
+<dt>n_boot<span class="classifier">int</span></dt><dd><p>number of bootstrap samples</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>data</strong> (<em>dataframe</em>) – dataframe containing the CI estimate of corresponding window sizes, columns are</p>
+<p><em>WINSIZE</em> : window size</p>
+<p><em>95% quantile- 5% quantile</em> : confidence interval</p>
+<p><em>group</em> : filename of the RPs</p>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237â329.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -482,13 +712,34 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsampling"><em>HistogramSampling()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-per-lam"><em>Sliding_windowBS_sub_per_lam()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-vert"><em>Sliding_windowBS_sub_avg_vert()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-percent-det"><em>Sliding_windowBS_sub_percent_det()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-diag"><em>Sliding_windowBS_sub_avg_diag()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs"><em>Sliding_windowBS()</em></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-window-whole-data"><em>Sliding_window_whole_data()</em></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#histogramsampling"><em>HistogramSampling()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.HistogramSampling"><code class="docutils literal notranslate"><span class="pre">HistogramSampling()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-per-lam"><em>Sliding_windowBS_sub_per_lam()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_per_lam"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_per_lam()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-vert"><em>Sliding_windowBS_sub_avg_vert()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_avg_vert()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-percent-det"><em>Sliding_windowBS_sub_percent_det()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_percent_det"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_percent_det()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs-sub-avg-diag"><em>Sliding_windowBS_sub_avg_diag()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS_sub_avg_diag()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-windowbs"><em>Sliding_windowBS()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_windowBS"><code class="docutils literal notranslate"><span class="pre">Sliding_windowBS()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sliding-window-whole-data"><em>Sliding_window_whole_data()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.window_size.Sliding_window_whole_data"><code class="docutils literal notranslate"><span class="pre">Sliding_window_whole_data()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
