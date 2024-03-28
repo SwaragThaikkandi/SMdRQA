@@ -10,18 +10,49 @@ from sklearn.preprocessing import StandardScaler
 def feature_selection(x_train, y_train, features, y_name, inner_splits, select_k=False, repeats=5):  # inner loop function
     '''
     Function used for feature selection  using best subset setection and average cross validation accuracy
-    Input:____________________________________________________________________________________________________________________________________________
-    x_train                   : training set from the outer loops of nested cross validation function
-    y_train                   : output variables for the training set from the outer loops of the nested cross validation
-    features                  : total set of features from which features are being selected
-    y_name                    : column name for the outcome variable
-    inner_splits              : cross validation splits for feature selection
-    select_k                  : whether the user wants to tune k also based on training set, default = False, k=5
-    repeats                   : number of repeats for cross validation for feature selection
-    Output:_____________________________________________________________________________________________________________________________________________
-    best_features             : list of features got selected
-    best_score                : avg accuracy for the best feature subset
-    best_roc_auc              : avg ROC AUC for the best feature subset
+
+    Parameters
+    ----------
+    
+    x_train : array
+        training set from the outer loops of nested cross validation function
+
+    y_train : array
+        output variables for the training set from the outer loops of the nested cross validation
+
+    features : list
+        total set of features from which features are being selected
+
+    y_name : str
+        column name for the outcome variable
+
+    inner_splits : int
+        cross validation splits for feature selection
+
+    select_k : bool
+        whether the user wants to tune k also based on training set, default = False, k=5
+
+    repeats : int
+        number of repeats for cross validation for feature selection
+
+    Returns
+    -------
+
+    best_features : list
+        list of features got selected
+
+    best_score : double
+         average accuracy for the best feature subset
+
+    best_roc_auc : double
+         average ROC AUC for the best feature subset
+
+    References
+    ----------
+    - `Scikit-Learn Nested Cross-Validation Example <https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html>`__
+
+    - Cawley, Gavin C., and Nicola LC Talbot. "On over-fitting in model selection and subsequent selection bias in performance evaluation." The Journal of Machine Learning Research 11 (2010): 2079-2107.
+
     '''
     from tqdm import tqdm
     # Load the data into a pandas DataFrame
@@ -174,17 +205,46 @@ def nested_cv(
         inner_splits=2):
     '''
     This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection
-    Input:__________________________________________________________________________________________________________________
-    data_file             : pandas dataframe
-    features              : features that should be used (column names)
-    y_name                : outcome column name
-    outname               : Name that should be added to the output file
-    repeats               : number of times the outer loops should repeat
-    inner_repeat          : number of times the inner loop should repeat
-    outer split           : number of cross validation splits for the outer loop
-    inner_split           : number of cross validation splits for the inner loop
-    Output:___________________________________________________________________________________________________________________
-    CSV File              : containing cross validation accuracy and ROC AUC for each of the outer loops
+
+    Parameters
+    ----------
+    
+    data_file : dataframe
+        pandas dataframe containing input data
+
+    features : list
+        total set of features from which features are being selected
+
+    y_name : str
+        column name for the outcome variable
+
+    outname : str
+         name to be included in the output csv file's name
+
+    outer_splits : int
+        number of cross validation splits for the outer loop
+
+    inner_splits : int
+        number of cross validation splits for the inner loop
+
+    repeats : int
+        number of repeats for the outer loop
+
+    inner_repeats : int
+        number of repeats for the inner loop(feature selection)
+
+    Returns
+    -------
+
+    file : CSV
+        containing cross validation accuracy and ROC AUC for each of the outer loops
+
+    References
+    ----------
+    - `Scikit-Learn Nested Cross-Validation Example <https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html>`__
+
+    - Cawley, Gavin C., and Nicola LC Talbot. "On over-fitting in model selection and subsequent selection bias in performance evaluation." The Journal of Machine Learning Research 11 (2010): 2079-2107.
+
     '''
     from tqdm import tqdm
 
