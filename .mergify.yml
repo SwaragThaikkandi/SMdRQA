@@ -1,0 +1,16 @@
+pull_request_rules:
+  - name: Notify when a PR is removed from the queue
+    description: >-
+      Notify the PR author when its pull request is removed from the merge
+      queue.
+    conditions:
+      - queue-dequeue-reason != none
+      - queue-dequeue-reason != pr-merged
+    actions:
+      comment:
+        message: >
+          Hey @{{author}}, your pull request has been dequeued due to the
+          following reason: {{queue_dequeue_reason}}.
+
+          Sorry about that, but you can requeue the PR by using `@mergifyio
+          requeue` if you think this was a mistake.
