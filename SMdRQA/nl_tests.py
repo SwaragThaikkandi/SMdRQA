@@ -14,6 +14,7 @@ from scipy import signal
 import random
 import numba
 
+
 def wrapTo2Pi(x):
     xwrap = np.remainder(x, 2 * np.pi)
     mask = np.abs(xwrap) > np.pi
@@ -23,6 +24,7 @@ def wrapTo2Pi(x):
     mask3 = np.remainder(x, 2 * np.pi) != 0
     xwrap[mask1 & mask2 & mask3] -= 2 * np.pi
     return xwrap
+
 
 def Chi2_test(signal):
     '''
@@ -233,7 +235,7 @@ def preprocessing(sig, fs):
     d = np.zeros((len(k1) - p, len(k2) - p))
     for j in range(len(k1) - p):
         for k in range(len(k2) - p):
-            d[j, k] = sum(abs(k1[j : j + p] - k2[k : k + p]))
+            d[j, k] = sum(abs(k1[j: j + p] - k2[k: k + p]))
     v, I = min(abs(d), axis=1)
     I2 = np.argmin(v)  # Minimum mismatch
     kstart = I2
@@ -247,7 +249,7 @@ def preprocessing(sig, fs):
 
 def surrogate(sig, N, method, pp, fs, *args):
     '''
-    function for generating surrogate data 
+    function for generating surrogate data
 
     function is used to generate surrogate data for hypothesis testing. Adapted from Gemma, et al.,2018
 
@@ -270,25 +272,25 @@ def surrogate(sig, N, method, pp, fs, *args):
 
     method : str
        Method used for generating surrogates
-       
+
        *RP* : Random permutation surrogates
-       
+
        *FT* : Fourier transform surrogates
-       
+
        *AAFT* : Amplitude adjusted Fourier transform
-       
+
        *IAAFT1* : Iterative amplitude adjusted Fourier transform with exact distribution
-       
+
        *IAAFT2* : Iterative amplitude adjusted Fourier transform with exact spectrum
-       
+
        *CPP* : Cyclic phase permutation
-       
+
        *PPS* : Pseudo-periodic
-       
+
        *TS* : Twin
-       
+
        *tshift* : Time shifted
-       
+
        *CSS* : Cycle shuffled surrogates. Require that the signal can be
          separated into distinct cycles. May require adjustment of peak finding
          parameters.
@@ -354,7 +356,7 @@ def surrogate(sig, N, method, pp, fs, *args):
         F = ftsig[1:L2]
         F = F[np.ones(N), :]
         ftrp[:, 1:L2] = F * (np.exp(1j * eta))
-        ftrp[:, 2 + L - L2 : L] = np.conj(np.fliplr(ftrp[:, 2:L2]))
+        ftrp[:, 2 + L - L2: L] = np.conj(np.fliplr(ftrp[:, 2:L2]))
         surr = ifft(ftrp, axis=1)
         params["rphases"] = eta
     # Amplitude adjusted Fourier transform surrogate
@@ -377,14 +379,15 @@ def surrogate(sig, N, method, pp, fs, *args):
         surr = np.zeros((N, len(sig)))
         surr[:, 0] = gn[:, 0]
         surr[:, 1:L2] = F * np.exp(1j * eta)
-        surr[:, 2 + L - L2 : L] = np.conj(np.flipr(surr[:, 2:L2]))
+        surr[:, 2 + L - L2: L] = np.conj(np.flipr(surr[:, 2:L2]))
         surr = ifft(surr, axis=1)
         _, ind2 = sort_matlab(surr, dim=1)  # Sort surrogate
         rrank = np.zeros(L)
         for k in range(N):
             rrank[ind2[k, :]] = range(L)
             surr[k, :] = val[rrank]
-    # Iterated amplitude adjusted Fourier transform (IAAFT-1) with exact distribution
+    # Iterated amplitude adjusted Fourier transform (IAAFT-1) with exact
+    # distribution
     elif method == "IAAFT1":
         maxit = 1000
         val, ind = sort_matlab(sig)  # Sorted list of values
@@ -414,7 +417,8 @@ def surrogate(sig, N, method, pp, fs, *args):
                 irank[k, :] = irank2
                 surr[k, :] = val[irank2]
             it += 1
-    # Iterated amplitude adjusted Fourier transform (IAAFT-2) with exact spectrum
+    # Iterated amplitude adjusted Fourier transform (IAAFT-2) with exact
+    # spectrum
     elif method == "IAAFT2":
         maxit = 1000
         val, ind = sort_matlab(sig)  # Sorted list of values
@@ -452,13 +456,14 @@ def surrogate(sig, N, method, pp, fs, *args):
         locs = np.where(pdiff < -np.pi)[0]
         parts = []
         for j in range(len(locs) - 1):
-            tsig = phi[locs[j] + 1 : locs[j + 1]]
+            tsig = phi[locs[j] + 1: locs[j + 1]]
             parts.append(tsig)
         st = phi[: locs[0]]
-        en = phi[locs[-1] + 1 :]
+        en = phi[locs[-1] + 1:]
         surr = np.zeros((N, L))
         for k in range(N):
-            surr[k, :] = np.unwrap(np.hstack((st, parts[np.random.permutation(len(parts))], en)))
+            surr[k, :] = np.unwrap(
+                np.hstack((st, parts[np.random.permutation(len(parts))], en)))
     # Pseudo-periodic surrogates (PPS)
     elif method == "PPS":
         # Embedding of original signal
@@ -471,7 +476,8 @@ def surrogate(sig, N, method, pp, fs, *args):
         params["embed_sig"] = sig
         # Find the index of the first nearest neighbour from the first half of the
         # embedded signal to its last value to avoid cycling near last value
-        matr = max(abs(sig[:, :] - sig[:, k] * np.ones(1, L)) for k in range(L))
+        matr = max(abs(sig[:, :] - sig[:, k] * np.ones(1, L))
+                   for k in range(L))
         ssig, mind = min(matr[matr > 0], axis=1)
         _, pl = min(matr[: round(L / 2), L])
         rho = 0.7 * np.mean(ssig)
@@ -483,9 +489,9 @@ def surrogate(sig, N, method, pp, fs, *args):
                 if kn == L:
                     kn = pl
                 kn += 1  # Move forward from previous kn
-                surr[x, j] = sig[
-                    0, kn
-                ]  # Set surrogate to current value for kn (choose first component, can be any)
+                # Set surrogate to current value for kn (choose first
+                # component, can be any)
+                surr[x, j] = sig[0, kn]
                 sigdist = max(
                     abs(sig[:, :] - sig[:, kn] * np.ones(1, L))
                 )  # Find the maximum
@@ -520,9 +526,8 @@ def surrogate(sig, N, method, pp, fs, *args):
         remp = np.arange(1, L + 1)  # remaining points
         while len(remp) > 0:
             twn = remp[0]
-            ind[twn] = remp[
-                max(abs(Rij[:, remp] - Rij[:, twn] * np.ones(1, len(remp)))) == 0
-            ]
+            ind[twn] = remp[max(
+                abs(Rij[:, remp] - Rij[:, twn] * np.ones(1, len(remp)))) == 0]
             ind[ind[twn]] = ind[twn]
             eln[ind[twn]] = len(ind[twn])
             twind[ind[twn]] = 0
@@ -539,7 +544,7 @@ def surrogate(sig, N, method, pp, fs, *args):
     elif method == "tshift":
         for sn in range(N):
             startp = random.randint(L - 1)
-            surr[sn, :] = np.hstack((sig[1 + startp : L], sig[1:startp]))
+            surr[sn, :] = np.hstack((sig[1 + startp: L], sig[1:startp]))
     # Cycle shuffled surrogates
     elif method == "CSS":
         if len(args) > 0:
@@ -548,13 +553,13 @@ def surrogate(sig, N, method, pp, fs, *args):
         else:
             MPH = 0
             MPD = fs
-        I = signal.find_peaks(sig, height = MPH, distance = MPD)
+        I = signal.find_peaks(sig, height=MPH, distance=MPD)
         st = sig[: I[0] - 1]
-        en = sig[I[-1] :]
-        parts = [sig[I[j] : I[j + 1] - 1] for j in range(len(I) - 1)]
+        en = sig[I[-1]:]
+        parts = [sig[I[j]: I[j + 1] - 1] for j in range(len(I) - 1)]
         for k in range(N):
-            surr[k, :] = np.unwrap(np.hstack((st, parts[np.random.permutation(len(parts))], en)))
+            surr[k, :] = np.unwrap(
+                np.hstack((st, parts[np.random.permutation(len(parts))], en)))
     params["runtime"] = (datetime.now() - z).total_seconds()
     params["type"] = method
     return surr, params
-
