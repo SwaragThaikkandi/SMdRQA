@@ -29,7 +29,7 @@ jobs:
       - name: PR Description
         uses: platisd/openai-pr-description@master
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.PR_Metrics_Access_Token }}
           openai_api_key: ${{ secrets.OPENAI_API_KEY }}
       
       - name: GitHub Actions ChatGPT PR Reviewer
@@ -42,7 +42,7 @@ jobs:
           openai_extra_criteria: |  # optional, use `;` for separate the criteria items
             - prefer readable variable name instead of short names like `k` and `v`, when apply;
             - verify `SOLID` principles design pattern violations, when apply;
-          github_token: ${{ secrets.GH_TOKEN }}  # required
+          github_token: ${{ secrets.PR_Metrics_Access_Token }}  # required
           github_pr_id: ${{ github.event.number }}  # required
 
       - name: Complete Review
