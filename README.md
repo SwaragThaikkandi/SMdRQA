@@ -105,6 +105,47 @@ If you have identified a security vulnerability in our project, we encourage you
 4. Push your changes to your forked repository (`git push origin feature/your-feature-name`).
 5. Submit a pull request (PR) to the main repository for review and integration.
 
+## Test Function Addition Policy
+
+Welcome to the test function addition policy for the SMdRQA project. This policy outlines guidelines and best practices for adding test functions to the repository.
+
+### Purpose
+
+Testing is a critical aspect of software development that ensures code quality, reliability, and functionality. The purpose of this policy is to define the standards and procedures for adding test functions to the SMdRQA project repository.
+
+## Guidelines
+
+1. **Test Coverage**: All new features, bug fixes, and code changes must include corresponding test functions to validate their behavior. Aim for comprehensive test coverage to minimize regressions and improve code reliability.
+
+2. **Testing Levels**: Follow the testing pyramid principles by including unit tests, integration tests, and possibly end-to-end tests as appropriate. Each level of testing serves a specific purpose and contributes to overall testing effectiveness.
+
+3. **Naming Conventions**: Use descriptive and meaningful names for test functions that accurately reflect the behavior being tested. Follow a consistent naming convention (e.g., `test_function_name`) to enhance readability and maintainability.
+
+4. **Test Isolation**: Ensure that test functions are isolated, independent, and do not rely on external dependencies or state. Use mocking or stubbing techniques when necessary to simulate external interactions.
+
+5. **Test Structure**: Organize test functions into logical groups or test suites based on the functionality being tested. Use testing frameworks such as pytest or unittest to structure and execute tests effectively.
+
+6. **Assertions**: Include appropriate assertions within test functions to verify expected outcomes and behavior. Use assertion methods provided by the testing framework (e.g., `assertEqual`, `assertTrue`, `assertRaises`) to validate results.
+
+7. **Documentation**: Provide clear and concise documentation for test functions, including descriptions of test scenarios, inputs, expected outputs, and any preconditions or setup steps required.
+
+## Contribution Guidelines
+
+1. **Pull Requests**: When submitting pull requests that include code changes, ensure that corresponding test functions are added or updated accordingly. Test failures should be resolved before merging changes into the main branch.
+
+2. **Code Review**: Test functions are subject to code review by maintainers and contributors. Follow coding standards, best practices, and the established test function guidelines during code reviews.
+
+3. **Continuous Integration**: Test functions are automatically executed as part of the continuous integration (CI) process. Ensure that tests pass successfully before merging changes.
+
+## Conclusion
+
+By adhering to this test function addition policy, contributors help maintain code quality, improve test coverage, and enhance the overall reliability and stability of the SMdRQA project. Thank you for your commitment to quality assurance and testing excellence.
+
+---
+
+**Note:** This document is subject to updates and changes. Please refer to the latest version in our repository for the most up-to-date information.
+
+
 We welcome contributions from the community to improve and enhance SMdRQA!
 
 For more detailed information on how to use SMdRQA, refer to the [SMdRQA Documentation](https://swaragthaikkandi.github.io/SMdRQA/repo_details.html).
