@@ -1,28 +1,20 @@
 name: autopep8
-
-on:
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch: # Manual trigger
-
+on: pull_request
 jobs:
   autopep8:
+    # Check if the PR is not from a fork
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
           ref: ${{ github.head_ref }}
-
-      - name: Install autopep8
-        run: pip install autopep8
-
       - name: autopep8
         id: autopep8
-        run: |
-          autopep8 --exit-code --recursive --in-place --aggressive --aggressive .
-
+        uses: peter-evans/autopep8@v2
+        with:
+          args: --exit-code --recursive --in-place --aggressive --aggressive .
       - name: Commit autopep8 changes
         if: steps.autopep8.outputs.exit-code == 2
         run: |
