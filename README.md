@@ -64,6 +64,29 @@ Your feedback is valuable for improving SMdRQA. You can provide feedback in the 
 - Report bugs or issues: Submit bug reports and issues on the [GitHub Issue Tracker](https://github.com/SwaragThaikkandi/SMdRQA/issues).
 - Suggest enhancements or new features: Share your ideas and suggestions for enhancements on the Issue Tracker.
 
+# Private Vulnerability Reporting Guidelines
+
+Welcome to the private vulnerability reporting guidelines for the SMdRQA project. If you have identified a security vulnerability in our project, we encourage you to report it responsibly following the instructions outlined below.
+
+## Reporting Process
+
+1. **Contact Information**: For private vulnerability reports, please contact our security team via email at [swaragtgithub@gmail.com](mailto:swaragtgithub@gmail.com). You can also reach out to repository owner via GitHub
+
+2. **Encryption**: Use encryption when sending sensitive information. Encrypt any attachments or communications using strong encryption standards such as PGP (Pretty Good Privacy) or GPG (GNU Privacy Guard).
+
+3. **Reporting Format**: When reporting vulnerabilities, provide clear and detailed information about the issue, including steps to reproduce, potential impact, and any relevant technical details. Use the following template:
+
+   ```markdown
+   ### Vulnerability Report Template
+
+   - **Title**: [Title of Vulnerability]
+   - **Description**: [Description of the vulnerability, including steps to reproduce]
+   - **Impact**: [Potential impact of the vulnerability]
+   - **Affected Versions**: [Versions of the project affected by the vulnerability]
+   - **Proposed Solution**: [Optional: Proposed solution or mitigation]
+   - **Additional Information**: [Any additional information or context]
+
+
 ## Contribute to SMdRQA
 
 ### Requirements for Acceptable Contributions
