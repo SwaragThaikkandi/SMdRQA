@@ -24,9 +24,6 @@ Our repository structure is visualized using an intuitive diagram that showcases
 .. image:: https://github.com/SwaragThaikkandi/SMdRQA/raw/main/metrics.repository.svg
    :alt: Repository Metrics Diagram
 
-.. image:: https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/metrics.plugin.isocalendar.fullyear.svg
-   :alt: Isocalendar Fullyear Metrics
-
 
 Code Coverage and Its Importance
 =================================
