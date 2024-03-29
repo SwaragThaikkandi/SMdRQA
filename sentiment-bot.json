@@ -1,0 +1,38 @@
+{
+  "name": "sentiment-bot",
+  "version": "1.0.3",
+  "description": "Comment a link to a repo's code of conduct in response to toxic issue comments",
+  "main": "index.js",
+  "scripts": {
+    "start": "probot run ./index.js",
+    "test": "mocha && standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/behaviorbot/sentiment-bot.git"
+  },
+  "author": "hiimbex",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/behaviorbot/sentiment-bot/issues"
+  },
+  "homepage": "https://github.com/behaviorbot/sentiment-bot#readme",
+  "dependencies": {
+    "perspective-api-client": "sloria/perspective-api-client#c56db6481b37e8eaceaf7bf8735006b2032de0cd",
+    "probot": "^9.14.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.14.0",
+    "expect": "^1.20.2",
+    "mocha": "^9.1.1",
+    "standard": "^12.0.1"
+  },
+  "engines": {
+    "node": ">= 14.17"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  }
+}
