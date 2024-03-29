@@ -2,7 +2,7 @@
 
 # *Required* toxicity threshold between 0 and .99 with the higher numbers being the most toxic
 # Anything higher than this threshold will be marked as toxic and commented on
-sentimentBotToxicityThreshold: .5
+sentimentBotToxicityThreshold: .01
 
 # *Required* Comment to reply with
 sentimentBotReplyComment: >
