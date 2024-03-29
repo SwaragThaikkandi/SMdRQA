@@ -1,8 +1,7 @@
-Functions
+Chapters
 ==========
 
-You can find here the API documentation of SMdRQA, with a description of all the functions and examples on how to use them.
-
+We will explain the concept and implementation of these concepts into functions in details in this section
 .. toctree::
    :maxdepth: 2
    :caption: Modules
