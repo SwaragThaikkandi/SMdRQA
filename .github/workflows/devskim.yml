@@ -3,7 +3,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: DevSkim & Frogbot
+name: DevSkim
 
 on:
   push:
@@ -35,8 +35,6 @@ jobs:
       - name: GPG signing with Software Trust Manager
         uses: digicert/ssm-gpg-signing@v0.0.2
 
-      - name: Frogbot by JFrog
-        uses: jfrog/frogbot@v2.20.0
-            
+    
 
 
