@@ -1,12 +1,16 @@
-# This workflow generates SLSA provenance files for your project.
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow lets you generate SLSA provenance file for your project.
 # The generation satisfies level 3 for the provenance requirements - see https://slsa.dev/spec/v0.1/requirements
 # The project is an initiative of the OpenSSF (openssf.org) and is developed at
 # https://github.com/slsa-framework/slsa-github-generator.
 # The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
 # For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
 
-name: SLSA Provenance Generator
-
+name: SLSA generic generator
 on:
   workflow_dispatch:
   release:
@@ -16,39 +20,47 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      digests: ${{ steps.generate_digest.outputs.digests }}
+      digests: ${{ steps.hash.outputs.digests }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
+      # ========================================================
+      #
+      # Step 1: Build your artifacts.
+      #
+      # ========================================================
       - name: Build artifacts
         run: |
-          # Example: Generate artifacts and store them in the 'artifacts' directory
-          mkdir artifacts
-          echo "artifact1" > artifacts/artifact1
-          echo "artifact2" > artifacts/artifact2
+            # These are some amazing artifacts.
+            echo "artifact1" > artifact1
+            echo "artifact2" > artifact2
 
-      - name: Generate digest
-        id: generate_digest
+      # ========================================================
+      #
+      # Step 2: Add a step to generate the provenance subjects
+      #         as shown below. Update the sha256 sum arguments
+      #         to include all binaries that you generate
+      #         provenance for.
+      #
+      # ========================================================
+      - name: Generate subject for provenance
+        id: hash
         run: |
-          # Generate digests for artifacts and store them in an output
-          digests=$(sha256sum artifacts/* | awk '{print $1}' | base64 -w0)
-          echo "::set-output name=digests::${digests}"
+          set -euo pipefail
 
-  generate_provenance:
+          # List the artifacts the provenance will refer to.
+          files=$(ls artifact*)
+          # Generate the subjects (base64 encoded).
+          echo "hashes=$(sha256sum $files | base64 -w0)" >> "${GITHUB_OUTPUT}"
+
+  provenance:
     needs: [build]
-    runs-on: ubuntu-latest
     permissions:
       actions: read   # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Generate SLSA provenance
-        uses: slsa-framework/slsa-github-generator@v1.10.0
-        with:
-          base64-subjects: ${{ needs.build.outputs.digests }}
-          upload-assets: true # Optional: Upload to a new release
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.digests }}"
+      upload-assets: true # Optional: Upload to a new release
