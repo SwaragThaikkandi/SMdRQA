@@ -57,4 +57,6 @@ jobs:
       # OSSF scorecard action
       - name: OSSF Scorecard action
         uses: ossf/scorecard-action@v2.3.1
+        with: 
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }} 
             
