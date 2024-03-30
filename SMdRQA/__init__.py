@@ -20,7 +20,7 @@ from os import listdir
 import pandas as pd
 __docformat__ = "restructuredtext"
 
-__version__ = "2024.03.28"
+__version__ = "2024.03.31"
 
 import numpy as np
 from scipy.integrate import solve_ivp
