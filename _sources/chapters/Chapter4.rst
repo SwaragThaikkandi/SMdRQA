@@ -17,105 +17,36 @@ where :math:`N` represents the number of states :math:`x_i` under consideration,
 
 For RP, we can get measures that would quantify recurrence:
 
-.. container::
-   :name: table-1
+.. container:: bullets
 
-   .. table:: Measures in Recurrence Analysis. For explanation about
-   :math:`R(i,j)` refer equation: `[eq:4] <#eq:4>`__. Recurrence rate
-   (RR) is the average of :math:`R(i,j)` across RP. :math:`l` stands for
-   diagonal line length, which is the continuous section of RP, having
-   value of :math:`R(i,j) = 1`.
+   **Recurrence Rate (RR)**
+      - **Formula:** :math:`RR = \frac{1}{N^2}\sum_{i=1}^{N}\sum_{j=1}^{N} R(i,j)`
+      - **Description:** RR measures the density of recurrence points in the recurrence plot (RP). It indicates how probable it is for states to recur in the system. RR is calculated as the average of :math:`R(i,j)` across the RP.
 
-      +----------------------+----------------------+----------------------+
-      | **Measure**          | **Formula**          | **Description**      |
-      +======================+======================+======================+
-      | Recurrence Rate (RR) | :                    | Measures density of  |
-      |                      | math:`RR = \frac{1}{ | recurrence points in |
-      |                      | N^2}\sum_{i=1}^{N}\s | the recurrence plot, |
-      |                      | um_{j=1}^{N} R(i,j)` | indicating how       |
-      |                      |                      | probable recurrence  |
-      |                      |                      | of states is in the  |
-      |                      |                      | system.              |
-      +----------------------+----------------------+----------------------+
-      | Determinism (DET)    | :math:               | Measures what        |
-      |                      | `DET = \frac{\sum_{l | fraction of the      |
-      |                      | =l_{\text{min}}}^{N} | diagonal line        |
-      |                      | l\cdot p(l)}{\sum_{l | lengths are above a  |
-      |                      | =1}^{N}l\cdot p(l)}` | minimum, given, line |
-      |                      |                      | length. :math:`p(l)` |
-      |                      |                      | is the probability   |
-      |                      |                      | of a line length     |
-      |                      |                      | :math:`l`. Since     |
-      |                      |                      | diagonal lines are   |
-      |                      |                      | markers of           |
-      |                      |                      | consecutive periods  |
-      |                      |                      | of recurrence in the |
-      |                      |                      | data, determinism    |
-      |                      |                      | corresponds to the   |
-      |                      |                      | predictability of    |
-      |                      |                      | the dynamical        |
-      |                      |                      | system.              |
-      +----------------------+----------------------+----------------------+
-      | Laminarity (LAM)     | :math:               | Mathematically       |
-      |                      | `LAM = \frac{\sum_{v | equivalent to        |
-      |                      | =v_{\text{min}}}^{N} | determinism but      |
-      |                      | v\cdot p(v)}{\sum_{v | defined for vertical |
-      |                      | =1}^{N}v\cdot p(v)}` | (or horizontal) line |
-      |                      |                      | lengths. Since       |
-      |                      |                      | vertical (or         |
-      |                      |                      | horizontal) lines    |
-      |                      |                      | are markers of       |
-      |                      |                      | states that do not   |
-      |                      |                      | change or change     |
-      |                      |                      | very slowly,         |
-      |                      |                      | laminarity           |
-      |                      |                      | quantifies the       |
-      |                      |                      | extent of the        |
-      |                      |                      | dynamical system     |
-      |                      |                      | being trapped in any |
-      |                      |                      | given state for some |
-      |                      |                      | time.                |
-      +----------------------+----------------------+----------------------+
-      | Average diagonal     | :math:`L             | Average value of     |
-      | line length (L)      |  = \frac{\sum_{l=l_{ | diagonal line length |
-      |                      | \text{min}}}^{N}l\cd | distribution,        |
-      |                      | ot p(l)}{\sum_{l_{\t | quantifying how far  |
-      |                      | ext{min}}}^{N}p(l)}` | in time the          |
-      |                      |                      | dynamical system is  |
-      |                      |                      | predictable.         |
-      +----------------------+----------------------+----------------------+
-      | Average vertical     | :math:`TT            | Average value of the |
-      | line length (TT)     |  = \frac{\sum_{v=v_{ | vertical line length |
-      |                      | \text{min}}}^{N}v\cd | distribution.        |
-      |                      | ot p(v)}{\sum_{v_{\t |                      |
-      |                      | ext{min}}}^{N}p(v)}` |                      |
-      +----------------------+----------------------+----------------------+
-      | Maximum diagonal     | :math:`\max(D_{l})`  | Maximum value from   |
-      | line length          | where,               | the diagonal line    |
-      |                      | :math:`D_{l}         | distribution         |
-      |                      | = \{l_{1}, l_{2}, l_ |                      |
-      |                      | {3}, ..., l_{Nd} \}` |                      |
-      +----------------------+----------------------+----------------------+
-      | Maximum vertical     | :math:`\max(D_{v})`  | Maximum value from   |
-      | line length          | where,               | the vertical line    |
-      |                      | :math:`D_{v}         | distribution         |
-      |                      | = \{v_{1}, v_{2}, v_ |                      |
-      |                      | {3}, ..., v_{Nv} \}` |                      |
-      +----------------------+----------------------+----------------------+
-      | Diagonal and         | :math:`ENTR = -\s    | Quantifies the       |
-      | Vertical Entropy     | um_{l=l_{\text{min}} | degree of            |
-      | (ENTR)               | }^{N} p(l) \ln p(l)` | uncertainty in the   |
-      |                      |                      | possible states and  |
-      |                      |                      | hence, the           |
-      |                      |                      | complexity of the    |
-      |                      |                      | dynamical system,    |
-      |                      |                      | using the            |
-      |                      |                      | distribution of      |
-      |                      |                      | diagonal and         |
-      |                      |                      | vertical line        |
-      |                      |                      | lengths present in   |
-      |                      |                      | the plot,            |
-      |                      |                      | respectively.        |
-      +----------------------+----------------------+----------------------+
-      |                      |                      |                      |
-      +----------------------+----------------------+----------------------+
+   **Determinism (DET)**
+      - **Formula:** :math:`DET = \frac{\sum_{l=l_{\text{min}}}^{N}l\cdot p(l)}{\sum_{l=1}^{N}l\cdot p(l)}`
+      - **Description:** DET quantifies what fraction of diagonal line lengths are above a minimum line length. Diagonal lines in the RP represent consecutive periods of recurrence, and DET reflects the predictability of the dynamical system based on these lines.
+
+   **Laminarity (LAM)**
+      - **Formula:** :math:`LAM = \frac{\sum_{v=v_{\text{min}}}^{N}v\cdot p(v)}{\sum_{v=1}^{N}v\cdot p(v)}`
+      - **Description:** LAM is similar to DET but considers vertical (or horizontal) line lengths in the RP. It indicates the extent to which the system is trapped in a state for some time, reflecting its persistence.
+
+   **Average Diagonal Line Length (L)**
+      - **Formula:** :math:`L = \frac{\sum_{l=l_{\text{min}}}^{N}l\cdot p(l)}{\sum_{l_{\text{min}}}^{N}p(l)}`
+      - **Description:** L represents the average value of the diagonal line length distribution in the RP. It quantifies how far in time the dynamical system is predictable based on the lengths of diagonal lines.
+
+   **Average Vertical Line Length (Trapping Time) (TT)**
+      - **Formula:** :math:`TT = \frac{\sum_{v=v_{\text{min}}}^{N}v\cdot p(v)}{\sum_{v_{\text{min}}}^{N}p(v)}`
+      - **Description:** TT is the average value of the vertical line length distribution in the RP. It indicates the average time a state remains unchanged or changes very slowly in the system.
+
+   **Maximum Diagonal Line Length**
+      - **Formula:** :math:`\max(D_{l})`
+      - **Description:** This represents the maximum value from the diagonal line length distribution in the RP, indicating the longest continuous period of recurrence in the system.
+
+   **Maximum Vertical Line Length**
+      - **Formula:** :math:`\max(D_{v})`
+      - **Description:** This reflects the maximum value from the vertical line length distribution in the RP, indicating the longest time a state remains unchanged or changes very slowly.
+
+   **Diagonal and Vertical Entropy (ENTR)**
+      - **Formula:** :math:`ENTR = -\sum_{l=l_{\text{min}}}^{N} p(l) \ln p(l)`
+      - **Description:** ENTR quantifies the degree of uncertainty in possible states and the complexity of the dynamical system. It uses the distributions of diagonal and vertical line lengths present in the RP to assess system complexity.

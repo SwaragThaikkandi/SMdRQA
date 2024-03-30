@@ -407,174 +407,49 @@ document.write(`
 \[R_{i,j} = \Theta(\varepsilon_i - \| \vec{x}_i - \vec{x}_j \|), \quad \vec{x}_i \in \mathbb{R}^m, \quad i,j = 1, \ldots, N\]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> represents the number of states <span class="math notranslate nohighlight">\(x_i\)</span> under consideration, <span class="math notranslate nohighlight">\(\varepsilon_i\)</span> is the threshold distance,:math:<cite>| cdot |</cite> denotes a norm, and <span class="math notranslate nohighlight">\(\Theta(\cdot)\)</span> represents the Heaviside function.</p>
 <p>For RP, we can get measures that would quantify recurrence:</p>
-<div class="docutils container" id="table-1">
-<p><span class="math notranslate nohighlight">\(R(i,j)\)</span> refer equation: <a class="reference external" href="#eq:4">[eq:4]</a>. Recurrence rate
-(RR) is the average of <span class="math notranslate nohighlight">\(R(i,j)\)</span> across RP. <span class="math notranslate nohighlight">\(l\)</span> stands for
-diagonal line length, which is the continuous section of RP, having
-value of <span class="math notranslate nohighlight">\(R(i,j) = 1\)</span>.</p>
-<blockquote>
-<div><table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Measure</strong></p></th>
-<th class="head"><p><strong>Formula</strong></p></th>
-<th class="head"><p><strong>Description</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Recurrence Rate (RR)</p></td>
-<td><p>:
-math:<cite>RR = frac{1}{
-N^2}sum_{i=1}^{N}s
-um_{j=1}^{N} R(i,j)</cite></p></td>
-<td><p>Measures density of
-recurrence points in
-the recurrence plot,
-indicating how
-probable recurrence
-of states is in the
-system.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Determinism (DET)</p></td>
-<td><dl class="field-list simple">
-<dt class="field-odd">math<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p><cite>DET = frac{sum_{l
-=l_{text{min}}}^{N}
-lcdot p(l)}{sum_{l
-=1}^{N}lcdot p(l)}</cite></p>
-</td>
-<td><p>Measures what
-fraction of the
-diagonal line
-lengths are above a
-minimum, given, line
-length. <span class="math notranslate nohighlight">\(p(l)\)</span>
-is the probability
-of a line length
-<span class="math notranslate nohighlight">\(l\)</span>. Since
-diagonal lines are
-markers of
-consecutive periods
-of recurrence in the
-data, determinism
-corresponds to the
-predictability of
-the dynamical
-system.</p></td>
-</tr>
-<tr class="row-even"><td><p>Laminarity (LAM)</p></td>
-<td><dl class="field-list simple">
-<dt class="field-odd">math<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p><cite>LAM = frac{sum_{v
-=v_{text{min}}}^{N}
-vcdot p(v)}{sum_{v
-=1}^{N}vcdot p(v)}</cite></p>
-</td>
-<td><p>Mathematically
-equivalent to
-determinism but
-defined for vertical
-(or horizontal) line
-lengths. Since
-vertical (or
-horizontal) lines
-are markers of
-states that do not
-change or change
-very slowly,
-laminarity
-quantifies the
-extent of the
-dynamical system
-being trapped in any
-given state for some
-time.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Average diagonal
-line length (L)</p></td>
-<td><dl class="simple">
-<dt>:math:<a href="#id1"><span class="problematic" id="id2">`</span></a>L</dt><dd><p>= frac{sum_{l=l_{</p>
+<div class="bullets docutils container">
+<dl class="simple">
+<dt><strong>Recurrence Rate (RR)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(RR = \frac{1}{N^2}\sum_{i=1}^{N}\sum_{j=1}^{N} R(i,j)\)</span></p></li>
+<li><p><strong>Description:</strong> RR measures the density of recurrence points in the recurrence plot (RP). It indicates how probable it is for states to recur in the system. RR is calculated as the average of <span class="math notranslate nohighlight">\(R(i,j)\)</span> across the RP.</p></li>
+</ul>
+</dd>
+<dt><strong>Determinism (DET)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(DET = \frac{\sum_{l=l_{\text{min}}}^{N}l\cdot p(l)}{\sum_{l=1}^{N}l\cdot p(l)}\)</span></p></li>
+<li><p><strong>Description:</strong> DET quantifies what fraction of diagonal line lengths are above a minimum line length. Diagonal lines in the RP represent consecutive periods of recurrence, and DET reflects the predictability of the dynamical system based on these lines.</p></li>
+</ul>
+</dd>
+<dt><strong>Laminarity (LAM)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(LAM = \frac{\sum_{v=v_{\text{min}}}^{N}v\cdot p(v)}{\sum_{v=1}^{N}v\cdot p(v)}\)</span></p></li>
+<li><p><strong>Description:</strong> LAM is similar to DET but considers vertical (or horizontal) line lengths in the RP. It indicates the extent to which the system is trapped in a state for some time, reflecting its persistence.</p></li>
+</ul>
+</dd>
+<dt><strong>Average Diagonal Line Length (L)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(L = \frac{\sum_{l=l_{\text{min}}}^{N}l\cdot p(l)}{\sum_{l_{\text{min}}}^{N}p(l)}\)</span></p></li>
+<li><p><strong>Description:</strong> L represents the average value of the diagonal line length distribution in the RP. It quantifies how far in time the dynamical system is predictable based on the lengths of diagonal lines.</p></li>
+</ul>
+</dd>
+<dt><strong>Average Vertical Line Length (Trapping Time) (TT)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(TT = \frac{\sum_{v=v_{\text{min}}}^{N}v\cdot p(v)}{\sum_{v_{\text{min}}}^{N}p(v)}\)</span></p></li>
+<li><p><strong>Description:</strong> TT is the average value of the vertical line length distribution in the RP. It indicates the average time a state remains unchanged or changes very slowly in the system.</p></li>
+</ul>
+</dd>
+<dt><strong>Maximum Diagonal Line Length</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(\max(D_{l})\)</span></p></li>
+<li><p><strong>Description:</strong> This represents the maximum value from the diagonal line length distribution in the RP, indicating the longest continuous period of recurrence in the system.</p></li>
+</ul>
+</dd>
+<dt><strong>Maximum Vertical Line Length</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(\max(D_{v})\)</span></p></li>
+<li><p><strong>Description:</strong> This reflects the maximum value from the vertical line length distribution in the RP, indicating the longest time a state remains unchanged or changes very slowly.</p></li>
+</ul>
+</dd>
+<dt><strong>Diagonal and Vertical Entropy (ENTR)</strong></dt><dd><ul class="simple">
+<li><p><strong>Formula:</strong> <span class="math notranslate nohighlight">\(ENTR = -\sum_{l=l_{\text{min}}}^{N} p(l) \ln p(l)\)</span></p></li>
+<li><p><strong>Description:</strong> ENTR quantifies the degree of uncertainty in possible states and the complexity of the dynamical system. It uses the distributions of diagonal and vertical line lengths present in the RP to assess system complexity.</p></li>
+</ul>
 </dd>
 </dl>
-<p>text{min}}}^{N}lcd
-ot p(l)}{sum_{l_{t
-ext{min}}}^{N}p(l)}`</p>
-</td>
-<td><p>Average value of
-diagonal line length
-distribution,
-quantifying how far
-in time the
-dynamical system is
-predictable.</p></td>
-</tr>
-<tr class="row-even"><td><p>Average vertical
-line length (TT)</p></td>
-<td><dl class="simple">
-<dt>:math:<a href="#id3"><span class="problematic" id="id4">`</span></a>TT</dt><dd><p>= frac{sum_{v=v_{</p>
-</dd>
-</dl>
-<p>text{min}}}^{N}vcd
-ot p(v)}{sum_{v_{t
-ext{min}}}^{N}p(v)}`</p>
-</td>
-<td><p>Average value of the
-vertical line length
-distribution.</p></td>
-</tr>
-<tr class="row-odd"><td><p>Maximum diagonal
-line length</p></td>
-<td><p><span class="math notranslate nohighlight">\(\max(D_{l})\)</span>
-where,
-<span class="math notranslate nohighlight">\(D_{l}
-= \{l_{1}, l_{2}, l_
-{3}, ..., l_{Nd} \}\)</span></p></td>
-<td><p>Maximum value from
-the diagonal line
-distribution</p></td>
-</tr>
-<tr class="row-even"><td><p>Maximum vertical
-line length</p></td>
-<td><p><span class="math notranslate nohighlight">\(\max(D_{v})\)</span>
-where,
-<span class="math notranslate nohighlight">\(D_{v}
-= \{v_{1}, v_{2}, v_
-{3}, ..., v_{Nv} \}\)</span></p></td>
-<td><p>Maximum value from
-the vertical line
-distribution</p></td>
-</tr>
-<tr class="row-odd"><td><p>Diagonal and
-Vertical Entropy
-(ENTR)</p></td>
-<td><p><span class="math notranslate nohighlight">\(ENTR = -\s
-um_{l=l_{\text{min}}
-}^{N} p(l) \ln p(l)\)</span></p></td>
-<td><p>Quantifies the
-degree of
-uncertainty in the
-possible states and
-hence, the
-complexity of the
-dynamical system,
-using the
-distribution of
-diagonal and
-vertical line
-lengths present in
-the plot,
-respectively.</p></td>
-</tr>
-<tr class="row-even"><td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
 </div>
 </section>
 
