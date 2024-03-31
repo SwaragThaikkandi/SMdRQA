@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="SMdRQA",
-    version="2024.04.01.2",
+    version="2024.04.02",
     author="Swarag Thaikkandi, K.M. Sharika, Miss Nivedita",
     author_email="tsk4at@gmail.com",
     description="A Python implementation of MdRQA",
