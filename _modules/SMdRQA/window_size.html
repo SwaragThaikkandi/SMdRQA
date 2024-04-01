@@ -414,7 +414,7 @@ document.write(`
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
     <span class="n">n_boot</span><span class="p">,</span>
-    <span class="p">):</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for percentage laminarity\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
@@ -430,7 +430,7 @@ document.write(`
         <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
     <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_bar</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_windows</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
 
     <span class="c1"># print(np.sum(P, axis=1))</span>
 
@@ -446,7 +446,7 @@ document.write(`
     <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
         <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
-                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
         <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
 
         <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
@@ -472,7 +472,7 @@ document.write(`
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
     <span class="n">n_boot</span><span class="p">,</span>
-    <span class="p">):</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for average vertical line length\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
@@ -488,7 +488,7 @@ document.write(`
         <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
     <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_bar</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
 
     <span class="c1"># print(np.sum(P, axis=1))</span>
 
@@ -504,7 +504,7 @@ document.write(`
     <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
         <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
-                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
         <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
 
         <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
@@ -530,7 +530,7 @@ document.write(`
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
     <span class="n">n_boot</span><span class="p">,</span>
-    <span class="p">):</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for percentage determinism\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
@@ -546,7 +546,7 @@ document.write(`
         <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
     <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_bar</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_windows</span><span class="p">)</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
 
     <span class="c1"># print(np.sum(P, axis=1))</span>
 
@@ -562,7 +562,7 @@ document.write(`
     <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
         <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
-                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
         <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
 
         <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
@@ -588,7 +588,7 @@ document.write(`
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
     <span class="n">n_boot</span><span class="p">,</span>
-    <span class="p">):</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for average diagonal line length\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
@@ -604,7 +604,7 @@ document.write(`
         <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
     <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_bar</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
-    <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
 
     <span class="c1"># print(np.sum(P, axis=1))</span>
 
@@ -620,7 +620,7 @@ document.write(`
     <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
         <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
-                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
         <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
 
         <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
@@ -646,7 +646,7 @@ document.write(`
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">var</span><span class="p">,</span>
     <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-    <span class="p">):</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    var : str\n        RQA variable name\n\n        *percent_lam* : percentage laminarity\n\n        *percent_det* : percentage determinism\n\n        *avg_vert* : average value of vertical line distribution\n\n        *avg_diag* : average value of diagonal line distribution\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    data : dataframe\n        dataframe containing the CI estimate of corresponding window sizes, columns are\n\n        *WINSIZE* : window size\n\n        *95% quantile- 5% quantile* : confidence interval\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">WINSIZE</span> <span class="o">=</span> <span class="p">[]</span>
@@ -654,16 +654,16 @@ document.write(`
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;percent_lam&#39;</span><span class="p">:</span>
             <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_per_lam</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
-                    <span class="n">n_boot</span><span class="p">)</span>
+                                                   <span class="n">n_boot</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;percent_det&#39;</span><span class="p">:</span>
             <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_percent_det</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
-                    <span class="n">n_boot</span><span class="p">)</span>
+                                                       <span class="n">n_boot</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;avg_vert&#39;</span><span class="p">:</span>
             <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_avg_vert</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
-                    <span class="n">n_boot</span><span class="p">)</span>
+                                                    <span class="n">n_boot</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;avg_diag&#39;</span><span class="p">:</span>
             <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_avg_diag</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
-                    <span class="n">n_boot</span><span class="p">)</span>
+                                                    <span class="n">n_boot</span><span class="p">)</span>
 
         <span class="n">WINSIZE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
         <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_std</span><span class="p">)</span>
