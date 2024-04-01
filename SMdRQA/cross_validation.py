@@ -13,7 +13,7 @@ def feature_selection(x_train, y_train, features, y_name, inner_splits, select_k
 
     Parameters
     ----------
-    
+
     x_train : array
         training set from the outer loops of nested cross validation function
 
@@ -208,7 +208,7 @@ def nested_cv(
 
     Parameters
     ----------
-    
+
     data_file : dataframe
         pandas dataframe containing input data
 
