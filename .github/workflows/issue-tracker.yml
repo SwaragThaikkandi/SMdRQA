@@ -24,12 +24,14 @@ jobs:
         run: |
           # git commit if there's any change
           if test -n "$(git status --porcelain 2>/dev/null)"; then
-              git config --global user.email "idegorepl@gmail.com"
-              git config --global user.name "ActionCloud Bot"
+              git config --global user.email "swaragthaikkandi@gmail.com"
+              git config --global user.name "SwaragThaikkandi"
               git add .
               git commit -m "Update forks data"
               git push
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # you can get badge code of ActionCloud viewer App, and click it to view your data
       - name: Generate ActionCloud Viewer Badge
