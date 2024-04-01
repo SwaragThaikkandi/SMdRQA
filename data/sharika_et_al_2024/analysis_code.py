@@ -1,4 +1,4 @@
-# Import packages
+# Import packages for analysis
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
