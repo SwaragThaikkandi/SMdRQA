@@ -13,7 +13,7 @@ from SMdRQA.cross_validation import nested_cv
 
 # Define function for reading .xlsx files and to give the HRV values as a numpy array
 # For details about data and questionnaire scores see the file :
-# https://github.com/SwaragThaikkandi/SMdRQA/blob/main/data/grpInfo-2-20.11.2022.xlsx
+# https://github.com/SwaragThaikkandi/SMdRQA/blob/main/data/Data-Info.xlsx
 
 
 def read_HR(path):
