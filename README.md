@@ -161,6 +161,7 @@ For more detailed information on how to use SMdRQA, refer to the [SMdRQA Documen
 
 [![image](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/python-package.yml)
 [![pages-build-deployment](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/pages/pages-build-deployment)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
 ## PyPI Package Information
 
