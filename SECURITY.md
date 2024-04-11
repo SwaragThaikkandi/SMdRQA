@@ -3,6 +3,40 @@
 ## Overview:
 Our organization is committed to maintaining a secure and reliable software environment for our GitHub repository. This security policy outlines the measures, practices, and guidelines that all contributors, maintainers, and stakeholders must adhere to ensure the integrity, confidentiality, and availability of our codebase and associated resources.
 
+## Common Platform Enumeration (CPE) for Project "smdrqa"
+
+### CPE Identifier:
+
+```bash
+cpe:2.3:a:swaragthaikkandi:smdrqa:-:*:*:*:*:python:*:*
+```
+
+### Description:
+This CPE identifier (`cpe:2.3:a:swaragthaikkandi:smdrqa:-:*:*:*:*:python:*:*`) is specifically associated with this project. It denotes the version as unspecified (`-`) in this context.
+
+### Usage Guide for Project "smdrqa":
+1. **Asset Identification:**
+   - Utilize this CPE to identify and document instances of the "smdrqa" software within your project's IT environment.
+
+2. **Vulnerability Management:**
+   - Use the CPE information to track vulnerabilities and security advisories related to the "smdrqa" software used in your project.
+
+3. **Risk Assessment:**
+   - Leverage the CPE data to assess the risk associated with the "smdrqa" component in your project, considering its version and Python platform.
+
+4. **Compliance and Best Practices:**
+   - By incorporate CPE information into project's security policies and practices we ensure compliance and adherence to security best practices.
+
+### Responsibilities:
+- **Project Team:** The project team is responsible for managing and updating CPE data related to the "smdrqa" software within the project's scope.
+
+### Update Frequency:
+- Regularly review and update the CPE information as needed to reflect changes in software versions or configurations within the project.
+
+### Additional Resources:
+For more information about Common Platform Enumeration (CPE) and its usage, refer to resources such as the NIST Common Platform Enumeration website and related security standards.
+
+
 ## Code Quality and Security Practices:
 All code contributions and modifications must adhere to the following quality and security standards:
 - Compliance with coding standards, best practices, and style guidelines established by the project.
