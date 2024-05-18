@@ -27,4 +27,10 @@ You can cite the **main publication** for *SMdRQA* as follows:
 Other related papers
 ---------------------
 
-- 'Sharika, K. M., Swarag Thaikkandi, and Michael L. Platt. "Interpersonal heart rate synchrony predicts effective group performance in a naturalistic collective decision-making task." bioRxiv (2023)'. <https://doi.org/10.1101%2F2023.07.24.550277>`_
+- 'Sharika, K. M., Swarag Thaikkandi, and Michael L. Platt. "Interpersonal heart rate synchrony predicts effective information processing in a naturalistic group decision-making task" bioRxiv (2023)'. <https://doi.org/10.1073/pnas.2313801121>`_
+
+.. raw:: html
+
+    <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+    <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754"></div>
+
