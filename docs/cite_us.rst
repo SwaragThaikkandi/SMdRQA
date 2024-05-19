@@ -34,9 +34,10 @@ Other related papers
     <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
     <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754" style="background-color: black; padding: 10px; display: inline-block; border-radius: 5px; width: 100px; height: 100px;"></div>
 
-.. image:: https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121
-   :target: https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121
-   :alt: PlumX Metrics Badge
+.. raw:: html
+
+    <script type="text/javascript" src="//cdn.plu.mx/widget-summary.js"></script>
+    <a href="https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121" class="plumx-summary"></a>
 
 
 
