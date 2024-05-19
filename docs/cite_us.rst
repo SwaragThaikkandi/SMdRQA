@@ -36,8 +36,7 @@ Other related papers
 
 .. raw:: html
 
-    <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
-    <a href="https://plu.mx/plum/a/?doi=10.1073%2Fpnas.2313801121" data-popup="bottom" data-size="large" class="plumx-plum-print-popup" data-site="plum" data-hide-when-empty="true" data-no-link="true" data-pass-hidden-categories="true">Interpersonal heart rate synchrony predicts effective information processing in a naturalistic group decision-making task.</a>
-
+    <script type="text/javascript" src="//cdn.plu.mx/widget-summary.js"></script>
+    <a href="https://plu.mx/plum/a/?doi=10.1073%2Fpnas.2313801121" class="plumx-summary plum-liberty-theme" data-site="plum" data-hide-when-empty="true" data-no-link="true" data-pass-hidden-categories="true">Interpersonal heart rate synchrony predicts effective information processing in a naturalistic group decision-making task.</a>
 
 
