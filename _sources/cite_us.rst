@@ -40,6 +40,11 @@ Other related papers
     <script type="text/javascript" src="//cdn.plu.mx/widget-details.js"></script>
     <a href="https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121" class="plumx-details"></a>
 
+.. raw:: html
+
+    <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+    <a href="https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121" class="plumx-plum-print-popup"></a>
+
 
 
 
