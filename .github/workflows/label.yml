@@ -5,18 +5,30 @@
 # file with configuration.  For more information, see:
 # https://github.com/actions/labeler
 
-name: Labeler
-on: [pull_request_target]
+name: "Pull Request Labeler"
+on:
+- pull_request_target
 
 jobs:
-  label:
-
-    runs-on: ubuntu-latest
+  labeler:
     permissions:
       contents: read
       pull-requests: write
-
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/labeler@v5
+    - id: label-the-PR
+      uses: actions/labeler@v5
       with:
         repo-token: "${{ secrets.GH_TOKEN }}"
+      
+    - id: run-frontend-tests
+      if: contains(steps.label-the-PR.outputs.all-labels, 'frontend')
+      run: |
+        echo "Running frontend tests..."
+        # Put your commands for running frontend tests here
+  
+    - id: run-backend-tests
+      if: contains(steps.label-the-PR.outputs.all-labels, 'backend')
+      run: |
+        echo "Running backend tests..."
+        # Put your commands for running backend tests here
