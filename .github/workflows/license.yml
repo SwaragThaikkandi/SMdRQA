@@ -1,0 +1,11 @@
+name: license
+on: pull_request
+jobs:
+  license:
+    # Check if the PR is not from a fork
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: License Approval
+        uses: ralexander-phi/license_approval@v1.0.0
+            
