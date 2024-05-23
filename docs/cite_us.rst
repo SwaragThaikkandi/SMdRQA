@@ -34,7 +34,7 @@ Other related papers
     <div style="display: flex; gap: 10px;">
         <!-- Altmetric Badge -->
         <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
-        <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754" style="background-color: black; padding: 10px; display: inline-block; border-radius: 5px; width: 100px; height: 100px;"></div>
+        <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754"></div>
 
         <!-- PlumX Badge -->
         <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
