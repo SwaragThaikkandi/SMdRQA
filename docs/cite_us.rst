@@ -31,14 +31,19 @@ Other related papers
 
 .. raw:: html
 
-    <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
-    <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754" style="background-color: black; padding: 10px; display: inline-block; border-radius: 5px; width: 100px; height: 100px;"></div>
+    <div style="display: flex; gap: 10px;">
+        <!-- Altmetric Badge -->
+        <script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script>
+        <div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="163407754" style="background-color: black; padding: 10px; display: inline-block; border-radius: 5px; width: 100px; height: 100px;"></div>
 
+        <!-- PlumX Badge -->
+        <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
+        <a href="https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121" class="plumx-plum-print-popup"></a>
 
-.. raw:: html
-
-    <script type="text/javascript" src="//cdn.plu.mx/widget-popup.js"></script>
-    <a href="https://plu.mx/plum/a/?doi=10.1073/pnas.2313801121" class="plumx-plum-print-popup"></a>
+        <!-- Dimensions Badge -->
+        <span class="__dimensions_badge_embed__" data-doi="10.1073/pnas.2313801121"></span>
+        <script async src="https://badge.dimensions.ai/badge.js" charset="utf-8"></script>
+    </div>
 
 
 
