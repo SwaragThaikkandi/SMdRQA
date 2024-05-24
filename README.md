@@ -70,7 +70,7 @@ If you have identified a security vulnerability in our project, we encourage you
 
 ### Reporting Process
 
-1. **Contact Information**: For private vulnerability reports, please contact our security team via email at [swaragtgithub@gmail.com](mailto:swaragtgithub@gmail.com). You can also reach out to repository owner via GitHub
+1. **Contact Information**: For private vulnerability reports, please contact our team via email at [swaragtgithub@gmail.com](mailto:swaragtgithub@gmail.com). You can also reach out to repository owner via GitHub
 
 2. **Encryption**: Use encryption when sending sensitive information. Encrypt any attachments or communications using strong encryption standards such as PGP (Pretty Good Privacy) or GPG (GNU Privacy Guard).
 
