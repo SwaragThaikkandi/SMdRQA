@@ -22,4 +22,4 @@ jobs:
 
     # Runs djdefi/cloc-action
     - name: Count Lines of Code (cloc)
-      uses: djdefi/cloc-action@6
+      uses: djdefi/cloc-action@7
