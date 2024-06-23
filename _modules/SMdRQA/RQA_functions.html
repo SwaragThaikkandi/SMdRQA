@@ -358,6 +358,27 @@ document.write(`
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedStratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+
+<span class="k">def</span> <span class="nf">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Handle empty array</span>
+
+    <span class="c1"># Check for the first local minima</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Single element or first element is a local minima</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">i</span>
+
+
+    <span class="c1"># If no local minima found, return the index of the global minimum</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">doanes_formula</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
@@ -536,9 +557,7 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="findtau">
-<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
-<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
@@ -572,7 +591,128 @@ document.write(`
             <span class="k">break</span>
         <span class="n">minMI</span> <span class="o">=</span> <span class="n">nextMI</span>
 
-    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span></div>
+    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span>
+    
+<span class="k">def</span> <span class="nf">find_poly_degree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">MaxDeg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">DEG</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">RMSE</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">deg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MaxDeg</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">MSE_sub</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+            <span class="n">polynomial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">polynomial</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+            <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="n">MSE_sub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+            
+            
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">MSE_sub</span><span class="p">))</span>
+        <span class="n">DEG</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+        <span class="n">RMSE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span>
+        
+    <span class="n">DEG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">DEG</span><span class="p">)</span>
+    <span class="n">RMSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">RMSE</span><span class="p">)</span> 
+    
+    <span class="n">min_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">RMSE</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">DEG</span><span class="p">[</span><span class="n">min_index</span><span class="p">]</span>
+    
+
+    
+<span class="k">def</span> <span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+<span class="sd">        </span>
+<span class="sd">    grp : str</span>
+<span class="sd">        group name for saving the TAU vs MI figure</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
+        
+    <span class="n">TAU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TAU</span><span class="p">)</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">MIARR</span><span class="p">)</span>
+    
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">find_poly_degree</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span><span class="n">MIARR</span><span class="p">)</span>
+    
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+    <span class="n">polynomial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">polynomial</span><span class="p">(</span><span class="n">TAU</span><span class="p">)</span>
+    
+    <span class="n">tau_index</span> <span class="o">=</span> <span class="n">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="s1">&#39;b*&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;TAU-MI-&#39;</span><span class="o">+</span><span class="n">grp</span><span class="o">+</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">]</span>
+    
+    
+<div class="viewcode-block" id="findtau">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
+<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+<span class="sd">        </span>
+<span class="sd">    method : method that should be used to find the first local minima in MI vs tau curve. </span>
+<span class="sd">             &quot;default&quot; - first minima of the MI vs TAU plot</span>
+<span class="sd">             &quot;polynomial&quot;- first minima of the polynomial fit to the MI vs TAU plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+       <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
+       
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">:</span>
+       <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
+       
+    <span class="k">return</span> <span class="n">tau</span></div>
 
 
 <span class="c1">#### Calculation of m ####################################################</span>
