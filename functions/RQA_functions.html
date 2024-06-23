@@ -409,6 +409,14 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.timedelayMI"><code class="docutils literal notranslate"><span class="pre">timedelayMI()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau-default"><em>findtau_default()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.findtau_default"><code class="docutils literal notranslate"><span class="pre">findtau_default()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau-polynomial"><em>findtau_polynomial()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.findtau_polynomial"><code class="docutils literal notranslate"><span class="pre">findtau_polynomial()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau"><em>findtau()</em></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.findtau"><code class="docutils literal notranslate"><span class="pre">findtau()</span></code></a></li>
 </ul>
@@ -569,6 +577,49 @@ document.write(`
 <ul class="simple">
 <li><p>Shannon, Claude Elwood. “A mathematical theory of communication.” The Bell system technical journal 27.3 (1948): 379-423.</p></li>
 </ul>
+</dd></dl>
+
+</section>
+<section id="findtau-default">
+<h3><em>findtau_default()</em><a class="headerlink" href="#findtau-default" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.RQA_functions.findtau_default">
+<span class="sig-name descname"><span class="pre">findtau_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findtau_default" title="Link to this definition">#</a></dt>
+<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tau</strong> (<em>double</em>) – optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn’t exist)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="findtau-polynomial">
+<h3><em>findtau_polynomial()</em><a class="headerlink" href="#findtau-polynomial" title="Link to this heading">#</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.RQA_functions.findtau_polynomial">
+<span class="sig-name descname"><span class="pre">findtau_polynomial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau_polynomial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findtau_polynomial" title="Link to this definition">#</a></dt>
+<dd><p>Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>ndarray</em>) – double array of shape (n,d).  Think of it as n points in a d dimensional space</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
+<li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>grp</strong> (<em>str</em>) – group name for saving the TAU vs MI figure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tau</strong> (<em>double</em>) – optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn’t exist)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -1100,6 +1151,14 @@ given as an input</p>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#timedelaymi"><em>timedelayMI()</em></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.timedelayMI"><code class="docutils literal notranslate"><span class="pre">timedelayMI()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau-default"><em>findtau_default()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.findtau_default"><code class="docutils literal notranslate"><span class="pre">findtau_default()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau-polynomial"><em>findtau_polynomial()</em></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA_functions.findtau_polynomial"><code class="docutils literal notranslate"><span class="pre">findtau_polynomial()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#findtau"><em>findtau()</em></a><ul class="nav section-nav flex-column">

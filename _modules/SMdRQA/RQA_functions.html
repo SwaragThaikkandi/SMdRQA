@@ -557,6 +557,8 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="findtau_default">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_default">[docs]</a>
 <span class="k">def</span> <span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
@@ -591,7 +593,8 @@ document.write(`
             <span class="k">break</span>
         <span class="n">minMI</span> <span class="o">=</span> <span class="n">nextMI</span>
 
-    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span></div>
+
     
 <span class="k">def</span> <span class="nf">find_poly_degree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
     <span class="n">MaxDeg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -624,6 +627,8 @@ document.write(`
     
 
     
+<div class="viewcode-block" id="findtau_polynomial">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_polynomial">[docs]</a>
 <span class="k">def</span> <span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</span>
@@ -674,7 +679,8 @@ document.write(`
     <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">])</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;TAU-MI-&#39;</span><span class="o">+</span><span class="n">grp</span><span class="o">+</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
     
-    <span class="k">return</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">]</span></div>
+
     
     
 <div class="viewcode-block" id="findtau">
