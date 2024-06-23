@@ -335,7 +335,8 @@ def findtau_polynomial(u, n, d, grp):
     
 def findtau(u, n, d, grp, method = 'default'):
     '''
-    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve
+    Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve
+
 
     Parameters
     ----------
