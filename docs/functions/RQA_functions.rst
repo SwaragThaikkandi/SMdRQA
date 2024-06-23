@@ -15,6 +15,14 @@ Features
 """""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.timedelayMI
 
+*findtau_default()*
+""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.findtau_default
+
+*findtau_polynomial()*
+""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.findtau_polynomial
+
 *findtau()*
 """"""""""""
 .. autofunction:: SMdRQA.RQA_functions.findtau
