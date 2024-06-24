@@ -38,7 +38,7 @@ def test_findtau():
     var = np.sin((2 * np.pi * np.random.uniform(0, 1)) + (4 * angle))
     u[:, 0] = (var - np.mean(var)) / np.std(var)
     sd = 3 * np.std(u)
-    tau = findtau(u, n, d, 0)
+    tau = findtau(u, n, d, '0')
     assert ((tau > 0) and (tau < n))
 
 
