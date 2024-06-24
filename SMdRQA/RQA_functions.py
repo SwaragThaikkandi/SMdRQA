@@ -1,3 +1,5 @@
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import RepeatedStratifiedKFold
 import memory_profiler
 from scipy.interpolate import pchip_interpolate
 from functools import partial
@@ -23,13 +25,11 @@ from numpy.core import overrides
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-from sklearn.model_selection import RepeatedStratifiedKFold
-from sklearn.metrics import mean_squared_error
 
 
 def find_first_minima_or_global_minima_index(arr):
     n = len(arr)
-    
+
     if n == 0:
         return None  # Handle empty array
 
@@ -37,10 +37,9 @@ def find_first_minima_or_global_minima_index(arr):
     if n == 1 or arr[0] < arr[1]:
         return 0  # Single element or first element is a local minima
 
-    for i in range(1, n-1):
-        if arr[i] < arr[i-1] and arr[i] < arr[i+1]:
+    for i in range(1, n - 1):
+        if arr[i] < arr[i - 1] and arr[i] < arr[i + 1]:
             return i
-
 
     # If no local minima found, return the index of the global minimum
     return np.argmin(arr)
@@ -248,14 +247,15 @@ def findtau_default(u, n, d, grp):
         minMI = nextMI
 
     return tau - 1
-    
-def find_poly_degree(x,y):
+
+
+def find_poly_degree(x, y):
     MaxDeg = len(x)
     DEG = []
     RMSE = []
-    for deg in range(1, MaxDeg+1):
+    for deg in range(1, MaxDeg + 1):
         cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=10, random_state=1)
-        
+
         MSE_sub = []
         for train_idx, test_idx in cv.split(x, y):
             x_train, x_test = x.iloc[train_idx], x.iloc[test_idx]
@@ -265,21 +265,19 @@ def find_poly_degree(x,y):
             y_pred = polynomial(x_test)
             mse = mean_squared_error(y_test, y_pred)
             MSE_sub.append(mse)
-            
-            
+
         rmse = np.sqrt(np.mean(MSE_sub))
         DEG.append(deg)
         RMSE.append(rmse)
-        
-    DEG = np.array(DEG)
-    RMSE = np.array(RMSE) 
-    
-    min_index = np.argmin(RMSE)
-    
-    return DEG[min_index]
-    
 
-    
+    DEG = np.array(DEG)
+    RMSE = np.array(RMSE)
+
+    min_index = np.argmin(RMSE)
+
+    return DEG[min_index]
+
+
 def findtau_polynomial(u, n, d, grp):
     '''
     Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve
@@ -294,7 +292,7 @@ def findtau_polynomial(u, n, d, grp):
 
     d   : int
         number of measurements or dimensions of the data
-        
+
     grp : str
         group name for saving the TAU vs MI figure
 
@@ -312,28 +310,28 @@ def findtau_polynomial(u, n, d, grp):
         nextMI = timedelayMI(u, n, d, tau)
         TAU.append(tau)
         MIARR.append(nextMI)
-        
+
     TAU = np.array(TAU)
     MIARR = np.array(MIARR)
-    
-    degree = find_poly_degree(TAU,MIARR)
-    
+
+    degree = find_poly_degree(TAU, MIARR)
+
     coefficients = np.polyfit(TAU, MIARR, degree)
     polynomial = np.poly1d(coefficients)
     y_pred = polynomial(TAU)
-    
+
     tau_index = find_first_minima_or_global_minima_index(y_pred)
-    
+
     plt.figure()
     plt.plot(TAU, MIARR, 'b*')
     plt.plot(TAU, y_pred, 'r-')
-    plt.axvline(x = TAU[tau_index])
-    plt.savefig('TAU-MI-'+grp+'.png')
-    
+    plt.axvline(x=TAU[tau_index])
+    plt.savefig('TAU-MI-' + grp + '.png')
+
     return TAU[tau_index]
-    
-    
-def findtau(u, n, d, grp, method = 'default'):
+
+
+def findtau(u, n, d, grp, method='default'):
     '''
     Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve
 
@@ -348,8 +346,8 @@ def findtau(u, n, d, grp, method = 'default'):
 
     d   : int
         number of measurements or dimensions of the data
-        
-    method : method that should be used to find the first local minima in MI vs tau curve. 
+
+    method : method that should be used to find the first local minima in MI vs tau curve.
              "default" - first minima of the MI vs TAU plot
              "polynomial"- first minima of the polynomial fit to the MI vs TAU plot
 
@@ -362,11 +360,11 @@ def findtau(u, n, d, grp, method = 'default'):
     '''
 
     if method == "default":
-       tau = findtau_default(u, n, d, grp)
-       
+        tau = findtau_default(u, n, d, grp)
+
     elif method == "polynomial":
-       tau = findtau_polynomial(u, n, d, grp)
-       
+        tau = findtau_polynomial(u, n, d, grp)
+
     return tau
 
 #### Calculation of m ####################################################
