@@ -1,5 +1,5 @@
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import RepeatedKFold
 import memory_profiler
 from scipy.interpolate import pchip_interpolate
 from functools import partial
@@ -254,7 +254,7 @@ def find_poly_degree(x, y):
     DEG = []
     RMSE = []
     for deg in range(1, MaxDeg + 1):
-        cv = RepeatedStratifiedKFold(n_splits=10, n_repeats=10, random_state=1)
+        cv = RepeatedKFold(n_splits=10, n_repeats=10, random_state=1)
 
         MSE_sub = []
         for train_idx, test_idx in cv.split(x, y):
