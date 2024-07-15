@@ -535,7 +535,8 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg" width="800px" /></a>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal.svg" style="width: 800px;" />
+</a>
 <p>Now, let’s compute the mutual inormation for different value of <span class="math notranslate nohighlight">\(\tau\)</span> from 1 to n-1</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">MI</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
@@ -550,7 +551,8 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg" width="800px" /></a>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi.svg" style="width: 800px;" />
+</a>
 <p>We can see 10 peaks in this plot, but, it is not easy to understand what that codes for. For that we need to get the angular values corresponding to each of these <span class="math notranslate nohighlight">\(\tau\)</span> values.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">angles_from_tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TAU</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
 <span class="n">angles_2pi</span> <span class="o">=</span> <span class="n">angles_from_tau</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
@@ -563,7 +565,8 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg" width="800px" /></a>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/simple-signal-tau-mi-angle.svg" style="width: 800px;" />
+</a>
 <p>We can see that the odd multiples of <span class="math notranslate nohighlight">\(\frac{\pi}{2}\)</span> gives the minumum value of mutual information, and this is easy to understand in the case of sine wave as a sin wave shufted by <span class="math notranslate nohighlight">\(\frac{\pi}{2}\)</span> or its multiples results in a cos wave. <strong>findtau</strong> function, in this context, finds the first minima of the mutual information vs <span class="math notranslate nohighlight">\(\tau\)</span> curve.</p>
 </section>
 <section id="id1">
