@@ -23,6 +23,7 @@ import operator
 import warnings
 from numpy.core import overrides
 import matplotlib.pyplot as plt
+from sklearn.model_selection import RepeatedKFold
 import matplotlib
 matplotlib.use('Agg')
 
