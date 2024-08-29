@@ -83,7 +83,7 @@ def compute_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64):
     '''
     total_elements = dim1 * dim2 * dim3
     element_size = np.dtype(dtype).itemsize
-    return total_elements * element_size
+    return (total_elements * element_size)  / (1024**3)
 
 def assert_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64, memory_limit = 4):
     '''
