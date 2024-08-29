@@ -217,23 +217,23 @@ def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimension
     - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
 
     '''
-   n_samples = X.shape[0]
-   X = assert_matrix(X)
-   Y = assert_matrix(Y)
+    X = assert_matrix(X)
+    Y = assert_matrix(Y)
+    n_samples = X.shape[0]
    
-   DX = np.sqrt(np.sum(np.square((X[:, np.newaxis, :] - X[np.newaxis, :, :])), axis = 2)) 
-   DY = np.sqrt(np.sum(np.square((Y[:, np.newaxis, :] - Y[np.newaxis, :, :])), axis = 2)) 
-   D_stacked = np.stack((DX, DY), axis=-1)
-   D = np.max(D_stacked, axis=2)
-   D_sorted = np.sort(D, axis = 1)
-   k_nearest = np.atleast_2d(D_sorted[:,nearest_neighbor]) # First column would be zero
-   #print('k nearest vectorized:', k_nearest)
-   neigh_matrix_X = 1*((k_nearest - DX) > 0)
-   neigh_X = np.sum(neigh_matrix_X, axis = 1) -1 # Removing "self neighbour"
+    DX = np.sqrt(np.sum(np.square((X[:, np.newaxis, :] - X[np.newaxis, :, :])), axis = 2)) 
+    DY = np.sqrt(np.sum(np.square((Y[:, np.newaxis, :] - Y[np.newaxis, :, :])), axis = 2)) 
+    D_stacked = np.stack((DX, DY), axis=-1)
+    D = np.max(D_stacked, axis=2)
+    D_sorted = np.sort(D, axis = 1)
+    k_nearest = np.atleast_2d(D_sorted[:,nearest_neighbor]) # First column would be zero
+    #print('k nearest vectorized:', k_nearest)
+    neigh_matrix_X = 1*((k_nearest - DX) > 0)
+    neigh_X = np.sum(neigh_matrix_X, axis = 1) -1 # Removing "self neighbour"
    
-   neigh_matrix_Y = 1*((k_nearest - DY) > 0)
-   neigh_Y = np.sum(neigh_matrix_Y, axis = 1) -1 # Removing "self neighbour"
-   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
+    neigh_matrix_Y = 1*((k_nearest - DY) > 0)
+    neigh_Y = np.sum(neigh_matrix_Y, axis = 1) -1 # Removing "self neighbour"
+    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
 
 def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
@@ -264,31 +264,31 @@ def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
     - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
 
     '''
-   XY = np.concatenate((X, Y), axis=1) 
-   NX = np.zeros(X.shape[0], dtype=int)
-   NY = np.zeros(Y.shape[0], dtype=int)
-   NXY = np.zeros(XY.shape[0], dtype=int)
-   n_samples = X.shape[0]
+    XY = np.concatenate((X, Y), axis=1) 
+    NX = np.zeros(X.shape[0], dtype=int)
+    NY = np.zeros(Y.shape[0], dtype=int)
+    NXY = np.zeros(XY.shape[0], dtype=int)
+    n_samples = X.shape[0]
 
-   for i in range(n_samples):
-       N = []
-       for j in range(n_samples):
-           if i != j:  
-              N0 = max(distance.euclidean(X[i], X[j]), distance.euclidean(Y[i], Y[j]))
-              N.append(N0)
-       N.sort()
-       k_nearest = N[nearest_neighbor - 1]
-       #print('k nearest non vectorized:', k_nearest)
+    for i in range(n_samples):
+        N = []
+        for j in range(n_samples):
+            if i != j:  
+               N0 = max(distance.euclidean(X[i], X[j]), distance.euclidean(Y[i], Y[j]))
+               N.append(N0)
+        N.sort()
+        k_nearest = N[nearest_neighbor - 1]
+        #print('k nearest non vectorized:', k_nearest)
 
-       for j in range(n_samples):
-           if i != j:
-               if distance.euclidean(X[i], X[j]) < k_nearest:
-                   NX[i] += 1
-               if distance.euclidean(Y[i], Y[j]) < k_nearest:
-                   NY[i] += 1
-   print('neigh_X non vectorised:', NX)
-   print('neigh_Y non vectorised:', NY)
-   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+        for j in range(n_samples):
+            if i != j:
+                if distance.euclidean(X[i], X[j]) < k_nearest:
+                    NX[i] += 1
+                if distance.euclidean(Y[i], Y[j]) < k_nearest:
+                    NY[i] += 1
+    print('neigh_X non vectorised:', NX)
+    print('neigh_Y non vectorised:', NY)
+    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
 def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
     '''
@@ -324,16 +324,16 @@ def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
     - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
 
     '''
-   dim1, dim2 = X.shape
-   dim3, _ = Y.shape
-   pv = assert_3D_matrix_size(dim1, dim2, dim3, dtype = dtype, memory_limit = memory_limit)
+    dim1, dim2 = X.shape
+    dim3, _ = Y.shape
+    pv = assert_3D_matrix_size(dim1, dim2, dim3, dtype = dtype, memory_limit = memory_limit)
 
-   if pv == True:
-      mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
-   elif pv == False:
-      mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
+    if pv == True:
+       mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
+    elif pv == False:
+       mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
 
-   return mi
+    return mi
 
 
 def timedelayMI(u, n, d, tau):
