@@ -53,15 +53,16 @@ def test_KNN_MI():
     sin_matrix = np.zeros((num_rows, num_cols))
 
     # Generate sine waves with different frequencies
-    frequencies = np.linspace(1, 5, num_cols)  # Example frequencies for each sine wave
+    # Example frequencies for each sine wave
+    frequencies = np.linspace(1, 5, num_cols)
 
     for i in range(num_cols):
         sin_matrix[:, i] = np.sin(frequencies[i] * t)
 
-    mi1 = KNN_MI_vectorized(sin_matrix,sin_matrix,5)
-    mi2 = KNN_MI_non_vectorized(sin_matrix,sin_matrix,5)
-    print('mi1:',mi1)
-    print('mi2:',mi2)
+    mi1 = KNN_MI_vectorized(sin_matrix, sin_matrix, 5)
+    mi2 = KNN_MI_non_vectorized(sin_matrix, sin_matrix, 5)
+    print('mi1:', mi1)
+    print('mi2:', mi2)
     assert abs(mi1 - mi2) < 0.01
 
 
