@@ -1,3 +1,9 @@
+from SMdRQA.utils import assert_3D_matrix_size
+from SMdRQA.utils import compute_3D_matrix_size
+from SMdRQA.utils import assert_matrix
+from scipy.spatial import distance_matrix
+from scipy.special import digamma
+from scipy.spatial import distance
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import RepeatedKFold
 import memory_profiler
@@ -26,13 +32,6 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import RepeatedKFold
 import matplotlib
 matplotlib.use('Agg')
-from scipy.spatial import distance
-from scipy.special import digamma
-from scipy.spatial import distance_matrix
-
-from SMdRQA.utils import assert_matrix
-from SMdRQA.utils import compute_3D_matrix_size
-from SMdRQA.utils import assert_3D_matrix_size
 
 
 def find_first_minima_or_global_minima_index(arr):
@@ -185,11 +184,8 @@ def mutualinfo(X, Y, n, d):
         np.sum(p_y * np.log2(p_y))  # formula for mutual information
 
 
-
-   
-
-
-def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimensional array
+# Only aplicable for multidimensional array
+def KNN_MI_vectorized(X, Y, nearest_neighbor):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Vectorized version
 
@@ -220,23 +216,27 @@ def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimension
     X = assert_matrix(X)
     Y = assert_matrix(Y)
     n_samples = X.shape[0]
-   
-    DX = np.sqrt(np.sum(np.square((X[:, np.newaxis, :] - X[np.newaxis, :, :])), axis = 2)) 
-    DY = np.sqrt(np.sum(np.square((Y[:, np.newaxis, :] - Y[np.newaxis, :, :])), axis = 2)) 
+
+    DX = np.sqrt(
+        np.sum(np.square((X[:, np.newaxis, :] - X[np.newaxis, :, :])), axis=2))
+    DY = np.sqrt(
+        np.sum(np.square((Y[:, np.newaxis, :] - Y[np.newaxis, :, :])), axis=2))
     D_stacked = np.stack((DX, DY), axis=-1)
     D = np.max(D_stacked, axis=2)
-    D_sorted = np.sort(D, axis = 1)
-    k_nearest = np.atleast_2d(D_sorted[:,nearest_neighbor]) # First column would be zero
-    #print('k nearest vectorized:', k_nearest)
-    neigh_matrix_X = 1*((k_nearest - DX) > 0)
-    neigh_X = np.sum(neigh_matrix_X, axis = 1) -1 # Removing "self neighbour"
-   
-    neigh_matrix_Y = 1*((k_nearest - DY) > 0)
-    neigh_Y = np.sum(neigh_matrix_Y, axis = 1) -1 # Removing "self neighbour"
-    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
+    D_sorted = np.sort(D, axis=1)
+    # First column would be zero
+    k_nearest = np.atleast_2d(D_sorted[:, nearest_neighbor])
+    # print('k nearest vectorized:', k_nearest)
+    neigh_matrix_X = 1 * ((k_nearest - DX) > 0)
+    neigh_X = np.sum(neigh_matrix_X, axis=1) - 1  # Removing "self neighbour"
+
+    neigh_matrix_Y = 1 * ((k_nearest - DY) > 0)
+    neigh_Y = np.sum(neigh_matrix_Y, axis=1) - 1  # Removing "self neighbour"
+    return digamma(n_samples) + digamma(nearest_neighbor) - \
+        np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
 
-def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
+def KNN_MI_non_vectorized(X, Y, nearest_neighbor):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used
 
@@ -264,7 +264,7 @@ def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
     - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
 
     '''
-    XY = np.concatenate((X, Y), axis=1) 
+    XY = np.concatenate((X, Y), axis=1)
     NX = np.zeros(X.shape[0], dtype=int)
     NY = np.zeros(Y.shape[0], dtype=int)
     NXY = np.zeros(XY.shape[0], dtype=int)
@@ -273,12 +273,15 @@ def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
     for i in range(n_samples):
         N = []
         for j in range(n_samples):
-            if i != j:  
-               N0 = max(distance.euclidean(X[i], X[j]), distance.euclidean(Y[i], Y[j]))
-               N.append(N0)
+            if i != j:
+                N0 = max(
+                    distance.euclidean(
+                        X[i], X[j]), distance.euclidean(
+                        Y[i], Y[j]))
+                N.append(N0)
         N.sort()
         k_nearest = N[nearest_neighbor - 1]
-        #print('k nearest non vectorized:', k_nearest)
+        # print('k nearest non vectorized:', k_nearest)
 
         for j in range(n_samples):
             if i != j:
@@ -288,9 +291,11 @@ def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
                     NY[i] += 1
     print('neigh_X non vectorised:', NX)
     print('neigh_Y non vectorised:', NY)
-    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+    return digamma(n_samples) + digamma(nearest_neighbor) - \
+        np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
-def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
+
+def KNN_MI(X, Y, nearest_neighbor, dtype=np.float64, memory_limit=4):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit
 
@@ -326,12 +331,17 @@ def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
     '''
     dim1, dim2 = X.shape
     dim3, _ = Y.shape
-    pv = assert_3D_matrix_size(dim1, dim2, dim3, dtype = dtype, memory_limit = memory_limit)
+    pv = assert_3D_matrix_size(
+        dim1,
+        dim2,
+        dim3,
+        dtype=dtype,
+        memory_limit=memory_limit)
 
-    if pv == True:
-       mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
+    if pv:
+        mi = KNN_MI_vectorized(X, Y, nearest_neighbor)
     elif pv == False:
-       mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
+        mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
 
     return mi
 
