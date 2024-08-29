@@ -12,11 +12,11 @@ Features
 .. autofunction:: SMdRQA.RQA_functions.mutualinfo
 
 *KNN_MI_vectorized()*
-""""""""""""
+""""""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.KNN_MI_vectorized
 
 *KNN_MI_non_vectorized()*
-""""""""""""
+""""""""""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.KNN_MI_non_vectorized
 
 *KNN_MI()*
@@ -24,15 +24,15 @@ Features
 .. autofunction:: SMdRQA.RQA_functions.KNN_MI
 
 *timedelayMI()*
-"""""""""""""""""""
+"""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.timedelayMI
 
 *findtau_default()*
-""""""""""""
+""""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.findtau_default
 
 *findtau_polynomial()*
-""""""""""""
+"""""""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.findtau_polynomial
 
 *findtau()*
