@@ -11,6 +11,18 @@ Features
 """"""""""""
 .. autofunction:: SMdRQA.RQA_functions.mutualinfo
 
+*KNN_MI_vectorized()*
+""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.KNN_MI_vectorized
+
+*KNN_MI_non_vectorized()*
+""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.KNN_MI_non_vectorized
+
+*KNN_MI()*
+""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.KNN_MI
+
 *timedelayMI()*
 """""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.timedelayMI
