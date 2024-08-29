@@ -42,6 +42,29 @@ def test_findtau():
     assert ((tau > 0) and (tau < n))
 
 
+def test_KNN_MI():
+    num_rows = 1000  # Number of time points (rows)
+    num_cols = 2     # Number of sine waves (columns)
+
+    # Create a time vector
+    t = np.linspace(0, 2 * np.pi, num_rows)
+
+    # Initialize an empty matrix
+    sin_matrix = np.zeros((num_rows, num_cols))
+
+    # Generate sine waves with different frequencies
+    frequencies = np.linspace(1, 5, num_cols)  # Example frequencies for each sine wave
+
+    for i in range(num_cols):
+        sin_matrix[:, i] = np.sin(frequencies[i] * t)
+
+    mi1 = KNN_MI_vectorized(sin_matrix,sin_matrix,5)
+    mi2 = KNN_MI_non_vectorized(sin_matrix,sin_matrix,5)
+    print('mi1:',mi1)
+    print('mi2:',mi2)
+    assert abs(mi1 - mi2) < 0.01
+
+
 def test_findm():
     SIZE = 10
     rdiv = 451
