@@ -15,4 +15,5 @@ You can find here the API documentation of SMdRQA, with a description of all the
    Extract_from_RP
    RP_maker_diagnose
    cross_validation
+   utils
    
