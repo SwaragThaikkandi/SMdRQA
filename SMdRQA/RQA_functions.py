@@ -139,7 +139,7 @@ def binscalc(X, n, d, method):
 
 def mutualinfo(X, Y, n, d):
     '''
-    Function to calculate mutual information between to time series
+    Function to calculate mutual information between two time series
 
     Parameters
     ----------
@@ -190,6 +190,33 @@ def mutualinfo(X, Y, n, d):
 
 
 def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimensional array
+    '''
+    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Vectorized version
+
+    Parameters
+    ----------
+    X   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    Y   : ndarray
+        double array of shape (n,d).  second time series
+
+    nearest_neighbor   : int
+        number of nearest neighbour for calculating mutual information
+
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between time series
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+    - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
+
+    '''
    n_samples = X.shape[0]
    X = assert_matrix(X)
    Y = assert_matrix(Y)
@@ -206,15 +233,37 @@ def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimension
    
    neigh_matrix_Y = 1*((k_nearest - DY) > 0)
    neigh_Y = np.sum(neigh_matrix_Y, axis = 1) -1 # Removing "self neighbour"
-   print('neigh_X vectorised:', neigh_X)
-   print('neigh_Y vectorised:', neigh_Y)
-
-   
-
    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
 
 def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
+    '''
+    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used
+
+    Parameters
+    ----------
+    X   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    Y   : ndarray
+        double array of shape (n,d).  second time series
+
+    nearest_neighbor   : int
+        number of nearest neighbour for calculating mutual information
+
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between time series
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+    - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
+
+    '''
    XY = np.concatenate((X, Y), axis=1) 
    NX = np.zeros(X.shape[0], dtype=int)
    NY = np.zeros(Y.shape[0], dtype=int)
@@ -242,6 +291,39 @@ def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
 def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
+    '''
+    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit
+
+    Parameters
+    ----------
+    X   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    Y   : ndarray
+        double array of shape (n,d).  second time series
+
+    nearest_neighbor   : int
+        number of nearest neighbour for calculating mutual information
+
+    dtype   : dtype
+        data type, default = np.float64
+
+    memory_limit   : double
+        memory limit in GiB, default = 4
+
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between time series
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+    - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
+
+    '''
    dim1, dim2 = X.shape
    dim3, _ = Y.shape
    pv = assert_3D_matrix_size(dim1, dim2, dim3, dtype = dtype, memory_limit = memory_limit)
