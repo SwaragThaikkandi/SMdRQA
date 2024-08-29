@@ -26,6 +26,13 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import RepeatedKFold
 import matplotlib
 matplotlib.use('Agg')
+from scipy.spatial import distance
+from scipy.special import digamma
+from scipy.spatial import distance_matrix
+
+from SMdRQA.utils import assert_matrix
+from SMdRQA.utils import compute_3D_matrix_size
+from SMdRQA.utils import assert_3D_matrix_size
 
 
 def find_first_minima_or_global_minima_index(arr):
@@ -176,6 +183,75 @@ def mutualinfo(X, Y, n, d):
     p_y /= np.sum(p_y)
     return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x * np.log2(p_x)) - \
         np.sum(p_y * np.log2(p_y))  # formula for mutual information
+
+
+
+   
+
+
+def KNN_MI_vectorized(X,Y,nearest_neighbor): # Only aplicable for multidimensional array
+   n_samples = X.shape[0]
+   X = assert_matrix(X)
+   Y = assert_matrix(Y)
+   
+   DX = np.sqrt(np.sum(np.square((X[:, np.newaxis, :] - X[np.newaxis, :, :])), axis = 2)) 
+   DY = np.sqrt(np.sum(np.square((Y[:, np.newaxis, :] - Y[np.newaxis, :, :])), axis = 2)) 
+   D_stacked = np.stack((DX, DY), axis=-1)
+   D = np.max(D_stacked, axis=2)
+   D_sorted = np.sort(D, axis = 1)
+   k_nearest = np.atleast_2d(D_sorted[:,nearest_neighbor]) # First column would be zero
+   #print('k nearest vectorized:', k_nearest)
+   neigh_matrix_X = 1*((k_nearest - DX) > 0)
+   neigh_X = np.sum(neigh_matrix_X, axis = 1) -1 # Removing "self neighbour"
+   
+   neigh_matrix_Y = 1*((k_nearest - DY) > 0)
+   neigh_Y = np.sum(neigh_matrix_Y, axis = 1) -1 # Removing "self neighbour"
+   print('neigh_X vectorised:', neigh_X)
+   print('neigh_Y vectorised:', neigh_Y)
+
+   
+
+   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
+
+
+def KNN_MI_non_vectorized(X,Y,nearest_neighbor):
+   XY = np.concatenate((X, Y), axis=1) 
+   NX = np.zeros(X.shape[0], dtype=int)
+   NY = np.zeros(Y.shape[0], dtype=int)
+   NXY = np.zeros(XY.shape[0], dtype=int)
+   n_samples = X.shape[0]
+
+   for i in range(n_samples):
+       N = []
+       for j in range(n_samples):
+           if i != j:  
+              N0 = max(distance.euclidean(X[i], X[j]), distance.euclidean(Y[i], Y[j]))
+              N.append(N0)
+       N.sort()
+       k_nearest = N[nearest_neighbor - 1]
+       #print('k nearest non vectorized:', k_nearest)
+
+       for j in range(n_samples):
+           if i != j:
+               if distance.euclidean(X[i], X[j]) < k_nearest:
+                   NX[i] += 1
+               if distance.euclidean(Y[i], Y[j]) < k_nearest:
+                   NY[i] += 1
+   print('neigh_X non vectorised:', NX)
+   print('neigh_Y non vectorised:', NY)
+   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+
+def KNN_MI(X,Y,nearest_neighbor, dtype = np.float64, memory_limit = 4):
+   dim1, dim2 = X.shape
+   dim3, _ = Y.shape
+   pv = assert_3D_matrix_size(dim1, dim2, dim3, dtype = dtype, memory_limit = memory_limit)
+
+   if pv == True:
+      mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
+   elif pv == False:
+      mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
+
+   return mi
 
 
 def timedelayMI(u, n, d, tau):
