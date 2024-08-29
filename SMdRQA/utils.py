@@ -81,9 +81,9 @@ def compute_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64):
          size of the 3D matrix in GiB
 
     '''
-   total_elements = dim1 * dim2 * dim3
-   element_size = np.dtype(dtype).itemsize
-   return total_elements * element_size
+    total_elements = dim1 * dim2 * dim3
+    element_size = np.dtype(dtype).itemsize
+    return total_elements * element_size
 
 def assert_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64, memory_limit = 4):
     '''
@@ -113,9 +113,9 @@ def assert_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64, memory_limit = 4
          True if the memory requirement is less than the specified limit
 
     '''
-   req_memory = compute_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64)
+    req_memory = compute_3D_matrix_size(dim1, dim2, dim3, dtype = np.float64)
 
-   if req_memory < memory_limit:
-      return True
-   elif req_memory >= memory_limit:
-      return False
+    if req_memory < memory_limit:
+       return True
+    elif req_memory >= memory_limit:
+       return False
