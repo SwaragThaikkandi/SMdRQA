@@ -313,10 +313,19 @@ def KNN_MI(X, Y, nearest_neighbor = 5, method = "auto", dtype=np.float64, memory
         number of nearest neighbour for calculating mutual information, default = 5
 
     method : str
-        Specifying options for computing the mutual information using the KNN method. Options are the following
-        - "auto" : this will check for two additional variables, namely "dtype"(data type) and "memory_limit"(maximum memory allocated for the operation). And if for a given matrix size and data type, when using vectorization, the algorithm will proceed with vectorized version. Otherwise it will do the computation sequentially.
-        - "vectorized" : this will use the vectorized method by default, without checking the memory requirement and the limit specified. This option is faster by default
-        - "sequential" : the algorithm being implemented with the help of for loops instead of vectorization. This could be significantly slower than the vectorized version. However, if the resouces ( RAM/physical memory ) is limited and won't be able to handle huge matrices this option should be choosen
+        Specifying options for computing the mutual information using the KNN method. Options are:
+    
+        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit" 
+          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized 
+          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will 
+          compute sequentially.
+      
+        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement 
+          and the limit specified. This option is faster by default.
+      
+        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be 
+          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited 
+          and can't handle huge matrices, this option should be chosen.
 
     dtype   : dtype
         data type, default = np.float64
