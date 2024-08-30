@@ -27,6 +27,10 @@ Features
 """""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.timedelayMI
 
+*KNN_timedelayMI()*
+"""""""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.KNN_timedelayMI
+
 *findtau_default()*
 """"""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.findtau_default
