@@ -185,7 +185,7 @@ def mutualinfo(X, Y, n, d):
 
 
 # Only aplicable for multidimensional array
-def KNN_MI_vectorized(X, Y, nearest_neighbor = 5, dtype=np.float64):
+def KNN_MI_vectorized(X, Y, nearest_neighbor=5, dtype=np.float64):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Vectorized version
 
@@ -238,7 +238,7 @@ def KNN_MI_vectorized(X, Y, nearest_neighbor = 5, dtype=np.float64):
         np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
 
-def KNN_MI_non_vectorized(X, Y, nearest_neighbor = 5):
+def KNN_MI_non_vectorized(X, Y, nearest_neighbor=5):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used
 
@@ -297,7 +297,13 @@ def KNN_MI_non_vectorized(X, Y, nearest_neighbor = 5):
         np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
 
-def KNN_MI(X, Y, nearest_neighbor = 5, method = "auto", dtype=np.float64, memory_limit=4):
+def KNN_MI(
+        X,
+        Y,
+        nearest_neighbor=5,
+        method="auto",
+        dtype=np.float64,
+        memory_limit=4):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit
 
@@ -314,17 +320,17 @@ def KNN_MI(X, Y, nearest_neighbor = 5, method = "auto", dtype=np.float64, memory
 
     method : str
         Specifying options for computing the mutual information using the KNN method. Options are:
-    
-        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit" 
-          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized 
-          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will 
+
+        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit"
+          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized
+          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will
           compute sequentially.
-      
-        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement 
+
+        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement
           and the limit specified. This option is faster by default.
-      
-        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be 
-          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited 
+
+        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be
+          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited
           and can't handle huge matrices, this option should be chosen.
 
     dtype   : dtype
@@ -355,13 +361,13 @@ def KNN_MI(X, Y, nearest_neighbor = 5, method = "auto", dtype=np.float64, memory
         dtype=dtype,
         memory_limit=memory_limit)
     if method == "auto":
-       if pv:
-          mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype = dtype)
-       elif pv == False:
-          mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
+        if pv:
+            mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype=dtype)
+        elif pv == False:
+            mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
 
     elif method == "vectorized":
-        mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype = dtype)
+        mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype=dtype)
 
     elif method == "sequential":
         mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
@@ -403,7 +409,14 @@ def timedelayMI(u, n, d, tau):
     Y = u[tau:n, :]
     return mutualinfo(X, Y, n - tau, d)
 
-def KNN_timedelayMI(u, tau, nearest_neighbor = 5, method = "auto", dtype = np.float64, memory_limit = 4):
+
+def KNN_timedelayMI(
+    u,
+    tau,
+    nearest_neighbor=5,
+    method="auto",
+    dtype=np.float64,
+        memory_limit=4):
     '''
     Function to calculate mutual information between a time series and a delayed version of itself
 
@@ -420,17 +433,17 @@ def KNN_timedelayMI(u, tau, nearest_neighbor = 5, method = "auto", dtype = np.fl
 
     method : str
         Specifying options for computing the mutual information using the KNN method. Options are:
-    
-        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit" 
-          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized 
-          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will 
+
+        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit"
+          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized
+          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will
           compute sequentially.
-      
-        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement 
+
+        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement
           and the limit specified. This option is faster by default.
-      
-        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be 
-          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited 
+
+        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be
+          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited
           and can't handle huge matrices, this option should be chosen.
 
     dtype   : dtype
@@ -455,7 +468,8 @@ def KNN_timedelayMI(u, tau, nearest_neighbor = 5, method = "auto", dtype = np.fl
     n = u.shape[0]
     X = u[0:n - tau, :]
     Y = u[tau:n, :]
-    return KNN_MI(X,Y, nearest_neighbor, method = method, dtype = dtype, memory_limit = memory_limit)
+    return KNN_MI(X, Y, nearest_neighbor, method=method,
+                  dtype=dtype, memory_limit=memory_limit)
 
 
 def findtau_default(u, n, d, grp):
