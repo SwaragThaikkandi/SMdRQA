@@ -1,3 +1,5 @@
+from sklearn.model_selection import RepeatedKFold
+from sklearn.metrics import mean_squared_error
 from SMdRQA.RQA_functions import *
 import ast
 import memory_profiler
@@ -25,10 +27,6 @@ from numpy.core import overrides
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import RepeatedKFold
-from sklearn.model_selection import RepeatedKFold
-
 
 
 def test_findtau():
