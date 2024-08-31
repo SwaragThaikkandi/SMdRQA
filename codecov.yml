@@ -1,0 +1,58 @@
+name: codecov
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '39 20 * * 3'
+    
+
+codecov:
+  require_ci_to_pass: yes
+  notify:
+    wait_for_ci: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: 80...90
+
+  status:
+    # Learn more at http://docs.codecov.io/docs/codecov-yaml
+    project:
+      default:
+        enabled: yes
+        target: 1
+        threshold: 0.1
+    patch:
+      default:
+        enabled: off
+
+ignore:
+  - "**/*.ipynb"
+  - docs
+  - docker
+  - binder
+  - .github
+  - .git
+  
+comment:
+  layout: "header, diff, flags, components"  # show component info in the PR comment
+  
+component_management:
+  default_rules:  # default rules that will be inherited by all components
+    statuses:
+      - type: project # in this case every component that doesn't have a status defined will have a project type one
+        target: auto
+        branches:
+          - "!main"
+  individual_components:
+    - component_id: RQA_functions
+      paths:
+        - .*/RQA_functions.py
+    - component_id: utils
+      paths:
+        - .*/utils.py
+
