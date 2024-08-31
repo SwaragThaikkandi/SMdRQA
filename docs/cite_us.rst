@@ -1,3 +1,7 @@
+.. image:: smdrqa_logo.png
+   :scale: 20%
+   :align: center
+
 Cite us
 =======
 
