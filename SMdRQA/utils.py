@@ -1,8 +1,6 @@
 from scipy.spatial import distance_matrix
 from scipy.special import digamma
 from scipy.spatial import distance
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import RepeatedKFold
 import memory_profiler
 from scipy.interpolate import pchip_interpolate
 from functools import partial
@@ -26,7 +24,6 @@ import operator
 import warnings
 from numpy.core import overrides
 import matplotlib.pyplot as plt
-from sklearn.model_selection import RepeatedKFold
 import matplotlib
 matplotlib.use('Agg')
 
