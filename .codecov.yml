@@ -12,6 +12,9 @@
 
 codecov:
   bot: <bot-SwaragThaikkandi> #this is a username for Github/Gitlab/Bitbucket
+  notify:
+    manual_trigger: true
+  
 
 coverage:
   round: down
