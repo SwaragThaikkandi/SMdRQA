@@ -198,6 +198,7 @@ For more detailed information on how to use SMdRQA, refer to the [SMdRQA Documen
 [![image](https://img.shields.io/github/directory-file-count/SwaragThaikkandi/SMdRQA)](https://github.com/SwaragThaikkandi/SMdRQA)
 [![image](https://img.shields.io/github/repo-size/SwaragThaikkandi/SMdRQA)](https://github.com/SwaragThaikkandi/SMdRQA)
 [![image](https://img.shields.io/gitlab/pipeline-status/SwaragThaikkandi/SMdRQA)](https://gitlab.com/SwaragThaikkandi/SMdRQA/pipelines)
+[![Generate Coverage Report and Upload to Codecov](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/code-coverage.yml/badge.svg)](https://github.com/SwaragThaikkandi/SMdRQA/actions/workflows/code-coverage.yml)
 [![codecov](https://codecov.io/gh/SwaragThaikkandi/SMdRQA/graph/badge.svg?token=OD96V7PI5K)](https://codecov.io/gh/SwaragThaikkandi/SMdRQA)
 [![image](https://img.shields.io/github/downloads/SwaragThaikkandi/SMdRQA/total)](https://github.com/SwaragThaikkandi/SMdRQA/releases)
 [![image](https://img.shields.io/github/discussions/SwaragThaikkandi/SMdRQA)](https://github.com/SwaragThaikkandi/SMdRQA/discussions)
