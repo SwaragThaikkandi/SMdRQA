@@ -7,6 +7,12 @@
 # Coverage configuration
 # ----------------------
 # Global YAML [lower on hierarchy]
+# The user that you will use to serve as the bot connection to Codecov
+# This bot user must have permissions on the repo and Codecov (by logging in)
+
+codecov:
+  bot: <bot-SwaragThaikkandi> #this is a username for Github/Gitlab/Bitbucket
+
 coverage:
   round: down
   precision: 5
