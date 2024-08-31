@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="smdrqa_logo.png" width="20%">
+</p>
+
 ---
 # SMdRQA: Implementing Sliding Window MdRQA to get Summary Statistics Estimate of MdRQA measures from the Data
 ---
