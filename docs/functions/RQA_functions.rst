@@ -1,6 +1,6 @@
 .. figure:: smdrqa_logo.svg
-   :width: 10%
-   :figwidth: 10%
+   :width: 40%
+   :figwidth: 40%
    :align: left
 
 RQA_functions
