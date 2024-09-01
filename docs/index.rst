@@ -1,8 +1,8 @@
-.. figure:: smdrqa_logo.svg
-   :width: 20%
-   :figwidth: 20%
-   :align: center
 
+.. figure:: smdrqa_logo.svg
+   :width: 60%
+   :figwidth: 60%
+   :align: center
 ====================================================
 **Time Series Data Analysis Using SMdRQA**
 ====================================================
