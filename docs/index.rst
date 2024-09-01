@@ -2,7 +2,7 @@
 **Time Series Data Analysis Using SMdRQA**
 ====================================================
 
-.. image:: smdrqa_logo.png
+.. image:: smdrqa_logo.svg
    :scale: 20%
    :align: center
 
@@ -26,7 +26,7 @@ You can navigate to the different sections using the left panel. We recommend ch
    :caption: Menu
    :titlesonly:
 
-   .. image:: smdrqa_logo.png
+   .. image:: smdrqa_logo.svg
       :scale: 10%
       :align: center
 
