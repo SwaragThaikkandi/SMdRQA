@@ -1,5 +1,6 @@
-.. image:: smdrqa_logo.svg
-   :scale: 20%
+.. figure:: smdrqa_logo.svg
+   :width: 40%
+   :figwidth: 40%
    :align: center
 
 SMdRQA
