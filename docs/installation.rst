@@ -1,4 +1,4 @@
-.. image:: smdrqa_logo.png
+.. image:: smdrqa_logo.svg
    :scale: 20%
    :align: center
 
