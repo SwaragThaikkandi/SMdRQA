@@ -1,3 +1,7 @@
+.. figure:: smdrqa_logo.svg
+   :width: 40%
+   :figwidth: 40%
+   :align: left
 cross_validation
 -------
 
