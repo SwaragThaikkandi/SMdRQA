@@ -265,37 +265,37 @@ def KNN_MI_partial_vectorized(X,Y,nearest_neighbor=5, dtype=np.float64):
     - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
 
     '''
-   X = assert_matrix(X)
-   Y = assert_matrix(Y)
-   X = X.astype(dtype)  # change the data type to one specified by the user
-   Y = Y.astype(dtype)
-   XY = np.concatenate((X, Y), axis=1)
-   NX = np.zeros(X.shape[0], dtype=int)
-   NY = np.zeros(Y.shape[0], dtype=int)
-   NXY = np.zeros(XY.shape[0], dtype=int)
-   n_samples = X.shape[0]
+    X = assert_matrix(X)
+    Y = assert_matrix(Y)
+    X = X.astype(dtype)  # change the data type to one specified by the user
+    Y = Y.astype(dtype)
+    XY = np.concatenate((X, Y), axis=1)
+    NX = np.zeros(X.shape[0], dtype=int)
+    NY = np.zeros(Y.shape[0], dtype=int)
+    NXY = np.zeros(XY.shape[0], dtype=int)
+    n_samples = X.shape[0]
 
-   for i in range(n_samples):
-       # Compute pairwise Euclidean distances
-       dist_X = distance.cdist(X[i].reshape(1, -1), X).flatten()
-       dist_Y = distance.cdist(Y[i].reshape(1, -1), Y).flatten()
+    for i in range(n_samples):
+        # Compute pairwise Euclidean distances
+        dist_X = distance.cdist(X[i].reshape(1, -1), X).flatten()
+        dist_Y = distance.cdist(Y[i].reshape(1, -1), Y).flatten()
 
-       # Exclude the i-th element (where i == j)
-       mask = np.arange(X.shape[0]) != i
-       dist_X = dist_X[mask]
-       dist_Y = dist_Y[mask]
+        # Exclude the i-th element (where i == j)
+        mask = np.arange(X.shape[0]) != i
+        dist_X = dist_X[mask]
+        dist_Y = dist_Y[mask]
 
-       # Compute the maximum of distances for each pair (i, j)
-       N = np.maximum(dist_X, dist_Y)
+        # Compute the maximum of distances for each pair (i, j)
+        N = np.maximum(dist_X, dist_Y)
 
-       # Sort the resulting vector
-       N.sort()
-       k_nearest = N[nearest_neighbor - 1]
-       NX[i] = np.sum(1*(dist_X < k_nearest))
-       NY[i] = np.sum(1*(dist_Y < k_nearest))
-       #print('k nearest non vectorized:', k_nearest)
+        # Sort the resulting vector
+        N.sort()
+        k_nearest = N[nearest_neighbor - 1]
+        NX[i] = np.sum(1*(dist_X < k_nearest))
+        NY[i] = np.sum(1*(dist_Y < k_nearest))
+        #print('k nearest non vectorized:', k_nearest)
 
-   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
 def KNN_MI_non_vectorized(X, Y, nearest_neighbor=5):
     '''
