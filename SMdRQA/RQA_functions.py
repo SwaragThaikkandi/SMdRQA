@@ -237,6 +237,65 @@ def KNN_MI_vectorized(X, Y, nearest_neighbor=5, dtype=np.float64):
     return digamma(n_samples) + digamma(nearest_neighbor) - \
         np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
+def KNN_MI_partial_vectorized(X,Y,nearest_neighbor=5, dtype=np.float64):
+    '''
+    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Partially version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used to use a relatively faster version compared to non-vectorized version
+
+    Parameters
+    ----------
+    X   : ndarray
+        double array of shape (n,d).  Think of it as n points in a d dimensional space
+
+    Y   : ndarray
+        double array of shape (n,d).  second time series
+
+    nearest_neighbor   : int
+        number of nearest neighbour for calculating mutual information, default = 5
+
+
+    Returns
+    -------
+
+    MI : double
+         mutual information between time series
+
+    References
+    ----------
+    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.
+    - Kraskov, A., Stögbauer, H., & Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.
+
+    '''
+   X = assert_matrix(X)
+   Y = assert_matrix(Y)
+   X = X.astype(dtype)  # change the data type to one specified by the user
+   Y = Y.astype(dtype)
+   XY = np.concatenate((X, Y), axis=1)
+   NX = np.zeros(X.shape[0], dtype=int)
+   NY = np.zeros(Y.shape[0], dtype=int)
+   NXY = np.zeros(XY.shape[0], dtype=int)
+   n_samples = X.shape[0]
+
+   for i in range(n_samples):
+       # Compute pairwise Euclidean distances
+       dist_X = distance.cdist(X[i].reshape(1, -1), X).flatten()
+       dist_Y = distance.cdist(Y[i].reshape(1, -1), Y).flatten()
+
+       # Exclude the i-th element (where i == j)
+       mask = np.arange(X.shape[0]) != i
+       dist_X = dist_X[mask]
+       dist_Y = dist_Y[mask]
+
+       # Compute the maximum of distances for each pair (i, j)
+       N = np.maximum(dist_X, dist_Y)
+
+       # Sort the resulting vector
+       N.sort()
+       k_nearest = N[nearest_neighbor - 1]
+       NX[i] = np.sum(1*(dist_X < k_nearest))
+       NY[i] = np.sum(1*(dist_Y < k_nearest))
+       #print('k nearest non vectorized:', k_nearest)
+
+   return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
 
 def KNN_MI_non_vectorized(X, Y, nearest_neighbor=5):
     '''
@@ -332,6 +391,8 @@ def KNN_MI(
         - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be
           significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited
           and can't handle huge matrices, this option should be chosen.
+          
+        - "partial" : best of both worlds between "vectorized" and "sequential"
 
     dtype   : dtype
         data type, default = np.float64
@@ -361,16 +422,21 @@ def KNN_MI(
         dtype=dtype,
         memory_limit=memory_limit)
     if method == "auto":
-        if pv:
-            mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype=dtype)
-        elif pv == False:
-            mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
+        if pv1 == True:
+            mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
+        elif (pv1 == False) and (pv2 == True):
+            mi = KNN_MI_partial_vectorized(X,Y,nearest_neighbor, dtype=dtype)
+        elif (pv1 == False) and (pv2 == False):
+            mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
 
     elif method == "vectorized":
         mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype=dtype)
 
     elif method == "sequential":
         mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
+        
+    elif method == "partial":
+        mi = KNN_MI_partial_vectorized(X,Y,nearest_neighbor, dtype=dtype)
 
     return mi
 
@@ -445,6 +511,8 @@ def KNN_timedelayMI(
         - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be
           significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited
           and can't handle huge matrices, this option should be chosen.
+
+        - "partial" : best of both worlds between "vectorized" and "sequential"
 
     dtype   : dtype
         data type, default = np.float64
