@@ -20,6 +20,10 @@ Features
 """"""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.KNN_MI_vectorized
 
+*KNN_MI_partial_vectorized()*
+"""""""""""""""""""""""""""""
+.. autofunction:: SMdRQA.RQA_functions.KNN_MI_partial_vectorized
+
 *KNN_MI_non_vectorized()*
 """"""""""""""""""""""""""
 .. autofunction:: SMdRQA.RQA_functions.KNN_MI_non_vectorized
