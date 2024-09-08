@@ -237,7 +237,8 @@ def KNN_MI_vectorized(X, Y, nearest_neighbor=5, dtype=np.float64):
     return digamma(n_samples) + digamma(nearest_neighbor) - \
         np.mean(digamma(neigh_X + 1)) - np.mean(digamma(neigh_Y + 1))
 
-def KNN_MI_partial_vectorized(X,Y,nearest_neighbor=5, dtype=np.float64):
+
+def KNN_MI_partial_vectorized(X, Y, nearest_neighbor=5, dtype=np.float64):
     '''
     Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Partially version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used to use a relatively faster version compared to non-vectorized version
 
@@ -286,16 +287,17 @@ def KNN_MI_partial_vectorized(X,Y,nearest_neighbor=5, dtype=np.float64):
         dist_Y = dist_Y[mask]
 
         # Compute the maximum of distances for each pair (i, j)
-        N = np.maximum(dist_X, dist_Y)
+        N = sorted(np.maximum(dist_X, dist_Y))
 
         # Sort the resulting vector
-        N.sort()
         k_nearest = N[nearest_neighbor - 1]
-        NX[i] = np.sum(1*(dist_X < k_nearest))
-        NY[i] = np.sum(1*(dist_Y < k_nearest))
-        #print('k nearest non vectorized:', k_nearest)
+        NX[i] = np.sum(1 * (dist_X < k_nearest))
+        NY[i] = np.sum(1 * (dist_Y < k_nearest))
+        # print('k nearest non vectorized:', k_nearest)
 
-    return digamma(n_samples) + digamma(nearest_neighbor) - np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+    return digamma(n_samples) + digamma(nearest_neighbor) - \
+        np.mean(digamma(NX + 1)) - np.mean(digamma(NY + 1))
+
 
 def KNN_MI_non_vectorized(X, Y, nearest_neighbor=5):
     '''
@@ -391,7 +393,7 @@ def KNN_MI(
         - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be
           significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited
           and can't handle huge matrices, this option should be chosen.
-          
+
         - "partial" : best of both worlds between "vectorized" and "sequential"
 
     dtype   : dtype
@@ -422,21 +424,21 @@ def KNN_MI(
         dtype=dtype,
         memory_limit=memory_limit)
     if method == "auto":
-        if pv1 == True:
-            mi = KNN_MI_vectorized(X,Y,nearest_neighbor)
-        elif (pv1 == False) and (pv2 == True):
-            mi = KNN_MI_partial_vectorized(X,Y,nearest_neighbor, dtype=dtype)
+        if pv1:
+            mi = KNN_MI_vectorized(X, Y, nearest_neighbor)
+        elif (pv1 == False) and (pv2):
+            mi = KNN_MI_partial_vectorized(X, Y, nearest_neighbor, dtype=dtype)
         elif (pv1 == False) and (pv2 == False):
-            mi = KNN_MI_non_vectorized(X,Y,nearest_neighbor)
+            mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
 
     elif method == "vectorized":
         mi = KNN_MI_vectorized(X, Y, nearest_neighbor, dtype=dtype)
 
     elif method == "sequential":
         mi = KNN_MI_non_vectorized(X, Y, nearest_neighbor)
-        
+
     elif method == "partial":
-        mi = KNN_MI_partial_vectorized(X,Y,nearest_neighbor, dtype=dtype)
+        mi = KNN_MI_partial_vectorized(X, Y, nearest_neighbor, dtype=dtype)
 
     return mi
 
