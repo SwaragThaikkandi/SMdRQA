@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Chapter 1- The Nonlinear World &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'chapters/Chapter1';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 2- Taken’s Theorm and Time Delayed Embedding" href="Chapter2.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Chapters</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/chapters/Chapter1.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Fchapters/Chapter1.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/chapters/Chapter1.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Chapter 1- The Nonlinear World</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamical-systems-and-terminologies">Dynamical Systems and Terminologies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-and-nonlinear-systems">Linear and Nonlinear Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space">Phase Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-problems-are-hard">Nonlinear Problems are Hard</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="chapter-1-the-nonlinear-world">
+<h1>Chapter 1- The Nonlinear World<a class="headerlink" href="#chapter-1-the-nonlinear-world" title="Link to this heading">#</a></h1>
+<section id="dynamical-systems-and-terminologies">
+<h2>Dynamical Systems and Terminologies<a class="headerlink" href="#dynamical-systems-and-terminologies" title="Link to this heading">#</a></h2>
+<p>There are two primary kinds of dynamical systems: those described by <strong>differential equations</strong> and those governed by <strong>iterated maps</strong>, also known as difference equations. <strong>Differential equations</strong> capture the behavior of systems evolving continuously in time, while <strong>iterated maps</strong> are applicable to scenarios where time progresses discretely.</p>
+<p>Let’s consider the example of a damped harmonic oscillator:</p>
+<div class="math notranslate nohighlight">
+\[m \frac{d^2 x}{dt^2} + b \frac{dx}{dt} + kx = 0\]</div>
+<ul class="simple">
+<li><p>( m ) : Mass of the oscillator.</p></li>
+<li><p>( b ) : Damping coefficient.</p></li>
+<li><p>( k ) : Spring constant.</p></li>
+<li><p>( x ) : Displacement of the oscillator from its equilibrium position.</p></li>
+<li><p>( t ) : Time.</p></li>
+</ul>
+<p>We call this as an ordinary differential equation as the equation only involves derivatives with respect to time.</p>
+<p>A general framework used to represent system of ordinary differential equation is:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\dot{x}_1 = f_1(x_1, x_2, x_3, \ldots, x_n)\\\dot{x}_2 = f_2(x_1, x_2, x_3, \ldots, x_n)\\\vdots\\\dot{x}_n = f_n(x_1, x_2, x_3, \ldots, x_n)\end{aligned}\end{align} \]</div>
+<p>Let’s consider an example to understand what this system of equations can mean, to simplify it and to reduce jargons. suppose given system of differential equations represents a set of equations describing the rates of change of three populations in an ecosystem: rabbits (x₁), foxes (x₂), and wolves (x₃).</p>
+<ul>
+<li><p>The first equation describes the rate of change of the rabbit population (dx₁/dt) as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dx_1}{dt} = \dot{x}_1 = f_1(x_1, x_2, x_3) = 0.1x_1 - 0.01x_2\]</div>
+<p>This equation indicates that the rabbit population increases by 0.1 rabbits per unit of time but decreases by 0.01 rabbits per unit of time for each fox present.</p>
+</li>
+<li><p>The second equation represents the rate of change of the fox population (dx₂/dt) as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dx_2}{dt} = \dot{x}_2 = f_2(x_1, x_2, x_3) = 0.005x_1x_2 - 0.02x_2 - 0.01x_3\]</div>
+<p>This equation shows that the fox population increases by 0.005 times the product of rabbits and foxes but decreases by 0.02 foxes per unit of time and also by 0.01 foxes per unit of time for each wolf present.</p>
+</li>
+<li><p>The third equation describes the rate of change of the wolf population (dx₃/dt) as:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dx_3}{dt} = \dot{x}_3 = f_3(x_1, x_2, x_3) = 0.03x_2 - 0.02x_3\]</div>
+<p>This equation indicates that the wolf population increases by 0.03 wolves per unit of time but decreases by 0.02 wolves per unit of time for each wolf present.</p>
+</li>
+</ul>
+<p>In summary, these equations model how the populations of rabbits, foxes, and wolves change over time based on interactions within the ecosystem. Each equation captures the dynamics of one species and how it is influenced by the presence or absence of other species in the system.</p>
+</section>
+<section id="linear-and-nonlinear-systems">
+<h2>Linear and Nonlinear Systems<a class="headerlink" href="#linear-and-nonlinear-systems" title="Link to this heading">#</a></h2>
+<p>Let’s consider the case of damped oscillator</p>
+<div class="math notranslate nohighlight">
+\[\ddot{x} = - \frac{b}{m} \dot{x} - \frac{k}{m} x\]</div>
+<p>Now, let’s call (dx₁/dt) as x₂ and x as x₁</p>
+<div class="math notranslate nohighlight">
+\[\dot{x_2} = \ddot{x_1} = - \frac{b}{m} x_2 - \frac{k}{m} x_1\]</div>
+<p>Now, we have the equalent system:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{x}_1 &amp;= x_2 \\
+\dot{x}_2 &amp;= -\frac{b}{m} x_2 - \frac{k}{m} x_1\end{split}\]</div>
+<p>The system is categorized as linear since all occurrences of ( x_i ) on the right-hand side are raised to the power of one only. Otherwise, the system would be considered nonlinear.</p>
+<p>A good example of that would be that of a swinging pendulum:</p>
+<div class="math notranslate nohighlight">
+\[\frac{d^2 \theta}{dt^2} = -\frac{g}{L} \sin(\theta)\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\frac{d^2 \theta}{dt^2}\)</span>: The second derivative of the angle <span class="math notranslate nohighlight">\(\theta\)</span> with respect to time <span class="math notranslate nohighlight">\(t\)</span>. This term represents the angular acceleration of the pendulum, indicating how quickly the angular velocity changes over time.</p></li>
+<li><p><span class="math notranslate nohighlight">\(g\)</span>: The acceleration due to gravity. It represents the force that pulls the pendulum downward towards the center of the Earth.</p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span>: The length of the pendulum. It is the distance between the pivot point and the center of mass of the pendulum.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\theta\)</span>: The angular displacement of the pendulum from the vertical position. It measures the angle between the pendulum’s position and the vertical axis.</p></li>
+</ul>
+<p>For this example, the equalent system is nonlinear. Let <span class="math notranslate nohighlight">\(\theta_1\)</span> = <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\theta_2\)</span> = <span class="math notranslate nohighlight">\(\frac{d \theta}{dt}\)</span></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\dot{\theta_1} &amp;= \theta_2 \\
+\dot{\theta_2} &amp;= -\frac{g}{L} \sin(\theta_1)\end{split}\]</div>
+<p>Nonlinearity in the pendulum equation complicates analytical solutions. One common workaround is to use the small angle approximation, sin x = x for x &lt;&lt; 1. This simplifies the problem to a linear one, making it easier to solve. However, this approximation excludes certain physical motions, like the pendulum swinging over the top, which are important.</p>
+<p>Is it truly necessary to resort to such drastic approximations? Surprisingly, the pendulum equation can be solved analytically using elliptic functions. Nonetheless, we seek a simpler approach that captures the pendulum’s behavior directly. At low energy, it swings back and forth, while at high energy, it whirls over the top. We aim to extract this information directly from the system using geometric methods. This is where we need the notion of a phase space!</p>
+</section>
+<section id="phase-space">
+<h2>Phase Space<a class="headerlink" href="#phase-space" title="Link to this heading">#</a></h2>
+<p>The rough idea behind phase space is as follows:</p>
+<ul class="simple">
+<li><p>Suppose we know the solution for the pendulum system for a set of initial conditions: <span class="math notranslate nohighlight">\((\theta_{1}(0),\theta_{2}(0))\)</span> this represent the position and velocity of the pendulum at t = 0</p></li>
+<li><p>Now if we construct an abstract space with coordinates <span class="math notranslate nohighlight">\((\theta_{1},\theta_{2})\)</span>, the solutions <span class="math notranslate nohighlight">\((\theta_{1}(t),\theta_{2}(t))\)</span> would be moving along a line such as the one shown below.</p></li>
+</ul>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/pendulum_trajectories.svg"><img alt="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/pendulum_trajectories.svg" class="align-center" src="https://raw.githubusercontent.com/SwaragThaikkandi/SMdRQA/main/docs/chapters/figs/pendulum_trajectories.svg" style="width: 800px;" />
+</a>
+<p>In short, this curve is called a <strong>trajectory</strong> and this abstract space is called <strong>phase space</strong> of the system. On the phase space each point can serve as an intial point. Motivation behind constructing phase space is to draw such trajectories and to extract information about the solutions. Becuase in many cases such geometric approach will give us solutions without solving the differential equations.</p>
+<p>For a general system:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\dot{x}_1 = f_1(x_1, x_2, x_3, \ldots, x_n)\\\dot{x}_2 = f_2(x_1, x_2, x_3, \ldots, x_n)\\\vdots\\\dot{x}_n = f_n(x_1, x_2, x_3, \ldots, x_n)\end{aligned}\end{align} \]</div>
+<p>the phase space if an abstract space with coordinates <span class="math notranslate nohighlight">\((x_{1}, x_{2}, x_{n}, ..., x_{n})\)</span>, when the system is n-dimensional phase space, also reffered to as an <strong>nth order system</strong></p>
+</section>
+<section id="nonlinear-problems-are-hard">
+<h2>Nonlinear Problems are Hard<a class="headerlink" href="#nonlinear-problems-are-hard" title="Link to this heading">#</a></h2>
+<p>Nonlinear systems pose challenges for analytical solutions unlike linear systems. The key difference lies in how linear systems can be divided into manageable parts, solved separately, and then combined to find the overall solution. This approach simplifies complex problems and forms the basis for methods like normal modes, Laplace transforms, superposition arguments, and Fourier analysis. Linear systems are essentially the sum of their parts.</p>
+<p>However, many natural phenomena don’t follow this linear behavior. When different parts of a system interact, cooperate, or compete, nonlinear interactions occur. Everyday experiences often involve nonlinearities, where the principle of superposition doesn’t apply straightforwardly. For instance, playing two favorite songs simultaneously doesn’t double the enjoyment.</p>
+<p>In physics, nonlinearity is crucial for phenomena like laser operation, turbulence formation in fluids, and the superconductivity of Josephson junctions.</p>
+<p>In dealing with nonlinear systems, it’s usually impossible to analytically determine the solutions. Even if explicit formulas exist, they’re often too complex to offer meaningful insights. Instead, our focus is on understanding the qualitative behavior of the solutions. We aim to directly depict the system’s phase portrait based on the characteristics of <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>.</p>
+<p>Further discussion and details are outside the scope of this documentation, however, we would be happy to add specific topics if there is a pull request suggesting that might be useful</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="introduction.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Chapter2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Chapter 2- Taken’s Theorm and Time Delayed Embedding</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamical-systems-and-terminologies">Dynamical Systems and Terminologies</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-and-nonlinear-systems">Linear and Nonlinear Systems</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phase-space">Phase Space</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-problems-are-hard">Nonlinear Problems are Hard</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

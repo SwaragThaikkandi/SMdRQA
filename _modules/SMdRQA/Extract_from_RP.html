@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMdRQA.Extract_from_RP &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/SMdRQA/Extract_from_RP';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2F_modules/SMdRQA/Extract_from_RP.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for SMdRQA.Extract_from_RP</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">ss</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">entropy</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">average</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">maxi</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mode</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">percentmorethan</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">diaghist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">onedhist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">vert_hist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">plotwindow</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findeps</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccrate</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccplot</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findm</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnhitszero</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnratio</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">nearest</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">delayseries</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findtau</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">timedelayMI</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mutualinfo</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">binscalc</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">doanes_formula</span>
+<span class="kn">import</span> <span class="nn">memory_profiler</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Mode">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Mode">[docs]</a>
+<span class="k">def</span> <span class="nf">Mode</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute mode from a continuous data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    array : array</span>
+<span class="sd">        a numpy array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    mode : double</span>
+<span class="sd">         mode of continuous data</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="n">avgs</span> <span class="o">=</span> <span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">edges</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">avg</span> <span class="o">=</span> <span class="n">avgs</span><span class="p">[</span><span class="n">counts</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">counts</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">avg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="Check_Int_Array">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Check_Int_Array">[docs]</a>
+<span class="k">def</span> <span class="nf">Check_Int_Array</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function checks whether an array consists of integers or not</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    array : array</span>
+<span class="sd">        a numpy array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    status : bool</span>
+<span class="sd">         whether the array is consisting only of integers(1) or not(0)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]):</span>
+            <span class="nb">sum</span> <span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">N</span> <span class="o">!=</span> <span class="nb">sum</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_window">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Sliding_window">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_window</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">winsize</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This is a function that would extract RQA variables from each sliding window for a given RP and for a specified window size</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    RP    : ndarray</span>
+<span class="sd">        recurrence plot(numpy 2D matrix)</span>
+
+<span class="sd">    maxsize : int</span>
+<span class="sd">        size of the recurrence plot</span>
+
+<span class="sd">    winsize : int</span>
+<span class="sd">        size of the window we are using</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Dict : dict</span>
+<span class="sd">         dictionary containing RQA variables from all sliding windows, keys are window number</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_windows</span><span class="p">):</span>
+        <span class="n">sub_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sub_window</span> <span class="o">=</span> <span class="n">RP</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">]</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reccrate</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">vert_his</span> <span class="o">=</span> <span class="n">vert_hist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">diag_his</span> <span class="o">=</span> <span class="n">diaghist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;percent_det&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentmorethan</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;avg_diag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;max_diag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxi</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;percent_lam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentmorethan</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;avg_vert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;vert_ent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;diag_ent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;vert_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxi</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+
+        <span class="n">Dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sub_dict</span>
+
+    <span class="k">return</span> <span class="n">Dict</span></div>
+
+
+
+<div class="viewcode-block" id="Whole_window">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Whole_window">[docs]</a>
+<span class="k">def</span> <span class="nf">Whole_window</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function for computing the RQA variables from the whole RP</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    RP    : ndarray</span>
+<span class="sd">        recurrence plot(numpy 2D matrix)</span>
+
+<span class="sd">    maxsize : int</span>
+<span class="sd">        size of the recurrence plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Dict : dict</span>
+<span class="sd">         dictionary containing values of each of the RQA variables from the entire RP</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="n">sub_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reccrate</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">vert_his</span> <span class="o">=</span> <span class="n">vert_hist</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">diag_his</span> <span class="o">=</span> <span class="n">diaghist</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;percent_det&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentmorethan</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;avg_diag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;max_diag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxi</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;percent_lam&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentmorethan</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;avg_vert&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">average</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;vert_ent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;diag_ent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">entropy</span><span class="p">(</span><span class="n">diag_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+    <span class="n">sub_dict</span><span class="p">[</span><span class="s1">&#39;vert_max&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">maxi</span><span class="p">(</span><span class="n">vert_his</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sub_dict</span></div>
+
+
+
+<div class="viewcode-block" id="windowed_RP">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.windowed_RP">[docs]</a>
+<span class="k">def</span> <span class="nf">windowed_RP</span><span class="p">(</span><span class="n">winsize</span><span class="p">,</span> <span class="n">RP_dir</span><span class="p">,</span> <span class="n">save_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This function computes RQA variable from each window and stores that in a dictionary</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    RP_dir  : str</span>
+<span class="sd">        path to the directory where the RPs are stored as numpy files</span>
+
+<span class="sd">    winsize : int</span>
+<span class="sd">        Size of window to be used</span>
+
+<span class="sd">    save_path : str</span>
+<span class="sd">        path to the file in which the dictionary should be saved in the form of a pickle file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Dict : dict</span>
+<span class="sd">         dictionary containing values of each of the RQA variables from the entire RP</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">dir</span> <span class="o">=</span> <span class="n">RP_dir</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+    <span class="n">size_arr</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">Dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="c1"># To have file name as an identifier of the variable. Note that the</span>
+        <span class="c1"># file name should not contain &quot;.&quot; other than the one before &quot;npy&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">RP_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">file</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="n">RP_s</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">sub_Dict1</span> <span class="o">=</span> <span class="n">Sliding_window</span><span class="p">(</span><span class="n">RP_s</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+        <span class="n">sub_dict2</span> <span class="o">=</span> <span class="n">Whole_window</span><span class="p">(</span><span class="n">RP_s</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">Dict</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sliding&#39;</span><span class="p">:</span> <span class="n">sub_Dict1</span><span class="p">,</span> <span class="s1">&#39;Whole&#39;</span><span class="p">:</span> <span class="n">sub_dict2</span><span class="p">}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span> <span class="o">+</span> <span class="s1">&#39;/whole_.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">Dict</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Dict</span></div>
+
+
+
+<div class="viewcode-block" id="First_middle_last_avg">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.First_middle_last_avg">[docs]</a>
+<span class="k">def</span> <span class="nf">First_middle_last_avg</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_loc</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This is a function to compute different summary statistics from the RQA variable distribution that we would get from the windows</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    DICT_pre  : str</span>
+<span class="sd">        dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">    var       : str</span>
+<span class="sd">        RQA variable name</span>
+
+<span class="sd">    win_loc : str</span>
+<span class="sd">        Definition of the RQA estimate to be extracted</span>
+
+<span class="sd">        *first* : RQA variables from the first window of the sliding windows</span>
+
+<span class="sd">        *middle* : RQA variables from the middle window of the sliding windows</span>
+
+<span class="sd">        *last* : RQA variables from the last window of the sliding windows</span>
+
+<span class="sd">        *max* : maximum value of the RQA variables from the sliding windows</span>
+
+<span class="sd">        *avg* : average value of the RQA variables from the sliding windows</span>
+
+<span class="sd">        *mode* : mode of the RQA variables from the sliding windows</span>
+
+<span class="sd">        *median* : median of the RQA variables from the sliding windows</span>
+
+<span class="sd">        *whole* : RQA variable from the whole RP</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    data : dataframe</span>
+<span class="sd">         pandas dataframe containing the calculated summary statistic(specified) for the specified variable across different datasets</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Grp_IDs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">DICT</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">num_plots</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Grp_IDs</span><span class="p">)</span>
+    <span class="nb">vars</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">GID</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Grp_IDs</span><span class="p">)):</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">Grp_IDs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">grp_dyn</span> <span class="o">=</span> <span class="n">DICT</span><span class="p">[</span><span class="n">num</span><span class="p">][</span><span class="s1">&#39;sliding&#39;</span><span class="p">]</span>
+        <span class="n">sub_keys</span> <span class="o">=</span> <span class="n">grp_dyn</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">recc_rate</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">wind</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">vars_sub4</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">label_sub4</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">sub_keys</span><span class="p">:</span>
+
+            <span class="n">vars_sub4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grp_dyn</span><span class="p">[</span><span class="n">elem</span><span class="p">][</span><span class="n">var</span><span class="p">])</span>
+            <span class="n">label_sub4</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;first&#39;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">vars_sub4</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;middle&#39;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">vars_sub4</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Length of array:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Index of middle element:&#39;</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;last&#39;</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">vars_sub4</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;avg&#39;</span><span class="p">:</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;mode&#39;</span><span class="p">:</span>
+            <span class="n">Isint</span> <span class="o">=</span> <span class="n">Check_Int_Array</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">Isint</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">app_var</span> <span class="o">=</span> <span class="n">Mode</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">Isint</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="p">(</span><span class="n">app_var</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;median&#39;</span><span class="p">:</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">vars_sub4</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">win_loc</span> <span class="o">==</span> <span class="s1">&#39;whole&#39;</span><span class="p">:</span>
+            <span class="n">app_var</span> <span class="o">=</span> <span class="n">DICT</span><span class="p">[</span><span class="n">num</span><span class="p">][</span><span class="s1">&#39;Whole&#39;</span><span class="p">][</span><span class="n">var</span><span class="p">]</span>
+
+        <span class="nb">vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">app_var</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Lorenz&#39;</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">win_loc</span><span class="p">)</span>
+        <span class="n">GID</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+
+    <span class="n">DICT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span> <span class="n">var</span><span class="p">:</span> <span class="nb">vars</span><span class="p">,</span> <span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="n">window</span><span class="p">,</span> <span class="s1">&#39;group&#39;</span><span class="p">:</span> <span class="n">GID</span><span class="p">}</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">DICT</span><span class="p">)</span>
+    <span class="c1"># sns.displot(data=data, x=var, kde=True,hue=[&#39;label&#39;,&#39;outcome&#39;],kind=&#39;hist&#39;,norm_hist=True)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+
+<div class="viewcode-block" id="First_middle_last_sliding_windows">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows">[docs]</a>
+<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute all summary statistics that we want for a given RQA variable</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    DICT  : str</span>
+<span class="sd">        dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">    var   : str</span>
+<span class="sd">        RQA variable name</span>
+
+<span class="sd">    win_locs : array</span>
+<span class="sd">        Definitions of the RQA estimates to be extracted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    data : dataframe</span>
+<span class="sd">         pandas dataframe containing the calculated  set of summary statistic(specified) for the specified variable across different datasets</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">win_loc</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">win_locs</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">First_middle_last_avg</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_loc</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">full_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">full_data</span> <span class="o">=</span> <span class="n">full_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># sns.histplot(full_data,x=var)</span>
+    <span class="c1"># g = sns.FacetGrid(full_data, col=&quot;window&quot;,  row=&quot;label&quot;)</span>
+    <span class="c1"># g.map(sns.histplot,x=a,hue=&#39;outcome&#39;,norm_hist=True)</span>
+    <span class="k">return</span> <span class="n">full_data</span></div>
+
+
+
+<div class="viewcode-block" id="First_middle_last_sliding_windows_all_vars">
+<a class="viewcode-back" href="../../functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.First_middle_last_sliding_windows_all_vars">[docs]</a>
+<span class="k">def</span> <span class="nf">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span>
+        <span class="n">DICT</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">,</span> <span class="nb">vars</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute all summary statistics that we want across all RQA variables we want</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    DICT  : dict</span>
+<span class="sd">        dictionary containing RQA variables from data(computed using the function WindowedRP)</span>
+
+<span class="sd">    vars   : array</span>
+<span class="sd">        RQA variables to be extracted</span>
+
+<span class="sd">    win_locs : array</span>
+<span class="sd">        Definitions of the RQA estimates to be extracted</span>
+
+<span class="sd">    save_path : str</span>
+<span class="sd">        Path to the file where the data will be saved</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Saves the data, no output will be given by this function</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">vars</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">First_middle_last_sliding_windows</span><span class="p">(</span><span class="n">DICT</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">win_locs</span><span class="p">)</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">data_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data_out</span> <span class="o">=</span> <span class="n">data_out</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+    <span class="c1"># data_out.to_csv(&#39;/content/drive/MyDrive/MS20181013/NL_test/results/whole_diff_windows38.csv&#39;)</span>
+    <span class="c1"># data_out.to_csv(&#39;whole_diff_windows.csv&#39;)</span>
+    <span class="n">data_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

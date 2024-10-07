@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Kuramoto Model &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples/kuramoto';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Rossler Attractor" href="rossler.html" />
+    <link rel="prev" title="Examples" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/examples/kuramoto.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Fexamples/kuramoto.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples/kuramoto.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Kuramoto Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">import packages</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="kuramoto-model">
+<h1>Kuramoto Model<a class="headerlink" href="#kuramoto-model" title="Link to this heading">#</a></h1>
+<section id="import-packages">
+<h2>import packages<a class="headerlink" href="#import-packages" title="Link to this heading">#</a></h2>
+<p>We will begin with importing packages and functions. Note that the
+python files should be copied to the mail analysis directory</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
+<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
+<span class="kn">import</span> <span class="nn">memory_profiler</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">from</span> <span class="nn">kuramoto</span> <span class="kn">import</span> <span class="n">Kuramoto</span><span class="p">,</span> <span class="n">plot_phase_coherence</span><span class="p">,</span> <span class="n">plot_activity</span> <span class="c1"># see https://github.com/fabridamicelli/kuramoto</span>
+<span class="c1"># For installing the kuramoto package run: pip install kuramoto</span>
+
+<span class="kn">from</span> <span class="nn">SMdRQA.RP_maker</span> <span class="kn">import</span> <span class="n">RP_computer</span>
+
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Mode</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Check_Int_Array</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Sliding_window</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Whole_window</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">windowed_RP</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_avg</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_sliding_windows</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_sliding_windows_all_vars</span>
+
+<span class="kn">from</span> <span class="nn">SMdRQA.cross_validation</span> <span class="kn">import</span> <span class="n">feature_selection</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.cross_validation</span> <span class="kn">import</span> <span class="n">nested_cv</span>
+</pre></div>
+</div>
+<p>In this example, we will be simulating the Kuramoto model, varying
+number of scillators, length of time series, and the coupling strength.
+The number of oscillators will be randomly choosen from a descrete
+uniform distribution of integers from 3 to 6. Time series length is also
+choosen similarly. Coupling strength is sampled from a continuous
+uniform distribution from 0 to 2Kc, where Kc is the critical coupling
+strength. We are using the mean field Kuramoto model, where the coupling
+strength between any two oscillator is the same. The system is given by
+the differential equation:</p>
+<div class="math notranslate nohighlight">
+\[\dot{\theta_{i}} = \omega_{i} + \sum_{j=1}^{N} K_{ij} \sin{(\theta_{j}-\theta{i})}, i=1, ..., N\]</div>
+<p>We will sample the frequencies(</p>
+<div class="math notranslate nohighlight">
+\[\omega_{i}\]</div>
+<p>) from a standard normal distribution. And the critical coupling
+strength for mean field model is given by:</p>
+<div class="math notranslate nohighlight">
+\[K_{c} = |\omega_{max}-\omega_{min}|\]</div>
+<p>And in the case of mean field model, the coupling strength is given by:</p>
+<div class="math notranslate nohighlight">
+\[K_{ij} = K/N &gt;0, \forall i,j \in \{1,2,3,...,N\}\]</div>
+<p>Here, synchrony of the system is defined in terms of a complex valued
+order parameter(</p>
+<div class="math notranslate nohighlight">
+\[r\]</div>
+<p>), which is given by:</p>
+<div class="math notranslate nohighlight">
+\[r e^{i\psi} =  \frac{1}{N} \sum_{j=1}^{N}e^{i \theta_{j}}\]</div>
+<p>Here</p>
+<div class="math notranslate nohighlight">
+\[\psi\]</div>
+<p>is the average phase value. To arrive at an expression that makes the
+dependence of synchrony on values of K explicit, we begin with
+multiplying both sides by</p>
+<div class="math notranslate nohighlight">
+\[e^{-i \theta_{i}}\]</div>
+<p>.</p>
+<div class="math notranslate nohighlight">
+\[r e^{i\psi} e^{-i \theta_{i}} = \left( \frac{1}{N} \sum_{j=1}^{N}e^{i \theta_{j}}\right) e^{-i \theta_{i}}\]</div>
+<div class="math notranslate nohighlight">
+\[r e^{i(\psi -\theta_{i})}= \frac{1}{N} \sum_{j=1}^{N}e^{i(\theta_{j}-\theta_{i})}\]</div>
+<div class="math notranslate nohighlight">
+\[\dot{\theta_{i}} = \omega_{i} + K r \sin{(\psi -\theta_{i})}\]</div>
+<p>Here, when the coupling strength is tending to zero, the oscillators
+would be oscillating in their natural frequencies. ### What is the order
+parameter? How does it matter?</p>
+<p>Figure shows order parameter plotted against time, and the color coding
+is for the coupling strength. We can see that, above the critical
+couping strengh, the critical coupling strength increases and stays
+there. Below critical coupling strength also, we can see high r values,
+but, it is not sustained. So, we can see that, more that r value itself,
+estimated at a point in time, coupling strength is more informative
+about the system. Now, we had seen this we can go through the analysis
+pipeline: First we define a function to add noise to the signals. This
+function will change the signal to noise ratio of the signals</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">snr</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add Gaussian noise to a signal with a specific signal-to-noise ratio (SNR).</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    signal (array): Input signal.</span>
+<span class="sd">    snr (float): Signal-to-noise ratio (SNR) as a ratio.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    noisy_signal (array): Signal with added noise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clip signal to maximum value of 1 to prevent overflow errors</span>
+
+    <span class="c1"># Calculate signal power</span>
+    <span class="n">signal_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
+
+    <span class="c1"># Calculate noise power</span>
+    <span class="n">noise_power</span> <span class="o">=</span> <span class="n">signal_power</span> <span class="o">/</span> <span class="n">snr</span>
+
+    <span class="c1"># Generate Gaussian noise</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">noise_power</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
+
+    <span class="c1"># Add noise to signal</span>
+    <span class="n">noisy_signal</span> <span class="o">=</span> <span class="n">signal</span> <span class="o">+</span> <span class="n">noise</span>
+
+    <span class="c1"># Clip noisy signal to maximum value of 1 to prevent overflow errors</span>
+    <span class="c1">#noisy_signal = np.clip(noisy_signal, np.min(signal), np.max(signal))</span>
+
+    <span class="k">return</span> <span class="n">noisy_signal</span>
+</pre></div>
+</div>
+<p>Now, we will simulate the system using Kuramoto package available at
+“<a class="github reference external" href="https://github.com/fabridamicelli/kuramoto">fabridamicelli/kuramoto</a>”. We will simulate the
+system, add noise and will save it to a directory( as numpy files).
+These files will be later accessed for computing RPs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SNRu</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]</span>                                      <span class="c1"># These are the range of SNR values</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">301</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">301</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)):</span>
+  <span class="n">N</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>                                                <span class="c1"># Selecting a random size for the number of oscillators, between 3 and 6</span>
+  <span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>                                              <span class="c1"># Sampling the natural frequencies of the oscillators from a normal distribution</span>
+  <span class="n">Ks</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">omega</span><span class="p">))</span>                                                  <span class="c1"># Computing the critical coupling strength for the population of oscillators</span>
+  <span class="n">K_sample</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">Ks</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>                              <span class="c1"># Sampling the coupling strength from a uniform distribution from 0 to 2Ks so</span>
+                                                                                    <span class="c1"># that there is equal probability for finding a system having coupling strength below and</span>
+                                                                                    <span class="c1"># above critical coupling strength</span>
+  <span class="n">rp_sizes</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">45</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">K_sample</span><span class="p">))</span>                            <span class="c1"># Selecting a random length for the time series</span>
+  <span class="n">graph_nx</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">erdos_renyi_graph</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                                         <span class="c1"># Defining an all-to-all connected graph</span>
+  <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">to_numpy_array</span><span class="p">(</span><span class="n">graph_nx</span><span class="p">)</span>                                               <span class="c1"># Converting connection matrix to numpy matrix</span>
+  <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">K_sample</span><span class="p">))):</span>                                             <span class="c1"># Looping over different coupling strengths</span>
+    <span class="n">K_used</span><span class="o">=</span><span class="n">K_sample</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Kuramoto</span><span class="p">(</span><span class="n">coupling</span><span class="o">=</span><span class="n">K_used</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">],</span> <span class="n">n_nodes</span><span class="o">=</span><span class="n">N</span><span class="p">,</span><span class="n">natfreqs</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>  <span class="c1"># Defining the Kuramoto model, dt is the timestep</span>
+    <span class="n">act_mat</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">adj_mat</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span>                                              <span class="c1"># Activation matrix from running the model</span>
+    <span class="n">THETA</span><span class="o">=</span><span class="n">act_mat</span><span class="o">.</span><span class="n">T</span>                                                                 <span class="c1"># Taking transpose to get data from each oscillator as a column</span>
+    <span class="k">for</span> <span class="n">snr</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">SNRu</span><span class="p">):</span>                                                          <span class="c1"># Loop over different signal to noise ratios</span>
+      <span class="n">signals</span><span class="o">=</span><span class="n">signals_ori</span>
+      <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>                                                            <span class="c1"># Add noise to the signals</span>
+        <span class="n">signals</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">add_noise</span><span class="p">(</span><span class="n">signals</span><span class="p">[:,</span><span class="n">j</span><span class="p">],</span> <span class="n">snr</span><span class="p">)</span>
+      <span class="n">signals</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[::</span><span class="mi">10</span><span class="p">,:]</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/user/swarag/Kuramoto/signals/(&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">snr</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Ks</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">K_used</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;)~.npy&#39;</span><span class="p">,</span><span class="n">signals</span><span class="p">)</span>  <span class="c1"># Save the data to a numpy file</span>
+</pre></div>
+</div>
+<p>Now we have saved the time series data to a folder, we can access the
+folder for creating RPs. Note that the folder containig the data files
+shouldn’t contain any other files. The function we defined are making
+use of the “listdir” function from os package, and the code doesn’t
+handle exceptions. Now we can generate the RPs</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Kuramoto/signals&#39;</span>                                        <span class="c1"># directory to which the signals are saved</span>
+<span class="n">RP_dir</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Kuramoto/RP&#39;</span>                                                 <span class="c1"># directory to which we want to save the RPs</span>
+<span class="n">RP_computer</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">RP_dir</span><span class="p">)</span>                                                     <span class="c1"># generating RPs and saving to the specified folder</span>
+</pre></div>
+</div>
+<p>One may think that the function is so simple, only asking the user to
+input information about the directories. However, if you access the
+original python script, there we can see many inputs, but with some
+default values. Two of those default values may have to change for some
+datasets, about which we would discuss later in this tutorial. Now we
+have saved the RPs, the RPs would look like the following:</p>
+<p>Nest step is to compute the RQA values and their central tendency
+measures from the sliding windowws. An important step for that is to
+determine the window size, which again is subjective to the experimentor
+and data. Let’s see how window size estimate can be done, in this case
+using the variable percentage determinism.</p>
+<p>``python from window size import Sliding_windowBS_sub_percent_det from
+window size import Sliding_windowBS from window size import
+Sliding_window_whole_data</p>
+<p>windowing_data = Sliding_window_whole_data(RP_dir, ‘percent_det’)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>From this, what we will get is a dataframe, which contains the difference between 95th percentile and 5th percentile for each file. Now we have to plot it for different noise levels.
+```python
+FILE = np.array(windowing_data[&#39;group&#39;])                                                      # In the output data, the field named &#39;group&#39; will have file name which contains details
+SNR =[]
+NUM =[]
+Kc =[]
+K =[]
+SIZE =[]
+for FI in FILE:
+  info = ast.literal_eval(FI)
+  SNR.append(info[0])
+  NUM.append(info[1])
+  Kc.append(info[2])
+  K.append(info[3])
+  SIZE.append(info[4])
+
+windowing_data[&#39;snr&#39;] = SNR
+windowing_data[&#39;N&#39;] = NUM
+windowing_data[&#39;Kc&#39;] = Kc
+windowing_data[&#39;K&#39;] = K
+windowing_data[&#39;length&#39;] = SIZE
+</pre></div>
+</div>
+<p>Now since we have added these columns to the dataframe, we can use
+seaborn package for plotting</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">windowing_data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;WINSIZE&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;95% quantile- 5% quantile&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;snr&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We considered some value near window size = 70 to be good enough, and
+took 68 as the window size. Note that, due to monotonously decreasing
+nature of the graph, it is impossible to get an optimal value, which is
+not subjective. Now that we decided about the window size, we can
+estimate RQA variables from the sliding windows having the given size.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dict_RPs</span><span class="o">=</span><span class="n">windowed_RP</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">&#39;RP&#39;</span><span class="p">)</span>                                                      <span class="c1"># Specifying window size and folder in which RPs are saved</span>
+<span class="n">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">Dict_RPs</span><span class="p">,</span><span class="s1">&#39;Kuramoto_data.csv&#39;</span><span class="p">)</span>            <span class="c1"># Saving RQA variables to a csv file</span>
+</pre></div>
+</div>
+<p>The resulting dataframe that is getting saved will have a column,
+“group”, which will have the file name(excluding “.npy”). In this code,
+we are coding information regarding synchrony using the file name, as
+given below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Kuramoto_data.csv&#39;</span><span class="p">)</span>
+<span class="n">FILE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">])</span>                                                      <span class="c1"># In the output data, the field named &#39;group&#39; will have file name which contains details</span>
+<span class="n">SNR</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">NUM</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">Kc</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">K</span> <span class="o">=</span><span class="p">[]</span>
+<span class="n">SIZE</span> <span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">FI</span> <span class="ow">in</span> <span class="n">FILE</span><span class="p">:</span>
+  <span class="n">info</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">FI</span><span class="p">)</span>
+  <span class="n">SNR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">NUM</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="n">Kc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+  <span class="n">K</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+  <span class="n">SIZE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Kc</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SIZE</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
+<span class="n">Kc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Kc</span><span class="p">)</span>
+<span class="n">SYNCH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">K</span><span class="o">&gt;</span><span class="n">Kc</span><span class="p">)</span>                                                                   <span class="c1"># Defining synchrony condition, coupling strength grater than that of the critical coupling strength</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;synch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SYNCH</span>
+</pre></div>
+</div>
+<p>Now, we need to select an SNR value, scale the variables and run the
+classifier</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">################################################################## Select the value of SNR ################################################################################################</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>                   <span class="c1"># mode of RQA variables from the sliding windows</span>
+<span class="c1">################################################################## Scale the data #########################################################################################################\</span>
+<span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;percent_det&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;avg_diag&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;max_diag&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;percent_lam&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;avg_vert&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;vert_ent&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;diag_ent&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;vert_max&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+  <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">])</span>
+  <span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span>
+
+<span class="c1">################################################################# Run the classification ###################################################################################################</span>
+<span class="n">nested_cv</span><span class="p">(</span><span class="n">data_</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="s1">&#39;synch&#39;</span><span class="p">,</span> <span class="s1">&#39;Kuramotot(SNR=1.0)&#39;</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1">#################################################################   DONE ! ################################################################################################################</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="rossler.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Rossler Attractor</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-packages">import packages</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

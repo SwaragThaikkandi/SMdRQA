@@ -1,0 +1,789 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>References &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'references';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Repository Information" href="repo_details.html" />
+    <link rel="prev" title="Utility Functions" href="functions/utils.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/references.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Freferences.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/references.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>References</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <figure class="align-center" style="width: 40%">
+<a class="reference internal image-reference" href="_images/smdrqa_logo.svg"><img alt="_images/smdrqa_logo.svg" src="_images/smdrqa_logo.svg" style="width: 40%;" />
+</a>
+</figure>
+<section id="references">
+<h1>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h1>
+<div class="references csl-bib-body hanging-indent docutils container" id="refs">
+<div class="csl-entry docutils container" id="ref-acebron2005kuramoto">
+<p>Acebrón, Juan A, Luis L Bonilla, Conrad J Pérez Vicente, Félix
+Ritort, and Renato Spigler. 2005. “The Kuramoto Model: A Simple
+Paradigm for Synchronization Phenomena.” <em>Reviews of Modern
+Physics</em> 77 (1): 137.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-barreira2006poincare">
+<p>Barreira, Luis. 2006. “Poincaré Recurrence: Old and New.” In
+<em>XIVth International Congress on Mathematical Physics</em>, 415–22.
+World Scientific.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-bevilacqua2019brain">
+<p>Bevilacqua, Dana, Ido Davidesco, Lu Wan, Kim Chaloner, Jess
+Rowland, Mingzhou Ding, David Poeppel, and Suzanne Dikker. 2019.
+“Brain-to-Brain Synchrony and Learning Outcomes Vary by
+Student–Teacher Dynamics: Evidence from a Real-World Classroom
+Electroencephalography Study.” <em>Journal of Cognitive Neuroscience</em>
+31 (3): 401–11.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-biccari2020stochastic">
+<p>Biccari, Umberto, and Enrique Zuazua. 2020. “A Stochastic Approach
+to the Synchronization of Coupled Oscillators.” <em>Frontiers in
+Energy Research</em> 8: 115.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-cao2017realtime">
+<p>Cao, Zhe, Tomas Simon, Shih-En Wei, and Yaser Sheikh. 2017.
+“Realtime Multi-Person 2D Pose Estimation Using Part Affinity
+Fields.” In <em>CVPR</em>.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-8765346">
+<p>Cao, Z., G. Hidalgo Martinez, T. Simon, S. Wei, and Y. A. Sheikh.
+2019. “OpenPose: Realtime Multi-Person 2D Pose Estimation Using
+Part Affinity Fields.” <em>IEEE Transactions on Pattern Analysis and
+Machine Intelligence</em>.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-chopra2009exponential">
+<p>Chopra, Nikhil, and Mark W Spong. 2009. “On Exponential
+Synchronization of Kuramoto Oscillators.” <em>IEEE Transactions on
+Automatic Control</em> 54 (2): 353–57.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-dikker2017brain">
+<p>Dikker, Suzanne, Lu Wan, Ido Davidesco, Lisa Kaggen, Matthias
+Oostrik, James McClintock, Jess Rowland, et al. 2017.
+“Brain-to-Brain Synchrony Tracks Real-World Dynamic Group
+Interactions in the Classroom.” <em>Current Biology</em> 27 (9): 1375–80.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-eckmann1995recurrence">
+<p>Eckmann, Jean-Pierre, S Oliffson Kamphorst, David Ruelle, et al.
+1995. “Recurrence Plots of Dynamical Systems.” <em>World Scientific
+Series on Nonlinear Science Series A</em> 16: 441–46.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-ermentrout1991adaptive">
+<p>Ermentrout, Bard. 1991. “An Adaptive Model for Synchrony in the
+Firefly Pteroptyx Malaccae.” <em>Journal of Mathematical Biology</em> 29
+(6): 571–85.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-fritsch1980monotone">
+<p>Fritsch, Frederick N, and Ralph E Carlson. 1980. “Monotone
+Piecewise Cubic Interpolation.” <em>SIAM Journal on Numerical
+Analysis</em> 17 (2): 238–46.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-golland2015mere">
+<p>Golland, Yulia, Yossi Arzouan, and Nava Levit-Binnun. 2015. “The
+Mere Co-Presence: Synchronization of Autonomic Signals and
+Emotional Responses Across Co-Present Individuals Not Engaged in
+Direct Interaction.” <em>PloS One</em> 10 (5): e0125804.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-gordon2021group">
+<p>Gordon, Ilanit, Sebastian Wallot, and Yair Berson. 2021.
+“Group-Level Physiological Synchrony and Individual-Level Anxiety
+Predict Positive Affective Behaviors During a Group
+Decision-Making Task.” <em>Psychophysiology</em> 58 (9): e13857.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-guastello2006electrodermal">
+<p>Guastello, Stephen J, David Pincus, and Patrick R Gunderson. 2006.
+“Electrodermal Arousal Between Participants in a Conversation:
+Nonlinear Dynamics and Linkage Effects.” <em>Nonlinear Dynamics,
+Psychology, and Life Sciences</em>.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-hasson2012brain">
+<p>Hasson, Uri, Asif A Ghazanfar, Bruno Galantucci, Simon Garrod, and
+Christian Keysers. 2012. “Brain-to-Brain Coupling: A Mechanism for
+Creating and Sharing a Social World.” <em>Trends in Cognitive
+Sciences</em> 16 (2): 114–21.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-hegger1999improved">
+<p>Hegger, Rainer, and Holger Kantz. 1999. “Improved False Nearest
+Neighbor Method to Detect Determinism in Time Series Data.”
+<em>Physical Review E</em> 60 (4): 4970.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-huffaker2017nonlinear">
+<p>Huffaker, Ray, Ray G Huffaker, Marco Bittelli, and Rodolfo Rosa.
+2017. <em>Nonlinear Time Series Analysis with r</em>. Oxford University
+Press.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kahaner1989numerical">
+<p>Kahaner, David, Cleve Moler, and Stephen Nash. 1989. <em>Numerical
+Methods and Software</em>. Prentice-Hall, Inc.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kantz2004nonlinear">
+<p>Kantz, Holger, and Thomas Schreiber. 2004. <em>Nonlinear Time Series
+Analysis</em>. Vol. 7. Cambridge university press.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kaufman2012leakage">
+<p>Kaufman, Shachar, Saharon Rosset, Claudia Perlich, and Ori
+Stitelman. 2012. “Leakage in Data Mining: Formulation, Detection,
+and Avoidance.” <em>ACM Transactions on Knowledge Discovery from Data
+(TKDD)</em> 6 (4): 1–21.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kennel1992determining">
+<p>Kennel, Matthew B, Reggie Brown, and Henry DI Abarbanel. 1992.
+“Determining Embedding Dimension for Phase-Space Reconstruction
+Using a Geometrical Construction.” <em>Physical Review A</em> 45 (6):
+3403.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-konvalinka2011synchronized">
+<p>Konvalinka, Ivana, Dimitris Xygalatas, Joseph Bulbulia, Uffe
+Schjødt, Else-Marie Jegindø, Sebastian Wallot, Guy Van Orden, and
+Andreas Roepstorff. 2011. “Synchronized Arousal Between Performers
+and Related Spectators in a Fire-Walking Ritual.” <em>Proceedings of
+the National Academy of Sciences</em> 108 (20): 8514–19.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-koul2023interpersonal">
+<p>Koul, Atesh, Davide Ahmar, Gian Domenico Iannetti, and Giacomo
+Novembre. 2023. “Interpersonal Synchronization of Spontaneously
+Generated Body Movements.” <em>Iscience</em> 26 (3).</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kugiumtzis1999test">
+<p>Kugiumtzis, D. 1999. “Test Your Surrogate Data Before You Test for
+Nonlinearity.” <em>Physical Review E</em> 60 (3): 2808.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-kuramoto1975international">
+<p>Kuramoto, Yoshiki. 1975. “International Symposium on Mathematical
+Problems in Theoretical Physics.” <em>Lecture Notes in Physics</em> 30:
+420.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-marwan2007recurrence">
+<p>Marwan, Norbert, M Carmen Romano, Marco Thiel, and Jürgen Kurths.
+2007. “Recurrence Plots for the Analysis of Complex Systems.”
+<em>Physics Reports</em> 438 (5-6): 237–329.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-marwan2013recurrence">
+<p>Marwan, Norbert, Stefan Schinkel, and Jürgen Kurths. 2013.
+“Recurrence Plots 25 Years Later—Gaining Confidence in Dynamical
+Transitions.” <em>Europhysics Letters</em> 101 (2): 20007.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-marwan2002recurrence">
+<p>Marwan, Norbert, Niels Wessel, Udo Meyerfeldt, Alexander
+Schirdewan, and Jürgen Kurths. 2002. “Recurrence-Plot-Based
+Measures of Complexity and Their Application to
+Heart-Rate-Variability Data.” <em>Physical Review E</em> 66 (2): 026702.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-mitkidis2015building">
+<p>Mitkidis, Panagiotis, John J McGraw, Andreas Roepstorff, and
+Sebastian Wallot. 2015. “Building Trust: Heart Rate Synchrony and
+Arousal During Joint Action Increased by Public Goods Game.”
+<em>Physiology &amp; Behavior</em> 149: 101–6.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-pan2020instructor">
+<p>Pan, Yafeng, Suzanne Dikker, Pavel Goldstein, Yi Zhu, Cuirong
+Yang, and Yi Hu. 2020. “Instructor-Learner Brain Coupling
+Discriminates Between Instructional Approaches and Predicts
+Learning.” <em>NeuroImage</em> 211: 116657.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-hp1890am">
+<p>Poincaré, Henri. 1890. “Sur le problème des trois corps et les
+équations de la dynamique.” <em>Acta Mathematica</em> 13: 1–270.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-richardson2007art">
+<p>Richardson, Daniel C, Rick Dale, and Natasha Z Kirkham. 2007. “The
+Art of Conversation Is Coordination.” <em>Psychological Science</em> 18
+(5): 407–13.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-rossler1976equation">
+<p>Rössler, Otto E. 1976. “An Equation for Continuous Chaos.”
+<em>Physics Letters A</em> 57 (5): 397–98.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-schippers2010mapping">
+<p>Schippers, Marleen B, Alard Roebroeck, Remco Renken, Luca Nanetti,
+and Christian Keysers. 2010. “Mapping the Information Flow from
+One Brain to Another During Gestural Communication.” <em>Proceedings
+of the National Academy of Sciences</em> 107 (20): 9388–93.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-schreiber1996improved">
+<p>Schreiber, Thomas, and Andreas Schmitz. 1996. “Improved Surrogate
+Data for Nonlinearity Tests.” <em>Physical Review Letters</em> 77 (4):
+635.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-schreiber1997discrimination">
+<p>———. 1997. “Discrimination Power of Measures for Nonlinearity in a
+Time Series.” <em>Physical Review E</em> 55 (5): 5443.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-shockley2003mutual">
+<p>Shockley, Kevin, Marie-Vee Santana, and Carol A Fowler. 2003.
+“Mutual Interpersonal Postural Constraints Are Involved in
+Cooperative Conversation.” <em>Journal of Experimental Psychology:
+Human Perception and Performance</em> 29 (2): 326.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-simon2017hand">
+<p>Simon, Tomas, Hanbyul Joo, Iain Matthews, and Yaser Sheikh. 2017.
+“Hand Keypoint Detection in Single Images Using Multiview
+Bootstrapping.” In <em>CVPR</em>.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-spiegelhalder2014interindividual">
+<p>Spiegelhalder, Kai, Sabine Ohlendorf, Wolfram Regen, Bernd Feige,
+Ludger Tebartz van Elst, Cornelius Weiller, Jürgen Hennig, Mathias
+Berger, and Oliver Tüscher. 2014. “Interindividual Synchronization
+of Brain Activity During Live Verbal Communication.” <em>Behavioural
+Brain Research</em> 258: 75–79.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-strogatz2000kuramoto">
+<p>Strogatz, Steven H. 2000. “From Kuramoto to Crawford: Exploring
+the Onset of Synchronization in Populations of Coupled
+Oscillators.” <em>Physica D: Nonlinear Phenomena</em> 143 (1-4): 1–20.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-strogatz2018nonlinear">
+<p>———. 2018. <em>Nonlinear Dynamics and Chaos with Student Solutions
+Manual: With Applications to Physics, Biology, Chemistry, and
+Engineering</em>. CRC press.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-stuldreher2023robustness">
+<p>Stuldreher, Ivo V, Jan BF van Erp, and Anne-Marie Brouwer. 2023.
+“Robustness of Physiological Synchrony in Wearable Electrodermal
+Activity and Heart Rate as a Measure of Attentional Engagement to
+Movie Clips.” <em>Sensors</em> 23 (6): 3006.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-takens1981dynamical">
+<p>Takens, Floris. 1981. “Dynamical Systems and Turbulence.”
+<em>Warwick, 1980</em>, 366–81.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-thorson2021oxytocin">
+<p>Thorson, Katherine R, Scott M McKernan, Tessa V West, Joshua D
+Woolley, Wendy Berry Mendes, and Christopher S Stauffer. 2021.
+“Oxytocin Increases Physiological Linkage During Group Therapy for
+Methamphetamine Use Disorder: A Randomized Clinical Trial.”
+<em>Scientific Reports</em> 11 (1): 21004.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-tomashin2022interpersonal">
+<p>Tomashin, Alon, Ilanit Gordon, and Sebastian Wallot. 2022.
+“Interpersonal Physiological Synchrony Predicts Group Cohesion.”
+<em>Frontiers in Human Neuroscience</em> 16: 903407.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-verstynen2023overfitting">
+<p>Verstynen, Timothy, and Konrad Paul Kording. 2023. “Overfitting to
+‘Predict’suicidal Ideation.” <em>Nature Human Behaviour</em> 7 (5):
+680–81.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-wallot2018calculation">
+<p>Wallot, Sebastian, and Dan Mønster. 2018. “Calculation of Average
+Mutual Information (AMI) and False-Nearest Neighbors (FNN) for the
+Estimation of Embedding Parameters of Multidimensional Time Series
+in Matlab.” <em>Frontiers in Psychology</em> 9: 1679.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-wallot2016multidimensional">
+<p>Wallot, Sebastian, Andreas Roepstorff, and Dan Mønster. 2016.
+“Multidimensional Recurrence Quantification Analysis (MdRQA) for
+the Analysis of Multidimensional Time-Series: A Software
+Implementation in MATLAB and Its Application to Group-Level Data
+in Joint Action.” <em>Frontiers in Psychology</em>, 1835.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-webber1995influence">
+<p>Webber Jr, Charles L, MA Schmidt, and John M Walsh. 1995.
+“Influence of Isometric Loading on Biceps EMG Dynamics as Assessed
+by Linear and Nonlinear Tools.” <em>Journal of Applied Physiology</em> 78
+(3): 814–22.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-webber1994dynamical">
+<p>Webber Jr, Charles L, and Joseph P Zbilut. 1994. “Dynamical
+Assessment of Physiological Systems and States Using Recurrence
+Plot Strategies.” <em>Journal of Applied Physiology</em> 76 (2): 965–73.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-webber2005recurrence">
+<p>———. 2005. “Recurrence Quantification Analysis of Nonlinear
+Dynamical Systems.” <em>Tutorials in Contemporary Nonlinear Methods
+for the Behavioral Sciences</em> 94 (2005): 26–94.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-wei2016cpm">
+<p>Wei, Shih-En, Varun Ramakrishna, Takeo Kanade, and Yaser Sheikh.
+2016. “Convolutional Pose Machines.” In <em>CVPR</em>.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-young2015we">
+<p>Young, Hayley, and David Benton. 2015. “We Should Be Using
+Nonlinear Indices When Relating Heart-Rate Dynamics to Cognition
+and Mood.” <em>Scientific Reports</em> 5 (1): 16619.</p>
+</div>
+<div class="csl-entry docutils container" id="ref-yun2012interpersonal">
+<p>Yun, Kyongsik, Katsumi Watanabe, and Shinsuke Shimojo. 2012.
+“Interpersonal Body and Neural Synchronization as a Marker of
+Implicit Social Interaction.” <em>Scientific Reports</em> 2 (1): 959.</p>
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="functions/utils.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Utility Functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="repo_details.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Repository Information</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

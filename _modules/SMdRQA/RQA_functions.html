@@ -1,0 +1,1915 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMdRQA.RQA_functions &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/SMdRQA/RQA_functions';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2F_modules/SMdRQA/RQA_functions.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for SMdRQA.RQA_functions</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">SMdRQA.utils</span> <span class="kn">import</span> <span class="n">assert_3D_matrix_size</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.utils</span> <span class="kn">import</span> <span class="n">compute_3D_matrix_size</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.utils</span> <span class="kn">import</span> <span class="n">assert_matrix</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance_matrix</span>
+<span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">digamma</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedKFold</span>
+<span class="kn">import</span> <span class="nn">memory_profiler</span>
+<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedKFold</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Handle empty array</span>
+
+    <span class="c1"># Check for the first local minima</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="mi">0</span>  <span class="c1"># Single element or first element is a local minima</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">i</span>
+
+    <span class="c1"># If no local minima found, return the index of the global minimum</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">doanes_formula</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Functions for computing number of bins for data using Doane&#39;s formula</span>
+<span class="sd">    data : input array</span>
+<span class="sd">    n : number of elements in data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">g1</span> <span class="o">=</span> <span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">sigma_g1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)))</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">g1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma_g1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span>
+        <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>  <span class="c1"># Round up to the nearest integer</span>
+
+    <span class="k">return</span> <span class="n">k</span>
+
+
+<div class="viewcode-block" id="binscalc">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">[docs]</a>
+<span class="k">def</span> <span class="nf">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Bins : array</span>
+<span class="sd">         number of bins along each dimension</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Freedman, David, and Persi Diaconis. &quot;On the histogram as a density estimator: L 2 theory.&quot; Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.</span>
+<span class="sd">    - Birgé, Lucien, and Yves Rozenholc. &quot;How many bins should be put in a regular histogram.&quot; ESAIM: Probability and Statistics 10 (2006): 24-45.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FD&#39;</span><span class="p">:</span>  <span class="c1"># generalised Freedman–Diaconis rule.</span>
+        <span class="c1"># Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))</span>
+        <span class="n">mult_fact</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">inf_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sup_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q25</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q75</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">IQR</span> <span class="o">=</span> <span class="p">(</span><span class="n">q75</span> <span class="o">-</span> <span class="n">q25</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;IQR:&#39;</span><span class="p">,</span> <span class="n">IQR</span><span class="p">)</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mult_fact</span> <span class="o">*</span> <span class="p">(</span><span class="n">sup_arr</span> <span class="o">-</span> <span class="n">inf_arr</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;rice&#39;</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sturges&#39;</span><span class="p">:</span>
+        <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;doanes&#39;</span><span class="p">:</span>
+        <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">doanes_formula</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+        <span class="n">Bins</span> <span class="o">=</span> <span class="mi">15</span>
+
+    <span class="c1"># print(&#39;inf:&#39;,inf)</span>
+    <span class="c1"># print(&#39;sup:&#39;,sup)</span>
+    <span class="c1"># print(&#39;IQR:&#39;,iqr)</span>
+
+    <span class="k">return</span> <span class="n">Bins</span></div>
+
+
+
+<div class="viewcode-block" id="mutualinfo">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[docs]</a>
+<span class="k">def</span> <span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between two time series</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;FD&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BINS:&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="c1"># print(&#39;bins:&#39;,bins.shape)</span>
+    <span class="c1"># print(&#39;points:&#39;,points.shape)</span>
+    <span class="c1"># 10^-9 added so that x log x does not diverge when x=0 in the calculation</span>
+    <span class="c1"># of mutual information</span>
+    <span class="n">p_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span>
+        <span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_xy</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span><span class="p">)</span>  <span class="c1"># Normalising the probability distribution</span>
+    <span class="n">p_x</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_xy</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_x</span><span class="p">))</span> <span class="o">-</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span>  <span class="c1"># formula for mutual information</span></div>
+
+
+
+<span class="c1"># Only aplicable for multidimensional array</span>
+<div class="viewcode-block" id="KNN_MI_vectorized">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_vectorized">[docs]</a>
+<span class="k">def</span> <span class="nf">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Vectorized version</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    Y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+
+<span class="sd">    nearest_neighbor   : int</span>
+<span class="sd">        number of nearest neighbour for calculating mutual information, default = 5</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>  <span class="c1"># change the data type to one specified by the user</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">DX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">((</span><span class="n">X</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">DY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">((</span><span class="n">Y</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">Y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">D_stacked</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">DX</span><span class="p">,</span> <span class="n">DY</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">D_stacked</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">D_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># First column would be zero</span>
+    <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">D_sorted</span><span class="p">[:,</span> <span class="n">nearest_neighbor</span><span class="p">])</span>
+    <span class="c1"># print(&#39;k nearest vectorized:&#39;, k_nearest)</span>
+    <span class="n">neigh_matrix_X</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">((</span><span class="n">k_nearest</span> <span class="o">-</span> <span class="n">DX</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">neigh_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing &quot;self neighbour&quot;</span>
+
+    <span class="n">neigh_matrix_Y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">((</span><span class="n">k_nearest</span> <span class="o">-</span> <span class="n">DY</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">neigh_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing &quot;self neighbour&quot;</span>
+    <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">neigh_X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">neigh_Y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="KNN_MI_partial_vectorized">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_partial_vectorized">[docs]</a>
+<span class="k">def</span> <span class="nf">KNN_MI_partial_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Partially version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can&#39;t be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used to use a relatively faster version compared to non-vectorized version</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    Y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+
+<span class="sd">    nearest_neighbor   : int</span>
+<span class="sd">        number of nearest neighbour for calculating mutual information, default = 5</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>  <span class="c1"># change the data type to one specified by the user</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">NX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">NY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">NXY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="c1"># Compute pairwise Euclidean distances</span>
+        <span class="n">dist_X</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="n">dist_Y</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">cdist</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Y</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+        <span class="c1"># Exclude the i-th element (where i == j)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">!=</span> <span class="n">i</span>
+        <span class="n">dist_X</span> <span class="o">=</span> <span class="n">dist_X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">dist_Y</span> <span class="o">=</span> <span class="n">dist_Y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+        <span class="c1"># Compute the maximum of distances for each pair (i, j)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">dist_X</span><span class="p">,</span> <span class="n">dist_Y</span><span class="p">))</span>
+
+        <span class="c1"># Sort the resulting vector</span>
+        <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="n">nearest_neighbor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">NX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_X</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">))</span>
+        <span class="n">NY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_Y</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">))</span>
+        <span class="c1"># print(&#39;k nearest non vectorized:&#39;, k_nearest)</span>
+
+    <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="KNN_MI_non_vectorized">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_non_vectorized">[docs]</a>
+<span class="k">def</span> <span class="nf">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can&#39;t be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    Y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+
+<span class="sd">    nearest_neighbor   : int</span>
+<span class="sd">        number of nearest neighbour for calculating mutual information, default = 5</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">NX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">NY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">NXY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">XY</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">N0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span>
+                        <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">]),</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span>
+                        <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+                <span class="n">N</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
+        <span class="n">N</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="n">nearest_neighbor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># print(&#39;k nearest non vectorized:&#39;, k_nearest)</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">:</span>
+                    <span class="n">NX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">:</span>
+                    <span class="n">NY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;neigh_X non vectorised:&#39;</span><span class="p">,</span> <span class="n">NX</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;neigh_Y non vectorised:&#39;</span><span class="p">,</span> <span class="n">NY</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="KNN_MI">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI">[docs]</a>
+<span class="k">def</span> <span class="nf">KNN_MI</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span>
+        <span class="n">Y</span><span class="p">,</span>
+        <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+        <span class="n">memory_limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    Y   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  second time series</span>
+
+<span class="sd">    nearest_neighbor   : int</span>
+<span class="sd">        number of nearest neighbour for calculating mutual information, default = 5</span>
+
+<span class="sd">    method : str</span>
+<span class="sd">        Specifying options for computing the mutual information using the KNN method. Options are:</span>
+
+<span class="sd">        - &quot;auto&quot; : This will check for two additional variables, namely &quot;dtype&quot; (data type) and &quot;memory_limit&quot;</span>
+<span class="sd">          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized</span>
+<span class="sd">          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will</span>
+<span class="sd">          compute sequentially.</span>
+
+<span class="sd">        - &quot;vectorized&quot; : This will use the vectorized method by default, without checking the memory requirement</span>
+<span class="sd">          and the limit specified. This option is faster by default.</span>
+
+<span class="sd">        - &quot;sequential&quot; : The algorithm is implemented with for loops instead of vectorization. This could be</span>
+<span class="sd">          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited</span>
+<span class="sd">          and can&#39;t handle huge matrices, this option should be chosen.</span>
+
+<span class="sd">        - &quot;partial&quot; : best of both worlds between &quot;vectorized&quot; and &quot;sequential&quot;</span>
+
+<span class="sd">    dtype   : dtype</span>
+<span class="sd">        data type, default = np.float64</span>
+
+<span class="sd">    memory_limit   : double</span>
+<span class="sd">        memory limit in GiB, default = 4</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dim1</span><span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">dim3</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">pv</span> <span class="o">=</span> <span class="n">assert_3D_matrix_size</span><span class="p">(</span>
+        <span class="n">dim1</span><span class="p">,</span>
+        <span class="n">dim2</span><span class="p">,</span>
+        <span class="n">dim3</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+        <span class="n">memory_limit</span><span class="o">=</span><span class="n">memory_limit</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pv1</span><span class="p">:</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pv1</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pv2</span><span class="p">):</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_partial_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">pv1</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pv2</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;vectorized&quot;</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sequential&quot;</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;partial&quot;</span><span class="p">:</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_partial_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mi</span></div>
+
+
+
+<div class="viewcode-block" id="timedelayMI">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[docs]</a>
+<span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between u and u delayed by tau</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="KNN_timedelayMI">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_timedelayMI">[docs]</a>
+<span class="k">def</span> <span class="nf">KNN_timedelayMI</span><span class="p">(</span>
+    <span class="n">u</span><span class="p">,</span>
+    <span class="n">tau</span><span class="p">,</span>
+    <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+        <span class="n">memory_limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    nearest_neighbor   : int</span>
+<span class="sd">        number of nearest neighbour for calculating mutual information, default = 5</span>
+
+<span class="sd">    method : str</span>
+<span class="sd">        Specifying options for computing the mutual information using the KNN method. Options are:</span>
+
+<span class="sd">        - &quot;auto&quot; : This will check for two additional variables, namely &quot;dtype&quot; (data type) and &quot;memory_limit&quot;</span>
+<span class="sd">          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized</span>
+<span class="sd">          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will</span>
+<span class="sd">          compute sequentially.</span>
+
+<span class="sd">        - &quot;vectorized&quot; : This will use the vectorized method by default, without checking the memory requirement</span>
+<span class="sd">          and the limit specified. This option is faster by default.</span>
+
+<span class="sd">        - &quot;sequential&quot; : The algorithm is implemented with for loops instead of vectorization. This could be</span>
+<span class="sd">          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited</span>
+<span class="sd">          and can&#39;t handle huge matrices, this option should be chosen.</span>
+
+<span class="sd">        - &quot;partial&quot; : best of both worlds between &quot;vectorized&quot; and &quot;sequential&quot;</span>
+
+<span class="sd">    dtype   : dtype</span>
+<span class="sd">        data type, default = np.float64</span>
+
+<span class="sd">    memory_limit   : double</span>
+<span class="sd">        memory limit in GiB, default = 4</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    MI : double</span>
+<span class="sd">         mutual information between time series</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">return</span> <span class="n">KNN_MI</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+                  <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">memory_limit</span><span class="o">=</span><span class="n">memory_limit</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="findtau_default">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_default">[docs]</a>
+<span class="k">def</span> <span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">minMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nextMI</span> <span class="o">&gt;</span> <span class="n">minMI</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">minMI</span> <span class="o">=</span> <span class="n">nextMI</span>
+
+    <span class="k">return</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">find_poly_degree</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">MaxDeg</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">DEG</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">RMSE</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">deg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MaxDeg</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedKFold</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">MSE_sub</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+            <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">deg</span><span class="p">)</span>
+            <span class="n">polynomial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">polynomial</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+            <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+            <span class="n">MSE_sub</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
+
+        <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">MSE_sub</span><span class="p">))</span>
+        <span class="n">DEG</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span>
+        <span class="n">RMSE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse</span><span class="p">)</span>
+
+    <span class="n">DEG</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">DEG</span><span class="p">)</span>
+    <span class="n">RMSE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">RMSE</span><span class="p">)</span>
+
+    <span class="n">min_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">RMSE</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">DEG</span><span class="p">[</span><span class="n">min_index</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="findtau_polynomial">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_polynomial">[docs]</a>
+<span class="k">def</span> <span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    grp : str</span>
+<span class="sd">        group name for saving the TAU vs MI figure</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+        <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
+
+    <span class="n">TAU</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">TAU</span><span class="p">)</span>
+    <span class="n">MIARR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">MIARR</span><span class="p">)</span>
+
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">find_poly_degree</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">)</span>
+
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="n">degree</span><span class="p">)</span>
+    <span class="n">polynomial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">poly1d</span><span class="p">(</span><span class="n">coefficients</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">polynomial</span><span class="p">(</span><span class="n">TAU</span><span class="p">)</span>
+
+    <span class="n">tau_index</span> <span class="o">=</span> <span class="n">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="s1">&#39;b*&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;TAU-MI-&#39;</span> <span class="o">+</span> <span class="n">grp</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="findtau">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
+<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    method : method that should be used to find the first local minima in MI vs tau curve.</span>
+<span class="sd">             &quot;default&quot; - first minima of the MI vs TAU plot</span>
+<span class="sd">             &quot;polynomial&quot;- first minima of the polynomial fit to the MI vs TAU plot</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    tau : double</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">:</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tau</span></div>
+
+
+<span class="c1">#### Calculation of m ####################################################</span>
+
+
+<div class="viewcode-block" id="delayseries">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.delayseries">[docs]</a>
+<span class="k">def</span> <span class="nf">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    s : ndarray</span>
+<span class="sd">       3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">tau</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+
+<div class="viewcode-block" id="nearest">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.nearest">[docs]</a>
+<span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    s   : ndarray</span>
+<span class="sd">        3D matrix ov size ((n-(m-1)*tau,m,d)), time delayed embedded signal</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nn : array</span>
+<span class="sd">       an array denoting index of nearest neighbour for each observation</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">nn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">nn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">j</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+                    <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])):</span>
+                <span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span>
+    <span class="k">return</span> <span class="n">nn</span></div>
+
+
+
+<div class="viewcode-block" id="fnnratio">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnratio">[docs]</a>
+<span class="k">def</span> <span class="nf">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that calculates the ratio of false nearest neighbours</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    FNN : double</span>
+<span class="sd">       ratio of false nearest neighbours, for a given embedding dimension m, when compared an embedding dimension m+1</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kennel, M. B., Brown, R., &amp; Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>     <span class="c1"># embedding in m dimensions</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># embedding in m+1 dimensions</span>
+    <span class="c1"># containg nearest neghbours after embedding in m dimensions</span>
+    <span class="n">nn</span> <span class="o">=</span> <span class="n">nearest</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">isneigh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="n">isfalse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="n">disto</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s1</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">distp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s2</span><span class="p">[</span><span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">disto</span> <span class="o">&lt;</span> <span class="n">sig</span> <span class="o">/</span> <span class="n">r</span><span class="p">):</span>
+            <span class="n">isneigh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">distp</span> <span class="o">/</span> <span class="n">disto</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">):</span>
+                <span class="n">isfalse</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span> <span class="o">*</span> <span class="n">isfalse</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">isneigh</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="fnnhitszero">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnhitszero">[docs]</a>
+<span class="k">def</span> <span class="nf">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that finds the value of r at which the FNN ratio can be effectively considered as zero</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    delta: double</span>
+<span class="sd">         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</span>
+
+<span class="sd">    Rmin : double</span>
+<span class="sd">         minimum value of r from where we would start the parameter search</span>
+
+<span class="sd">    Rmax : double</span>
+<span class="sd">         maximum value of r for defining the upper limit of parameter search</span>
+
+<span class="sd">    rdiv : Int</span>
+<span class="sd">         number of divisions between Rmin and Rmax for parameter search</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    r : double</span>
+<span class="sd">       value of r at which the value of FNN ratio effectively hits zero</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Rarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rdiv</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sig</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">delta</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="findm">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findm">[docs]</a>
+<span class="k">def</span> <span class="nf">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">,</span> <span class="n">bound</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    r    : double</span>
+<span class="sd">         ratio parameter</span>
+
+<span class="sd">    sig : double</span>
+<span class="sd">         standard deviation of the data</span>
+
+<span class="sd">    delta: double</span>
+<span class="sd">         the tolerance value(the maximum difference from zero) for a value of FNN ratio to be effectively considered to be zero</span>
+
+<span class="sd">    Rmin : double</span>
+<span class="sd">         minimum value of r from where we would start the parameter search</span>
+
+<span class="sd">    Rmax : double</span>
+<span class="sd">         maximum value of r for defining the upper limit of parameter search</span>
+
+<span class="sd">    rdiv : Int</span>
+<span class="sd">         number of divisions between Rmin and Rmax for parameter search</span>
+
+<span class="sd">    bound: double</span>
+<span class="sd">         bound value for terminating the parameter serch</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    m : double</span>
+<span class="sd">       value of embedding dimension</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">mmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">11</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+    <span class="n">rmp</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mmax</span><span class="p">):</span>
+        <span class="n">rmp</span> <span class="o">=</span> <span class="n">rm</span>
+        <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">-</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rm-rmp:&#39;</span><span class="p">,</span> <span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">m</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+
+<span class="c1">### Calculation of epsilon ###############################################</span>
+
+<div class="viewcode-block" id="reccplot">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccplot">[docs]</a>
+<span class="k">def</span> <span class="nf">reccplot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        double array of shape (n,d).  Think of it as n points in a d dimensional space</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of samples or observations in the time series</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of measurements or dimensions of the data</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">         amount of delay</span>
+
+<span class="sd">    m    : int</span>
+<span class="sd">         number of embedding dimensions</span>
+
+<span class="sd">    eps  : double</span>
+<span class="sd">         radius of the neighbourhood for computing recurrence</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    rplot : ndarray</span>
+<span class="sd">       recurrence plot</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># normarr=[]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="c1"># normarr.append(np.linalg.norm(s[i]-s[j]))</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">:</span>
+                <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">rplot</span></div>
+
+
+
+<span class="k">def</span> <span class="nf">embedded_signal</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rdiv</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span>
+        <span class="n">Rmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">Rmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">delta</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">rr_delta</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span>
+        <span class="n">epsmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">epsmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">epsdiv</span><span class="o">=</span><span class="mi">1001</span><span class="p">):</span>
+    <span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">/</span> \
+        <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">M</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">N</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">sd</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">,</span> <span class="n">bound</span><span class="p">)</span>
+    <span class="n">embedded</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">embedded</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span>
+
+
+<div class="viewcode-block" id="reccrate">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">[docs]</a>
+<span class="k">def</span> <span class="nf">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rplot: ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    reccrate : double</span>
+<span class="sd">       recurrence rate</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rplot</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="findeps">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findeps">[docs]</a>
+<span class="k">def</span> <span class="nf">findeps</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        multidimensional time series data</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of observations</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of dimensions</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    m   : int</span>
+<span class="sd">        embedding dimension</span>
+
+<span class="sd">    reqrr : doubld</span>
+<span class="sd">        required recurrence rate specified in the input</span>
+
+<span class="sd">    rr_delta: double</span>
+<span class="sd">        tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr</span>
+
+<span class="sd">    epsmin : double</span>
+<span class="sd">        lower bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsmax : double</span>
+<span class="sd">        upper bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsdiv : double</span>
+<span class="sd">        number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    eps   : double</span>
+<span class="sd">       epsilon(neighbourhood radius)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epsdiv</span><span class="p">):</span>
+        <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                    <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rr</span> <span class="o">-</span> <span class="n">reqrr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rr_delta</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+<span class="c1">### Calculation of RQA parameters ########################################</span>
+
+
+<span class="k">def</span> <span class="nf">plotwindow</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">win</span><span class="p">,</span> <span class="n">win</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">win</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">win</span><span class="p">):</span>
+            <span class="n">window</span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">b</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">window</span>
+
+
+<div class="viewcode-block" id="vert_hist">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.vert_hist">[docs]</a>
+<span class="k">def</span> <span class="nf">vert_hist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Functio to calculate vertical line distribution</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute vertical line distribution(counts of line lengths)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    m   : ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">nvert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nvert</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">counter</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">nvert</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">nvert</span></div>
+
+
+
+<div class="viewcode-block" id="onedhist">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.onedhist">[docs]</a>
+<span class="k">def</span> <span class="nf">onedhist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">hst</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">hst</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">hst</span></div>
+
+
+
+<div class="viewcode-block" id="diaghist">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.diaghist">[docs]</a>
+<span class="k">def</span> <span class="nf">diaghist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Function to calculate diagonal line distribution</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute diagonal line distribution(counts of line lengths)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    m   : ndarray</span>
+<span class="sd">        recurrence plot</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dghist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
+            <span class="n">diag</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">subdiaghist</span> <span class="o">=</span> <span class="n">onedhist</span><span class="p">(</span><span class="n">diag</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">dghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">subdiaghist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">dghist</span> <span class="o">*=</span> <span class="mi">2</span>
+    <span class="n">dghist</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">/=</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">dghist</span></div>
+
+
+
+<span class="c1">### Measures to capture probability distributions ########################</span>
+
+<div class="viewcode-block" id="percentmorethan">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.percentmorethan">[docs]</a>
+<span class="k">def</span> <span class="nf">percentmorethan</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to compute determinism and laminarity from the histogram distribution of lines</span>
+
+<span class="sd">    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either</span>
+<span class="sd">    vertical or horizontal. The definition of a linear structure on an RP is based on the minimum length(mini)</span>
+<span class="sd">    given as an input</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    nvert : array</span>
+<span class="sd">       an array containing counts of line lengths</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">numer</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">denom</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">denom</span></div>
+
+
+
+<div class="viewcode-block" id="mode">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mode">[docs]</a>
+<span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find mode of the line distributions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    p : int</span>
+<span class="sd">       mode of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">mini</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">hst</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+
+<div class="viewcode-block" id="maxi">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">[docs]</a>
+<span class="k">def</span> <span class="nf">maxi</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    maximum value in the line length distribution</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    plmax : int</span>
+<span class="sd">       max of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">lmax</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lmax</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="n">lmax</span></div>
+
+
+
+<div class="viewcode-block" id="average">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.average">[docs]</a>
+<span class="k">def</span> <span class="nf">average</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find mean of the line distributions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    mu : double</span>
+<span class="sd">       mean of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">numer</span> <span class="o">+=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">denom</span> <span class="o">+=</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">numer</span> <span class="o">/</span> <span class="n">denom</span></div>
+
+
+
+<div class="viewcode-block" id="entropy">
+<a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.entropy">[docs]</a>
+<span class="k">def</span> <span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to find entropy of the line distributions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    hst   : array</span>
+<span class="sd">        histogram counts of line lengths</span>
+
+<span class="sd">    mini  : int</span>
+<span class="sd">        minimum length of consecutive occurances of value 1 in the RP(either vertically or horizontally) that is considered as a line</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        length of RP</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    ent : int</span>
+<span class="sd">       entropy of line length distribution</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (1994). Dynamical assessment of physiological systems and states using recurrence plot strategies. Journal of applied physiology, 76 (2), 965–973.</span>
+<span class="sd">    - Webber Jr, C. L., &amp; Zbilut, J. P. (2005). Recurrence quantification analysis of nonlinear dynamical systems. Tutorials in contemporary nonlinear methods for the behavioral sciences, 94 (2005), 26–94.</span>
+<span class="sd">    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237–329.</span>
+<span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
+<span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">summ</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">entr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">summ</span> <span class="o">+=</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">entr</span> <span class="o">-=</span> <span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">summ</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">summ</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">entr</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

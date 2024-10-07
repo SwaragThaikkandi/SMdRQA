@@ -1,0 +1,769 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMdRQA.window_size &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/SMdRQA/window_size';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2F_modules/SMdRQA/window_size.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for SMdRQA.window_size</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
+
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">doanes_formula</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">binscalc</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mutualinfo</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">timedelayMI</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findtau</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">delayseries</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">nearest</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnratio</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnhitszero</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findm</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccplot</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccrate</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findeps</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">plotwindow</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">vert_hist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">onedhist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">diaghist</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">percentmorethan</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mode</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">maxi</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">average</span>
+<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">entropy</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">sample</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">ss</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectFromModel</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">auc</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+
+<div class="viewcode-block" id="HistogramSampling">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.HistogramSampling">[docs]</a>
+<span class="k">def</span> <span class="nf">HistogramSampling</span><span class="p">(</span><span class="n">histogram</span><span class="p">,</span> <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for doing histogram sampling from a distribution\n\n    Parameters\n    ----------\n\n    histogram : array\n        histogram counts normalised to get a sum =1\n\n      bins_midpoints : array\n          values corresponding to the probability values given as &quot;histogram&quot;\n\n      samples : int\n          number of histograms samples\n\n      Returns\n      -------\n\n      hist2 : array\n           histogram counts of the resulting distribution\n\n      bins_midpoints : array\n           midpoints of bins corresponding to hist2\n\n      References\n      ----------\n      - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n      &#39;&#39;&#39;</span>
+
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">histogram</span><span class="p">)</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">cdf</span> <span class="o">/</span> <span class="n">cdf</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">value_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">cdf</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;values:&#39;,values)</span>
+    <span class="c1"># print(&#39;value bins:&#39;,value_bins)</span>
+
+    <span class="n">random_from_cdf</span> <span class="o">=</span> <span class="n">bins_midpoints</span><span class="p">[</span><span class="n">value_bins</span><span class="p">]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">bins_midpoints</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bins_midpoints</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="p">(</span><span class="n">hist2</span><span class="p">,</span> <span class="n">edges1</span><span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">random_from_cdf</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;bin_mids:&#39;,(edges1[:-1]+edges1[1:])/2)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">random_from_cdf</span><span class="p">,</span> <span class="n">hist2</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># for percenthage laminarity</span>
+
+<div class="viewcode-block" id="Sliding_windowBS_sub_per_lam">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_per_lam">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_per_lam</span><span class="p">(</span>
+    <span class="n">RP</span><span class="p">,</span>
+    <span class="n">maxsize</span><span class="p">,</span>
+    <span class="n">winsize</span><span class="p">,</span>
+    <span class="n">n_boot</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for percentage laminarity\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">P_bar</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_windows</span><span class="p">):</span>
+        <span class="n">sub_window</span> <span class="o">=</span> <span class="n">RP</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">]</span>
+        <span class="n">diag_his</span> <span class="o">=</span> <span class="n">vert_hist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+
+        <span class="c1"># diag_his=diag_his[1:]</span>
+
+        <span class="n">P</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag_his</span><span class="p">))</span>
+        <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_bar</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_windows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+
+    <span class="c1"># print(np.sum(P, axis=1))</span>
+
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">P_summed</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;n_bar:&#39;,n_bar)</span>
+
+    <span class="n">bins_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># line_array=IND_array+1</span>
+
+    <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
+
+        <span class="n">percent_more</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># avg_line=entropy(sel_P,1,len(sel_P)-1)</span>
+        <span class="c1"># print(avg_line)</span>
+        <span class="c1"># print(avg_line)</span>
+
+        <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">percent_more</span><span class="p">)</span>
+
+    <span class="c1"># return np.std(VAR)**2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_windowBS_sub_avg_vert">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_avg_vert</span><span class="p">(</span>
+    <span class="n">RP</span><span class="p">,</span>
+    <span class="n">maxsize</span><span class="p">,</span>
+    <span class="n">winsize</span><span class="p">,</span>
+    <span class="n">n_boot</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for average vertical line length\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">P_bar</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_windows</span><span class="p">):</span>
+        <span class="n">sub_window</span> <span class="o">=</span> <span class="n">RP</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">]</span>
+        <span class="n">diag_his</span> <span class="o">=</span> <span class="n">vert_hist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+
+        <span class="c1"># diag_his=diag_his[1:]</span>
+
+        <span class="n">P</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag_his</span><span class="p">))</span>
+        <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_bar</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+
+    <span class="c1"># print(np.sum(P, axis=1))</span>
+
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">P_summed</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;n_bar:&#39;,n_bar)</span>
+
+    <span class="n">bins_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># line_array=IND_array+1</span>
+
+    <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
+
+        <span class="n">percent_more</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hist_sample</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="c1"># avg_line=entropy(sel_P,1,len(sel_P)-1)</span>
+        <span class="c1"># print(avg_line)</span>
+        <span class="c1"># print(avg_line)</span>
+
+        <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">percent_more</span><span class="p">)</span>
+
+    <span class="c1"># return np.std(VAR)**2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_windowBS_sub_percent_det">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_percent_det">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_percent_det</span><span class="p">(</span>
+    <span class="n">RP</span><span class="p">,</span>
+    <span class="n">maxsize</span><span class="p">,</span>
+    <span class="n">winsize</span><span class="p">,</span>
+    <span class="n">n_boot</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for percentage determinism\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">P_bar</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_windows</span><span class="p">):</span>
+        <span class="n">sub_window</span> <span class="o">=</span> <span class="n">RP</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">]</span>
+        <span class="n">diag_his</span> <span class="o">=</span> <span class="n">diaghist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+
+        <span class="c1"># diag_his=diag_his[1:]</span>
+
+        <span class="n">P</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag_his</span><span class="p">))</span>
+        <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_bar</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_windows</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+
+    <span class="c1"># print(np.sum(P, axis=1))</span>
+
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">P_summed</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;n_bar:&#39;,n_bar)</span>
+
+    <span class="n">bins_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># line_array=IND_array+1</span>
+
+    <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
+
+        <span class="n">percent_more</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># avg_line=entropy(sel_P,1,len(sel_P)-1)</span>
+        <span class="c1"># print(avg_line)</span>
+        <span class="c1"># print(avg_line)</span>
+
+        <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">percent_more</span><span class="p">)</span>
+
+    <span class="c1"># return np.std(VAR)**2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_windowBS_sub_avg_diag">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_avg_diag</span><span class="p">(</span>
+    <span class="n">RP</span><span class="p">,</span>
+    <span class="n">maxsize</span><span class="p">,</span>
+    <span class="n">winsize</span><span class="p">,</span>
+    <span class="n">n_boot</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for average diagonal line length\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    winsize : int\n        size of the sliding window\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    CI : double\n        confidence interval(95% quantile - 5% quantile)\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">num_windows</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">P_bar</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_windows</span><span class="p">):</span>
+        <span class="n">sub_window</span> <span class="o">=</span> <span class="n">RP</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">winsize</span><span class="p">]</span>
+        <span class="n">diag_his</span> <span class="o">=</span> <span class="n">diaghist</span><span class="p">(</span><span class="n">sub_window</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
+
+        <span class="c1"># diag_his=diag_his[1:]</span>
+
+        <span class="n">P</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">diag_his</span><span class="p">))</span>
+        <span class="n">P_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diag_his</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">n_bar</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">P_bar</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;n_bar:&#39;</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+
+    <span class="c1"># print(np.sum(P, axis=1))</span>
+
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">P_summed</span> <span class="o">=</span> <span class="n">P_summed</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span>
+
+    <span class="c1"># print(&#39;n_bar:&#39;,n_bar)</span>
+
+    <span class="n">bins_midpoints</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">P_summed</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># line_array=IND_array+1</span>
+
+    <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_boot</span><span class="p">):</span>
+        <span class="p">(</span><span class="n">hist_sample</span><span class="p">,</span> <span class="n">hist</span><span class="p">)</span> <span class="o">=</span> <span class="n">HistogramSampling</span><span class="p">(</span><span class="n">P_summed</span><span class="p">,</span>
+                                                <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">n_bar</span><span class="p">)</span>
+        <span class="n">hist</span> <span class="o">=</span> <span class="n">hist</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span>
+
+        <span class="c1"># percent_more=entropy(hist,2, winsize)</span>
+
+        <span class="n">percent_more</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">hist_sample</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="c1"># avg_line=entropy(sel_P,1,len(sel_P)-1)</span>
+        <span class="c1"># print(avg_line)</span>
+        <span class="c1"># print(avg_line)</span>
+
+        <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">percent_more</span><span class="p">)</span>
+
+    <span class="c1"># return np.std(VAR)**2</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">VAR</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_windowBS">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_windowBS</span><span class="p">(</span>
+    <span class="n">RP</span><span class="p">,</span>
+    <span class="n">maxsize</span><span class="p">,</span>
+    <span class="n">var</span><span class="p">,</span>
+    <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10\n\n    Parameters\n    ----------\n\n    RP : ndarray\n        recurrence plot\n\n    maxsize : int\n        RP size\n\n    var : str\n        RQA variable name\n\n        *percent_lam* : percentage laminarity\n\n        *percent_det* : percentage determinism\n\n        *avg_vert* : average value of vertical line distribution\n\n        *avg_diag* : average value of diagonal line distribution\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    data : dataframe\n        dataframe containing the CI estimate of corresponding window sizes, columns are\n\n        *WINSIZE* : window size\n\n        *95% quantile- 5% quantile* : confidence interval\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">WINSIZE</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">VAR</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="mi">10</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;percent_lam&#39;</span><span class="p">:</span>
+            <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_per_lam</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
+                                                   <span class="n">n_boot</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;percent_det&#39;</span><span class="p">:</span>
+            <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_percent_det</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
+                                                       <span class="n">n_boot</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;avg_vert&#39;</span><span class="p">:</span>
+            <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_avg_vert</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
+                                                    <span class="n">n_boot</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">var</span> <span class="o">==</span> <span class="s1">&#39;avg_diag&#39;</span><span class="p">:</span>
+            <span class="n">var_std</span> <span class="o">=</span> <span class="n">Sliding_windowBS_sub_avg_diag</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span>
+                                                    <span class="n">n_boot</span><span class="p">)</span>
+
+        <span class="n">WINSIZE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">VAR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var_std</span><span class="p">)</span>
+
+    <span class="n">DICT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;WINSIZE&#39;</span><span class="p">:</span> <span class="n">WINSIZE</span><span class="p">,</span> <span class="s1">&#39;95% quantile- 5% quantile&#39;</span><span class="p">:</span> <span class="n">VAR</span><span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">DICT</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+
+<div class="viewcode-block" id="Sliding_window_whole_data">
+<a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_window_whole_data">[docs]</a>
+<span class="k">def</span> <span class="nf">Sliding_window_whole_data</span><span class="p">(</span><span class="n">RP_dir</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10. Done for all datasets in the folder specified\n\n    Parameters\n    ----------\n\n    RP_dir : str\n        directory containing all the RP files(.npy)\n\n    var : str\n        RQA variable name\n\n        *percent_lam* : percentage laminarity\n\n        *percent_det* : percentage determinism\n\n        *avg_vert* : average value of vertical line distribution\n\n        *avg_diag* : average value of diagonal line distribution\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    data : dataframe\n        dataframe containing the CI estimate of corresponding window sizes, columns are\n\n        *WINSIZE* : window size\n\n        *95% quantile- 5% quantile* : confidence interval\n\n        *group* : filename of the RPs\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
+
+    <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">RP_dir</span><span class="p">)</span>
+    <span class="n">DFs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">File</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">RP_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">File</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">File</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">RP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">maxsize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">RP</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">Sliding_windowBS</span><span class="p">(</span><span class="n">RP</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="n">n_boot</span><span class="p">)</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span>
+        <span class="n">DFs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="n">df_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">DFs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df_out</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

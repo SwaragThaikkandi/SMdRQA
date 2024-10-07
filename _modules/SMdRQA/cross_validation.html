@@ -1,0 +1,713 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMdRQA.cross_validation &#8212; SMdRQA 2024.04.01 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/SMdRQA/cross_validation';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2F_modules/SMdRQA/cross_validation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for SMdRQA.cross_validation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedStratifiedKFold</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+
+
+<div class="viewcode-block" id="feature_selection">
+<a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.feature_selection">[docs]</a>
+<span class="k">def</span> <span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function used for feature selection  using best subset setection and average cross validation accuracy</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    x_train : array</span>
+<span class="sd">        training set from the outer loops of nested cross validation function</span>
+
+<span class="sd">    y_train : array</span>
+<span class="sd">        output variables for the training set from the outer loops of the nested cross validation</span>
+
+<span class="sd">    features : list</span>
+<span class="sd">        total set of features from which features are being selected</span>
+
+<span class="sd">    y_name : str</span>
+<span class="sd">        column name for the outcome variable</span>
+
+<span class="sd">    inner_splits : int</span>
+<span class="sd">        cross validation splits for feature selection</span>
+
+<span class="sd">    select_k : bool</span>
+<span class="sd">        whether the user wants to tune k also based on training set, default = False, k=5</span>
+
+<span class="sd">    repeats : int</span>
+<span class="sd">        number of repeats for cross validation for feature selection</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    best_features : list</span>
+<span class="sd">        list of features got selected</span>
+
+<span class="sd">    best_score : double</span>
+<span class="sd">         average accuracy for the best feature subset</span>
+
+<span class="sd">    best_roc_auc : double</span>
+<span class="sd">         average ROC AUC for the best feature subset</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
+
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+    <span class="c1"># Load the data into a pandas DataFrame</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">select_k</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">x_train</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="c1"># Split the data into features and outcome variable=</span>
+
+        <span class="c1"># Define the number of features to consider in each subset</span>
+        <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Define the cross-validation scheme</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Initialize variables to store the best feature set and its score</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
+
+                <span class="c1"># Evaluate the score using cross-validation</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+                    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+                    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                    <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                        <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+                <span class="c1"># Calculate the mean score across cross-validation repeats</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="n">mean_roc_auc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
+
+                <span class="c1"># Update the best feature set if necessary</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
+                    <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="n">mean_roc_auc</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span>
+
+    <span class="k">elif</span> <span class="n">select_k</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">x_train</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">y_train</span>
+        <span class="n">k_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="n">k_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Define the cross-validation scheme</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Initialize variables to store the best feature set and its score</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Iterate over different feature sets and evaluate their performance</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">k_values</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">feature_set</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">feature_set</span><span class="p">)]</span>
+
+                <span class="c1"># Evaluate the score using cross-validation</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sel</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                    <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+                    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">()</span>
+                    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                    <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                        <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                    <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+                <span class="c1"># Calculate the mean score across cross-validation repeats</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="n">mean_roc_auc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">)</span>
+
+                <span class="c1"># Update the best feature set if necessary</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_features</span> <span class="o">=</span> <span class="n">feature_set</span>
+                    <span class="n">best_roc_auc</span> <span class="o">=</span> <span class="n">mean_roc_auc</span>
+
+        <span class="n">neighbour_values</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k_max</span><span class="p">)</span>
+
+        <span class="n">cv1</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="n">repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">best_score1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_roc_suc1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">best_neigh</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">X_sel</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">neigh</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">neighbour_values</span><span class="p">):</span>
+            <span class="n">scores1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">roc_aucs1</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+                <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_sel</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">Y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+                <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">neigh</span><span class="p">)</span>
+                <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+                <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+                    <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">scores1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                <span class="n">roc_aucs1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+            <span class="n">mean_score1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores1</span><span class="p">)</span>
+            <span class="n">mean_roc_auc1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">roc_aucs1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">mean_score1</span> <span class="o">&gt;</span> <span class="n">best_score1</span><span class="p">:</span>
+                <span class="n">best_score1</span> <span class="o">=</span> <span class="n">mean_score1</span>
+                <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">neigh</span>
+                <span class="n">best_roc_auc1</span> <span class="o">=</span> <span class="n">mean_roc_auc1</span>
+
+        <span class="c1"># best_neigh = max(best_neigh, 5)</span>
+
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">best_features</span><span class="p">),</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span></div>
+
+
+
+<div class="viewcode-block" id="nested_cv">
+<a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.nested_cv">[docs]</a>
+<span class="k">def</span> <span class="nf">nested_cv</span><span class="p">(</span>
+        <span class="n">data_file</span><span class="p">,</span>
+        <span class="n">features</span><span class="p">,</span>
+        <span class="n">y_name</span><span class="p">,</span>
+        <span class="n">outname</span><span class="p">,</span>
+        <span class="n">repeats</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    data_file : dataframe</span>
+<span class="sd">        pandas dataframe containing input data</span>
+
+<span class="sd">    features : list</span>
+<span class="sd">        total set of features from which features are being selected</span>
+
+<span class="sd">    y_name : str</span>
+<span class="sd">        column name for the outcome variable</span>
+
+<span class="sd">    outname : str</span>
+<span class="sd">         name to be included in the output csv file&#39;s name</span>
+
+<span class="sd">    outer_splits : int</span>
+<span class="sd">        number of cross validation splits for the outer loop</span>
+
+<span class="sd">    inner_splits : int</span>
+<span class="sd">        number of cross validation splits for the inner loop</span>
+
+<span class="sd">    repeats : int</span>
+<span class="sd">        number of repeats for the outer loop</span>
+
+<span class="sd">    inner_repeats : int</span>
+<span class="sd">        number of repeats for the inner loop(feature selection)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    file : CSV</span>
+<span class="sd">        containing cross validation accuracy and ROC AUC for each of the outer loops</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
+
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+    <span class="c1"># Load the data into a pandas DataFrame</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">data_file</span>
+
+    <span class="c1"># Split the data into features and outcome variable</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">features</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">y_name</span><span class="p">]</span>
+
+    <span class="c1"># Define the cross-validation scheme for the outer loop</span>
+    <span class="n">outer_cv</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+        <span class="n">n_splits</span><span class="o">=</span><span class="n">outer_splits</span><span class="p">,</span>
+        <span class="n">n_repeats</span><span class="o">=</span><span class="n">repeats</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Initialize variables to store the best feature set and its score</span>
+    <span class="n">best_score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">best_features</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">FEATURES</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ACCURACY</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ROC_AUC</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">val_ACC</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">val_ROC_AUC</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Iterate over the outer cross-validation splits</span>
+    <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">outer_cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)):</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+        <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+        <span class="c1"># Define the cross-validation scheme for the inner loop</span>
+        <span class="n">best_features</span><span class="p">,</span> <span class="n">best_score</span><span class="p">,</span> <span class="n">best_roc_auc</span><span class="p">,</span> <span class="n">best_neigh</span> <span class="o">=</span> <span class="n">feature_selection</span><span class="p">(</span>
+            <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="n">inner_repeats</span><span class="p">)</span>
+        <span class="n">val_ACC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_score</span><span class="p">)</span>
+        <span class="n">val_ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_roc_auc</span><span class="p">)</span>
+        <span class="n">FEATURES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_features</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;selected number of neighbours is:&#39;</span><span class="p">,</span> <span class="n">best_neigh</span><span class="p">)</span>
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">best_neigh</span><span class="p">)</span>
+        <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">best_features</span><span class="p">],</span> <span class="n">y_train</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">]))</span>
+        <span class="n">ACCURACY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;accuracy:&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+        <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
+            <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span>
+                <span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">])[</span>
+                <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
+
+    <span class="n">DF_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">FEATURES</span><span class="p">,</span>
+                                     <span class="s1">&#39;validation_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">val_ROC_AUC</span><span class="p">,</span>
+                                     <span class="s1">&#39;validation_accuracy&#39;</span><span class="p">:</span> <span class="n">val_ACC</span><span class="p">,</span>
+                                     <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">ACCURACY</span><span class="p">,</span>
+                                     <span class="s1">&#39;test_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">ROC_AUC</span><span class="p">})</span>
+    <span class="n">DF_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Nested_CV_&#39;</span> <span class="o">+</span> <span class="n">outname</span> <span class="o">+</span> <span class="s1">&#39;_fin_results.csv&#39;</span><span class="p">)</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
