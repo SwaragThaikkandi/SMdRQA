@@ -468,7 +468,7 @@ document.write(`
 <h3><em>mutualinfo()</em><a class="headerlink" href="#mutualinfo" title="Link to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.mutualinfo">
-<span class="sig-name descname"><span class="pre">mutualinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#mutualinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.mutualinfo" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">mutualinfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'histdd'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#mutualinfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.mutualinfo" title="Link to this definition">#</a></dt>
 <dd><p>Function to calculate mutual information between two time series</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -477,6 +477,12 @@ document.write(`
 <li><p><strong>y</strong> (<em>ndarray</em>) – double array of shape (n,d).  second time series</p></li>
 <li><p><strong>n</strong> (<em>int</em>) – number of samples or observations in the time series</p></li>
 <li><p><strong>d</strong> (<em>int</em>) – number of measurements or dimensions of the data</p></li>
+<li><p><strong>method</strong> (<em>Option between computing the mutual information using:</em>) –</p>
+<ul>
+<li><p>multidimensional histogram(“histdd”)</p></li>
+<li><p>average mutual information across dimensions(“avg”)</p></li>
+</ul>
+</li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -496,7 +502,7 @@ document.write(`
 <h3><em>timedelayMI()</em><a class="headerlink" href="#timedelaymi" title="Link to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.timedelayMI">
-<span class="sig-name descname"><span class="pre">timedelayMI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#timedelayMI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.timedelayMI" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">timedelayMI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'histdd'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#timedelayMI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.timedelayMI" title="Link to this definition">#</a></dt>
 <dd><p>Function to calculate mutual information between a time series and a delayed version of itself</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -574,7 +580,7 @@ document.write(`
 <h3><em>timedelayMI()</em><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="SMdRQA.RQA_functions.findtau">
-<span class="sig-name descname"><span class="pre">findtau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findtau" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">findtau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mi_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'histdd'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA_functions.html#findtau"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA_functions.findtau" title="Link to this definition">#</a></dt>
 <dd><p>Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
