@@ -505,6 +505,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_xy</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_x</span><span class="p">))</span> <span class="o">-</span> \
         <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p_y</span><span class="p">))</span>  <span class="c1"># formula for mutual information</span>
 
+
 <span class="k">def</span> <span class="nf">mutualinfo_avg</span><span class="p">(</span><span class="n">Xmd</span><span class="p">,</span> <span class="n">Ymd</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate mutual information between two time series by avergaring the mutual information across each dimensions</span>
@@ -536,17 +537,19 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">mi</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="n">Xmd</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># Now we can use the same method to compute the mutual information</span>
-        <span class="n">Y</span> <span class="o">=</span> <span class="n">Ymd</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span>
+        <span class="c1"># Now we can use the same method to compute the mutual information</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">Xmd</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">Ymd</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="n">mutualinfo_histdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">mi</span><span class="o">/</span><span class="n">d</span>
+
+    <span class="k">return</span> <span class="n">mi</span> <span class="o">/</span> <span class="n">d</span>
+
 
 <div class="viewcode-block" id="mutualinfo">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[docs]</a>
-<span class="k">def</span> <span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Function to calculate mutual information between two time series </span>
+<span class="sd">    Function to calculate mutual information between two time series</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -563,7 +566,7 @@
 <span class="sd">        number of measurements or dimensions of the data</span>
 
 <span class="sd">    method : Option between computing the mutual information using:</span>
-<span class="sd">           - multidimensional histogram(&quot;histdd&quot;) </span>
+<span class="sd">           - multidimensional histogram(&quot;histdd&quot;)</span>
 <span class="sd">           - average mutual information across dimensions(&quot;avg&quot;)</span>
 
 <span class="sd">    Returns</span>
@@ -578,10 +581,10 @@
 
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;histdd&quot;</span><span class="p">:</span>
-       <span class="n">mi</span> <span class="o">=</span> <span class="n">mutualinfo_histdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="n">mi</span> <span class="o">=</span> <span class="n">mutualinfo_histdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;avg&quot;</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">mutualinfo_avg</span><span class="p">(</span><span class="n">Xmd</span><span class="p">,</span> <span class="n">Ymd</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-        
+
     <span class="k">return</span> <span class="n">mi</span></div>
 
 
@@ -859,7 +862,7 @@
 
 <div class="viewcode-block" id="timedelayMI">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[docs]</a>
-<span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
 
@@ -891,7 +894,7 @@
 
     <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;method&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;method&quot;</span><span class="p">)</span></div>
 
 
 
@@ -964,7 +967,7 @@
 
 <div class="viewcode-block" id="findtau_default">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_default">[docs]</a>
-<span class="k">def</span> <span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span> <span class="o">=</span> <span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
@@ -989,9 +992,9 @@
 
     <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">minMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">mi_method</span><span class="p">)</span>
+    <span class="n">minMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">mi_method</span><span class="p">)</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
         <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
         <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">nextMI</span> <span class="o">&gt;</span> <span class="n">minMI</span><span class="p">:</span>
@@ -1033,7 +1036,7 @@
 
 <div class="viewcode-block" id="findtau_polynomial">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_polynomial">[docs]</a>
-<span class="k">def</span> <span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span> <span class="o">=</span> <span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</span>
 
@@ -1062,7 +1065,7 @@
     <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">mi_method</span><span class="p">)</span>
+        <span class="n">nextMI</span> <span class="o">=</span> <span class="n">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
         <span class="n">TAU</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
         <span class="n">MIARR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextMI</span><span class="p">)</span>
 
@@ -1089,7 +1092,7 @@
 
 <div class="viewcode-block" id="findtau">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
-<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">mi_method</span> <span class="o">=</span> <span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve</span>
 
@@ -1118,10 +1121,10 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
-        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span> <span class="o">=</span> <span class="n">mi_method</span><span class="p">)</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">:</span>
-        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span> <span class="o">=</span> <span class="n">mi_method</span><span class="p">)</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">tau</span></div>
 
