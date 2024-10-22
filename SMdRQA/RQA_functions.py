@@ -183,6 +183,7 @@ def mutualinfo_histdd(X, Y, n, d):
     return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x * np.log2(p_x)) - \
         np.sum(p_y * np.log2(p_y))  # formula for mutual information
 
+
 def mutualinfo_avg(Xmd, Ymd, n, d):
     '''
     Function to calculate mutual information between two time series by avergaring the mutual information across each dimensions
@@ -214,15 +215,17 @@ def mutualinfo_avg(Xmd, Ymd, n, d):
     '''
     mi = 0
     for i in range(d):
-        X = Xmd[:,i]  # Now we can use the same method to compute the mutual information
-        Y = Ymd[:,i]
+        # Now we can use the same method to compute the mutual information
+        X = Xmd[:, i]
+        Y = Ymd[:, i]
         mi = mi + mutualinfo_histdd(X, Y, n, 1)
-        
-    return mi/d
 
-def mutualinfo(X, Y, n, d, method = "histdd"):
+    return mi / d
+
+
+def mutualinfo(X, Y, n, d, method="histdd"):
     '''
-    Function to calculate mutual information between two time series 
+    Function to calculate mutual information between two time series
 
     Parameters
     ----------
@@ -239,7 +242,7 @@ def mutualinfo(X, Y, n, d, method = "histdd"):
         number of measurements or dimensions of the data
 
     method : Option between computing the mutual information using:
-           - multidimensional histogram("histdd") 
+           - multidimensional histogram("histdd")
            - average mutual information across dimensions("avg")
 
     Returns
@@ -254,10 +257,10 @@ def mutualinfo(X, Y, n, d, method = "histdd"):
 
     '''
     if method == "histdd":
-       mi = mutualinfo_histdd(X, Y, n, d)
+        mi = mutualinfo_histdd(X, Y, n, d)
     elif method == "avg":
         mi = mutualinfo_avg(Xmd, Ymd, n, d)
-        
+
     return mi
 
 
@@ -520,7 +523,7 @@ def KNN_MI(
     return mi
 
 
-def timedelayMI(u, n, d, tau, method = "histdd"):
+def timedelayMI(u, n, d, tau, method="histdd"):
     '''
     Function to calculate mutual information between a time series and a delayed version of itself
 
@@ -552,7 +555,7 @@ def timedelayMI(u, n, d, tau, method = "histdd"):
 
     X = u[0:n - tau, :]
     Y = u[tau:n, :]
-    return mutualinfo(X, Y, n - tau, d, method = "method")
+    return mutualinfo(X, Y, n - tau, d, method="method")
 
 
 def KNN_timedelayMI(
@@ -619,7 +622,7 @@ def KNN_timedelayMI(
                   dtype=dtype, memory_limit=memory_limit)
 
 
-def findtau_default(u, n, d, grp, mi_method = "histdd"):
+def findtau_default(u, n, d, grp, mi_method="histdd"):
     '''
     Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve
 
@@ -644,9 +647,9 @@ def findtau_default(u, n, d, grp, mi_method = "histdd"):
 
     TAU = []
     MIARR = []
-    minMI = timedelayMI(u, n, d, 1, method = mi_method)
+    minMI = timedelayMI(u, n, d, 1, method=mi_method)
     for tau in range(2, n):
-        nextMI = timedelayMI(u, n, d, tau, method = mi_method)
+        nextMI = timedelayMI(u, n, d, tau, method=mi_method)
         TAU.append(tau)
         MIARR.append(nextMI)
         if nextMI > minMI:
@@ -685,7 +688,7 @@ def find_poly_degree(x, y):
     return DEG[min_index]
 
 
-def findtau_polynomial(u, n, d, grp, mi_method = "histdd"):
+def findtau_polynomial(u, n, d, grp, mi_method="histdd"):
     '''
     Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve
 
@@ -714,7 +717,7 @@ def findtau_polynomial(u, n, d, grp, mi_method = "histdd"):
     TAU = []
     MIARR = []
     for tau in range(2, n):
-        nextMI = timedelayMI(u, n, d, tau, method = mi_method)
+        nextMI = timedelayMI(u, n, d, tau, method=mi_method)
         TAU.append(tau)
         MIARR.append(nextMI)
 
@@ -738,7 +741,7 @@ def findtau_polynomial(u, n, d, grp, mi_method = "histdd"):
     return TAU[tau_index]
 
 
-def findtau(u, n, d, grp, method='default', mi_method = "histdd"):
+def findtau(u, n, d, grp, method='default', mi_method="histdd"):
     '''
     Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve
 
@@ -767,10 +770,10 @@ def findtau(u, n, d, grp, method='default', mi_method = "histdd"):
     '''
 
     if method == "default":
-        tau = findtau_default(u, n, d, grp, mi_method = mi_method)
+        tau = findtau_default(u, n, d, grp, mi_method=mi_method)
 
     elif method == "polynomial":
-        tau = findtau_polynomial(u, n, d, grp, mi_method = mi_method)
+        tau = findtau_polynomial(u, n, d, grp, mi_method=mi_method)
 
     return tau
 
