@@ -1205,6 +1205,79 @@ def findeps(u, n, d, m, tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
 
     return -1
 
+def findeps_multi(U, N, D, M, Tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
+    '''
+    Function that computes the recurrence plot
+
+    Parameters
+    ----------
+    u   : ndarray
+        multidimensional time series data
+
+    n   : int
+        number of observations
+
+    d   : int
+        number of dimensions
+
+    tau : int
+        amount of delay
+
+    m   : int
+        embedding dimension
+
+    reqrr : doubld
+        required recurrence rate specified in the input
+
+    rr_delta: double
+        tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr
+
+    epsmin : double
+        lower bound for the parameter search for epsilon(neighbourhood radius)
+
+    epsmax : double
+        upper bound for the parameter search for epsilon(neighbourhood radius)
+
+    epsdiv : double
+        number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax
+
+
+    Returns
+    -------
+
+    eps   : double
+       epsilon(neighbourhood radius)
+
+    References
+    ----------
+    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.
+
+    '''
+    num_series = len(N)
+    eps = np.linspace(epsmin, epsmax, epsdiv)
+    
+    for k in range(epsdiv):
+        RR = []
+        for item in range(num_series):
+            u = U[item]
+            n = N[item]
+            d = D[item]
+            tau = Tau[item]
+            m = M[item]
+            s = delayseries(u, n, d, tau, m)
+            rplot = np.zeros((n - (m - 1) * tau, n - (m - 1) * tau), dtype=int)
+            for i in range(n - (m - 1) * tau):
+                for j in range(n - (m - 1) * tau):
+                    if np.linalg.norm(s[i] - s[j]) < eps[k]:
+                        rplot[i, j] = 1
+            rr_sub = reccrate(rplot, n - (m - 1) * tau)
+            RR.append(rr_sub)
+        rr = np.mean(RR)
+        if np.abs(rr - reqrr) < rr_delta:
+            return eps[k]
+
+    return -1
+
 ### Calculation of RQA parameters ########################################
 
 
