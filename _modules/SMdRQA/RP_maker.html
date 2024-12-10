@@ -465,6 +465,8 @@
         <span class="n">Marr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">EPS</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">BOUND</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        
 
         <span class="k">for</span> <span class="n">File</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -543,6 +545,9 @@
         <span class="n">Marr</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">EPS</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">BOUND</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">U_arr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">N_arr</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">D_arr</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">File</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
@@ -556,7 +561,9 @@
                 <span class="n">n</span> <span class="o">=</span> <span class="n">M</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="n">N</span>
                 <span class="n">u</span> <span class="o">=</span> <span class="n">data</span>
-
+                <span class="n">U_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                <span class="n">N_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="n">D_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
                 <span class="n">sd</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;starting tau calculation ...&#39;</span><span class="p">)</span>
                 <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -633,7 +640,7 @@
                         <span class="n">m_</span> <span class="o">=</span> <span class="n">Marr</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span>
                 <span class="c1">#</span>
                 <span class="k">if</span> <span class="s1">&#39;eps&#39;</span> <span class="ow">in</span> <span class="n">group_level_estimates</span><span class="p">:</span>
-                        <span class="n">eps_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">EPS</span><span class="p">)</span>
+                        <span class="n">eps_</span> <span class="o">=</span> <span class="n">findeps_multi</span><span class="p">(</span><span class="n">U_arr</span><span class="p">,</span> <span class="n">N_arr</span><span class="p">,</span> <span class="n">D_arr</span><span class="p">,</span> <span class="n">Marr</span><span class="p">,</span> <span class="n">TAU</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                         <span class="n">eps_</span> <span class="o">=</span> <span class="n">EPS</span><span class="p">[</span><span class="n">i2</span><span class="p">]</span>
                 <span class="c1">#</span>
