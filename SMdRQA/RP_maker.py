@@ -144,6 +144,8 @@ def RP_computer(
         Marr = []
         EPS = []
         BOUND = []
+        
+        
 
         for File in tqdm(files):
             try:
@@ -222,6 +224,9 @@ def RP_computer(
         Marr = []
         EPS = []
         BOUND = []
+        U_arr = []
+        N_arr = []
+        D_arr = []
 
         for File in tqdm(files):
             try:
@@ -235,7 +240,9 @@ def RP_computer(
                 n = M
                 d = N
                 u = data
-
+                U_arr.append(u)
+                N_arr.append(n)
+                D_arr.append(d)
                 sd = 3 * np.std(u)
                 print('starting tau calculation ...')
                 tau = findtau(u, n, d, 0)
@@ -312,7 +319,7 @@ def RP_computer(
                         m_ = Marr[i2]
                 #
                 if 'eps' in group_level_estimates:
-                        eps_ = np.mean(EPS)
+                        eps_ = findeps_multi(U_arr, N_arr, D_arr, Marr, TAU, reqrr, rr_delta, epsmin, epsmax, epsdiv)
                 else:
                         eps_ = EPS[i2]
                 #
