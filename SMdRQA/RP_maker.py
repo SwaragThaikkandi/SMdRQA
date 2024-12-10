@@ -60,7 +60,9 @@ def RP_computer(
         epsmin=0,
         epsmax=10,
         epsdiv=1001,
-        windnumb=1):
+        windnumb=1,
+        group_level = False,
+        group_level_estimates = None):
     '''
       Function to compute diagonal line distribution(counts of line lengths)
 
@@ -103,6 +105,16 @@ def RP_computer(
       eps_div    : double
            Number of divisions between eps_min and eps_max
 
+      group_level: boolean
+           Whether to estimate some variables at the group level and keep them fixed across RPs.
+
+      group_level_estimates: list
+           List of variables needed to estimate at the group level. Applicable only if "group_level = True". 
+           List elements should be like: ['eps', 'm'], ['eps'], ['eps', 'tau']
+           - 'eps' : neighbourhood radius
+           - 'm' : embedding dimension
+           - 'tau' : time delay
+
       Returns
       -------
 
@@ -123,79 +135,190 @@ def RP_computer(
       - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
 
       '''
-    path = input_path
-    files = os.listdir(path)
-    ERROROCC = []
-    FILE = []
-    TAU = []
-    Marr = []
-    EPS = []
-    BOUND = []
+    if group_level == False: 
+        path = input_path
+        files = os.listdir(path)
+        ERROROCC = []
+        FILE = []
+        TAU = []
+        Marr = []
+        EPS = []
+        BOUND = []
 
-    for File in tqdm(files):
-        try:
-            file_path = path + '/' + File
-            data = np.load(file_path)
-            (M, N) = data.shape
-
-            data = (data - np.mean(data, axis=0, keepdims=True)) / \
-                np.std(data, axis=0, keepdims=True)
-
-            n = M
-            d = N
-            u = data
-
-            sd = 3 * np.std(u)
-            print('starting tau calculation ...')
-            tau = findtau(u, n, d, 0)
-            print('Done Tau calculation....')
-            print('TAU:', tau)
-            print('starting m calculation ...')
-            # notFound = 1
-            # while notFound == 1:
-            # try:
+        for File in tqdm(files):
             try:
-                m = findm(u, n, d, tau, sd, delta, Rmin, Rmax, rdiv, bound)
-                print('Done m calculation....')
-                print('m:', m)
-                print('starting eps calculation ...')
-                eps = findeps(
-                    u,
-                    n,
-                    d,
-                    m,
-                    tau,
-                    reqrr,
-                    rr_delta,
-                    epsmin,
-                    epsmax,
-                    epsdiv)
-                print('Done eps calculation....')
-                print('EPS:', eps)
-                rplot = reccplot(u, n, d, m, tau, eps)
-                print('Done rplot calculation....')
-                rplotwind = rplot
-                np.save(RP_dir + '/' + File, rplotwind)
+                file_path = path + '/' + File
+                data = np.load(file_path)
+                (M, N) = data.shape
 
-                # notFound = 0
-                FILE.append(File)
-                TAU.append(tau)
-                Marr.append(m)
-                EPS.append(eps)
-                BOUND.append(bound)
+                data = (data - np.mean(data, axis=0, keepdims=True)) / \
+                    np.std(data, axis=0, keepdims=True)
 
-            except ValueError:
-                print('unable to compute due to value error')
+                n = M
+                d = N
+                u = data
+
+                sd = 3 * np.std(u)
+                print('starting tau calculation ...')
+                tau = findtau(u, n, d, 0)
+                print('Done Tau calculation....')
+                print('TAU:', tau)
+                print('starting m calculation ...')
+                # notFound = 1
+                # while notFound == 1:
+                # try:
+                try:
+                    m = findm(u, n, d, tau, sd, delta, Rmin, Rmax, rdiv, bound)
+                    print('Done m calculation....')
+                    print('m:', m)
+                    print('starting eps calculation ...')
+                    eps = findeps(
+                        u,
+                        n,
+                        d,
+                        m,
+                        tau,
+                        reqrr,
+                        rr_delta,
+                        epsmin,
+                        epsmax,
+                        epsdiv)
+                    print('Done eps calculation....')
+                    print('EPS:', eps)
+                    rplot = reccplot(u, n, d, m, tau, eps)
+                    print('Done rplot calculation....')
+                    rplotwind = rplot
+                    np.save(RP_dir + '/' + File, rplotwind)
+
+                    # notFound = 0
+                    FILE.append(File)
+                    TAU.append(tau)
+                    Marr.append(m)
+                    EPS.append(eps)
+                    BOUND.append(bound)
+
+                except ValueError:
+                    print('unable to compute due to value error')
+                    ERROROCC.append(File)
+
+            except MemoryError:
+                print("Couldn't do computation due to numpy.core._exceptions.MemoryError")
                 ERROROCC.append(File)
 
-        except MemoryError:
-            print("Couldn't do computation due to numpy.core._exceptions.MemoryError")
-            ERROROCC.append(File)
+        DICT = {'error occurances': ERROROCC}
+        df_out = pd.DataFrame.from_dict(DICT)
+        df_out.to_csv('Error_Report_Sheet.csv')
 
-    DICT = {'error occurances': ERROROCC}
-    df_out = pd.DataFrame.from_dict(DICT)
-    df_out.to_csv('Error_Report_Sheet.csv')
+        DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
+        df_out2 = pd.DataFrame.from_dict(DICT2)
+        df_out2.to_csv('param_Sheet.csv')
 
-    DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
-    df_out2 = pd.DataFrame.from_dict(DICT2)
-    df_out2.to_csv('param_Sheet.csv')
+    elif group_level == True: 
+        path = input_path
+        files = os.listdir(path)
+        ERROROCC = []
+        FILE = []
+        TAU = []
+        Marr = []
+        EPS = []
+        BOUND = []
+
+        for File in tqdm(files):
+            try:
+                file_path = path + '/' + File
+                data = np.load(file_path)
+                (M, N) = data.shape
+
+                data = (data - np.mean(data, axis=0, keepdims=True)) / \
+                    np.std(data, axis=0, keepdims=True)
+
+                n = M
+                d = N
+                u = data
+
+                sd = 3 * np.std(u)
+                print('starting tau calculation ...')
+                tau = findtau(u, n, d, 0)
+                print('Done Tau calculation....')
+                print('TAU:', tau)
+                print('starting m calculation ...')
+                # notFound = 1
+                # while notFound == 1:
+                # try:
+                try:
+                    m = findm(u, n, d, tau, sd, delta, Rmin, Rmax, rdiv, bound)
+                    print('Done m calculation....')
+                    print('m:', m)
+                    print('starting eps calculation ...')
+                    eps = findeps(
+                        u,
+                        n,
+                        d,
+                        m,
+                        tau,
+                        reqrr,
+                        rr_delta,
+                        epsmin,
+                        epsmax,
+                        epsdiv)
+                    print('Done eps calculation....')
+                    print('EPS:', eps)
+                    
+                    print('Done rplot calculation....')
+                    
+
+                    # notFound = 0
+                    FILE.append(File)
+                    TAU.append(tau)
+                    Marr.append(m)
+                    EPS.append(eps)
+                    BOUND.append(bound)
+
+                except ValueError:
+                    print('unable to compute due to value error')
+                    ERROROCC.append(File)
+
+            except MemoryError:
+                print("Couldn't do computation due to numpy.core._exceptions.MemoryError")
+                ERROROCC.append(File)
+
+        DICT = {'error occurances': ERROROCC}
+        df_out = pd.DataFrame.from_dict(DICT)
+        df_out.to_csv('Error_Report_Sheet.csv')
+
+        DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
+        df_out2 = pd.DataFrame.from_dict(DICT2)
+        df_out2.to_csv('param_Sheet.csv')
+            
+        for i2 in range(len(FILE)):
+                file_path = path + '/' + FILE[i2]
+                data = np.load(file_path)
+                (M, N) = data.shape
+
+                data = (data - np.mean(data, axis=0, keepdims=True)) / \
+                    np.std(data, axis=0, keepdims=True)
+                n = M
+                d = N
+                u = data
+                
+                if 'tau' in group_level_estimates:
+                        tau_ = np.mean(TAU)
+                else:
+                        tau_ = TAU[i2]
+                #
+                if 'm' in group_level_estimates:
+                        m_ = np.mean(Marr)
+                else:
+                        m_ = Marr[i2]
+                #
+                if 'eps' in group_level_estimates:
+                        eps_ = np.mean(EPS)
+                else:
+                        eps_ = EPS[i2]
+                #
+                rplot = reccplot(u, n, d, m_, tau_, eps_)
+                rplotwind = rplot
+                np.save(RP_dir + '/' + FILE[i2], rplotwind)
+
+
+                
