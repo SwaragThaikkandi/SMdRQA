@@ -1211,20 +1211,20 @@ def findeps_multi(U, N, D, M, Tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
 
     Parameters
     ----------
-    u   : ndarray
-        multidimensional time series data
+    U   : list of ndarray
+        multidimensional time series data from multiple time series
 
-    n   : int
-        number of observations
+    N   : list of int
+        list of number of observations
 
-    d   : int
-        number of dimensions
+    D   : list of int
+        list of number of dimensions
 
-    tau : int
-        amount of delay
+    Tau : list of int
+        list of amount of delay
 
-    m   : int
-        embedding dimension
+    M   : list of int
+        list of embedding dimension
 
     reqrr : doubld
         required recurrence rate specified in the input
