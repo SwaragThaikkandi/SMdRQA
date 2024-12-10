@@ -1581,6 +1581,79 @@
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
 
 
+<span class="k">def</span> <span class="nf">findeps_multi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Tau</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function that computes the recurrence plot</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u   : ndarray</span>
+<span class="sd">        multidimensional time series data</span>
+
+<span class="sd">    n   : int</span>
+<span class="sd">        number of observations</span>
+
+<span class="sd">    d   : int</span>
+<span class="sd">        number of dimensions</span>
+
+<span class="sd">    tau : int</span>
+<span class="sd">        amount of delay</span>
+
+<span class="sd">    m   : int</span>
+<span class="sd">        embedding dimension</span>
+
+<span class="sd">    reqrr : doubld</span>
+<span class="sd">        required recurrence rate specified in the input</span>
+
+<span class="sd">    rr_delta: double</span>
+<span class="sd">        tolerance value for considering a value of recurrence rate to be same as the one that is specified in reqrr</span>
+
+<span class="sd">    epsmin : double</span>
+<span class="sd">        lower bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsmax : double</span>
+<span class="sd">        upper bound for the parameter search for epsilon(neighbourhood radius)</span>
+
+<span class="sd">    epsdiv : double</span>
+<span class="sd">        number of divisions for the parameter search for epsilon(neighbourhood radius) between epsmin and epsmax</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    eps   : double</span>
+<span class="sd">       epsilon(neighbourhood radius)</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">num_series</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epsdiv</span><span class="p">):</span>
+        <span class="n">RR</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_series</span><span class="p">):</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">D</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">tau</span> <span class="o">=</span> <span class="n">Tau</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
+                        <span class="n">rplot</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">rr_sub</span> <span class="o">=</span> <span class="n">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span>
+            <span class="n">RR</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rr_sub</span><span class="p">)</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">RR</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rr</span> <span class="o">-</span> <span class="n">reqrr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rr_delta</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">eps</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
 <span class="c1">### Calculation of RQA parameters ########################################</span>
 
 
