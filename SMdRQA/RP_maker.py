@@ -8,6 +8,7 @@ from SMdRQA.RQA_functions import onedhist
 from SMdRQA.RQA_functions import vert_hist
 from SMdRQA.RQA_functions import plotwindow
 from SMdRQA.RQA_functions import findeps
+from SMdRQA.RQA_functions import findeps_multi
 from SMdRQA.RQA_functions import reccrate
 from SMdRQA.RQA_functions import reccplot
 from SMdRQA.RQA_functions import findm
