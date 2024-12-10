@@ -296,7 +296,7 @@ def RP_computer(
         DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
         df_out2 = pd.DataFrame.from_dict(DICT2)
         df_out2.to_csv('param_Sheet.csv')
-            
+        eps_mean = findeps_multi(U_arr, N_arr, D_arr, Marr, TAU, reqrr, rr_delta, epsmin, epsmax, epsdiv)
         for i2 in range(len(FILE)):
                 file_path = path + '/' + FILE[i2]
                 data = np.load(file_path)
@@ -319,7 +319,7 @@ def RP_computer(
                         m_ = Marr[i2]
                 #
                 if 'eps' in group_level_estimates:
-                        eps_ = findeps_multi(U_arr, N_arr, D_arr, Marr, TAU, reqrr, rr_delta, epsmin, epsmax, epsdiv)
+                        eps_ = eps_mean
                 else:
                         eps_ = EPS[i2]
                 #
