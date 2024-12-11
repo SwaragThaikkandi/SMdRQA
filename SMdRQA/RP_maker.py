@@ -62,8 +62,8 @@ def RP_computer(
         epsmax=10,
         epsdiv=1001,
         windnumb=1,
-        group_level = False,
-        group_level_estimates = None):
+        group_level=False,
+        group_level_estimates=None):
     '''
       Function to compute diagonal line distribution(counts of line lengths)
 
@@ -110,7 +110,7 @@ def RP_computer(
            Whether to estimate some variables at the group level and keep them fixed across RPs.
 
       group_level_estimates: list
-           List of variables needed to estimate at the group level. Applicable only if "group_level = True". 
+           List of variables needed to estimate at the group level. Applicable only if "group_level = True".
            List elements should be like: ['eps', 'm'], ['eps'], ['eps', 'tau']
            - 'eps' : neighbourhood radius
            - 'm' : embedding dimension
@@ -136,7 +136,7 @@ def RP_computer(
       - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., & Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.
 
       '''
-    if group_level == False: 
+    if not group_level:
         path = input_path
         files = os.listdir(path)
         ERROROCC = []
@@ -145,8 +145,6 @@ def RP_computer(
         Marr = []
         EPS = []
         BOUND = []
-        
-        
 
         for File in tqdm(files):
             try:
@@ -205,18 +203,24 @@ def RP_computer(
                     ERROROCC.append(File)
 
             except MemoryError:
-                print("Couldn't do computation due to numpy.core._exceptions.MemoryError")
+                print(
+                    "Couldn't do computation due to numpy.core._exceptions.MemoryError")
                 ERROROCC.append(File)
 
         DICT = {'error occurances': ERROROCC}
         df_out = pd.DataFrame.from_dict(DICT)
         df_out.to_csv('Error_Report_Sheet.csv')
 
-        DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
+        DICT2 = {
+            'file': FILE,
+            'tau': TAU,
+            'm': Marr,
+            'eps': EPS,
+            'bound': BOUND}
         df_out2 = pd.DataFrame.from_dict(DICT2)
         df_out2.to_csv('param_Sheet.csv')
 
-    elif group_level == True: 
+    elif group_level:
         path = input_path
         files = os.listdir(path)
         ERROROCC = []
@@ -271,9 +275,8 @@ def RP_computer(
                         epsdiv)
                     print('Done eps calculation....')
                     print('EPS:', eps)
-                    
+
                     print('Done rplot calculation....')
-                    
 
                     # notFound = 0
                     FILE.append(File)
@@ -287,46 +290,59 @@ def RP_computer(
                     ERROROCC.append(File)
 
             except MemoryError:
-                print("Couldn't do computation due to numpy.core._exceptions.MemoryError")
+                print(
+                    "Couldn't do computation due to numpy.core._exceptions.MemoryError")
                 ERROROCC.append(File)
 
         DICT = {'error occurances': ERROROCC}
         df_out = pd.DataFrame.from_dict(DICT)
         df_out.to_csv('Error_Report_Sheet.csv')
 
-        DICT2 = {'file': FILE, 'tau': TAU, 'm': Marr, 'eps': EPS, 'bound': BOUND}
+        DICT2 = {
+            'file': FILE,
+            'tau': TAU,
+            'm': Marr,
+            'eps': EPS,
+            'bound': BOUND}
         df_out2 = pd.DataFrame.from_dict(DICT2)
         df_out2.to_csv('param_Sheet.csv')
-        eps_mean = findeps_multi(U_arr, N_arr, D_arr, Marr, TAU, reqrr, rr_delta, epsmin, epsmax, epsdiv)
+        eps_mean = findeps_multi(
+            U_arr,
+            N_arr,
+            D_arr,
+            Marr,
+            TAU,
+            reqrr,
+            rr_delta,
+            epsmin,
+            epsmax,
+            epsdiv)
         for i2 in range(len(FILE)):
-                file_path = path + '/' + FILE[i2]
-                data = np.load(file_path)
-                (M, N) = data.shape
+            file_path = path + '/' + FILE[i2]
+            data = np.load(file_path)
+            (M, N) = data.shape
 
-                data = (data - np.mean(data, axis=0, keepdims=True)) / \
-                    np.std(data, axis=0, keepdims=True)
-                n = M
-                d = N
-                u = data
-                
-                if 'tau' in group_level_estimates:
-                        tau_ = np.mean(TAU)
-                else:
-                        tau_ = TAU[i2]
-                #
-                if 'm' in group_level_estimates:
-                        m_ = np.mean(Marr)
-                else:
-                        m_ = Marr[i2]
-                #
-                if 'eps' in group_level_estimates:
-                        eps_ = eps_mean
-                else:
-                        eps_ = EPS[i2]
-                #
-                rplot = reccplot(u, n, d, m_, tau_, eps_)
-                rplotwind = rplot
-                np.save(RP_dir + '/' + FILE[i2], rplotwind)
+            data = (data - np.mean(data, axis=0, keepdims=True)) / \
+                np.std(data, axis=0, keepdims=True)
+            n = M
+            d = N
+            u = data
 
-
-                
+            if 'tau' in group_level_estimates:
+                tau_ = np.mean(TAU)
+            else:
+                tau_ = TAU[i2]
+            #
+            if 'm' in group_level_estimates:
+                m_ = np.mean(Marr)
+            else:
+                m_ = Marr[i2]
+            #
+            if 'eps' in group_level_estimates:
+                eps_ = eps_mean
+            else:
+                eps_ = EPS[i2]
+            #
+            rplot = reccplot(u, n, d, m_, tau_, eps_)
+            rplotwind = rplot
+            np.save(RP_dir + '/' + FILE[i2], rplotwind)

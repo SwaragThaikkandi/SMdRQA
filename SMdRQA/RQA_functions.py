@@ -1205,6 +1205,7 @@ def findeps(u, n, d, m, tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
 
     return -1
 
+
 def findeps_multi(U, N, D, M, Tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
     '''
     Function that computes the recurrence plot
@@ -1255,7 +1256,7 @@ def findeps_multi(U, N, D, M, Tau, reqrr, rr_delta, epsmin, epsmax, epsdiv):
     '''
     num_series = len(N)
     eps = np.linspace(epsmin, epsmax, epsdiv)
-    
+
     for k in range(epsdiv):
         RR = []
         for item in range(num_series):
