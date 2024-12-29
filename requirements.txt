@@ -5,7 +5,7 @@ operator-courier
 contextlib2
 pytest-warnings
 matplotlib
-pandas==1.5.3 # Due to code injection vulnerability: https://www.tenable.com/plugins/nessus/213084
+pandas==2.2.3 # Due to code injection vulnerability: https://www.tenable.com/plugins/nessus/213084
 tqdm
 memory_profiler
 kuramoto
