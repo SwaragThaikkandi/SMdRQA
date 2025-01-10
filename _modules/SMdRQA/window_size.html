@@ -29,7 +29,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -324,55 +324,55 @@
   <h1>Source code for SMdRQA.window_size</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_loss</span>
 
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">doanes_formula</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">binscalc</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mutualinfo</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">timedelayMI</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findtau</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">delayseries</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">nearest</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnratio</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">fnnhitszero</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findm</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccplot</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">reccrate</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">findeps</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">plotwindow</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">vert_hist</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">onedhist</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">diaghist</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">percentmorethan</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">mode</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">maxi</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">average</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">entropy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">doanes_formula</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">binscalc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">mutualinfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelayMI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">findtau</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">delayseries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">nearest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">fnnratio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">fnnhitszero</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">findm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">reccplot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">reccrate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">findeps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">plotwindow</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">vert_hist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">onedhist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">diaghist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">percentmorethan</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">mode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">average</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">entropy</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">sample</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">ss</span>
-<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">SelectFromModel</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">auc</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">random</span><span class="w"> </span><span class="kn">import</span> <span class="n">sample</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">SelectFromModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">RFE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">auc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">log_loss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 
 <div class="viewcode-block" id="HistogramSampling">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.HistogramSampling">[docs]</a>
-<span class="k">def</span> <span class="nf">HistogramSampling</span><span class="p">(</span><span class="n">histogram</span><span class="p">,</span> <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">HistogramSampling</span><span class="p">(</span><span class="n">histogram</span><span class="p">,</span> <span class="n">bins_midpoints</span><span class="p">,</span> <span class="n">samples</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for doing histogram sampling from a distribution\n\n    Parameters\n    ----------\n\n    histogram : array\n        histogram counts normalised to get a sum =1\n\n      bins_midpoints : array\n          values corresponding to the probability values given as &quot;histogram&quot;\n\n      samples : int\n          number of histograms samples\n\n      Returns\n      -------\n\n      hist2 : array\n           histogram counts of the resulting distribution\n\n      bins_midpoints : array\n           midpoints of bins corresponding to hist2\n\n      References\n      ----------\n      - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n      &#39;&#39;&#39;</span>
 
     <span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">histogram</span><span class="p">)</span>
@@ -399,7 +399,7 @@
 
 <div class="viewcode-block" id="Sliding_windowBS_sub_per_lam">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_per_lam">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_per_lam</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_windowBS_sub_per_lam</span><span class="p">(</span>
     <span class="n">RP</span><span class="p">,</span>
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
@@ -457,7 +457,7 @@
 
 <div class="viewcode-block" id="Sliding_windowBS_sub_avg_vert">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_avg_vert</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_windowBS_sub_avg_vert</span><span class="p">(</span>
     <span class="n">RP</span><span class="p">,</span>
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
@@ -515,7 +515,7 @@
 
 <div class="viewcode-block" id="Sliding_windowBS_sub_percent_det">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_percent_det">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_percent_det</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_windowBS_sub_percent_det</span><span class="p">(</span>
     <span class="n">RP</span><span class="p">,</span>
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
@@ -573,7 +573,7 @@
 
 <div class="viewcode-block" id="Sliding_windowBS_sub_avg_diag">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_windowBS_sub_avg_diag</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_windowBS_sub_avg_diag</span><span class="p">(</span>
     <span class="n">RP</span><span class="p">,</span>
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">winsize</span><span class="p">,</span>
@@ -631,7 +631,7 @@
 
 <div class="viewcode-block" id="Sliding_windowBS">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_windowBS">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_windowBS</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_windowBS</span><span class="p">(</span>
     <span class="n">RP</span><span class="p">,</span>
     <span class="n">maxsize</span><span class="p">,</span>
     <span class="n">var</span><span class="p">,</span>
@@ -666,7 +666,7 @@
 
 <div class="viewcode-block" id="Sliding_window_whole_data">
 <a class="viewcode-back" href="../../functions/window_size.html#SMdRQA.window_size.Sliding_window_whole_data">[docs]</a>
-<span class="k">def</span> <span class="nf">Sliding_window_whole_data</span><span class="p">(</span><span class="n">RP_dir</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Sliding_window_whole_data</span><span class="p">(</span><span class="n">RP_dir</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;\n    Function for computing the CI of the bootstrapped confidence interval for a given variable for different window sizes starting from 20 to a maximum of RP size incremented by value of 10. Done for all datasets in the folder specified\n\n    Parameters\n    ----------\n\n    RP_dir : str\n        directory containing all the RP files(.npy)\n\n    var : str\n        RQA variable name\n\n        *percent_lam* : percentage laminarity\n\n        *percent_det* : percentage determinism\n\n        *avg_vert* : average value of vertical line distribution\n\n        *avg_diag* : average value of diagonal line distribution\n\n     n_boot : int\n        number of bootstrap samples\n\n    Returns\n    -------\n\n    data : dataframe\n        dataframe containing the CI estimate of corresponding window sizes, columns are\n\n        *WINSIZE* : window size\n\n        *95% quantile- 5% quantile* : confidence interval\n\n        *group* : filename of the RPs\n\n\n    References\n    ----------\n    - Marwan, N., Romano, M. C., Thiel, M., &amp; Kurths, J. (2007). Recurrence plots for the analysis of complex systems. Physics reports, 438 (5-6), 237\xe2\x80\x93329.\n\n    &#39;&#39;&#39;</span>
 
     <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">RP_dir</span><span class="p">)</span>

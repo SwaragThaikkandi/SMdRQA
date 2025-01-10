@@ -29,7 +29,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -322,24 +322,24 @@
                 <article class="bd-article">
                   
   <h1>Source code for SMdRQA.nl_tests</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">ss</span>
-<span class="kn">from</span> <span class="nn">nolitsa</span> <span class="kn">import</span> <span class="n">d2</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">surrogates</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.fftpack</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">find_peaks</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
-<span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">rand</span><span class="p">,</span> <span class="n">randn</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.RQA_functions</span> <span class="kn">import</span> <span class="n">embedded_signal</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">signal</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">numba</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">nolitsa</span><span class="w"> </span><span class="kn">import</span> <span class="n">d2</span><span class="p">,</span> <span class="n">dimension</span><span class="p">,</span> <span class="n">surrogates</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.fftpack</span><span class="w"> </span><span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_peaks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">interp1d</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.random</span><span class="w"> </span><span class="kn">import</span> <span class="n">rand</span><span class="p">,</span> <span class="n">randn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">embedded_signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">signal</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numba</span>
 
 
-<span class="k">def</span> <span class="nf">wrapTo2Pi</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">wrapTo2Pi</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">xwrap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">remainder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
     <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">xwrap</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
     <span class="n">xwrap</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">xwrap</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
@@ -352,7 +352,7 @@
 
 <div class="viewcode-block" id="Chi2_test">
 <a class="viewcode-back" href="../../functions/nl_tests.html#SMdRQA.nl_tests.Chi2_test">[docs]</a>
-<span class="k">def</span> <span class="nf">Chi2_test</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Chi2_test</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Stationarity test for time series data</span>
 
@@ -406,7 +406,7 @@
 
 <div class="viewcode-block" id="Correlation_sum_plot">
 <a class="viewcode-back" href="../../functions/nl_tests.html#SMdRQA.nl_tests.Correlation_sum_plot">[docs]</a>
-<span class="k">def</span> <span class="nf">Correlation_sum_plot</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Correlation_sum_plot</span><span class="p">(</span>
     <span class="n">sig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">save_name</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -454,7 +454,7 @@
 
 <div class="viewcode-block" id="time_irreversibility">
 <a class="viewcode-back" href="../../functions/nl_tests.html#SMdRQA.nl_tests.time_irreversibility">[docs]</a>
-<span class="k">def</span> <span class="nf">time_irreversibility</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">time_irreversibility</span><span class="p">(</span><span class="n">sig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Compute the time irriversibility .</span>
 
@@ -485,7 +485,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">sort_matlab</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sort_matlab</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Sorts the elements of an array along a specified dimension in ascending order,</span>
 <span class="sd">    similar to MATLAB&#39;s sort function.</span>
@@ -518,7 +518,7 @@
 
 <div class="viewcode-block" id="preprocessing">
 <a class="viewcode-back" href="../../functions/nl_tests.html#SMdRQA.nl_tests.preprocessing">[docs]</a>
-<span class="k">def</span> <span class="nf">preprocessing</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">preprocessing</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">fs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    pre processing for surrogate data generation</span>
 
@@ -585,7 +585,7 @@
 
 <div class="viewcode-block" id="surrogate">
 <a class="viewcode-back" href="../../functions/nl_tests.html#SMdRQA.nl_tests.surrogate">[docs]</a>
-<span class="k">def</span> <span class="nf">surrogate</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">pp</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">surrogate</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">pp</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    function for generating surrogate data</span>
 

@@ -29,7 +29,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -322,18 +322,18 @@
                 <article class="bd-article">
                   
   <h1>Source code for SMdRQA.cross_validation</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">RepeatedStratifiedKFold</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepeatedStratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 
 
 <div class="viewcode-block" id="feature_selection">
 <a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.feature_selection">[docs]</a>
-<span class="k">def</span> <span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Function used for feature selection  using best subset setection and average cross validation accuracy</span>
 
@@ -380,7 +380,7 @@
 <span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
     <span class="c1"># Load the data into a pandas DataFrame</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">select_k</span><span class="p">:</span>
@@ -523,7 +523,7 @@
 
 <div class="viewcode-block" id="nested_cv">
 <a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.nested_cv">[docs]</a>
-<span class="k">def</span> <span class="nf">nested_cv</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">nested_cv</span><span class="p">(</span>
         <span class="n">data_file</span><span class="p">,</span>
         <span class="n">features</span><span class="p">,</span>
         <span class="n">y_name</span><span class="p">,</span>
@@ -575,7 +575,7 @@
 <span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
     <span class="c1"># Load the data into a pandas DataFrame</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">data_file</span>

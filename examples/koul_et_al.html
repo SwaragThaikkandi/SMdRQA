@@ -30,7 +30,7 @@
   <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -390,7 +390,7 @@
   <section id="data-from-koul-et-al-2023">
 <h1>Data from Koul et al(2023)<a class="headerlink" href="#data-from-koul-et-al-2023" title="Link to this heading">#</a></h1>
 <p>Data was originally provided in the form of CSV files, which we converted into numpy(.npy) files and that is used for later analysis. We will also show the step in which we are converting the CSV files into numpy files, as at this stage, we had to use interpolation methods to supply missing values. Firstly, we defined three functions for interpolation.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">MovingAVG</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">winsize</span><span class="p">):</span>                                                                                <span class="c1"># For computing moving average</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">MovingAVG</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">winsize</span><span class="p">):</span>                                                                                <span class="c1"># For computing moving average</span>
   <span class="n">avg</span> <span class="o">=</span> <span class="p">[]</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="n">winsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">avg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">winsize</span><span class="p">])</span> <span class="o">/</span> <span class="n">winsize</span><span class="p">)</span>
@@ -399,14 +399,14 @@
   
   <span class="k">return</span> <span class="n">avg</span>
   
-<span class="k">def</span> <span class="nf">Interpolate_time_series</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>                                                                          <span class="c1"># For interpolating the data using PCHIP                  </span>
+<span class="k">def</span><span class="w"> </span><span class="nf">Interpolate_time_series</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>                                                                          <span class="c1"># For interpolating the data using PCHIP                  </span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="n">valid_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="n">filled_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">filled_data</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pchip_interpolate</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">valid_indices</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">)])</span>
     <span class="k">return</span> <span class="n">filled_data</span>
    
-<span class="k">def</span> <span class="nf">process_n_return_distances</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">x_column</span><span class="p">,</span> <span class="n">y_column</span><span class="p">,</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>                               <span class="c1"># This function does interpolation and moving average, returns either Euclidian or </span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_n_return_distances</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">x_column</span><span class="p">,</span> <span class="n">y_column</span><span class="p">,</span> <span class="n">winsize</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>                               <span class="c1"># This function does interpolation and moving average, returns either Euclidian or </span>
                                                                                                               <span class="n">angular</span> <span class="n">distance</span>
   <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
   

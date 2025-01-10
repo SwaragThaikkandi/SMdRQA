@@ -30,7 +30,7 @@
   <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -390,10 +390,10 @@
   <section id="troubleshooting-parameter-search-for-embedding-dimension">
 <h1>Troubleshooting: Parameter Search for embedding dimension<a class="headerlink" href="#troubleshooting-parameter-search-for-embedding-dimension" title="Link to this heading">#</a></h1>
 <p>If you were suspecious about the oversimplified look of the function “RP_computer”, you are correct. This function also implements a parameter search method for finding the embedding dimensions under the hood. Even though some default values are there, they may not be applicable to all datasets. In such cases, we need to see, what can be set. We had to do this while analyzing data from Koul et al(2023), and it is for this, we have some functions in “RP_maker_diagnose.py”. We will see how we can use these functions</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">RP_maker_diagnose</span> <span class="kn">import</span> <span class="n">fnnhitszero_Plot</span>
-<span class="kn">from</span> <span class="nn">RP_maker_diagnose</span> <span class="kn">import</span> <span class="n">findm_Plot</span>
-<span class="kn">from</span> <span class="nn">RP_maker_diagnose</span> <span class="kn">import</span> <span class="n">RP_diagnose</span>
-<span class="kn">from</span> <span class="nn">RP_maker_diagnose</span> <span class="kn">import</span> <span class="n">get_minFNN_distribution_plot</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">fnnhitszero_Plot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">findm_Plot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">RP_diagnose</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_minFNN_distribution_plot</span>
 
 <span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Koul et al/data_npy&#39;</span>                                        <span class="c1"># directory to which the signals are saved</span>
 <span class="n">diagnose_dir</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Koul et al/diagnose&#39;</span>                                            <span class="c1"># directory in which pickle files from this function are saved</span>

@@ -30,7 +30,7 @@
   <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -404,62 +404,62 @@
 <h2>import packages<a class="headerlink" href="#import-packages" title="Link to this heading">#</a></h2>
 <p>We will begin with importing packages and functions. Note that the
 python files should be copied to the mail analysis directory</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
 <span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">functools</span>
-<span class="kn">import</span> <span class="nn">operator</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">numpy.core</span> <span class="kn">import</span> <span class="n">overrides</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">listdir</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">skew</span>
-<span class="kn">from</span> <span class="nn">p_tqdm</span> <span class="kn">import</span> <span class="n">p_map</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">pchip_interpolate</span>
-<span class="kn">import</span> <span class="nn">memory_profiler</span>
-<span class="kn">import</span> <span class="nn">ast</span>
-<span class="kn">from</span> <span class="nn">kuramoto</span> <span class="kn">import</span> <span class="n">Kuramoto</span><span class="p">,</span> <span class="n">plot_phase_coherence</span><span class="p">,</span> <span class="n">plot_activity</span> <span class="c1"># see https://github.com/fabridamicelli/kuramoto</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">operator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">overrides</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">skew</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">p_tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">p_map</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">pchip_interpolate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">memory_profiler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">kuramoto</span><span class="w"> </span><span class="kn">import</span> <span class="n">Kuramoto</span><span class="p">,</span> <span class="n">plot_phase_coherence</span><span class="p">,</span> <span class="n">plot_activity</span> <span class="c1"># see https://github.com/fabridamicelli/kuramoto</span>
 <span class="c1"># For installing the kuramoto package run: pip install kuramoto</span>
 
-<span class="kn">from</span> <span class="nn">SMdRQA.RP_maker</span> <span class="kn">import</span> <span class="n">RP_computer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RP_maker</span><span class="w"> </span><span class="kn">import</span> <span class="n">RP_computer</span>
 
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Mode</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Check_Int_Array</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Sliding_window</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">Whole_window</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">windowed_RP</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_avg</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_sliding_windows</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.Extract_from_RP</span> <span class="kn">import</span> <span class="n">First_middle_last_sliding_windows_all_vars</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">Check_Int_Array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sliding_window</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">Whole_window</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">windowed_RP</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">First_middle_last_avg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">First_middle_last_sliding_windows</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.Extract_from_RP</span><span class="w"> </span><span class="kn">import</span> <span class="n">First_middle_last_sliding_windows_all_vars</span>
 
-<span class="kn">from</span> <span class="nn">SMdRQA.cross_validation</span> <span class="kn">import</span> <span class="n">feature_selection</span>
-<span class="kn">from</span> <span class="nn">SMdRQA.cross_validation</span> <span class="kn">import</span> <span class="n">nested_cv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.cross_validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">feature_selection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.cross_validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">nested_cv</span>
 </pre></div>
 </div>
 <p>In this example, we will be simulating the Kuramoto model, varying
@@ -517,7 +517,7 @@ estimated at a point in time, coupling strength is more informative
 about the system. Now, we had seen this we can go through the analysis
 pipeline: First we define a function to add noise to the signals. This
 function will change the signal to noise ratio of the signals</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">snr</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_noise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">snr</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add Gaussian noise to a signal with a specific signal-to-noise ratio (SNR).</span>
 
