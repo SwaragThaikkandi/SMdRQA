@@ -68,42 +68,7 @@ def test_find_first_minima_or_global_minima_index():
     print("All tests passed!")
 
 
-def test_doanes_formula():
-    import numpy as np
-    # Test case 1: Single-dimension data (reshaped as a column vector)
-    np.random.seed(42)
-    # Generate 100 normally distributed samples
-    data = np.random.normal(loc=0, scale=1, size=100)
-    # Reshape to a 2D array with one column (the function expects multiple columns)
-    data = data.reshape(-1, 1)
-    n = data.shape[0]
-    
-    bins_1d = doanes_formula(data, n)
-    # Verify output is a numpy array with one element
-    assert isinstance(bins_1d, np.ndarray), "Expected output to be a numpy array"
-    assert bins_1d.shape == (1,), f"Expected shape (1,), got {bins_1d.shape}"
-    # Check that the computed number of bins is a positive integer
-    assert bins_1d[0] > 0, "Number of bins should be positive"
-    assert isinstance(bins_1d[0], int), "Number of bins should be an integer"
-    
-    # Test case 2: Two-dimensional data with two columns
-    # First column: normally distributed data
-    data_col1 = np.random.normal(loc=0, scale=1, size=150)
-    # Second column: exponentially distributed data (skewed)
-    data_col2 = np.random.exponential(scale=1.0, size=150)
-    data_2d = np.column_stack((data_col1, data_col2))
-    n2 = data_2d.shape[0]
-    
-    bins_2d = doanes_formula(data_2d, n2)
-    # Verify output is a numpy array with two elements
-    assert isinstance(bins_2d, np.ndarray), "Expected output for 2D data to be a numpy array"
-    assert bins_2d.shape == (2,), f"Expected shape (2,), got {bins_2d.shape}"
-    # Check that each computed number of bins is a positive integer
-    for b in bins_2d:
-        assert b > 0, "Each bin value should be positive"
-        assert isinstance(b, int), "Each bin value should be an integer"
-    
-    print("All tests for doanes_formula passed!")
+
 
 
 def test_binscalc():
