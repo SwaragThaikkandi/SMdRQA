@@ -259,7 +259,7 @@ def mutualinfo(X, Y, n, d, method="histdd"):
     if method == "histdd":
         mi = mutualinfo_histdd(X, Y, n, d)
     elif method == "avg":
-        mi = mutualinfo_avg(Xmd, Ymd, n, d)
+        mi = mutualinfo_avg(X, Y, n, d)
 
     return mi
 
@@ -497,12 +497,20 @@ def KNN_MI(
     '''
     dim1, dim2 = X.shape
     dim3, _ = Y.shape
-    pv = assert_3D_matrix_size(
+    pv1 = assert_3D_matrix_size(
         dim1,
         dim2,
         dim3,
         dtype=dtype,
         memory_limit=memory_limit)
+
+    pv2 = assert_3D_matrix_size(
+        dim1,
+        dim2,
+        1,
+        dtype=dtype,
+        memory_limit=memory_limit)
+            
     if method == "auto":
         if pv1:
             mi = KNN_MI_vectorized(X, Y, nearest_neighbor)
