@@ -216,8 +216,8 @@ def mutualinfo_avg(Xmd, Ymd, n, d):
     mi = 0
     for i in range(d):
         # Now we can use the same method to compute the mutual information
-        X = Xmd[:, i]
-        Y = Ymd[:, i]
+        X = Xmd[:, i].reshape(-1, 1)
+        Y = Ymd[:, i].reshape(-1, 1)
         mi = mi + mutualinfo_histdd(X, Y, n, 1)
 
     return mi / d
