@@ -364,6 +364,92 @@ def test_findeps():
     assert eps > 0
 
 
+def test_delayseries():
+    import numpy as np
+    # Use a simple 1D time series u = 0, 1, 2, ..., 9 with d = 1.
+    n = 10
+    d = 1
+    u = np.arange(n).reshape(n, d)
+    tau = 1
+    m = 3
+    # Expected shape: (n - (m-1)*tau, m, d) = (10 - 2, 3, 1) = (8, 3, 1)
+    s = delayseries(u, n, d, tau, m)
+    expected_shape = (n - (m - 1) * tau, m, d)
+    assert s.shape == expected_shape, f"Expected shape {expected_shape}, got {s.shape}"
+    
+    # Check each entry: s[i, j] should equal u[i + j*tau]
+    for i in range(s.shape[0]):
+        for j in range(m):
+            expected_val = u[i + j * tau, 0]
+            # s[i, j] is a vector of length d; compare its first element.
+            assert np.isclose(s[i, j, 0], expected_val), f"At ({i},{j}), expected {expected_val}, got {s[i, j, 0]}"
+    print("test_delayseries passed!")
+
+def test_nearest():
+    import numpy as np
+    from numpy.linalg import norm
+    # Create a simple time series u and compute its delay embedding.
+    n = 10
+    d = 1
+    u = np.arange(n).reshape(n, d).astype(float)
+    tau = 1
+    m = 2
+    # delayseries returns shape: (n - (m-1)*tau, m, d)
+    s = delayseries(u, n, d, tau, m)
+    # The nearest function uses the first (n - m*tau) rows of s.
+    expected_length = n - m * tau  # 10 - 2 = 8
+    nn = nearest(s, n, d, tau, m)
+    assert len(nn) == expected_length, f"Expected nearest neighbor array length {expected_length}, got {len(nn)}"
+    
+    # For each i, the selected nearest neighbor should give the minimum distance
+    for i in range(expected_length):
+        distances = []
+        for j in range(expected_length):
+            if i != j:
+                distances.append(norm(s[i] - s[j]))
+        min_distance = min(distances)
+        nn_distance = norm(s[i] - s[nn[i]])
+        assert np.isclose(nn_distance, min_distance, atol=1e-6), (
+            f"For index {i}, expected min distance {min_distance}, got {nn_distance}"
+        )
+    print("test_nearest passed!")
+
+def test_fnnratio():
+    import numpy as np
+    # For a monotonic, noise-free series, the embedding should be perfect,
+    # so the false nearest neighbors ratio should be nearly zero.
+    n = 10
+    d = 1
+    u = np.arange(n).reshape(n, d).astype(float)
+    tau = 1
+    m = 2
+    sig = np.std(u)
+    r = 10  # Choose a ratio parameter
+    ratio = fnnratio(u, n, d, m, tau, r, sig)
+    # For a simple linear series, expect fnnratio to be essentially 0.
+    assert ratio < 1e-6, f"Expected fnnratio near 0, got {ratio}"
+    print("test_fnnratio passed!")
+
+def test_fnnhitszero():
+    import numpy as np
+    # For the same simple monotonic series, as we vary r between Rmin and Rmax,
+    # we expect to find an r value where the fnn ratio is below the tolerance (delta).
+    n = 10
+    d = 1
+    u = np.arange(n).reshape(n, d).astype(float)
+    tau = 1
+    m = 2
+    sig = np.std(u)
+    delta = 0.01
+    Rmin = 1
+    Rmax = 100
+    rdiv = 100  # number of divisions for r search
+    r_found = fnnhitszero(u, n, d, m, tau, sig, delta, Rmin, Rmax, rdiv)
+    assert r_found != -1, "fnnhitszero did not find a valid r (returned -1)"
+    assert Rmin <= r_found <= Rmax, f"Found r ({r_found}) is not between {Rmin} and {Rmax}"
+    print("test_fnnhitszero passed!")
+
+
 def test_recc_plot():
     SIZE = 10
     rdiv = 451
