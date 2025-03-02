@@ -481,3 +481,165 @@ def test_recc_plot():
 
     assert M == N
     assert M > 0
+
+def test_reccrate():
+    import numpy as np
+    # Define the size of the recurrence plot (n x n)
+    n = 4
+    # Create a sample recurrence plot (binary matrix)
+    # For example, a 4x4 matrix with alternating 1s and 0s:
+    rplot = np.array([[1, 0, 1, 0],
+                      [0, 1, 0, 1],
+                      [1, 0, 1, 0],
+                      [0, 1, 0, 1]])
+    # The expected recurrence rate is the number of ones divided by (n*n)
+    expected_rate = float(np.sum(rplot)) / (n * n)  # Here, sum is 8 so expected_rate = 8/16 = 0.5
+    
+    rate = reccrate(rplot, n)
+    assert np.isclose(rate, expected_rate), f"Expected recurrence rate {expected_rate}, got {rate}"
+    
+    print("test_reccrate passed!")
+
+def test_vert_hist():
+    import numpy as np
+    # Define a simple 3x3 recurrence plot matrix.
+    # M is interpreted column‐wise: each column is scanned for consecutive ones.
+    # For M:
+    #   Column 0: [1, 1, 0] → one run of length 2 then break, plus a final run of length 0.
+    #   Column 1: [0, 1, 0] → a 0 at start (counted as run length 0), then run of 1, then break, then final run length 0.
+    #   Column 2: [1, 1, 1] → one continuous run of length 3.
+    M = np.array([
+        [1, 0, 1],
+        [1, 1, 1],
+        [0, 0, 1]
+    ])
+    n = 3
+    # Expected vertical histogram:
+    # For column 0: run lengths → run of 2 gives an increment in bin[2], then final run (0) → bin[0].
+    # For column 1: first element 0 → bin[0]++, then run of length 1 → bin[1]++, then final run 0 → bin[0]++.
+    # For column 2: run of length 3 → bin[3]++.
+    # Sum over columns: bin[0]: 1 (col0) + 2 (col1) + 0 (col2) = 3;
+    #                bin[1]: 0 (col0) + 1 (col1) + 0 (col2) = 1;
+    #                bin[2]: 1 (col0) + 0 (col1) + 0 (col2) = 1;
+    #                bin[3]: 0 (col0) + 0 (col1) + 1 (col2) = 1.
+    expected = np.array([3, 1, 1, 1], dtype=float)
+    result = vert_hist(M, n)
+    assert np.array_equal(result, expected), f"Expected {expected}, got {result}"
+    print("test_vert_hist passed!")
+
+
+def test_onedhist():
+    import numpy as np
+    # Test on a simple 1D binary array.
+    # Consider M = [1, 1, 0, 1, 0] with n = 5.
+    # Processing:
+    # - i=0: 1 → counter becomes 1.
+    # - i=1: 1 → counter becomes 2.
+    # - i=2: 0 → add count in bin[2] and reset counter.
+    # - i=3: 1 → counter becomes 1.
+    # - i=4: 0 → add count in bin[1] and reset counter.
+    # After loop: add final run in bin[0] (since counter is 0).
+    # Expected histogram (length n+1 = 6): 
+    #   bin[0]: 1, bin[1]: 1, bin[2]: 1, bins[3-5]: 0.
+    expected = np.array([1, 1, 1, 0, 0, 0], dtype=float)
+    M = np.array([1, 1, 0, 1, 0])
+    n = 5
+    result = onedhist(M, n)
+    assert np.array_equal(result, expected), f"Expected {expected}, got {result}"
+    print("test_onedhist passed!")
+
+
+def test_diaghist():
+    import numpy as np
+    # Use a recurrence plot where all entries are 1.
+    # For an n x n matrix with n = 3 and all ones, each diagonal will be a run of ones.
+    # For i = 0: diag from (0,0) to (2,2) is [1,1,1] → onedhist returns [0,0,0,1].
+    # For i = 1: diag from (1,0) to (2,1) is [1,1] → onedhist returns [0,0,1].
+    # For i = 2: diag from (2,0) is [1] → onedhist returns [0,1].
+    # Summing these (adding over appropriate indices) and then doubling (except last element) gives:
+    #   Preliminary sum: bin[0]: (0 from i=0) + (0 from i=1) + (0 from i=2) = 0,
+    #                    bin[1]: (0 from i=0) + (0 from i=1) + (1 from i=2) = 1,
+    #                    bin[2]: (0 from i=0) + (1 from i=1) = 1,
+    #                    bin[3]: (1 from i=0) = 1.
+    # After multiplying by 2: [0, 2, 2, 2] and then dividing the last element by 2 gives final dghist = [0, 2, 2, 1].
+    n = 3
+    M = np.ones((n, n), dtype=int)
+    expected = np.array([0, 2, 2, 1], dtype=float)
+    result = diaghist(M, n)
+    assert np.allclose(result, expected), f"Expected {expected}, got {result}"
+    print("test_diaghist passed!")
+
+
+def test_percentmorethan():
+    import numpy as np
+    # Given a simple histogram hst, test the ratio calculation.
+    # Let n = 2, mini = 1, and hst = [0, 10, 5].
+    # Then, numer = 1*10 + 2*5 = 20, and denom = 1e-7 + (10+10) ≈ 20.
+    # Expected result is approximately 1.0.
+    hst = np.array([0, 10, 5], dtype=float)
+    mini = 1
+    n = 2
+    expected = 20 / 20  # 1.0
+    result = percentmorethan(hst, mini, n)
+    assert np.isclose(result, expected, atol=1e-6), f"Expected {expected}, got {result}"
+    print("test_percentmorethan passed!")
+
+
+def test_mode():
+    import numpy as np
+    # Test mode determination on a sample histogram.
+    # Let hst = [0, 5, 7, 2, 0] (length 5, so n = 4) and mini = 1.
+    # The highest count among indices 1 to 4 is at index 2 (value 7).
+    hst = np.array([0, 5, 7, 2, 0], dtype=float)
+    mini = 1
+    n = 4
+    expected = 2
+    result = mode(hst, mini, n)
+    assert result == expected, f"Expected mode {expected}, got {result}"
+    print("test_mode passed!")
+
+
+def test_maxi():
+    import numpy as np
+    # Test maxi using the same sample histogram.
+    # For hst = [0, 5, 7, 2, 0] with n = 5 and mini = 1, maxi returns the last index in the loop (i in 1..(n-1))
+    # Here, the loop iterates over i = 1, 2, 3 and since hst[1], hst[2], and hst[3] are nonzero, the final lmax becomes 3.
+    hst = np.array([0, 5, 7, 2, 0], dtype=float)
+    mini = 1
+    n = 5
+    expected = 3
+    result = maxi(hst, mini, n)
+    assert result == expected, f"Expected maxi {expected}, got {result}"
+    print("test_maxi passed!")
+
+
+def test_average():
+    import numpy as np
+    # Using a sample histogram hst = [0, 10, 5, 0] with n = 3 and mini = 1.
+    # numer = 1*10 + 2*5 + 3*0 = 20.
+    # denom = 1e-7 + (10+5+0) ≈ 15.
+    # Expected average is 20/15.
+    hst = np.array([0, 10, 5, 0], dtype=float)
+    mini = 1
+    n = 3
+    expected = 20 / 15
+    result = average(hst, mini, n)
+    assert np.isclose(result, expected, atol=1e-6), f"Expected average {expected}, got {result}"
+    print("test_average passed!")
+
+
+def test_entropy():
+    import numpy as np
+    # Test entropy on a simple histogram distribution.
+    # Let hst = [0, 10, 10] for n = 2 and mini = 1.
+    # Total sum = 20, so each probability is 10/20 = 0.5.
+    # Entropy = -2*(0.5*log(0.5)) = -log(0.5) = log(2) ≈ 0.693147.
+    hst = np.array([0, 10, 10], dtype=float)
+    mini = 1
+    n = 2
+    expected = np.log(2)
+    result = entropy(hst, mini, n)
+    assert np.isclose(result, expected, atol=1e-6), f"Expected entropy {expected}, got {result}"
+    print("test_entropy passed!")
+
+
