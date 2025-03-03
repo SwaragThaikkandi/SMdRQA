@@ -437,10 +437,11 @@ def test_findtau_polynomial():
 
 def test_findtau():
     # Create a dummy time series with appropriate shape.
-    t = np.linspace(0, 4 * np.pi, n)
-    u = np.sin(t).reshape(n, d)
     n = 100
     d = 1
+    t = np.linspace(0, 4 * np.pi, n)
+    u = np.sin(t).reshape(n, d)
+    
     grp = "test_group"
     
     # Test using the default method.
