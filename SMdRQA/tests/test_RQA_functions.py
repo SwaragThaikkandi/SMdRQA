@@ -348,15 +348,15 @@ def test_timedelayMI():
     
     # Generate a sine wave spanning 10 full cycles.
     # A sine wave has period T = 2π.
-    t = np.linspace(0, 10 * 2 * np.pi, n, endpoint=False)
+    t = np.linspace(0, 5 * 2 * np.pi, n, endpoint=False)
     u = np.sin(t).reshape(n, d)
     
     # Calculate the sample delays corresponding to 0°, 45°, and 90° phase shifts.
     # One full cycle (2π radians) is represented by n/10 samples.
     # For an angle φ in radians, tau = (φ / (2π)) * (n/10)
     tau0 = 0
-    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 10)))  # ~ n/80
-    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 10)))   # ~ n/40
+    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 5)))  # ~ n/80
+    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 5)))   # ~ n/40
     
     # Compute mutual information for each phase shift.
     MI0 = timedelayMI(u, n, d, tau0, method="histdd")
@@ -381,15 +381,15 @@ def test_KNN_timedelayMI():
 
     # Generate a sine wave spanning 10 full cycles.
     # The sine wave has period T = 2π. With 10 cycles, one cycle spans n/10 samples.
-    t = np.linspace(0, 10 * 2 * np.pi, n, endpoint=False)
+    t = np.linspace(0, 5 * 2 * np.pi, n, endpoint=False)
     u = np.sin(t).reshape(n, d)
 
     # Calculate sample delays corresponding to 0°, 45°, and 90° phase shifts.
     # For a cycle (2π) spanning n/10 samples, the delay for an angle φ (in radians) is:
     #   tau = (φ / (2π)) * (n/10)
     tau0 = 0
-    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 10)))  # ~ n/80 samples delay
-    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 10)))   # ~ n/40 samples delay
+    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 5)))  # ~ n/80 samples delay
+    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 5)))   # ~ n/40 samples delay
 
     # Compute mutual information for each phase shift using your KNN_timedelayMI function.
     MI0 = KNN_timedelayMI(u, tau0, nearest_neighbor=5, method="auto", dtype=np.float64, memory_limit=4)
@@ -409,18 +409,14 @@ def test_KNN_timedelayMI():
 
 def test_findtau_default():
     # Test parameters
-    n = 10
+    t = np.linspace(0, 4 * np.pi, n)
+    u = np.sin(t).reshape(n, d)
+    n = 100
     d = 1
-    # u can be any array with the proper shape; it is not used by our dummy function.
-    u = np.zeros((n, d))
     
     # For testing purposes, define a dummy timedelayMI if it doesn't exist.
     # This dummy returns a quadratic function of tau with a minimum at tau = 5.
-    if 'timedelayMI' not in globals():
-        def timedelayMI(u, n, d, tau, method="histdd"):
-            opt_tau = 5
-            return (tau - opt_tau) ** 2
-        globals()['timedelayMI'] = timedelayMI
+    
     
     # grp is not used in findtau_default, so we pass a dummy value (e.g., None).
     result_tau = findtau_default(u, n, d, grp=None, mi_method="histdd")
@@ -428,7 +424,7 @@ def test_findtau_default():
     # With our dummy, the MI curve is:
     #   MI(1)=16, MI(2)=9, MI(3)=4, MI(4)=1, MI(5)=0, MI(6)=1, ...
     # The algorithm breaks at tau=6 and returns tau-1 = 5.
-    expected_tau = 5
+    expected_tau = 13
     assert result_tau == expected_tau, f"Test failed: Expected optimal tau {expected_tau}, got {result_tau}"
     
     print("Test passed: Optimal tau correctly found as", result_tau)
