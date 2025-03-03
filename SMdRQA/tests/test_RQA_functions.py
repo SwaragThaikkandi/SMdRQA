@@ -435,7 +435,7 @@ def test_findtau_default():
 
 def test_find_poly_degree():
     # Create a simple quadratic relationship: y = 3 + 2x + 0.5x^2
-    n = 20
+    n = 100
     x = np.linspace(0, 10, n)
     y = 3 + 2 * x + 0.5 * x**2
 
@@ -454,12 +454,13 @@ def test_find_poly_degree():
 
 def test_findtau_polynomial():
     # Test parameters
-    n = 10      # total number of samples
-    d = 1       # dimensionality
+    n = 100      # total number of samples
+    d = 1        # dimensionality
     grp = "test"
     
-    # Dummy time series (content is irrelevant for the dummy timedelayMI)
-    u = np.zeros((n, d))
+    # Create a dummy time series using a sine wave, which is more realistic than all zeros.
+    t = np.linspace(0, 4 * np.pi, n)
+    u = np.sin(t).reshape(n, d)
     
     # Call the function under test
     optimal_tau = findtau_polynomial(u, n, d, grp, mi_method="histdd")
@@ -476,7 +477,7 @@ def test_findtau_polynomial():
 def test_findtau():
     # Create a dummy time series with appropriate shape.
     u = np.zeros((10, 1))
-    n = 10
+    n = 100
     d = 1
     grp = "test_group"
     
