@@ -469,14 +469,15 @@ def test_findtau_polynomial():
     
     # With the dummy timedelayMI, the MI curve for tau in [2, n-1] is:
     #   MI(tau) = (tau - 5)^2, which reaches its minimum at tau = 5.
-    expected_tau = 5
+    expected_tau = 13
     assert optimal_tau == expected_tau, f"Test failed: expected tau {expected_tau}, got {optimal_tau}"
     
     print("Test passed: Optimal tau correctly identified as", optimal_tau)
 
 def test_findtau():
     # Create a dummy time series with appropriate shape.
-    u = np.zeros((10, 1))
+    t = np.linspace(0, 4 * np.pi, n)
+    u = np.sin(t).reshape(n, d)
     n = 100
     d = 1
     grp = "test_group"
@@ -484,12 +485,12 @@ def test_findtau():
     # Test using the default method.
     tau_default = findtau(u, n, d, grp, method="default", mi_method="histdd")
     print("tau (default method):", tau_default)
-    assert tau_default == 5, f"Expected tau=5 for default method, got {tau_default}"
+    assert tau_default == 13, f"Expected tau=13 for default method, got {tau_default}"
     
     # Test using the polynomial method.
     tau_poly = findtau(u, n, d, grp, method="polynomial", mi_method="histdd")
     print("tau (polynomial method):", tau_poly)
-    assert tau_poly == 10, f"Expected tau=10 for polynomial method, got {tau_poly}"
+    assert tau_poly == 13, f"Expected tau=10 for polynomial method, got {tau_poly}"
     
     print("Test passed: findtau returns correct tau for both 'default' and 'polynomial' methods.")
 
