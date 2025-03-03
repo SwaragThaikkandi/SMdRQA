@@ -29,7 +29,7 @@ from numpy.core import overrides
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-
+#
 
 def test_find_first_minima_or_global_minima_index():
     import numpy as np
