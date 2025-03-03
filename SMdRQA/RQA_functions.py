@@ -668,16 +668,21 @@ def findtau_default(u, n, d, grp, mi_method="histdd"):
 
 
 def find_poly_degree(x, y):
+
     MaxDeg = len(x)
     DEG = []
     RMSE = []
     for deg in range(1, MaxDeg + 1):
         cv = RepeatedKFold(n_splits=10, n_repeats=10, random_state=1)
-
         MSE_sub = []
         for train_idx, test_idx in cv.split(x, y):
-            x_train, x_test = x.iloc[train_idx], x.iloc[test_idx]
-            y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+            # Use pandas-style indexing if available, else NumPy indexing.
+            if hasattr(x, 'iloc'):
+                x_train, x_test = x.iloc[train_idx], x.iloc[test_idx]
+                y_train, y_test = y.iloc[train_idx], y.iloc[test_idx]
+            else:
+                x_train, x_test = x[train_idx], x[test_idx]
+                y_train, y_test = y[train_idx], y[test_idx]
             coefficients = np.polyfit(x_train, y_train, deg)
             polynomial = np.poly1d(coefficients)
             y_pred = polynomial(x_test)
@@ -690,9 +695,7 @@ def find_poly_degree(x, y):
 
     DEG = np.array(DEG)
     RMSE = np.array(RMSE)
-
     min_index = np.argmin(RMSE)
-
     return DEG[min_index]
 
 
