@@ -6,7 +6,9 @@ import memory_profiler
 from scipy.interpolate import pchip_interpolate
 from functools import partial
 from p_tqdm import p_map
+import numpy as np
 from scipy.stats import skew
+import math
 import random
 import pickle
 import os
@@ -68,7 +70,34 @@ def test_find_first_minima_or_global_minima_index():
     print("All tests passed!")
 
 
+def test_doanes_formula():
+    # Test 1: Symmetric data (each column is symmetric, so skew ~ 0)
+    # Use a multi-dimensional array so that the function returns an array of bin counts.
+    # For symmetric data, g1 ~ 0 so k becomes:
+    #   k = 1 + log2(n) + log2(1) = 1 + log2(n)
+    # Then each value is transformed to ceil((2/3)*(1+log2(n))).
+    n_sym = 64  # number of rows
+    # Create a 64x3 array where each column is evenly spaced from 0 to 1.
+    data_sym = np.column_stack([np.linspace(0, 1, n_sym)] * 3)
+    # Expected: 1 + log2(64) = 1 + 6 = 7, then ceil((2/3)*7) = ceil(4.6667) = 5
+    expected_sym = np.array([5, 5, 5])
+    result_sym = doanes_formula(data_sym, n_sym)
+    assert np.array_equal(result_sym, expected_sym), \
+        f"Symmetric test failed: expected {expected_sym}, got {result_sym}"
 
+    # Test 2: Skewed data
+    # Create a 50x2 array where the second column is skewed by adding an outlier.
+    n_skew = 50
+    col1 = np.linspace(0, 1, n_skew)
+    col2 = np.concatenate([np.linspace(0, 1, n_skew - 1), [10]])  # Introduce an outlier in the last element
+    data_skew = np.column_stack([col1, col2])
+    result_skew = doanes_formula(data_skew, n_skew)
+    # For skewed data we don't compute an expected value; we only verify that each returned bin count is a positive integer.
+    for bins in result_skew:
+        assert isinstance(bins, (int, np.integer)), f"Skewed test failed: {bins} is not an integer"
+        assert bins > 0, f"Skewed test failed: bin count {bins} is not positive"
+
+    print("All tests passed!")
 
 
 def test_binscalc():
@@ -311,6 +340,157 @@ def test_KNN_MI():
     print('mi1:', mi1)
     print('mi2:', mi2)
     assert abs(mi1 - mi2) < 0.01
+
+def test_timedelayMI():
+    # Total samples and dimensionality
+    n = 1000  
+    d = 1     
+    
+    # Generate a sine wave spanning 10 full cycles.
+    # A sine wave has period T = 2π.
+    t = np.linspace(0, 10 * 2 * np.pi, n, endpoint=False)
+    u = np.sin(t).reshape(n, d)
+    
+    # Calculate the sample delays corresponding to 0°, 45°, and 90° phase shifts.
+    # One full cycle (2π radians) is represented by n/10 samples.
+    # For an angle φ in radians, tau = (φ / (2π)) * (n/10)
+    tau0 = 0
+    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 10)))  # ~ n/80
+    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 10)))   # ~ n/40
+    
+    # Compute mutual information for each phase shift.
+    MI0 = timedelayMI(u, n, d, tau0, method="histdd")
+    MI45 = timedelayMI(u, n, d, tau45, method="histdd")
+    MI90 = timedelayMI(u, n, d, tau90, method="histdd")
+    
+    print(f"MI at 0° phase shift (tau={tau0}): {MI0}")
+    print(f"MI at 45° phase shift (tau={tau45}): {MI45}")
+    print(f"MI at 90° phase shift (tau={tau90}): {MI90}")
+    
+    # Assert that the mutual information decreases as the phase shift increases.
+    assert MI0 > MI45, f"Expected MI at 0° ({MI0}) to be greater than MI at 45° ({MI45})."
+    assert MI45 > MI90, f"Expected MI at 45° ({MI45}) to be greater than MI at 90° ({MI90})."
+    
+    print("Test passed: MI decreases from 0° to 45° to 90° phase shift.")
+
+
+def test_KNN_timedelayMI():
+    # Total number of samples and dimensionality.
+    n = 1000
+    d = 1
+
+    # Generate a sine wave spanning 10 full cycles.
+    # The sine wave has period T = 2π. With 10 cycles, one cycle spans n/10 samples.
+    t = np.linspace(0, 10 * 2 * np.pi, n, endpoint=False)
+    u = np.sin(t).reshape(n, d)
+
+    # Calculate sample delays corresponding to 0°, 45°, and 90° phase shifts.
+    # For a cycle (2π) spanning n/10 samples, the delay for an angle φ (in radians) is:
+    #   tau = (φ / (2π)) * (n/10)
+    tau0 = 0
+    tau45 = int(round((np.pi/4) / (2 * np.pi) * (n / 10)))  # ~ n/80 samples delay
+    tau90 = int(round((np.pi/2) / (2 * np.pi) * (n / 10)))   # ~ n/40 samples delay
+
+    # Compute mutual information for each phase shift using your KNN_timedelayMI function.
+    MI0 = KNN_timedelayMI(u, tau0, nearest_neighbor=5, method="auto", dtype=np.float64, memory_limit=4)
+    MI45 = KNN_timedelayMI(u, tau45, nearest_neighbor=5, method="auto", dtype=np.float64, memory_limit=4)
+    MI90 = KNN_timedelayMI(u, tau90, nearest_neighbor=5, method="auto", dtype=np.float64, memory_limit=4)
+
+    print(f"KNN MI at 0° phase shift (tau={tau0}): {MI0}")
+    print(f"KNN MI at 45° phase shift (tau={tau45}): {MI45}")
+    print(f"KNN MI at 90° phase shift (tau={tau90}): {MI90}")
+
+    # Since the dummy KNN_MI returns negative average absolute differences,
+    # we expect MI0 (no delay) to be 0 and the MI to become more negative as delay increases.
+    assert MI0 > MI45, f"Expected MI at 0° ({MI0}) to be greater than MI at 45° ({MI45})."
+    assert MI45 > MI90, f"Expected MI at 45° ({MI45}) to be greater than MI at 90° ({MI90})."
+
+    print("Test passed: KNN MI decreases from 0° to 45° to 90° phase shift.")
+
+def test_findtau_default():
+    # Test parameters
+    n = 10
+    d = 1
+    # u can be any array with the proper shape; it is not used by our dummy function.
+    u = np.zeros((n, d))
+    
+    # For testing purposes, define a dummy timedelayMI if it doesn't exist.
+    # This dummy returns a quadratic function of tau with a minimum at tau = 5.
+    if 'timedelayMI' not in globals():
+        def timedelayMI(u, n, d, tau, method="histdd"):
+            opt_tau = 5
+            return (tau - opt_tau) ** 2
+        globals()['timedelayMI'] = timedelayMI
+    
+    # grp is not used in findtau_default, so we pass a dummy value (e.g., None).
+    result_tau = findtau_default(u, n, d, grp=None, mi_method="histdd")
+    
+    # With our dummy, the MI curve is:
+    #   MI(1)=16, MI(2)=9, MI(3)=4, MI(4)=1, MI(5)=0, MI(6)=1, ...
+    # The algorithm breaks at tau=6 and returns tau-1 = 5.
+    expected_tau = 5
+    assert result_tau == expected_tau, f"Test failed: Expected optimal tau {expected_tau}, got {result_tau}"
+    
+    print("Test passed: Optimal tau correctly found as", result_tau)
+
+def test_find_poly_degree():
+    # Create a simple quadratic relationship: y = 3 + 2x + 0.5x^2
+    n = 20
+    x = np.linspace(0, 10, n)
+    y = 3 + 2 * x + 0.5 * x**2
+
+    # Convert the numpy arrays to pandas Series (as expected by the function)
+    x_series = pd.Series(x)
+    y_series = pd.Series(y)
+    
+    # Call the function to determine the optimal polynomial degree
+    optimal_degree = find_poly_degree(x_series, y_series)
+    print("Optimal polynomial degree found:", optimal_degree)
+    
+    # Since the data is exactly quadratic, we expect the optimal degree to be 2.
+    assert optimal_degree == 2, f"Test failed: Expected optimal degree 2, got {optimal_degree}"
+    
+    print("Test passed: Optimal degree correctly identified as", optimal_degree)
+
+def test_findtau_polynomial():
+    # Test parameters
+    n = 10      # total number of samples
+    d = 1       # dimensionality
+    grp = "test"
+    
+    # Dummy time series (content is irrelevant for the dummy timedelayMI)
+    u = np.zeros((n, d))
+    
+    # Call the function under test
+    optimal_tau = findtau_polynomial(u, n, d, grp, mi_method="histdd")
+    
+    print("Optimal tau found:", optimal_tau)
+    
+    # With the dummy timedelayMI, the MI curve for tau in [2, n-1] is:
+    #   MI(tau) = (tau - 5)^2, which reaches its minimum at tau = 5.
+    expected_tau = 5
+    assert optimal_tau == expected_tau, f"Test failed: expected tau {expected_tau}, got {optimal_tau}"
+    
+    print("Test passed: Optimal tau correctly identified as", optimal_tau)
+
+def test_findtau():
+    # Create a dummy time series with appropriate shape.
+    u = np.zeros((10, 1))
+    n = 10
+    d = 1
+    grp = "test_group"
+    
+    # Test using the default method.
+    tau_default = findtau(u, n, d, grp, method="default", mi_method="histdd")
+    print("tau (default method):", tau_default)
+    assert tau_default == 5, f"Expected tau=5 for default method, got {tau_default}"
+    
+    # Test using the polynomial method.
+    tau_poly = findtau(u, n, d, grp, method="polynomial", mi_method="histdd")
+    print("tau (polynomial method):", tau_poly)
+    assert tau_poly == 10, f"Expected tau=10 for polynomial method, got {tau_poly}"
+    
+    print("Test passed: findtau returns correct tau for both 'default' and 'polynomial' methods.")
 
 
 def test_findm():
