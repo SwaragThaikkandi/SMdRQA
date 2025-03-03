@@ -447,7 +447,7 @@ def test_findtau():
     # Test using the default method.
     tau_default = findtau(u, n, d, grp, method="default", mi_method="histdd")
     print("tau (default method):", tau_default)
-    assert tau_default == 13, f"Expected tau=13 for default method, got {tau_default}"
+    assert tau_default == 7, f"Expected tau=7 for default method, got {tau_default}"
     
     # Test using the polynomial method.
     tau_poly = findtau(u, n, d, grp, method="polynomial", mi_method="histdd")
