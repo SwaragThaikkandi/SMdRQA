@@ -787,3 +787,33 @@ def test_entropy():
     print("test_entropy passed!")
 
 
+def test_findeps_multi():
+    # Define dummy versions of delayseries and reccrate if not already defined.
+    # Test parameters:
+    n = 50          # Total number of samples
+    d = 1           # Dimensionality
+    # Use a constant time series (all ones) so that all distances are zero.
+    U = [np.ones((n, d))]
+    N = [n]
+    D = [d]
+    Tau = [1]
+    M = [1]
+
+    reqrr = 1.0     # Required recurrence rate (we want a full recurrence plot)
+    rr_delta = 0.01 # Tolerance: if |rr - reqrr| < 0.01, then we accept it.
+    epsmin = 0.1    # Lower bound for epsilon search.
+    epsmax = 1.0    # Upper bound.
+    epsdiv = 10     # Number of divisions between epsmin and epsmax.
+
+    # Since all distances are 0, for any eps > 0 the recurrence plot is all ones,
+    # so the recurrence rate is 1. The function should then return the first epsilon value,
+    # which is epsmin.
+    eps_found = findeps_multi(U, N, D, M, Tau, reqrr, rr_delta, epsmin, epsmax, epsdiv)
+    print("findeps_multi returned epsilon:", eps_found)
+    
+    # We expect eps_found to equal epsmin.
+    assert np.isclose(eps_found, epsmin), f"Test failed: Expected epsilon {epsmin}, got {eps_found}"
+    print("Test passed: findeps_multi returned the expected epsilon.")
+
+
+
