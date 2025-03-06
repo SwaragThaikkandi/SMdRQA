@@ -1,14 +1,13 @@
 name: Test tracker
 
 on:
-  # a cron schedule to run periodically
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *'  # Runs at the 0 minute mark of every hour
 
 jobs:
   test_issue_tracker:
     runs-on: ubuntu-latest
-    name: A job to test issue tracker
+    name: Issue Tracker Test Job
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,24 +18,25 @@ jobs:
         with:
           github-token: ${{ secrets.GH_TOKEN }}
 
-      # you need git commit to push the issue data to the folder: .github/actioncloud
       - name: Git commit
         run: |
-          # git commit if there's any change
           if test -n "$(git status --porcelain 2>/dev/null)"; then
               git config --global user.email "swaragthaikkandi@gmail.com"
               git config --global user.name "SwaragThaikkandi"
               git add .
               git commit -m "Update forks data"
-              git push
+              # Use token-authenticated push command
+              git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      # you can get badge code of ActionCloud viewer App, and click it to view your data
       - name: Generate ActionCloud Viewer Badge
         id: actioncloud_badge
-        run: echo "::set-output name=badge_code::$(curl -sL https://api.actioncloud.io/generate-badge-code)"
-      
+        # Updated output setting method
+        run: |
+          badge=$(curl -sL https://api.actioncloud.io/generate-badge-code)
+          echo "badge_code=$badge" >> $GITHUB_OUTPUT
+
       - name: Show ActionCloud Viewer Badge
         run: echo "${{ steps.actioncloud_badge.outputs.badge_code }}"
