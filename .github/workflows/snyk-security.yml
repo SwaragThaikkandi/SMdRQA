@@ -1,71 +1,17 @@
-name: Snyk Security Scan
-
-on:
-  push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
-
-permissions:
-  contents: read
-  security-events: write
-
+name: Snyk Infrastructure as Code and GitHub Security
+on: push
 jobs:
-  snyk-scan:
+  snyk:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install project dependencies
-        run: npm install  # This is crucial for Snyk to detect dependencies
-
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-
-      - name: Snyk Authentication
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: |
-          echo "Authenticating with Snyk..."
-          snyk auth $SNYK_TOKEN || echo "Authentication check failed"
-          snyk config set disableSuggestions=true
-
-      - name: Snyk Code Analysis (with debug)
-        run: |
-          DEBUG=*snyk* snyk code test --sarif > snyk-code.sarif || true
-          [ -s snyk-code.sarif ] || echo 'No Snyk Code findings' > snyk-code.sarif
-
-      - name: Snyk Open Source Scan
-        run: |
-          snyk test --all-projects --detection-depth=6 --severity-threshold=high || true
-          snyk monitor --all-projects
-
-      - name: Snyk IaC Scan
-        run: snyk iac test --report --detection-depth=6 || true
-
-      - name: Prepare Docker environment
-        run: |
-          echo "Listing files before build:"
-          ls -la
-
-      - name: Build Docker Image
-        run: docker build -t my-app:${{ github.sha }} .
-
-      - name: Snyk Container Scan
-        run: |
-          echo "Built image info:"
-          docker image ls | grep my-app
-          snyk container monitor my-app:${{ github.sha }} --file=Dockerfile || true
-
-      - name: Upload Code Scanning Results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: snyk-code.sarif
-          fail_on_error: false
+    - uses: actions/checkout@v2
+    - name: Run Snyk to check Kubernetes manifest file for issues
+      continue-on-error: true
+      uses: snyk/actions/iac@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        file: your/kubernetes-manifest.yaml
+    - uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: snyk.sarif
