@@ -510,7 +510,7 @@ def KNN_MI(
         1,
         dtype=dtype,
         memory_limit=memory_limit)
-            
+
     if method == "auto":
         if pv1:
             mi = KNN_MI_vectorized(X, Y, nearest_neighbor)
@@ -563,7 +563,7 @@ def timedelayMI(u, n, d, tau, method="histdd"):
 
     X = u[0:n - tau, :]
     Y = u[tau:n, :]
-    return mutualinfo(X, Y, n - tau, d, method= method)
+    return mutualinfo(X, Y, n - tau, d, method=method)
 
 
 def KNN_timedelayMI(
