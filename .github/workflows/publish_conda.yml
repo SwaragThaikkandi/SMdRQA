@@ -9,9 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - name: Debug directory structure
+      run: ls -R  # List all files recursively
     - name: publish-to-conda
       uses: maxibor/conda-package-publish-action@v1.1
-      env: # Add the token to the ENVIRONMENT variables
+      env:
         ANACONDA_TOKEN: ${{ secrets.ANACONDA_TOKEN }}
       with:
-        subDir: 'conda'
+        subDir: 'conda'  # <<< Double-check for typos here!
+
