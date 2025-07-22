@@ -35,6 +35,7 @@ You can navigate to the different sections using the left panel. We recommend ch
 
    introduction
    installation
+   RQA2_documentation
    authors
    cite_us
    chapters/index
