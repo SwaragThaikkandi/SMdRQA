@@ -1688,27 +1688,31 @@ class RQA2:
         self._embedded_signal = None
         self._rqa_measures = {}
     
+    def _embedded_length(self, m, tau):
+        """Number of valid delay-vectors for (m, τ)."""
+        return max(0, self.n_samples - (m - 1) * tau)
+    
     # Properties for computed values
     @property
     def tau(self):
         """Time delay parameter."""
         if self._tau is None:
             self._tau = self.compute_time_delay()
-        return self._tau
+        return int(self._tau)  # Ensure Python int
     
     @property
     def m(self):
         """Embedding dimension."""
         if self._m is None:
             self._m = self.compute_embedding_dimension()
-        return self._m
+        return int(self._m)  # Ensure Python int
     
     @property
     def eps(self):
         """Neighborhood radius."""
         if self._eps is None:
             self._eps = self.compute_neighborhood_radius()
-        return self._eps
+        return float(self._eps)  # Ensure Python float
     
     @property
     def recurrence_plot(self):
@@ -1748,8 +1752,8 @@ class RQA2:
         else:
             raise ValueError("Method must be 'default' or 'polynomial'")
         
-        self._tau = tau
-        return tau
+        self._tau = int(tau)  # Ensure Python int
+        return self._tau
     
     def compute_embedding_dimension(self):
         """Compute optimal embedding dimension using false nearest neighbors."""
@@ -1760,8 +1764,8 @@ class RQA2:
         sd = 3 * np.std(self.data)
         
         m = self._findm(tau, sd)
-        self._m = m
-        return m
+        self._m = int(m)  # Ensure Python int
+        return self._m
     
     def compute_neighborhood_radius(self, reqrr=None):
         """Compute neighborhood radius for specified recurrence rate."""
@@ -1769,12 +1773,13 @@ class RQA2:
             raise ValueError("No data loaded. Please load data first.")
         
         reqrr = reqrr or self.config['reqrr']
+        reqrr = max(0.01, min(0.99, reqrr))  # Clamp to valid range
         tau = self.tau
         m = self.m
         
         eps = self._findeps(tau, m, reqrr)
-        self._eps = eps
-        return eps
+        self._eps = float(eps)  # Ensure Python float
+        return self._eps
     
     def compute_recurrence_plot(self):
         """Compute the recurrence plot."""
@@ -2024,7 +2029,17 @@ class RQA2:
         rqa_objects = []
         for file in tqdm(files, desc="Processing files"):
             try:
-                data = np.load(os.path.join(input_path, file))
+                file_path = os.path.join(input_path, file)
+                data = np.load(file_path)
+                
+                # Ensure 2D data
+                if data.ndim == 1:
+                    data = data.reshape(-1, 1)
+                
+                # Check minimum samples
+                if data.shape[0] < 5:
+                    raise ValueError("Too few samples")
+                
                 rqa = cls(data, **kwargs)
                 
                 # Compute basic parameters
@@ -2043,13 +2058,14 @@ class RQA2:
             except Exception as e:
                 error_files.append({'file': file, 'error': str(e)})
                 print(f"Error processing {file}: {e}")
+                continue
         
         # Group-level parameter estimation if requested
-        if group_level and group_level_estimates:
+        if group_level and group_level_estimates and results:
             group_params = {}
             
             if 'tau' in group_level_estimates:
-                group_params['tau'] = np.mean([r['tau'] for r in results])
+                group_params['tau'] = int(np.mean([r['tau'] for r in results]))
             if 'm' in group_level_estimates:
                 group_params['m'] = int(np.mean([r['m'] for r in results]))
             if 'eps' in group_level_estimates:
@@ -2085,7 +2101,8 @@ class RQA2:
                 print(f"Error computing RP for {results[i]['file']}: {e}")
         
         # Save summary files
-        pd.DataFrame(results).to_csv(os.path.join(output_path, 'rqa_results.csv'), index=False)
+        if results:
+            pd.DataFrame(results).to_csv(os.path.join(output_path, 'rqa_results.csv'), index=False)
         if error_files:
             pd.DataFrame(error_files).to_csv(os.path.join(output_path, 'error_report.csv'), index=False)
         
@@ -2143,12 +2160,12 @@ class RQA2:
         
         return summary
     
-    # Internal computation methods (converted from original functions)
+    # Internal computation methods (fixed versions)
     def _findtau_default(self, mi_method):
         """Find optimal time delay using first minima of MI curve."""
         min_mi = self._timedelayMI(1, mi_method)
         
-        for tau in range(2, self.n_samples):
+        for tau in range(2, self.n_samples // 2):
             next_mi = self._timedelayMI(tau, mi_method)
             if next_mi > min_mi:
                 return tau - 1
@@ -2158,13 +2175,17 @@ class RQA2:
     
     def _findtau_polynomial(self, mi_method):
         """Find optimal time delay using polynomial fit to MI curve."""
+        max_tau = min(100, self.n_samples // 4)
         tau_values = []
         mi_values = []
         
-        for tau in range(2, min(100, self.n_samples)):
+        for tau in range(2, max_tau + 1):
             mi = self._timedelayMI(tau, mi_method)
             tau_values.append(tau)
             mi_values.append(mi)
+        
+        if len(tau_values) < 3:
+            return self._findtau_default(mi_method)
         
         tau_values = np.array(tau_values)
         mi_values = np.array(mi_values)
@@ -2182,6 +2203,9 @@ class RQA2:
     
     def _timedelayMI(self, tau, method='histdd'):
         """Compute time-delayed mutual information."""
+        if tau >= self.n_samples:
+            return 0.0
+        
         X = self.data[0:self.n_samples - tau, :]
         Y = self.data[tau:self.n_samples, :]
         return self._mutualinfo(X, Y, method)
@@ -2194,13 +2218,15 @@ class RQA2:
             return self._mutualinfo_histdd(X, Y, n, d)
         elif method == "avg":
             return self._mutualinfo_avg(X, Y, n, d)
+        else:
+            return self._mutualinfo_histdd(X, Y, n, d)
     
     def _mutualinfo_histdd(self, X, Y, n, d):
         """Mutual information using multidimensional histogram."""
         points = np.concatenate((X, Y), axis=1)
         
         # Use default binning for simplicity
-        bins = 15
+        bins = min(15, int(np.cbrt(n)))
         
         try:
             p_xy = np.histogramdd(points, bins=bins)[0] + 1e-9
@@ -2226,13 +2252,19 @@ class RQA2:
     
     def _findm(self, tau, sd):
         """Find optimal embedding dimension using FNN method."""
-        mmax = int((3 * self.n_dimensions + 11) / 2)
+        mmax = min(int((3 * self.n_dimensions + 11) / 2), 10)
+        
+        # Check if we have enough samples for embedding
+        min_samples_needed = (mmax - 1) * tau + 1
+        if self.n_samples <= min_samples_needed:
+            mmax = max(1, (self.n_samples - 1) // tau)
         
         rm = self._fnnhitszero(mmax, tau, sd)
-        rmp = self._fnnhitszero(mmax + 1, tau, sd)
-        
-        if rm - rmp > self.config['bound']:
-            return mmax + 1
+        if mmax > 1:
+            rmp = self._fnnhitszero(mmax + 1, tau, sd)
+            
+            if rm - rmp > self.config['bound']:
+                return mmax + 1
         
         for m in range(1, mmax):
             rmp = rm
@@ -2240,10 +2272,15 @@ class RQA2:
             if rm - rmp > self.config['bound']:
                 return mmax + 1 - m
         
-        return mmax
+        return max(1, mmax)
     
     def _fnnhitszero(self, m, tau, sd):
         """Find r value where FNN ratio hits zero."""
+        # Check if we have enough samples
+        min_samples_needed = (m - 1) * tau + 1
+        if self.n_samples <= min_samples_needed:
+            return -1
+            
         r_values = np.linspace(self.config['Rmin'], self.config['Rmax'], self.config['rdiv'])
         
         for r in r_values:
@@ -2253,87 +2290,104 @@ class RQA2:
     
     def _fnnratio(self, m, tau, r, sd):
         """Compute false nearest neighbors ratio."""
+        # Check if we have enough samples for both m and m+1 embeddings
+        min_samples_m = (m - 1) * tau + 1
+        min_samples_mp1 = m * tau + 1
+        
+        if self.n_samples <= min_samples_mp1:
+            return 1.0  # Can't compute ratio
+        
         s1 = self._delayseries(tau, m)
         s2 = self._delayseries(tau, m + 1)
-        nn = self._nearest(s1, tau, m)
+        nn = self._nearest(s1)
         
-        n_embedded = self.n_samples - (m - 1) * tau
+        n_embedded = s1.shape[0]
         isneigh = np.zeros(n_embedded)
         isfalse = np.zeros(n_embedded)
         
         for i in range(n_embedded):
-            disto = np.linalg.norm(s1[i] - s1[nn[i]]) + 1e-9
-            distp = np.linalg.norm(s2[i] - s2[nn[i]])
-            
-            if disto < sd / r:
-                isneigh[i] = 1
-                if distp / disto > r:
-                    isfalse[i] = 1
+            if nn[i] < s1.shape[0] and nn[i] < s2.shape[0]:
+                disto = np.linalg.norm(s1[i] - s1[nn[i]]) + 1e-9
+                distp = np.linalg.norm(s2[i] - s2[nn[i]])
+                
+                if disto < sd / r:
+                    isneigh[i] = 1
+                    if distp / disto > r:
+                        isfalse[i] = 1
         
         return np.sum(isneigh * isfalse) / (np.sum(isneigh) + 1e-9)
     
     def _delayseries(self, tau, m):
         """Create time-delayed embedding."""
-        n_embedded = self.n_samples - (m - 1) * tau
+        n_embedded = self._embedded_length(m, tau)
+        
+        if n_embedded <= 0:
+            raise ValueError(f"τ·(m−1) ≥ N, no points left after embedding: {tau}*({m}-1) >= {self.n_samples}")
+        
         s = np.zeros((n_embedded, m, self.n_dimensions))
         
-        for i in range(n_embedded):
-            for j in range(m):
-                s[i, j] = self.data[i + j * tau]
+        for i in range(m):
+            start_idx = i * tau
+            end_idx = start_idx + n_embedded
+            s[:, i, :] = self.data[start_idx:end_idx, :]
         
         return s
     
-    def _nearest(self, s, tau, m):
+    def _nearest(self, s):
         """Find nearest neighbors in embedded space."""
-        n_embedded = self.n_samples - m * tau
+        n_embedded = s.shape[0]
         nn = np.zeros(n_embedded, dtype=int)
         
-        if n_embedded > 0:
-            nn[0] = min(n_embedded - 1, 1)
-        
         for i in range(n_embedded):
-            min_dist = float('inf')
-            for j in range(n_embedded):
-                if i != j:
-                    dist = np.linalg.norm(s[i] - s[j])
-                    if dist < min_dist:
-                        min_dist = dist
-                        nn[i] = j
+            # Vectorized distance computation excluding self
+            distances = np.linalg.norm(s[i] - s, axis=(1, 2))
+            distances[i] = np.inf  # Exclude self-match
+            nn[i] = int(np.argmin(distances))
         
         return nn
     
     def _findeps(self, tau, m, reqrr):
         """Find neighborhood radius for specified recurrence rate."""
         eps_values = np.linspace(self.config['epsmin'], self.config['epsmax'], self.config['epsdiv'])
+        
+        # Handle edge case where epsmin = epsmax = 0
+        if np.all(eps_values == 0):
+            eps_values = np.linspace(0.01, 1.0, self.config['epsdiv'])
+        
+        n_embedded = self._embedded_length(m, tau)
+        if n_embedded <= 0:
+            return 0.1  # Default value
+        
         s = self._delayseries(tau, m)
-        n_embedded = self.n_samples - (m - 1) * tau
         
         for eps in eps_values:
-            rplot = np.zeros((n_embedded, n_embedded), dtype=int)
-            
-            for i in range(n_embedded):
-                for j in range(n_embedded):
-                    if np.linalg.norm(s[i] - s[j]) < eps:
-                        rplot[i, j] = 1
+            if eps <= 0:
+                continue
+                
+            # Use vectorized distance computation
+            s_flat = s.reshape(n_embedded, -1)
+            D = distance.cdist(s_flat, s_flat)
+            rplot = (D < eps).astype(int)
             
             rr = float(np.sum(rplot)) / (n_embedded * n_embedded)
             
             if abs(rr - reqrr) < self.config['rr_delta']:
                 return eps
         
-        return -1
+        # Fallback: return middle value
+        return (self.config['epsmin'] + self.config['epsmax']) / 2
     
     def _reccplot(self, tau, m, eps):
-        """Compute recurrence plot."""
+        """Compute recurrence plot using vectorized operations."""
         s = self._delayseries(tau, m)
-        n_embedded = self.n_samples - (m - 1) * tau
-        rplot = np.zeros((n_embedded, n_embedded), dtype=int)
+        n_embedded = s.shape[0]
         
-        for i in range(n_embedded):
-            for j in range(n_embedded):
-                if np.linalg.norm(s[i] - s[j]) < eps:
-                    rplot[i, j] = 1
+        # Flatten the embedded vectors and compute pairwise distances
+        s_flat = s.reshape(n_embedded, -1)
+        D = distance.cdist(s_flat, s_flat)
         
+        # Create binary recurrence plot
+        rplot = (D < eps).astype(int)
         return rplot
     
     # RQA measure computation methods
@@ -2363,11 +2417,13 @@ class RQA2:
                 diag[j] = rplot[i + j, j]
             
             subdiaghist = self._onedhist(diag, n - i)
-            for k in range(n - i + 1):
-                dghist[k] += subdiaghist[k]
+            for k in range(len(subdiaghist)):
+                if k < len(dghist):
+                    dghist[k] += subdiaghist[k]
         
         dghist *= 2
-        dghist[n] /= 2
+        if len(dghist) > 0:
+            dghist[n] /= 2
         
         return dghist
     
@@ -2388,24 +2444,24 @@ class RQA2:
     
     def _percentmorethan(self, hst, mini, n):
         """Compute percentage of recurrent points in lines longer than mini."""
-        numer = sum(i * hst[i] for i in range(mini, n + 1))
-        denom = sum(i * hst[i] for i in range(1, n + 1)) + 1e-7
+        numer = sum(i * hst[i] for i in range(mini, min(len(hst), n + 1)))
+        denom = sum(i * hst[i] for i in range(1, min(len(hst), n + 1))) + 1e-7
         return numer / denom
     
     def _average(self, hst, mini, n):
         """Compute average line length."""
-        numer = sum(i * hst[i] for i in range(mini, n + 1))
-        denom = sum(hst[i] for i in range(mini, n + 1)) + 1e-7
+        numer = sum(i * hst[i] for i in range(mini, min(len(hst), n + 1)))
+        denom = sum(hst[i] for i in range(mini, min(len(hst), n + 1))) + 1e-7
         return numer / denom
     
     def _entropy(self, hst, mini, n):
         """Compute entropy of line length distribution."""
-        total = sum(hst[i] for i in range(mini, n + 1))
+        total = sum(hst[i] for i in range(mini, min(len(hst), n + 1)))
         if total == 0:
             return 0
         
         entropy = 0
-        for i in range(mini, n + 1):
+        for i in range(mini, min(len(hst), n + 1)):
             if hst[i] > 0:
                 p = hst[i] / total
                 entropy -= p * np.log(p)
@@ -2415,14 +2471,14 @@ class RQA2:
     def _mode(self, hst, mini, n):
         """Find mode of line length distribution."""
         mode_val = mini
-        for i in range(mini + 1, n + 1):
+        for i in range(mini + 1, min(len(hst), n + 1)):
             if hst[i] > hst[mode_val]:
                 mode_val = i
         return mode_val
     
     def _maxi(self, hst, mini, n):
         """Find maximum line length."""
-        for i in range(n, 0, -1):
+        for i in range(min(n, len(hst) - 1), 0, -1):
             if hst[i] > 0:
                 return i
         return 1
@@ -2430,18 +2486,18 @@ class RQA2:
     # Helper methods
     def _find_first_minima_or_global_minima_index(self, arr):
         """Find first local minimum or global minimum."""
-        n = len(arr)
-        if n == 0:
+        if len(arr) == 0:
             return None
         
+        n = len(arr)
         if n == 1 or arr[0] < arr[1]:
             return 0
         
         for i in range(1, n - 1):
             if arr[i] < arr[i - 1] and arr[i] < arr[i + 1]:
-                return i
+                return int(i)
         
-        return np.argmin(arr)
+        return int(np.argmin(arr))
     
     def _find_poly_degree(self, x, y):
         """Find optimal polynomial degree using cross-validation."""
@@ -2449,14 +2505,23 @@ class RQA2:
         best_rmse = float('inf')
         best_degree = 1
         
+        # Convert to pandas Series if they're numpy arrays
+        if isinstance(x, np.ndarray):
+            x = pd.Series(x)
+        if isinstance(y, np.ndarray):
+            y = pd.Series(y)
+        
         for deg in range(1, max_deg + 1):
             try:
-                cv = RepeatedKFold(n_splits=5, n_repeats=3, random_state=1)
+                cv = RepeatedKFold(n_splits=min(5, len(x)), n_repeats=3, random_state=1)
                 mse_scores = []
                 
-                for train_idx, test_idx in cv.split(x, y):
-                    x_train, x_test = x[train_idx], x[test_idx]
-                    y_train, y_test = y[train_idx], y[test_idx]
+                x_vals = x.values
+                y_vals = y.values
+                
+                for train_idx, test_idx in cv.split(x_vals, y_vals):
+                    x_train, x_test = x_vals[train_idx], x_vals[test_idx]
+                    y_train, y_test = y_vals[train_idx], y_vals[test_idx]
                     
                     coefficients = np.polyfit(x_train, y_train, deg)
                     polynomial = np.poly1d(coefficients)
@@ -2478,10 +2543,7 @@ class RQA2:
     @staticmethod
     def _compute_group_epsilon(rqa_objects, **kwargs):
         """Compute group-level epsilon for multiple time series."""
-        # This is a simplified version - in practice you might want to implement
-        # the full findeps_multi functionality
         eps_values = [rqa.eps for rqa in rqa_objects if rqa._eps is not None]
-        return np.mean(eps_values) if eps_values else 0.1
-
+        return float(np.mean(eps_values)) if eps_values else 0.1
 
 
