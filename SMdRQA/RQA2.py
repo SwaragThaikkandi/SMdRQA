@@ -1,4 +1,16 @@
-##################################################################### RQA2 #################################################################################################
+from __future__ import annotations
+
+import pathlib
+import numpy as np
+import scipy.fft as _fft
+import scipy.stats as stats
+from scipy.integrate import solve_ivp
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pywt
+from dataclasses import dataclass, field
+from typing import Literal, Sequence, Dict, Tuple, Any
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,6 +24,10 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import RepeatedKFold
 from scipy.stats import skew
 import warnings
+import numpy as np
+from scipy.integrate import solve_ivp
+from dataclasses import dataclass, field
+from typing import Tuple, Optional
 
 class RQA2:
     """
@@ -1039,5 +1055,671 @@ class RQA2:
         """Compute group-level epsilon for multiple time series."""
         eps_values = [rqa.eps for rqa in rqa_objects if rqa._eps is not None and rqa._eps > 0]
         return float(np.mean(eps_values)) if eps_values else 0.1
+
+
+@dataclass
+class RQA2_simulators:
+    """
+    Simulate various chaotic dynamical systems for testing RQA2 and surrogate methods.
+    Includes multiple well-known chaotic attractors with configurable parameters.
+    """
+    
+    seed: Optional[int] = None
+    _rng: np.random.Generator = field(init=False, repr=False)
+    
+    def __post_init__(self):
+        self._rng = np.random.default_rng(self.seed)
+    
+    def rossler(self, 
+                tmax: int = 10000,
+                n: int = 2000, 
+                Xi: Tuple[float, float, float] = (1.0, 1.0, 1.0),
+                a: float = 0.2,
+                b: float = 0.2, 
+                c: float = 5.7,
+                dt: float = 0.01) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Simulate the Rössler attractor.
+        
+        For b=0.2, c=5.7:
+        - a < 0.2: chaotic regime
+        - a > 0.2: synchronous/periodic regime
+        """
+        def rossler_system(t, state):
+            x, y, z = state
+            dxdt = -y - z
+            dydt = x + a * y
+            dzdt = b + z * (x - c)
+            return [dxdt, dydt, dzdt]
+        
+        t_span = (0, tmax * dt)
+        t_eval = np.linspace(0, tmax * dt, tmax)
+        
+        sol = solve_ivp(rossler_system, t_span, Xi, t_eval=t_eval, 
+                       method='RK45', rtol=1e-9, atol=1e-12)
+        
+        # Subsample to get n points
+        step = len(sol.y[0]) // n
+        indices = np.arange(0, len(sol.y[0]), step)[:n]
+        
+        return sol.y[0][indices], sol.y[1][indices], sol.y[2][indices]
+    
+    def lorenz(self,
+               tmax: int = 10000,
+               n: int = 2000,
+               Xi: Tuple[float, float, float] = (1.0, 1.0, 1.0),
+               sigma: float = 10.0,
+               rho: float = 28.0,
+               beta: float = 8.0/3.0,
+               dt: float = 0.01) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Simulate the Lorenz attractor."""
+        def lorenz_system(t, state):
+            x, y, z = state
+            dxdt = sigma * (y - x)
+            dydt = rho * x - y - x * z
+            dzdt = x * y - beta * z
+            return [dxdt, dydt, dzdt]
+        
+        t_span = (0, tmax * dt)
+        t_eval = np.linspace(0, tmax * dt, tmax)
+        
+        sol = solve_ivp(lorenz_system, t_span, Xi, t_eval=t_eval, 
+                       method='RK45', rtol=1e-9, atol=1e-12)
+        
+        step = len(sol.y[0]) // n
+        indices = np.arange(0, len(sol.y[0]), step)[:n]
+        
+        return sol.y[0][indices], sol.y[1][indices], sol.y[2][indices]
+    
+    def henon(self,
+              n: int = 2000,
+              Xi: Tuple[float, float] = (0.1, 0.1),
+              a: float = 1.4,
+              b: float = 0.3) -> Tuple[np.ndarray, np.ndarray]:
+        """Simulate the Hénon map."""
+        x, y = Xi
+        X, Y = [x], [y]
+        
+        for i in range(n - 1):
+            x_next = 1 - a * x**2 + y
+            y_next = b * x
+            X.append(x_next)
+            Y.append(y_next)
+            x, y = x_next, y_next
+        
+        return np.array(X), np.array(Y)
+    
+    def chua(self,
+             tmax: int = 10000,
+             n: int = 2000,
+             Xi: Tuple[float, float, float] = (0.1, 0.1, 0.1),
+             alpha: float = 15.6,
+             beta: float = 28.0,
+             m0: float = -1.143,
+             m1: float = -0.714,
+             dt: float = 0.01) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Simulate Chua's circuit attractor."""
+        def chua_system(t, state):
+            x, y, z = state
+            # Piecewise-linear function
+            if x >= 1:
+                h = m1 * x + (m0 - m1)
+            elif x >= -1:
+                h = m0 * x
+            else:
+                h = m1 * x - (m0 - m1)
+            
+            dxdt = alpha * (y - x - h)
+            dydt = x - y + z
+            dzdt = -beta * y
+            return [dxdt, dydt, dzdt]
+        
+        t_span = (0, tmax * dt)
+        t_eval = np.linspace(0, tmax * dt, tmax)
+        
+        sol = solve_ivp(chua_system, t_span, Xi, t_eval=t_eval, 
+                       method='RK45', rtol=1e-9, atol=1e-12)
+        
+        step = len(sol.y[0]) // n
+        indices = np.arange(0, len(sol.y[0]), step)[:n]
+        
+        return sol.y[0][indices], sol.y[1][indices], sol.y[2][indices]
+
+
+Algorithm = Literal[
+    "FT", "AAFT", "IAAFT", "IDFS", "WIAAFT", "PPS"
+]
+
+@dataclass
+class RQA2_tests:
+    """
+    Generate surrogate data with comprehensive statistical validation
+    against chaotic dynamical systems.
+    """
+
+    signal: np.ndarray
+    seed: int | None = None
+    max_workers: int = 1
+    _rng: np.random.Generator = field(init=False, repr=False)
+
+    def __post_init__(self):
+        self._rng = np.random.default_rng(self.seed)
+        if not np.issubdtype(self.signal.dtype, np.floating):
+            raise TypeError("Input signal must be floating-point")
+
+    # ------------------------------------------------------------------
+    # Public façade with enhanced validation
+    # ------------------------------------------------------------------
+    def generate(
+        self,
+        kind: Algorithm = "FT",
+        *,
+        n_surrogates: int = 200,
+        **kwargs,
+    ) -> np.ndarray:
+        """Generate surrogate ensemble with statistical validation."""
+        _dispatcher = {
+            "FT": self._ft,
+            "AAFT": self._aaft,
+            "IAAFT": self._iaaft,
+            "IDFS": self._idfs,
+            "WIAAFT": self._wiaaft,
+            "PPS": self._pps,
+        }
+        if kind not in _dispatcher:
+            raise KeyError(f"Unknown surrogate type {kind}")
+        
+        generator_fn = _dispatcher[kind]
+        
+        # Parallel generation for large ensembles
+        if n_surrogates >= 50 and self.max_workers > 1:
+            return self._parallel_generate(generator_fn, n_surrogates, **kwargs)
+        else:
+            return np.vstack(
+                [generator_fn(**kwargs) for _ in range(n_surrogates)]
+            )
+    
+    def _parallel_generate(self, generator_fn, n_surrogates: int, **kwargs) -> np.ndarray:
+        """Parallel surrogate generation for computational efficiency."""
+        surrogates = []
+        with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
+            futures = [
+                executor.submit(generator_fn, **kwargs) 
+                for _ in range(n_surrogates)
+            ]
+            for future in as_completed(futures):
+                surrogates.append(future.result())
+        return np.vstack(surrogates)
+
+    def comprehensive_validation(
+        self,
+        systems_data: Dict[str, Dict[str, np.ndarray]],
+        n_surrogates: int = 200,
+        save_path: str = "surrogate_validation_results.png"
+    ) -> Dict[str, Dict[str, float]]:
+        """
+        Comprehensive validation framework testing all surrogate methods
+        against multiple chaotic systems using various nonlinear metrics.
+        """
+        surrogate_methods = ["FT", "AAFT", "IAAFT", "IDFS", "WIAAFT", "PPS"]
+        metrics = [
+            "lyapunov_exponent", "time_irreversibility", "sample_entropy",
+            "correlation_dimension", "nonlinearity_index", "predictability"
+        ]
+        
+        results = {}
+        
+        for system_name, system_data in systems_data.items():
+            print(f"\nProcessing {system_name}...")
+            system_results = {}
+            
+            # Use first component (x-coordinate) for analysis
+            signal = system_data['x']
+            self.signal = signal
+            
+            # Calculate metrics for original signal
+            original_metrics = self._calculate_all_metrics(signal)
+            
+            for surrogate_method in surrogate_methods:
+                print(f"  Testing {surrogate_method} surrogates...")
+                method_results = {}
+                
+                # Generate surrogate ensemble
+                surrogates = self.generate(surrogate_method, n_surrogates=n_surrogates)
+                
+                # Calculate metrics for all surrogates
+                surrogate_metrics = {metric: [] for metric in metrics}
+                for i in range(n_surrogates):
+                    surrogate_signal = surrogates[i]
+                    metrics_values = self._calculate_all_metrics(surrogate_signal)
+                    for metric in metrics:
+                        surrogate_metrics[metric].append(metrics_values[metric])
+                
+                # Calculate p-values
+                for metric in metrics:
+                    original_value = original_metrics[metric]
+                    surrogate_values = np.array(surrogate_metrics[metric])
+                    
+                    # Two-sided test: probability that observed differs from surrogate
+                    if not np.isnan(original_value) and not np.any(np.isnan(surrogate_values)):
+                        # Rank-based p-value calculation
+                        n_extreme = np.sum(
+                            (surrogate_values <= original_value) | 
+                            (surrogate_values >= original_value)
+                        )
+                        p_value = min(n_extreme, n_surrogates - n_extreme) / n_surrogates
+                        p_value = 2 * p_value  # Two-sided test
+                        p_value = min(p_value, 1.0)
+                    else:
+                        p_value = np.nan
+                    
+                    method_results[metric] = p_value
+                
+                system_results[surrogate_method] = method_results
+            
+            results[system_name] = system_results
+        
+        # Create visualization
+        self._create_validation_heatmap(results, save_path)
+        
+        return results
+
+    def _calculate_all_metrics(self, signal: np.ndarray) -> Dict[str, float]:
+        """Calculate comprehensive set of nonlinear dynamics metrics."""
+        metrics = {}
+        
+        try:
+            metrics["lyapunov_exponent"] = self._lyapunov_exponent(signal)
+        except:
+            metrics["lyapunov_exponent"] = np.nan
+            
+        try:
+            metrics["time_irreversibility"] = self._time_irreversibility(signal)
+        except:
+            metrics["time_irreversibility"] = np.nan
+            
+        try:
+            metrics["sample_entropy"] = self._sample_entropy(signal)
+        except:
+            metrics["sample_entropy"] = np.nan
+            
+        try:
+            metrics["correlation_dimension"] = self._correlation_dimension(signal)
+        except:
+            metrics["correlation_dimension"] = np.nan
+            
+        try:
+            metrics["nonlinearity_index"] = self._nonlinearity_index(signal)
+        except:
+            metrics["nonlinearity_index"] = np.nan
+            
+        try:
+            metrics["predictability"] = self._predictability_index(signal)
+        except:
+            metrics["predictability"] = np.nan
+        
+        return metrics
+
+    def _lyapunov_exponent(self, signal: np.ndarray, dim: int = 3, tau: int = 1) -> float:
+        """Calculate largest Lyapunov exponent using Rosenstein method."""
+        # Phase space reconstruction
+        N = len(signal)
+        M = N - (dim - 1) * tau
+        
+        if M < 50:  # Not enough points
+            return np.nan
+            
+        embedded = np.zeros((M, dim))
+        for i in range(dim):
+            embedded[:, i] = signal[i * tau:i * tau + M]
+        
+        # Find nearest neighbors
+        lyap_values = []
+        
+        for i in range(min(M - 1, 500)):  # Limit for computational efficiency
+            distances = np.sqrt(np.sum((embedded - embedded[i])**2, axis=1))
+            distances[i] = np.inf  # Exclude self
+            
+            nearest_idx = np.argmin(distances)
+            if distances[nearest_idx] > 0:
+                # Track divergence
+                divergences = []
+                for k in range(1, min(20, M - max(i, nearest_idx))):
+                    if i + k < M and nearest_idx + k < M:
+                        dist_k = np.sqrt(np.sum((embedded[i + k] - embedded[nearest_idx + k])**2))
+                        if dist_k > 0:
+                            divergences.append(np.log(dist_k / distances[nearest_idx]) / k)
+                
+                if divergences:
+                    lyap_values.extend(divergences)
+        
+        return np.mean(lyap_values) if lyap_values else np.nan
+
+    def _time_irreversibility(self, signal: np.ndarray) -> float:
+        """Calculate time irreversibility using third-order statistics."""
+        n = len(signal)
+        if n < 10:
+            return np.nan
+            
+        # Centered signal
+        signal_centered = signal - np.mean(signal)
+        
+        # Calculate asymmetry measure
+        irreversibility = 0
+        count = 0
+        
+        for lag in range(1, min(n//10, 20)):
+            if n - lag > 0:
+                forward = signal_centered[lag:] * (signal_centered[:-lag]**2)
+                backward = signal_centered[:-lag] * (signal_centered[lag:]**2)
+                
+                diff = np.mean(forward) - np.mean(backward)
+                irreversibility += diff**2
+                count += 1
+        
+        return np.sqrt(irreversibility / count) if count > 0 else np.nan
+
+    def _sample_entropy(self, signal: np.ndarray, m: int = 2, r: float = None) -> float:
+        """Calculate sample entropy."""
+        N = len(signal)
+        if r is None:
+            r = 0.2 * np.std(signal)
+        
+        def _maxdist(xi, xj):
+            return max([abs(ua - va) for ua, va in zip(xi, xj)])
+        
+        def _phi(m):
+            patterns = np.array([signal[i:i + m] for i in range(N - m + 1)])
+            C = np.zeros(N - m + 1)
+            for i in range(N - m + 1):
+                template = patterns[i]
+                for j in range(N - m + 1):
+                    if _maxdist(template, patterns[j]) <= r:
+                        C[i] += 1.0
+            
+            phi = np.mean([np.log(c / (N - m + 1.0)) for c in C if c > 0])
+            return phi
+        
+        return _phi(m) - _phi(m + 1)
+
+    def _correlation_dimension(self, signal: np.ndarray, dim: int = 5) -> float:
+        """Estimate correlation dimension using Grassberger-Procaccia algorithm."""
+        # Phase space reconstruction
+        N = len(signal)
+        if N < 100:
+            return np.nan
+            
+        tau = self._estimate_delay(signal)
+        M = N - (dim - 1) * tau
+        
+        if M < 50:
+            return np.nan
+            
+        embedded = np.zeros((M, dim))
+        for i in range(dim):
+            embedded[:, i] = signal[i * tau:i * tau + M]
+        
+        # Calculate correlation integral for different radii
+        radii = np.logspace(-2, 0, 20) * np.std(signal)
+        correlations = []
+        
+        for r in radii:
+            count = 0
+            total_pairs = 0
+            
+            # Sample pairs for computational efficiency
+            for i in range(0, min(M, 200), 5):
+                for j in range(i + 1, min(M, 200), 5):
+                    dist = np.sqrt(np.sum((embedded[i] - embedded[j])**2))
+                    if dist < r:
+                        count += 1
+                    total_pairs += 1
+            
+            if total_pairs > 0:
+                correlations.append(count / total_pairs)
+            else:
+                correlations.append(0)
+        
+        # Fit linear region
+        log_radii = np.log(radii)
+        log_correlations = np.log(np.maximum(correlations, 1e-10))
+        
+        valid_idx = np.isfinite(log_correlations)
+        if np.sum(valid_idx) < 5:
+            return np.nan
+            
+        slope, _, _, _, _ = stats.linregress(
+            log_radii[valid_idx], log_correlations[valid_idx]
+        )
+        
+        return slope
+
+    def _nonlinearity_index(self, signal: np.ndarray) -> float:
+        """Calculate nonlinearity index based on phase space asymmetry."""
+        # Simple nonlinearity measure based on skewness of increments
+        increments = np.diff(signal)
+        return abs(stats.skew(increments))
+
+    def _predictability_index(self, signal: np.ndarray) -> float:
+        """Calculate predictability index using local prediction error."""
+        if len(signal) < 20:
+            return np.nan
+            
+        errors = []
+        for i in range(10, len(signal) - 1):
+            # Simple local linear prediction
+            local_data = signal[i-10:i]
+            if len(local_data) >= 2:
+                slope = (local_data[-1] - local_data[-2])
+                prediction = local_data[-1] + slope
+                error = abs(signal[i] - prediction)
+                errors.append(error)
+        
+        return np.mean(errors) / np.std(signal) if errors else np.nan
+
+    def _estimate_delay(self, signal: np.ndarray) -> int:
+        """Estimate optimal delay using first minimum of autocorrelation."""
+        autocorr = np.correlate(signal, signal, mode='full')
+        autocorr = autocorr[len(autocorr)//2:]
+        autocorr = autocorr / autocorr[0]
+        
+        # Find first zero crossing or minimum
+        for i in range(1, min(len(autocorr), 100)):
+            if autocorr[i] < 0:
+                return i
+            if i > 1 and autocorr[i] > autocorr[i-1]:
+                return i-1
+        
+        return 1
+
+    def _create_validation_heatmap(
+        self, 
+        results: Dict[str, Dict[str, Dict[str, float]]], 
+        save_path: str
+    ):
+        """Create comprehensive validation heatmap."""
+        surrogate_methods = ["FT", "AAFT", "IAAFT", "IDFS", "WIAAFT", "PPS"]
+        metrics = [
+            "lyapunov_exponent", "time_irreversibility", "sample_entropy",
+            "correlation_dimension", "nonlinearity_index", "predictability"
+        ]
+        
+        n_systems = len(results)
+        fig, axes = plt.subplots(1, n_systems, figsize=(5*n_systems, 6))
+        if n_systems == 1:
+            axes = [axes]
+        
+        for idx, (system_name, system_results) in enumerate(results.items()):
+            # Create p-value matrix
+            p_matrix = np.full((len(surrogate_methods), len(metrics)), np.nan)
+            
+            for i, method in enumerate(surrogate_methods):
+                if method in system_results:
+                    for j, metric in enumerate(metrics):
+                        if metric in system_results[method]:
+                            p_matrix[i, j] = system_results[method][metric]
+            
+            # Create heatmap
+            im = axes[idx].imshow(
+                p_matrix, 
+                cmap='RdYlBu_r', 
+                aspect='auto',
+                vmin=0, vmax=1,
+                interpolation='nearest'
+            )
+            
+            # Add text annotations
+            for i in range(len(surrogate_methods)):
+                for j in range(len(metrics)):
+                    if not np.isnan(p_matrix[i, j]):
+                        text = axes[idx].text(
+                            j, i, f'{p_matrix[i, j]:.3f}',
+                            ha="center", va="center",
+                            color="black" if p_matrix[i, j] > 0.5 else "white",
+                            fontsize=8
+                        )
+            
+            axes[idx].set_xticks(range(len(metrics)))
+            axes[idx].set_xticklabels([m.replace('_', '\n') for m in metrics], rotation=45)
+            axes[idx].set_yticks(range(len(surrogate_methods)))
+            axes[idx].set_yticklabels(surrogate_methods)
+            axes[idx].set_title(f'{system_name.replace("_", " ").title()}\nP-values (Observed ≠ Surrogate)')
+        
+        # Add colorbar
+        cbar = plt.colorbar(im, ax=axes, shrink=0.8, pad=0.02)
+        cbar.set_label('P-value', rotation=270, labelpad=15)
+        
+        plt.tight_layout()
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        plt.show()
+        
+        print(f"\nValidation results saved to {save_path}")
+
+    # ------------------------------------------------------------------
+    # Individual surrogate algorithms (same as before but optimized)
+    # ------------------------------------------------------------------
+    def _ft(self) -> np.ndarray:
+        """Phase-randomised Fourier surrogate."""
+        x = self._detrend(self.signal)
+        fftx = _fft.rfft(x)
+        phases = self._rng.uniform(0, 2 * np.pi, len(fftx))
+        fftx_randomised = np.abs(fftx) * np.exp(1j * phases)
+        surrogate = _fft.irfft(fftx_randomised, n=len(x))
+        return surrogate.astype(np.float64)
+
+    def _aaft(self) -> np.ndarray:
+        """Amplitude adjusted Fourier surrogate."""
+        x = self._detrend(self.signal)
+        ranks = x.argsort().argsort()
+        gaussian = self._rng.normal(size=len(x))
+        gaussian_sorted = np.sort(gaussian)
+        x_gauss = gaussian_sorted[ranks]
+        fftx = _fft.rfft(x_gauss)
+        phases = self._rng.uniform(0, 2 * np.pi, len(fftx))
+        x_phase = _fft.irfft(np.abs(fftx) * np.exp(1j * phases), n=len(x))
+        surrogate = np.sort(x)[x_phase.argsort().argsort()]
+        return surrogate.astype(np.float64)
+
+    def _iaaft(self, *, n_iter: int = 100) -> np.ndarray:
+        """Iterative amplitude adjusted Fourier surrogate."""
+        x = self._detrend(self.signal)
+        amplitude_target = np.sort(x)
+        fft_target = np.abs(_fft.rfft(x))
+
+        y = self._rng.permutation(x)
+        for _ in range(n_iter):
+            yf = _fft.rfft(y)
+            y = _fft.irfft(fft_target * np.exp(1j * np.angle(yf)), n=len(x))
+            y = amplitude_target[y.argsort().argsort()]
+        return y.astype(np.float64)
+
+    def _idfs(self, *, n_iter: int = 50) -> np.ndarray:
+        """Iterative digitally-filtered shuffled surrogate."""
+        x = self._detrend(self.signal)
+        xp = self._rng.permutation(x)
+        target_fft = np.abs(_fft.rfft(xp))
+
+        y = amplitude_target = np.sort(x)
+        for _ in range(n_iter):
+            yf = _fft.rfft(y)
+            y = _fft.irfft(target_fft * np.exp(1j * np.angle(yf)), n=len(x))
+            y = amplitude_target[y.argsort().argsort()]
+        return y.astype(np.float64)
+
+    def _wiaaft(
+        self,
+        *,
+        wavelet: str = "db4",
+        level: int | None = None,
+        n_iter: int = 20,
+    ) -> np.ndarray:
+        """Wavelet iterative amplitude adjusted Fourier surrogate."""
+        x = self._detrend(self.signal)
+        coeffs = pywt.wavedec(x, wavelet, level=level, mode="periodization")
+        coeff_sur = []
+        for c in coeffs[:-1]:
+            csurr = self._iaaft_array(c, n_iter=n_iter)
+            csurp = csurr[::-1]
+            if np.linalg.norm(c - csurr) > np.linalg.norm(c - csurp):
+                csurr = csurp
+            coeff_sur.append(csurr)
+        coeff_sur.append(coeffs[-1])
+        y = pywt.waverec(coeff_sur, wavelet, mode="periodization")
+        return y.astype(np.float64)[: len(x)]
+
+    def _pps(
+        self,
+        *,
+        tau: int | None = None,
+        dim: int = 10,
+        noise_factor: float | None = None,
+    ) -> np.ndarray:
+        """Pseudo-periodic surrogate."""
+        x = self._detrend(self.signal)
+        if tau is None:
+            tau = self._first_zero_crossing_acf(x)
+        embed = self._embed(x, dim, tau)
+        dists = np.linalg.norm(embed - embed[-1], axis=1)
+        q = np.argmin(dists[: len(embed) // 2])
+        if noise_factor is None:
+            noise_factor = 0.7 * np.mean(np.min(
+                np.linalg.norm(embed[:-1, None] - embed[None, :-1], axis=2),
+                axis=1,
+            ))
+        sur = [embed[self._rng.integers(len(embed))]]
+        while len(sur) < len(embed):
+            candidate = sur[-1] + self._rng.normal(scale=noise_factor, size=dim)
+            j = np.argmin(np.linalg.norm(embed - candidate, axis=1))
+            if j == len(embed) - 1:
+                j = q
+            sur.append(embed[(j + 1) % len(embed)])
+        return np.asarray(sur)[:, 0].astype(np.float64)[: len(x)]
+
+    # ------------------------------------------------------------------
+    # Helper utilities
+    # ------------------------------------------------------------------
+    def _detrend(self, x: np.ndarray) -> np.ndarray:
+        return x - x.mean()
+
+    def _iaaft_array(self, arr: np.ndarray, n_iter: int) -> np.ndarray:
+        ranks = np.sort(arr)
+        fft_target = np.abs(_fft.rfft(arr))
+        y = self._rng.permutation(arr)
+        for _ in range(n_iter):
+            yf = _fft.rfft(y)
+            y = _fft.irfft(fft_target * np.exp(1j * np.angle(yf)), n=len(arr))
+            y = ranks[y.argsort().argsort()]
+        return y
+
+    def _embed(self, x: np.ndarray, dim: int, tau: int) -> np.ndarray:
+        N = len(x) - (dim - 1) * tau
+        return np.column_stack([x[i : i + N] for i in range(0, dim * tau, tau)])
+
+    def _first_zero_crossing_acf(self, x: np.ndarray) -> int:
+        acf = np.correlate(x, x, mode="full")[len(x) - 1 :]
+        acf /= acf[0]
+        zero_crossings = np.where(acf < 0)[0]
+        return int(zero_crossings[0]) if len(zero_crossings) > 0 else 1
+
 
 
