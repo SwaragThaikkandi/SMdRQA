@@ -1590,6 +1590,3 @@ def entropy(hst, mini, n):
         if (hst[i] != 0):
             entr -= (hst[i] / summ) * np.log(hst[i] / summ)
     return entr
-
-
-

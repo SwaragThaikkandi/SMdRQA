@@ -907,4 +907,3 @@ def test_findeps_multi():
     assert np.isclose(
         eps_found, epsmin), f"Test failed: Expected epsilon {epsmin}, got {eps_found}"
     print("Test passed: findeps_multi returned the expected epsilon.")
-
