@@ -36,7 +36,9 @@ jobs:
     - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
+        renovate/python-3.x
         python-version: "3.11"
+
 
     - name: Install dependencies
       run: |
