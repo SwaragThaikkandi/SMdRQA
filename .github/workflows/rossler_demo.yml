@@ -1,0 +1,59 @@
+name: "RQA2 Docs & Rössler Demo"
+
+on:
+  workflow_dispatch:
+    inputs:
+      n_surrogates:
+        description: 'Number of surrogates per method'
+        required: true
+        default: '200'
+      rossler_a_chaos:
+        description: 'Rössler a parameter (chaotic, <0.2)'
+        required: true
+        default: '0.1'
+      rossler_a_periodic:
+        description: 'Rössler a parameter (periodic, >0.2)'
+        required: true
+        default: '0.3'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    - name: Run unit tests
+      run: pytest -q
+
+    - name: Build documentation (with gallery)
+      env:
+        N_SURR: ${{ github.event.inputs.n_surrogates }}
+        A_CHAOS: ${{ github.event.inputs.rossler_a_chaos }}
+        A_PER: ${{ github.event.inputs.rossler_a_periodic }}
+      run: |
+        # This will pick up docs/examples/rossler_attractor_demo.py
+        python build_docs.py
+
+    - name: Upload built HTML
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: docs/build/html
+
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
