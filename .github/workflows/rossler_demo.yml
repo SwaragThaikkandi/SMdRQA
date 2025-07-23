@@ -1,34 +1,42 @@
-name: "RQA2 Docs & Rössler Demo"
+name: "SMdRQA – RQA2 Validation"
 
+# ---------- manual trigger ----------
 on:
   workflow_dispatch:
     inputs:
       n_surrogates:
-        description: 'Number of surrogates per method'
+        description: "Number of surrogates per method"
+        default: "200"
         required: true
-        default: '200'
       rossler_a_chaos:
-        description: 'Rössler a parameter (chaotic, <0.2)'
+        description: "Rössler a parameter (chaotic, <0.2)"
         required: true
-        default: '0.1'
+        default: "0.1"
       rossler_a_periodic:
-        description: 'Rössler a parameter (periodic, >0.2)'
+        description: "Rössler a parameter (periodic, >0.2)"
         required: true
-        default: '0.3'
+        default: "0.3"
 
 jobs:
-  build-and-deploy:
+  build-test-docs:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
+    
+    # Required permissions for GitHub Pages deployment
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    # ---------- Python setup ----------
+    - name: Set up Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: "3.11"
 
     - name: Install dependencies
       run: |
@@ -36,24 +44,93 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
 
-    - name: Run unit tests
+    # ---------- Unit tests ----------
+    - name: Run pytest
       run: pytest -q
 
-    - name: Build documentation (with gallery)
+    # ---------- Surrogate validation (Rössler examples) ----------
+    - name: Run comprehensive surrogate validation
       env:
         N_SURR: ${{ github.event.inputs.n_surrogates }}
         A_CHAOS: ${{ github.event.inputs.rossler_a_chaos }}
         A_PER: ${{ github.event.inputs.rossler_a_periodic }}
       run: |
-        # This will pick up docs/examples/rossler_attractor_demo.py
-        python build_docs.py
+        python - << 'PY'
+        import os
+        from SMdRQA.RQA2 import RQA2_simulators, RQA2_tests
+        import numpy as np, json
 
-    - name: Upload built HTML
-      uses: actions/upload-pages-artifact@v2
+        N_SURR = int(os.getenv("N_SURR", "200"))
+        A_CHAOS = float(os.getenv("A_CHAOS", "0.1"))
+        A_PER = float(os.getenv("A_PER", "0.3"))
+
+        # Generate both chaotic and periodic Rössler systems
+        sim = RQA2_simulators(seed=42)
+        
+        # Chaotic regime
+        x_chaos, y_chaos, z_chaos = sim.rossler(tmax=8000, n=2000, a=A_CHAOS, b=0.2, c=5.7)
+        
+        # Periodic regime  
+        x_per, y_per, z_per = sim.rossler(tmax=8000, n=2000, a=A_PER, b=0.2, c=5.7)
+        
+        systems = {
+            "rossler_chaotic": {"x": x_chaos},
+            "rossler_periodic": {"x": x_per}
+        }
+        
+        # Initialize tester and run validation
+        tester = RQA2_tests(x_chaos, seed=123, max_workers=4)
+        results = tester.comprehensive_validation(
+            systems, 
+            n_surrogates=N_SURR,
+            save_path="validation_heatmap.png"
+        )
+        
+        # Save results as JSON
+        with open("validation_summary.json", "w") as fp:
+            json.dump(results, fp, indent=2)
+            
+        print("Surrogate validation completed successfully!")
+        PY
+
+    # ---------- Upload validation artefacts ----------
+    - name: Upload validation artefacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: surrogate-validation
+        path: |
+          validation_heatmap.png
+          validation_summary.json
+          method_performance_comparison.png
+
+    # ---------- Build documentation ----------
+    - name: Build HTML docs via Sphinx
+      env:
+        N_SURR: ${{ github.event.inputs.n_surrogates }}
+        A_CHAOS: ${{ github.event.inputs.rossler_a_chaos }}
+        A_PER: ${{ github.event.inputs.rossler_a_periodic }}
+      run: python SMdRQA/build_docs.py
+
+    # ---------- Upload documentation for GitHub Pages ----------
+    - name: Upload documentation artifact
+      uses: actions/upload-pages-artifact@v3
       with:
         path: docs/build/html
 
-    - name: Deploy to GitHub Pages
-      uses: actions/deploy-pages@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+  # ---------- Deploy to GitHub Pages ----------
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build-test-docs
+    
+    # Required permissions for Pages deployment
+    permissions:
+      pages: write
+      id-token: write
+      
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
