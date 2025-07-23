@@ -30,6 +30,8 @@ from numpy.core import overrides
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 
@@ -600,4 +602,133 @@ def test_RQA2_full_integration():
     print("test_RQA2_full_integration passed!")
 
 
+
+
+
+def run_comprehensive_validation():
+    """
+    Run comprehensive validation of surrogate methods against 
+    multiple chaotic attractors with statistical significance testing.
+    """
+    print("=== Comprehensive Surrogate Validation Framework ===\n")
+    
+    # Initialize simulator and generate test battery
+    simulator = RQA2_simulators(seed=42)
+    print("Generating chaotic attractor test battery...")
+    
+    # Generate multiple systems with different regimes
+    test_systems = {}
+    
+    # Rössler chaotic regime (a < 0.2)
+    x, y, z = simulator.rossler(tmax=8000, n=2000, a=0.1, b=0.2, c=5.7)
+    test_systems['rossler_chaotic'] = {'x': x, 'y': y, 'z': z}
+    
+    # Rössler synchronous regime (a > 0.2) 
+    x, y, z = simulator.rossler(tmax=8000, n=2000, a=0.3, b=0.2, c=5.7)
+    test_systems['rossler_synchronous'] = {'x': x, 'y': y, 'z': z}
+    
+    # Lorenz chaotic system
+    x, y, z = simulator.lorenz(tmax=8000, n=2000, sigma=10.0, rho=28.0, beta=8.0/3.0)
+    test_systems['lorenz_chaotic'] = {'x': x, 'y': y, 'z': z}
+    
+    # Hénon map
+    x, y = simulator.henon(n=2000, a=1.4, b=0.3)
+    test_systems['henon_chaotic'] = {'x': x, 'y': y}
+    
+    # Chua circuit
+    x, y, z = simulator.chua(tmax=8000, n=2000)
+    test_systems['chua_chaotic'] = {'x': x, 'y': y, 'z': z}
+    
+    print(f"Generated {len(test_systems)} test systems")
+    for name, data in test_systems.items():
+        print(f"  {name}: {len(data['x'])} points")
+    
+    # Initialize testing framework with first system (placeholder)
+    first_system = list(test_systems.values())[0]
+    tester = RQA2_tests(first_system['x'], seed=123, max_workers=4)
+    
+    # Run comprehensive validation
+    print(f"\nRunning validation with 200 surrogates per method...")
+    print("This may take several minutes...")
+    
+    results = tester.comprehensive_validation(
+        test_systems, 
+        n_surrogates=200,
+        save_path="comprehensive_surrogate_validation.png"
+    )
+    
+    # Print summary statistics
+    print("\n=== VALIDATION SUMMARY ===")
+    for system_name, system_results in results.items():
+        print(f"\n{system_name.upper()}:")
+        for method_name, method_results in system_results.items():
+            significant_metrics = [
+                metric for metric, p_val in method_results.items() 
+                if not np.isnan(p_val) and p_val < 0.05
+            ]
+            print(f"  {method_name:8s}: {len(significant_metrics)}/6 metrics significant (p < 0.05)")
+            if significant_metrics:
+                sig_str = ", ".join(significant_metrics[:3])  # Show first 3
+                if len(significant_metrics) > 3:
+                    sig_str += "..."
+                print(f"            Significant: {sig_str}")
+    
+    # Analysis recommendations
+    print(f"\n=== RECOMMENDATIONS ===")
+    print("• P-values < 0.05: Surrogate method successfully distinguishes from original")
+    print("• P-values > 0.05: Surrogate method preserves the measured property") 
+    print("• For chaos detection: Look for high p-values in Lyapunov/nonlinearity metrics")
+    print("• For stationarity testing: Focus on time_irreversibility results")
+    print("• Best performing surrogates: IAAFT, WIAAFT for nonlinear properties")
+    
+    return results
+
+if __name__ == "__main__":
+    # Run the comprehensive validation
+    validation_results = run_comprehensive_validation()
+    
+    # Create additional analysis plots
+    print("\nGenerating additional analysis plots...")
+    
+    # Performance comparison across systems
+    fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+    
+    methods = ["FT", "AAFT", "IAAFT", "IDFS", "WIAAFT", "PPS"]
+    system_names = list(validation_results.keys())
+    
+    # Calculate average significance rate per method
+    method_performance = {}
+    for method in methods:
+        significance_rates = []
+        for system_name in system_names:
+            if method in validation_results[system_name]:
+                system_results = validation_results[system_name][method]
+                valid_p_values = [p for p in system_results.values() if not np.isnan(p)]
+                if valid_p_values:
+                    sig_rate = np.mean([p < 0.05 for p in valid_p_values])
+                    significance_rates.append(sig_rate)
+        method_performance[method] = np.mean(significance_rates) if significance_rates else 0
+    
+    # Bar plot of method performance
+    bars = ax.bar(methods, [method_performance[m] for m in methods], 
+                  color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b'])
+    
+    ax.set_ylabel('Average Significance Rate')
+    ax.set_title('Surrogate Method Performance Across All Systems\n(Fraction of metrics with p < 0.05)')
+    ax.set_ylim(0, 1)
+    
+    # Add value labels on bars
+    for bar, method in zip(bars, methods):
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01,
+                f'{height:.2f}', ha='center', va='bottom')
+    
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig('method_performance_comparison.png', dpi=300, bbox_inches='tight')
+    plt.show()
+    
+    print("Analysis complete! Check generated figures:")
+    print("• comprehensive_surrogate_validation.png: P-value heatmaps")
+    print("• method_performance_comparison.png: Performance comparison")
 
