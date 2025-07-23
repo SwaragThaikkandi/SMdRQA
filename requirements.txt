@@ -11,6 +11,7 @@ memory_profiler
 kuramoto
 networkx
 p_tqdm
+seaborn
 git+https://github.com/manu-mannattil/nolitsa.git
 scikit-learn
 numba
