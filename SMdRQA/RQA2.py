@@ -28,6 +28,8 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from dataclasses import dataclass, field
 from typing import Tuple, Optional
+import os
+import time
 
 
 class RQA2:
@@ -1272,7 +1274,7 @@ class RQA2_tests:
         n_surrogates: int = 200,
         **kwargs,
     ) -> np.ndarray:
-        """Generate surrogate ensemble with statistical validation."""
+        """Generate surrogate ensemble with unique seeds for each surrogate."""
         _dispatcher = {
             "FT": self._ft,
             "AAFT": self._aaft,
@@ -1284,32 +1286,56 @@ class RQA2_tests:
         if kind not in _dispatcher:
             raise KeyError(f"Unknown surrogate type {kind}")
 
-        generator_fn = _dispatcher[kind]
+        # Generate unique seeds for each surrogate
+        seeds = self._rng.integers(0, 2**32, size=n_surrogates)
 
         # Parallel generation for large ensembles
         if n_surrogates >= 50 and self.max_workers > 1:
-            return self._parallel_generate(
-                generator_fn, n_surrogates, **kwargs)
+            return self._parallel_generate(kind, seeds, **kwargs)
         else:
-            return np.vstack(
-                [generator_fn(**kwargs) for _ in range(n_surrogates)]
-            )
+            return np.vstack([
+                self._generate_with_seed(kind, seed, **kwargs)
+                for seed in seeds
+            ])
 
     def _parallel_generate(
-            self,
-            generator_fn,
-            n_surrogates: int,
-            **kwargs) -> np.ndarray:
-        """Parallel surrogate generation for computational efficiency."""
+        self,
+        kind: Algorithm,
+        seeds: Sequence[int],
+        **kwargs
+    ) -> np.ndarray:
+        """Parallel surrogate generation with unique seeds."""
         surrogates = []
         with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
             futures = [
-                executor.submit(generator_fn, **kwargs)
-                for _ in range(n_surrogates)
+                executor.submit(
+                    self._generate_with_seed, 
+                    kind, seed, **kwargs
+                )
+                for seed in seeds
             ]
             for future in as_completed(futures):
                 surrogates.append(future.result())
         return np.vstack(surrogates)
+        
+    def _generate_with_seed(
+        self,
+        kind: Algorithm,
+        seed: int,
+        **kwargs
+    ) -> np.ndarray:
+        """Generate one surrogate with a specific seed."""
+        # Create temporary RQA2_tests instance with unique seed
+        temp_tests = RQA2_tests(
+            signal=self.signal.copy(),
+            seed=seed,
+            max_workers=1  # Disable nested parallelism
+        )
+    
+        # Dispatch to appropriate surrogate method
+        method_name = f"_{kind.lower()}"
+        method = getattr(temp_tests, method_name)
+        return method(**kwargs)
 
     def comprehensive_validation(
         self,
