@@ -640,25 +640,36 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </pre></div>
 </div>
 <p>## Embedding Parameters for RQA of the Rössler Attractor</p>
-<figure class="align-default">
-<img alt="examples/Chaotic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" src="examples/Chaotic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" />
+<figure class="align-center" id="fig-chaotic-tau-mi">
+<img alt="Time Delay vs Mutual Information" src="../_images/Chaotic_tau_mi_plot.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for the chaotic Rössler attractor.</span><a class="headerlink" href="#fig-chaotic-tau-mi" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
-<p><strong>Figure 1:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for chaotic attractor.</p>
-<figure class="align-default">
-<img alt="examples/Chaotic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" src="examples/Chaotic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" />
+<figure class="align-center" id="fig-chaotic-fnn">
+<img alt="Embedding Dimension vs False Nearest Neighbors" src="../_images/Chaotic_fnn_curve_plot.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for the chaotic Rössler attractor.</span><a class="headerlink" href="#fig-chaotic-fnn" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
-<p><strong>Figure 2:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for chaotic attractor.</p>
-<figure class="align-default">
-<img alt="examples/Periodic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" src="examples/Periodic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" />
+<figure class="align-center" id="fig-periodic-tau-mi">
+<img alt="Time Delay vs Mutual Information (Periodic)" src="../_images/Periodic_tau_mi_plot.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 3:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for the periodic Rössler attractor.</span><a class="headerlink" href="#fig-periodic-tau-mi" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
-<p><strong>Figure 3:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for chaotic attractor.</p>
-<figure class="align-default">
-<img alt="examples/Periodic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" src="examples/Periodic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" />
+<figure class="align-center" id="fig-periodic-fnn">
+<img alt="Embedding Dimension vs False Nearest Neighbors (Periodic)" src="../_images/Periodic_fnn_curve_plot.png" />
+<figcaption>
+<p><span class="caption-text"><strong>Figure 4:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for the periodic Rössler attractor.</span><a class="headerlink" href="#fig-periodic-fnn" title="Link to this image">#</a></p>
+</figcaption>
 </figure>
-<p><strong>Figure 4:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for chaotic attractor.</p>
 <p>Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series <span class="math notranslate nohighlight">\(x(t)\)</span>, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{X}(t) = \bigl\[,x(t),,x(t+\tau),,x(t+2\tau),,\dots,,x(t+(m-1)\tau)\bigr]\]</div>
+\[\mathbf{X}(t) \;=\;
+\bigl[
+  x(t),\,x(t+\tau),\,x(t+2\tau),\,\dots,\,x\bigl(t+(m-1)\tau\bigr)
+\bigr]\]</div>
 <p>in an <span class="math notranslate nohighlight">\(m\)</span>-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension <span class="math notranslate nohighlight">\(m\)</span> is sufficiently large (<span class="math notranslate nohighlight">\(m&gt;2d_f\)</span>, where <span class="math notranslate nohighlight">\(d_f\)</span> is the fractal dimension) and the delay <span class="math notranslate nohighlight">\(\tau\)</span> avoids redundancy.</p>
 <p>## Choosing the Time Delay <span class="math notranslate nohighlight">\(\tau\)</span></p>
 <p>The time delay <span class="math notranslate nohighlight">\(\tau\)</span> determines the spacing between successive coordinates in the delay vector.  Two competing requirements must be balanced:</p>
@@ -668,7 +679,11 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </ol>
 <p>A standard method for selecting <span class="math notranslate nohighlight">\(\tau\)</span> is to compute the average mutual information</p>
 <div class="math notranslate nohighlight">
-\[I\[\tau] = \sum\_{i,j} p\_{ij}(\tau) \log \frac{p\_{ij}(\tau)}{p\_i p\_j},\]</div>
+\[I[\tau] \;=\;
+\sum_{i,j} p_{ij}(\tau)\,
+\log\!\biggl(
+  \frac{p_{ij}(\tau)}{p_i\,p_j}
+\biggr)\,.\]</div>
 <p>where <span class="math notranslate nohighlight">\(p_i=\Pr(x(t)\in\text{bin }i)\)</span> and <span class="math notranslate nohighlight">\(p_{ij}(\tau)=\Pr(x(t)\in i,\,x(t+\tau)\in j)\)</span>.  The first local minimum of <span class="math notranslate nohighlight">\(I[\tau]\)</span> (Figure :ref:<cite>fig:tau-mi</cite>) identifies the delay <span class="math notranslate nohighlight">\(\tau^*\approx27\)</span> at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.</p>
 <p>## Selecting the Embedding Dimension <span class="math notranslate nohighlight">\(m\)</span></p>
 <p>The embedding dimension <span class="math notranslate nohighlight">\(m\)</span> must be large enough to unfold the attractor so that distinct trajectories in the original phase space do not project onto the same point in the reconstructed space.  The False Nearest Neighbors (FNN) algorithm quantitatively assesses this requirement:</p>
@@ -681,7 +696,10 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 <p>## Implications for RQA</p>
 <p>With <span class="math notranslate nohighlight">\(\tau^*=27\)</span> and <span class="math notranslate nohighlight">\(m^*=5\)</span>, the delay-coordinate vectors</p>
 <div class="math notranslate nohighlight">
-\[\mathbf{X}(t) = \bigl\[x(t),,x(t+27),,x(t+2\cdot27),,x(t+3\cdot27),,x(t+4\cdot27)\bigr]\]</div>
+\[\mathbf{X}(t) =
+\bigl[
+  x(t),\,x(t+27),\,x(t+2\cdot27),\,x(t+3\cdot27),\,x(t+4\cdot27)
+\bigr]\]</div>
 <p>span a reconstructed phase space that accurately preserves the geometry and topology of the original Rössler attractor.  Consequently:</p>
 <ul class="simple">
 <li><p><strong>Recurrence plots</strong> constructed by thresholding <span class="math notranslate nohighlight">\(\|\mathbf{X}(t_i)-\mathbf{X}(t_j)\|\)</span> reveal true return times and recurrence structures.</p></li>

@@ -193,37 +193,42 @@ The recurrence threshold ``eps`` is adjusted so that the *target* recurrence rat
 ## Embedding Parameters for RQA of the Rössler Attractor
 
 .. figure:: Chaotic_tau_mi_plot.png
-   \:align: center
-   \:alt: Time Delay vs Mutual Information
-   \:name: fig\:tau-mi
+   :align: center
+   :alt: Time Delay vs Mutual Information
+   :name: fig:chaotic-tau-mi
 
-**Figure 1:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for chaotic attractor.
+   **Figure 1:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for the chaotic Rössler attractor.
 
 .. figure:: Chaotic_fnn_curve_plot.png
-   \:align: center
-   \:alt: Embedding Dimension vs False Nearest Neighbors
-   \:name: fig\:fnn
+   :align: center
+   :alt: Embedding Dimension vs False Nearest Neighbors
+   :name: fig:chaotic-fnn
 
-**Figure 2:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for chaotic attractor.
+   **Figure 2:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for the chaotic Rössler attractor.
 
 .. figure:: Periodic_tau_mi_plot.png
-   \:align: center
-   \:alt: Time Delay vs Mutual Information
-   \:name: fig\:tau-mi
+   :align: center
+   :alt: Time Delay vs Mutual Information (Periodic)
+   :name: fig:periodic-tau-mi
 
-**Figure 3:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for chaotic attractor.
+   **Figure 3:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for the periodic Rössler attractor.
 
 .. figure:: Periodic_fnn_curve_plot.png
-   \:align: center
-   \:alt: Embedding Dimension vs False Nearest Neighbors
-   \:name: fig\:fnn
+   :align: center
+   :alt: Embedding Dimension vs False Nearest Neighbors (Periodic)
+   :name: fig:periodic-fnn
 
-**Figure 4:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for chaotic attractor.
+   **Figure 4:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for the periodic Rössler attractor.
 
 Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series :math:`x(t)`, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form
 
 .. math::
-   \mathbf{X}(t) = \bigl\[,x(t),,x(t+\tau),,x(t+2\tau),,\dots,,x(t+(m-1)\tau)\bigr]
+
+   \mathbf{X}(t) \;=\;
+   \bigl[
+     x(t),\,x(t+\tau),\,x(t+2\tau),\,\dots,\,x\bigl(t+(m-1)\tau\bigr)
+   \bigr]
+
 
 in an :math:`m`-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension :math:`m` is sufficiently large (:math:`m>2d_f`, where :math:`d_f` is the fractal dimension) and the delay :math:`\tau` avoids redundancy.
 
@@ -238,7 +243,13 @@ The time delay :math:`\tau` determines the spacing between successive coordinate
 A standard method for selecting :math:`\tau` is to compute the average mutual information
 
 .. math::
-   I\[\tau] = \sum\_{i,j} p\_{ij}(\tau) \log \frac{p\_{ij}(\tau)}{p\_i p\_j},
+
+   I[\tau] \;=\; 
+   \sum_{i,j} p_{ij}(\tau)\,
+   \log\!\biggl(
+     \frac{p_{ij}(\tau)}{p_i\,p_j}
+   \biggr)\,.
+
 
 where :math:`p_i=\Pr(x(t)\in\text{bin }i)` and :math:`p_{ij}(\tau)=\Pr(x(t)\in i,\,x(t+\tau)\in j)`.  The first local minimum of :math:`I[\tau]` (Figure \:ref:`fig:tau-mi`) identifies the delay :math:`\tau^*\approx27` at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.
 
@@ -257,7 +268,11 @@ In Figure \:ref:`fig:fnn`, the FNN fraction decreases sharply from nearly 1.0 a
 With :math:`\tau^*=27` and :math:`m^*=5`, the delay-coordinate vectors
 
 .. math::
-   \mathbf{X}(t) = \bigl\[x(t),,x(t+27),,x(t+2\cdot27),,x(t+3\cdot27),,x(t+4\cdot27)\bigr]
+
+   \mathbf{X}(t) = 
+   \bigl[
+     x(t),\,x(t+27),\,x(t+2\cdot27),\,x(t+3\cdot27),\,x(t+4\cdot27)
+   \bigr]
 
 span a reconstructed phase space that accurately preserves the geometry and topology of the original Rössler attractor.  Consequently:
 
