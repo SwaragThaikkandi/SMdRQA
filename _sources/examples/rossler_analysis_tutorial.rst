@@ -127,7 +127,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 Interpretation primer
 ````````````````````
 
-.. figure:: surrogate\_results.png
+.. figure:: surrogate_results.png
    \:align: center
    :scale: 50 %
    \:alt: Surrogate Test Results: Original vs Surrogates
@@ -192,28 +192,28 @@ The recurrence threshold ``eps`` is adjusted so that the *target* recurrence rat
 
 ## Embedding Parameters for RQA of the Rössler Attractor
 
-.. figure:: Chaotic\_tau\_mi\_plot.png
+.. figure:: Chaotic_tau_mi_plot.png
    \:align: center
    \:alt: Time Delay vs Mutual Information
    \:name: fig\:tau-mi
 
    **Figure 1:** Mutual information between the scalar time series value at time $t$ and at time $t+\tau$, plotted as a function of the delay $\tau$ for chaotic attractor.
 
-.. figure:: Chaotic\_fnn\_curve\_plot.png
+.. figure:: Chaotic_fnn_curve_plot.png
    \:align: center
    \:alt: Embedding Dimension vs False Nearest Neighbors
    \:name: fig\:fnn
 
    **Figure 2:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension $m$ for chaotic attractor.
 
-.. figure:: Periodic\_tau\_mi\_plot.png
+.. figure:: Periodic_tau_mi_plot.png
    \:align: center
    \:alt: Time Delay vs Mutual Information
    \:name: fig\:tau-mi
 
    **Figure 3:** Mutual information between the scalar time series value at time $t$ and at time $t+\tau$, plotted as a function of the delay $\tau$ for chaotic attractor.
 
-.. figure:: Periodic\_fnn\_curve\_plot.png
+.. figure:: Periodic_fnn_curve_plot.png
    \:align: center
    \:alt: Embedding Dimension vs False Nearest Neighbors
    \:name: fig\:fnn
