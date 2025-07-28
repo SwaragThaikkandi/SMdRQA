@@ -449,46 +449,46 @@ document.write(`
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#overview" id="id24">Overview</a></p>
+<li><p><a class="reference internal" href="#overview" id="id20">Overview</a></p>
 <ul>
-<li><p><a class="reference internal" href="#prerequisites" id="id25">Prerequisites</a></p></li>
+<li><p><a class="reference internal" href="#prerequisites" id="id21">Prerequisites</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#the-rossler-system-in-brief" id="id26">The Rössler System in Brief</a></p></li>
-<li><p><a class="reference internal" href="#analysis-pipeline" id="id27">Analysis Pipeline</a></p>
+<li><p><a class="reference internal" href="#the-rossler-system-in-brief" id="id22">The Rössler System in Brief</a></p></li>
+<li><p><a class="reference internal" href="#analysis-pipeline" id="id23">Analysis Pipeline</a></p>
 <ul>
-<li><p><a class="reference internal" href="#generating-trajectories" id="id28">1 – Generating Trajectories</a></p></li>
-<li><p><a class="reference internal" href="#d-phase-portraits" id="id29">2 – 3-D Phase Portraits</a></p></li>
-<li><p><a class="reference internal" href="#surrogate-testing" id="id30">3 – Surrogate Testing</a></p></li>
-<li><p><a class="reference internal" href="#recurrence-quantification-analysis-rqa" id="id31">4 – Recurrence Quantification Analysis (RQA)</a></p></li>
-<li><p><a class="reference internal" href="#recurrence-plots" id="id32">5 – Recurrence Plots</a></p></li>
+<li><p><a class="reference internal" href="#generating-trajectories" id="id24">1 – Generating Trajectories</a></p></li>
+<li><p><a class="reference internal" href="#d-phase-portraits" id="id25">2 – 3-D Phase Portraits</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-testing" id="id26">3 – Surrogate Testing</a></p></li>
+<li><p><a class="reference internal" href="#recurrence-quantification-analysis-rqa" id="id27">4 – Recurrence Quantification Analysis (RQA)</a></p></li>
+<li><p><a class="reference internal" href="#recurrence-plots" id="id28">5 – Recurrence Plots</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#final-analysis-summary" id="id33">Final Analysis Summary</a></p>
+<li><p><a class="reference internal" href="#final-analysis-summary" id="id29">Final Analysis Summary</a></p>
 <ul>
-<li><p><a class="reference internal" href="#interpretation" id="id34">Interpretation</a></p></li>
+<li><p><a class="reference internal" href="#interpretation" id="id30">Interpretation</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#metric-reference-sheet" id="id35">Metric Reference Sheet</a></p>
+<li><p><a class="reference internal" href="#metric-reference-sheet" id="id31">Metric Reference Sheet</a></p>
 <ul>
-<li><p><a class="reference internal" href="#surrogate-diagnostics" id="id36">Surrogate-diagnostics</a></p></li>
-<li><p><a class="reference internal" href="#rqa-core-measures" id="id37">RQA core measures</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-diagnostics" id="id32">Surrogate-diagnostics</a></p></li>
+<li><p><a class="reference internal" href="#rqa-core-measures" id="id33">RQA core measures</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#interpreting-the-numbers" id="id38">Interpreting the Numbers</a></p></li>
-<li><p><a class="reference internal" href="#further-reading" id="id39">Further Reading</a></p></li>
-<li><p><a class="reference internal" href="#appendix-a-full-script-listing" id="id40">Appendix A – Full Script Listing</a></p></li>
+<li><p><a class="reference internal" href="#interpreting-the-numbers" id="id34">Interpreting the Numbers</a></p></li>
+<li><p><a class="reference internal" href="#further-reading" id="id35">Further Reading</a></p></li>
+<li><p><a class="reference internal" href="#appendix-a-full-script-listing" id="id36">Appendix A – Full Script Listing</a></p></li>
 </ul>
 </nav>
 <section id="overview">
-<h2><a class="toc-backref" href="#id24" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
 <p>This documentation walks you through the
 script and the figures it produces.  The notebook-style layout interleaves explanatory
 text, Python code-blocks, console output, and embedded figures so that a newcomer to
 non-linear dynamics can reproduce the analysis <em>end-to-end</em> and understand every metric
 that appears along the way.</p>
 <section id="prerequisites">
-<h3><a class="toc-backref" href="#id25" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Prerequisites</a><a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Python ≥ 3.8 with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, <code class="docutils literal notranslate"><span class="pre">seaborn</span></code>, <code class="docutils literal notranslate"><span class="pre">tqdm</span></code></p></li>
 <li><p>The <em>SMdRQA</em> package providing
@@ -497,17 +497,17 @@ that appears along the way.</p>
 </section>
 </section>
 <section id="the-rossler-system-in-brief">
-<h2><a class="toc-backref" href="#id26" role="doc-backlink">The Rössler System in Brief</a><a class="headerlink" href="#the-rossler-system-in-brief" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">The Rössler System in Brief</a><a class="headerlink" href="#the-rossler-system-in-brief" title="Link to this heading">#</a></h2>
 <p>The Rössler system is a three‐dimensional continuous‐time flow introduced by Otto Rössler in 1976.  It is defined by the coupled ordinary differential equations</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\dot x &amp;= -y - z \\
 \dot y &amp;= x + a y \\
 \dot z &amp;= b + z (x - c)\end{split}\]</div>
-<p>Here, $x$ and $y$ act as transverse coordinates that spiral in the $x$–$y$ plane, while $z$ feeds back nonlinearly, providing a “kick” whenever $x$ passes the threshold set by the parameter $c$.  The constants $a$ and $b$ control linear growth or decay in the $y$ and $z$ directions, respectively, and $c$ regulates the strength of the nonlinear stretching in the $z$‐equation.</p>
-<p>For the canonical choice of parameters $a=b=0.2$ and $c=5.7$, the system exhibits a strange (chaotic) attractor.  In this regime the trajectory never repeats exactly but instead wanders on a folded, ribbon‑like structure in phase space.  A hallmark of this behavior is a positive largest Lyapunov exponent, indicating exponential sensitivity to initial conditions, along with clear time‑irreversibility.  By contrast, if $a$ is reduced below approximately 0.1 (keeping $b=0.2$ and $c=5.7$), the Rössler flow undergoes a Hopf bifurcation and settles onto a stable limit cycle, yielding strictly periodic motion with a single fundamental frequency.</p>
-<p>Geometrically, one may understand the Rössler attractor as follows.  In the $x$–$y$ plane the combined action of $dot x=-y-z$ and $dot y=x+a,y$ produces a weakly repelling spiral when $a&gt;0$.  As the orbit spirals outward, the term $z,(x-c)$ in $dot z$ remains small until $x$ exceeds $c$.  At that point $z$ grows rapidly, and the term $-z$ in the $dot x$‐equation “snaps” the trajectory back toward the origin.  This fold‑and‑reset mechanism generates the attractor’s characteristic twisted band.</p>
-<p>As one increases $a$ from zero to about 0.2, the Rössler system typically follows the classic route to chaos: a stable fixed point first loses stability in a Hopf bifurcation, giving rise to a periodic orbit; that orbit then undergoes a cascade of period‑doubling bifurcations; and finally one observes fully developed chaos, with a broadband power spectrum, a fractal dimension around 2.0–2.1, and positive Lyapunov exponent.</p>
-<p>Key diagnostics for studying the Rössler attractor include (1) the largest Lyapunov exponent $lambda_1&gt;0$, which measures the rate at which nearby trajectories diverge; (2) the fractal (correlation) dimension $D_2approx2.05$, which quantifies the attractor’s “thickness”; and (3) Poincaré sections (for example, sampling the flow whenever $z=c$), which reveal a Cantor‑set–like 1D return map.  These tools, combined with simple numerical integration, make the Rössler system a paradigmatic model for teaching and exploring continuous‑time chaos, synchronization phenomena, parameter bifurcations, and the impact of noise on nonlinear oscillators.</p>
+<p>Here, <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> act as transverse coordinates that spiral in the <span class="math notranslate nohighlight">\(x–y\)</span> plane, while <span class="math notranslate nohighlight">\(z\)</span> feeds back nonlinearly, providing a “kick” whenever <span class="math notranslate nohighlight">\(x\)</span> passes the threshold set by the parameter <span class="math notranslate nohighlight">\(c\)</span>.  The constants <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> control linear growth or decay in the <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> directions, respectively, and <span class="math notranslate nohighlight">\(c\)</span> regulates the strength of the nonlinear stretching in the <span class="math notranslate nohighlight">\(z\)</span>‐equation.</p>
+<p>For the canonical choice of parameters <span class="math notranslate nohighlight">\(a=b=0.2\)</span> and <span class="math notranslate nohighlight">\(c=5.7\)</span>, the system exhibits a strange (chaotic) attractor.  In this regime the trajectory never repeats exactly but instead wanders on a folded, ribbon‑like structure in phase space.  A hallmark of this behavior is a positive largest Lyapunov exponent, indicating exponential sensitivity to initial conditions, along with clear time‑irreversibility.  By contrast, if <span class="math notranslate nohighlight">\(a\)</span> is reduced below approximately 0.1 (keeping <span class="math notranslate nohighlight">\(b=0.2\)</span> and <span class="math notranslate nohighlight">\(c=5.7\)</span>), the Rössler flow undergoes a Hopf bifurcation and settles onto a stable limit cycle, yielding strictly periodic motion with a single fundamental frequency.</p>
+<p>Geometrically, one may understand the Rössler attractor as follows.  In the <span class="math notranslate nohighlight">\(x–y\)</span> plane the combined action of <span class="math notranslate nohighlight">\(\dot x=-y-z\)</span> and <span class="math notranslate nohighlight">\(\dot y=x+a\,y\)</span> produces a weakly repelling spiral when <span class="math notranslate nohighlight">\(a&gt;0\)</span>.  As the orbit spirals outward, the term <span class="math notranslate nohighlight">\(z\,(x-c)\)</span> in <span class="math notranslate nohighlight">\(\dot z\)</span> remains small until <span class="math notranslate nohighlight">\(x\)</span> exceeds <span class="math notranslate nohighlight">\(c\)</span>.  At that point <span class="math notranslate nohighlight">\(z\)</span> grows rapidly, and the term <span class="math notranslate nohighlight">\(-z\)</span> in the <span class="math notranslate nohighlight">\(\dot x\)</span>‐equation “snaps” the trajectory back toward the origin.  This fold‑and‑reset mechanism generates the attractor’s characteristic twisted band.</p>
+<p>As one increases <span class="math notranslate nohighlight">\(a\)</span> from zero to about 0.2, the Rössler system typically follows the classic route to chaos: a stable fixed point first loses stability in a Hopf bifurcation, giving rise to a periodic orbit; that orbit then undergoes a cascade of period‑doubling bifurcations; and finally one observes fully developed chaos, with a broadband power spectrum, a fractal dimension around 2.0–2.1, and positive Lyapunov exponent.</p>
+<p>Key diagnostics for studying the Rössler attractor include (1) the largest Lyapunov exponent <span class="math notranslate nohighlight">\(\lambda_1&gt;0\)</span>, which measures the rate at which nearby trajectories diverge; (2) the fractal (correlation) dimension <span class="math notranslate nohighlight">\(D_2\approx2.05\)</span>, which quantifies the attractor’s “thickness”; and (3) Poincaré sections (for example, sampling the flow whenever <span class="math notranslate nohighlight">\(z=c\)</span>), which reveal a Cantor‑set–like 1D return map.  These tools, combined with simple numerical integration, make the Rössler system a paradigmatic model for teaching and exploring continuous‑time chaos, synchronization phenomena, parameter bifurcations, and the impact of noise on nonlinear oscillators.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>a-value</p></th>
@@ -526,7 +526,7 @@ that appears along the way.</p>
 </div>
 </section>
 <section id="analysis-pipeline">
-<h2><a class="toc-backref" href="#id27" role="doc-backlink">Analysis Pipeline</a><a class="headerlink" href="#analysis-pipeline" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">Analysis Pipeline</a><a class="headerlink" href="#analysis-pipeline" title="Link to this heading">#</a></h2>
 <p>The notebook follows a five-step workflow common in empirical nonlinear-time-series
 research.</p>
 <ol class="arabic simple">
@@ -539,7 +539,7 @@ research.</p>
 <p>Every stage is encapsulated in a single, reproducible script whose core sections are
 shown below.</p>
 <section id="generating-trajectories">
-<h3><a class="toc-backref" href="#id28" role="doc-backlink">1 – Generating Trajectories</a><a class="headerlink" href="#generating-trajectories" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">1 – Generating Trajectories</a><a class="headerlink" href="#generating-trajectories" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">N</span>  <span class="o">=</span> <span class="mi">2000</span>     <span class="c1"># samples kept after subsampling</span>
 <span class="n">TM</span> <span class="o">=</span> <span class="mi">8000</span>     <span class="c1"># integration steps</span>
 <span class="n">B</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">5.7</span>
@@ -557,19 +557,19 @@ Runge–Kutta solver and then keeps every <span class="math notranslate nohighli
 both signals have identical length.</p>
 </section>
 <section id="d-phase-portraits">
-<h3><a class="toc-backref" href="#id29" role="doc-backlink">2 – 3-D Phase Portraits</a><a class="headerlink" href="#d-phase-portraits" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">2 – 3-D Phase Portraits</a><a class="headerlink" href="#d-phase-portraits" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_chaos</span><span class="p">,</span> <span class="n">y_chaos</span><span class="p">,</span> <span class="n">z_chaos</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;maroon&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 <span class="c1">#  … identical for ax2 (periodic)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/rossler_3d_attractors.png"><img alt="Chaotic vs periodic Rössler attractors in 3-D." class="align-center" src="../_images/rossler_3d_attractors.png" style="width: 1930.5px; height: 885.0px;" />
+<a class="reference internal image-reference" href="../_images/rossler_3d_attractors.png"><img alt="Chaotic vs periodic Rössler attractors in 3-D." class="align-center" src="../_images/rossler_3d_attractors.png" style="width: 1158.3px; height: 531.0px;" />
 </a>
 <p><em>Left:</em> the well-known <em>banded</em> chaotic attractor.  <em>Right:</em> a single closed orbit.</p>
 </section>
 <section id="surrogate-testing">
-<h3><a class="toc-backref" href="#id30" role="doc-backlink">3 – Surrogate Testing</a><a class="headerlink" href="#surrogate-testing" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">3 – Surrogate Testing</a><a class="headerlink" href="#surrogate-testing" title="Link to this heading">#</a></h3>
 <p>The goal of <em>surrogate analysis</em> is to decide whether simple stochastic models can
 explain the observed dynamics.  We test six popular null-hypotheses:
 <code class="docutils literal notranslate"><span class="pre">FT</span></code>, <code class="docutils literal notranslate"><span class="pre">AAFT</span></code>, <code class="docutils literal notranslate"><span class="pre">IAAFT</span></code>, <code class="docutils literal notranslate"><span class="pre">IDFS</span></code>, <code class="docutils literal notranslate"><span class="pre">WIAAFT</span></code> and <code class="docutils literal notranslate"><span class="pre">PPS</span></code>.</p>
@@ -591,6 +591,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </div>
 <section id="interpretation-primer">
 <h4>Interpretation primer<a class="headerlink" href="#interpretation-primer" title="Link to this heading">#</a></h4>
+<p><strong>Figure:</strong> Density estimates of metric values computed on 500 surrogate time series (colored curves) compared to the original Rössler data (brown dashed vertical lines).  Top row: chaotic regime (a=0.2); bottom row: periodic regime (a=0.05).  Left column: log of the largest Lyapunov exponent; right column: log of the time‑irreversibility statistic.</p>
 <p>## Overview</p>
 <p>Surrogate data testing is a nonparametric hypothesis‐testing method used to decide whether a measured time series exhibits genuine nonlinear or deterministic structure, as opposed to being generated by a linear stochastic process or simple periodic oscillation.  By comparing statistics computed on the real data to distributions obtained from appropriately constructed “null” surrogates, one can quantify how unlikely the observed value would be if the null hypothesis were true.</p>
 <p>## Null Hypotheses and Surrogate Types</p>
@@ -603,17 +604,17 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </ol>
 <p>## Metrics under Test</p>
 <ul class="simple">
-<li><p><strong>Largest Lyapunov Exponent</strong> $lambda_1$: measures average exponential divergence of nearby trajectories; a positive value indicates chaos.  We plot $log_{10}(lambda_1)$.</p></li>
+<li><p><strong>Largest Lyapunov Exponent</strong> <span class="math notranslate nohighlight">\(\lambda_1\)</span>: measures average exponential divergence of nearby trajectories; a positive value indicates chaos.  We plot <span class="math notranslate nohighlight">\(\log_{10}(\lambda_1)\)</span>.</p></li>
 <li><p><strong>Time‑Irreversibility Statistic</strong>: quantifies asymmetric time‐series features that cannot arise from any time‐symmetric (e.g. linear) process; also displayed on a log scale.</p></li>
 </ul>
 <p>## Chaotic Regime (top row)</p>
 <ul class="simple">
-<li><p><strong>Largest Lyapunov Exponent (top‐left):</strong>  The true Rössler exponent (dashed line at $log_{10}lambda_1approx -2.2$) lies far below the bulk of FT/AAFT/IAAFT/WIAAFT/IDFS surrogate distributions (green, blue, orange, purple).  These null models destroy the low‐dimensional flow and create effectively high‐dimensional noise, inflating divergence rates (surrogate $log_{10}lambda_1sim -1.3$ to $-1.0$).  Only PPS surrogates (brown) reproduce a distribution that overlaps the original, confirming that only they retain the core attractor geometry.</p></li>
-<li><p><strong>Time‑Irreversibility (top‐right):</strong>  The real data’s irreversibility statistic (dashed line at $approx2.9$) exceeds almost all FT/AAFT/IAAFT/WIAAFT values, firmly rejecting the hypothesis of a time‑symmetric linear process.  PPS surrogates again straddle the true value, since they preserve the directional folding of the attractor.</p></li>
+<li><p><strong>Largest Lyapunov Exponent (top‐left):</strong>  The true Rössler exponent (dashed line at <span class="math notranslate nohighlight">\(\log_{10}\lambda_1\approx -2.2\)</span>) lies far below the bulk of FT/AAFT/IAAFT/WIAAFT/IDFS surrogate distributions (green, blue, orange, purple).  These null models destroy the low‐dimensional flow and create effectively high‐dimensional noise, inflating divergence rates (surrogate <span class="math notranslate nohighlight">\(\log_{10}\lambda_1\sim -1.3\)</span> to <span class="math notranslate nohighlight">\(-1.0\)</span>).  Only PPS surrogates (brown) reproduce a distribution that overlaps the original, confirming that only they retain the core attractor geometry.</p></li>
+<li><p><strong>Time‑Irreversibility (top‐right):</strong>  The real data’s irreversibility statistic (dashed line at <span class="math notranslate nohighlight">\(\approx2.9\)</span>) exceeds almost all FT/AAFT/IAAFT/WIAAFT values, firmly rejecting the hypothesis of a time‑symmetric linear process.  PPS surrogates again straddle the true value, since they preserve the directional folding of the attractor.</p></li>
 </ul>
 <p>## Periodic Regime (bottom row)</p>
 <ul class="simple">
-<li><p><strong>Largest Lyapunov Exponent (bottom‐left):</strong>  For periodic Rössler (a=0.05), the true exponent is near zero (dashed at $log_{10}lambda_1approx -1.75$).  FT/AAFT/IAAFT/WIAAFT/IDFS surrogates generate spurious positive estimates (clusters around $-1.2$ to $-0.9$), reflecting destroyed periodicity.  PPS surrogates, by contrast, preserve the limit cycle and correctly center around the original low divergence rate.</p></li>
+<li><p><strong>Largest Lyapunov Exponent (bottom‐left):</strong>  For periodic Rössler (a=0.05), the true exponent is near zero (dashed at <span class="math notranslate nohighlight">\(\log_{10}\lambda_1\approx -1.75\)</span>).  FT/AAFT/IAAFT/WIAAFT/IDFS surrogates generate spurious positive estimates (clusters around <span class="math notranslate nohighlight">\(-1.2\)</span> to <span class="math notranslate nohighlight">\(-0.9\)</span>), reflecting destroyed periodicity.  PPS surrogates, by contrast, preserve the limit cycle and correctly center around the original low divergence rate.</p></li>
 <li><p><strong>Time‑Irreversibility (bottom‐right):</strong>  In a pure limit cycle, reversibility holds (statistic near zero).  Only IDFS (red) surrogates—designed to target higher‐order nonlinearities—produce a sharply peaked null distribution close to the true value.  Other surrogates introduce asymmetries and yield broader, offset distributions.</p></li>
 </ul>
 <p>## Interpretation</p>
@@ -626,7 +627,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </section>
 </section>
 <section id="recurrence-quantification-analysis-rqa">
-<h3><a class="toc-backref" href="#id31" role="doc-backlink">4 – Recurrence Quantification Analysis (RQA)</a><a class="headerlink" href="#recurrence-quantification-analysis-rqa" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">4 – Recurrence Quantification Analysis (RQA)</a><a class="headerlink" href="#recurrence-quantification-analysis-rqa" title="Link to this heading">#</a></h3>
 <p>Delay-embedding parameters are <em>automatically</em> selected by <code class="docutils literal notranslate"><span class="pre">RQA2</span></code> via:</p>
 <ul class="simple">
 <li><p><strong>Embedding delay (τ)</strong>   — first minimum of Average Mutual Information <a class="footnote-reference brackets" href="#id17" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>66<span class="fn-bracket">]</span></a></p></li>
@@ -639,59 +640,51 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </pre></div>
 </div>
 <p>## Embedding Parameters for RQA of the Rössler Attractor</p>
-<figure class="align-default" id="id19">
+<figure class="align-default">
 <img alt="examples/Chaotic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" src="examples/Chaotic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" />
-<figcaption>
-<p><span class="caption-text"><strong>Figure 1:</strong> Mutual information between the scalar time series value at time $t$ and at time $t+tau$, plotted as a function of the delay $tau$ for chaotic attractor.</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
-</figcaption>
 </figure>
-<figure class="align-default" id="id20">
+<p><strong>Figure 1:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for chaotic attractor.</p>
+<figure class="align-default">
 <img alt="examples/Chaotic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" src="examples/Chaotic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" />
-<figcaption>
-<p><span class="caption-text"><strong>Figure 2:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension $m$ for chaotic attractor.</span><a class="headerlink" href="#id20" title="Link to this image">#</a></p>
-</figcaption>
 </figure>
-<figure class="align-default" id="id21">
+<p><strong>Figure 2:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for chaotic attractor.</p>
+<figure class="align-default">
 <img alt="examples/Periodic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" src="examples/Periodic_tau_mi_plot.png:align:center:alt:TimeDelayvsMutualInformation:name:fig:tau-mi" />
-<figcaption>
-<p><span class="caption-text"><strong>Figure 3:</strong> Mutual information between the scalar time series value at time $t$ and at time $t+tau$, plotted as a function of the delay $tau$ for chaotic attractor.</span><a class="headerlink" href="#id21" title="Link to this image">#</a></p>
-</figcaption>
 </figure>
-<figure class="align-default" id="id22">
+<p><strong>Figure 3:</strong> Mutual information between the scalar time series value at time <span class="math notranslate nohighlight">\(t\)</span> and at time <span class="math notranslate nohighlight">\(t+\tau\)</span>, plotted as a function of the delay <span class="math notranslate nohighlight">\(\tau\)</span> for chaotic attractor.</p>
+<figure class="align-default">
 <img alt="examples/Periodic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" src="examples/Periodic_fnn_curve_plot.png:align:center:alt:EmbeddingDimensionvsFalseNearestNeighbors:name:fig:fnn" />
-<figcaption>
-<p><span class="caption-text"><strong>Figure 4:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension $m$ for chaotic attractor.</span><a class="headerlink" href="#id22" title="Link to this image">#</a></p>
-</figcaption>
 </figure>
-<p>Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series $x(t)$, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form</p>
+<p><strong>Figure 4:</strong> Fraction of false nearest neighbors (FNN) as a function of embedding dimension <span class="math notranslate nohighlight">\(m\)</span> for chaotic attractor.</p>
+<p>Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series <span class="math notranslate nohighlight">\(x(t)\)</span>, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}(t) = \bigl\[,x(t),,x(t+\tau),,x(t+2\tau),,\dots,,x(t+(m-1)\tau)\bigr]\]</div>
-<p>in an $m$-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension $m$ is sufficiently large ($m&gt;2d_f$, where $d_f$ is the fractal dimension) and the delay $tau$ avoids redundancy.</p>
-<p>## Choosing the Time Delay $tau$</p>
-<p>The time delay $tau$ determines the spacing between successive coordinates in the delay vector.  Two competing requirements must be balanced:</p>
+<p>in an <span class="math notranslate nohighlight">\(m\)</span>-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension <span class="math notranslate nohighlight">\(m\)</span> is sufficiently large (<span class="math notranslate nohighlight">\(m&gt;2d_f\)</span>, where <span class="math notranslate nohighlight">\(d_f\)</span> is the fractal dimension) and the delay <span class="math notranslate nohighlight">\(\tau\)</span> avoids redundancy.</p>
+<p>## Choosing the Time Delay <span class="math notranslate nohighlight">\(\tau\)</span></p>
+<p>The time delay <span class="math notranslate nohighlight">\(\tau\)</span> determines the spacing between successive coordinates in the delay vector.  Two competing requirements must be balanced:</p>
 <ol class="arabic simple">
-<li><p><strong>Statistical independence:</strong>  If $tau$ is too small, successive coordinates $x(t)$ and $x(t+tau)$ are highly correlated, causing the reconstructed manifold to lie near the diagonal hyperplane, wasting dimensions.</p></li>
-<li><p><strong>Dynamic relevance:</strong>  If $tau$ is too large, the coordinates become effectively independent and the reconstruction may sample points from unrelated regions of the attractor, destroying the local geometry.</p></li>
+<li><p><strong>Statistical independence:</strong>  If <span class="math notranslate nohighlight">\(\tau\)</span> is too small, successive coordinates <span class="math notranslate nohighlight">\(x(t)\)</span> and <span class="math notranslate nohighlight">\(x(t+\tau)\)</span> are highly correlated, causing the reconstructed manifold to lie near the diagonal hyperplane, wasting dimensions.</p></li>
+<li><p><strong>Dynamic relevance:</strong>  If <span class="math notranslate nohighlight">\(\tau\)</span> is too large, the coordinates become effectively independent and the reconstruction may sample points from unrelated regions of the attractor, destroying the local geometry.</p></li>
 </ol>
-<p>A standard method for selecting $tau$ is to compute the average mutual information</p>
+<p>A standard method for selecting <span class="math notranslate nohighlight">\(\tau\)</span> is to compute the average mutual information</p>
 <div class="math notranslate nohighlight">
 \[I\[\tau] = \sum\_{i,j} p\_{ij}(\tau) \log \frac{p\_{ij}(\tau)}{p\_i p\_j},\]</div>
-<p>where $p_i=Pr(x(t)intext{bin }i)$ and $p_{ij}(tau)=Pr(x(t)in i,,x(t+tau)in j)$.  The first local minimum of $I[tau]$ (Figure :ref:<cite>fig:tau-mi</cite>) identifies the delay $tau^*approx27$ at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.</p>
-<p>## Selecting the Embedding Dimension $m$</p>
-<p>The embedding dimension $m$ must be large enough to unfold the attractor so that distinct trajectories in the original phase space do not project onto the same point in the reconstructed space.  The False Nearest Neighbors (FNN) algorithm quantitatively assesses this requirement:</p>
+<p>where <span class="math notranslate nohighlight">\(p_i=\Pr(x(t)\in\text{bin }i)\)</span> and <span class="math notranslate nohighlight">\(p_{ij}(\tau)=\Pr(x(t)\in i,\,x(t+\tau)\in j)\)</span>.  The first local minimum of <span class="math notranslate nohighlight">\(I[\tau]\)</span> (Figure :ref:<cite>fig:tau-mi</cite>) identifies the delay <span class="math notranslate nohighlight">\(\tau^*\approx27\)</span> at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.</p>
+<p>## Selecting the Embedding Dimension <span class="math notranslate nohighlight">\(m\)</span></p>
+<p>The embedding dimension <span class="math notranslate nohighlight">\(m\)</span> must be large enough to unfold the attractor so that distinct trajectories in the original phase space do not project onto the same point in the reconstructed space.  The False Nearest Neighbors (FNN) algorithm quantitatively assesses this requirement:</p>
 <ol class="arabic simple">
-<li><p>For each candidate $m$, compute the nearest neighbor distance $R_m(i)$ between points $mathbf{X}_m(t_i)$ and its nearest neighbor in $mathbb{R}^m$.</p></li>
-<li><p>Calculate the distance in $m+1$ dimensions by appending the next delayed coordinate $x(t+(m)tau)$.  If the increase in distance exceeds a threshold (relative to $R_m(i)$), the neighbor is classified as false.</p></li>
-<li><p>The ratio of false neighbors over all points yields the FNN fraction at dimension $m$.</p></li>
+<li><p>For each candidate <span class="math notranslate nohighlight">\(m\)</span>, compute the nearest neighbor distance <span class="math notranslate nohighlight">\(R_m(i)\)</span> between points <span class="math notranslate nohighlight">\(\mathbf{X}_m(t_i)\)</span> and its nearest neighbor in <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>.</p></li>
+<li><p>Calculate the distance in <span class="math notranslate nohighlight">\(m+1\)</span> dimensions by appending the next delayed coordinate <span class="math notranslate nohighlight">\(x(t+(m)\tau)\)</span>.  If the increase in distance exceeds a threshold (relative to <span class="math notranslate nohighlight">\(R_m(i)\)</span>), the neighbor is classified as false.</p></li>
+<li><p>The ratio of false neighbors over all points yields the FNN fraction at dimension <span class="math notranslate nohighlight">\(m\)</span>.</p></li>
 </ol>
-<p>In Figure :ref:<cite>fig:fnn</cite>, the FNN fraction decreases sharply from nearly 1.0 at $m=1$ to essentially zero at $m=5$.  The first $m$ at which the FNN ratio falls below a small tolerance (e.g., 1–2%) is chosen as the optimal embedding dimension; here, $m^*=5$ ensures a one-to-one unfolding of the Rössler attractor.</p>
+<p>In Figure :ref:<cite>fig:fnn</cite>, the FNN fraction decreases sharply from nearly 1.0 at <span class="math notranslate nohighlight">\(m=1\)</span> to essentially zero at <span class="math notranslate nohighlight">\(m=5\)</span>.  The first <span class="math notranslate nohighlight">\(m\)</span> at which the FNN ratio falls below a small tolerance (e.g., 1–2%) is chosen as the optimal embedding dimension; here, <span class="math notranslate nohighlight">\(m^*=5\)</span> ensures a one-to-one unfolding of the Rössler attractor.</p>
 <p>## Implications for RQA</p>
-<p>With $tau^*=27$ and $m^*=5$, the delay-coordinate vectors</p>
+<p>With <span class="math notranslate nohighlight">\(\tau^*=27\)</span> and <span class="math notranslate nohighlight">\(m^*=5\)</span>, the delay-coordinate vectors</p>
 <div class="math notranslate nohighlight">
 \[\mathbf{X}(t) = \bigl\[x(t),,x(t+27),,x(t+2\cdot27),,x(t+3\cdot27),,x(t+4\cdot27)\bigr]\]</div>
 <p>span a reconstructed phase space that accurately preserves the geometry and topology of the original Rössler attractor.  Consequently:</p>
 <ul class="simple">
-<li><p><strong>Recurrence plots</strong> constructed by thresholding $|mathbf{X}(t_i)-mathbf{X}(t_j)|$ reveal true return times and recurrence structures.</p></li>
+<li><p><strong>Recurrence plots</strong> constructed by thresholding <span class="math notranslate nohighlight">\(\|\mathbf{X}(t_i)-\mathbf{X}(t_j)\|\)</span> reveal true return times and recurrence structures.</p></li>
 <li><p><strong>RQA measures</strong> such as recurrence rate, determinism, laminarity, and entropy reflect intrinsic dynamical properties (periodicity, chaos, laminar phases) without distortion from projection artifacts.</p></li>
 </ul>
 <p>Accurate embedding is therefore a prerequisite for meaningful RQA, enabling quantitative comparison between experimental signals and theoretical models of chaotic dynamics.</p>
@@ -725,8 +718,8 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </tbody>
 </table>
 </div>
-<div class="literal-block-wrapper docutils container" id="id23">
-<div class="code-block-caption"><span class="caption-text">Selected console output</span><a class="headerlink" href="#id23" title="Link to this code">#</a></div>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">Selected console output</span><a class="headerlink" href="#id19" title="Link to this code">#</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go"> Chaotic RQA measures:</span>
 <span class="go">   recurrence_rate          : 0.0500</span>
 <span class="go">   determinism              : 0.8735</span>
@@ -744,8 +737,8 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </section>
 </section>
 <section id="recurrence-plots">
-<h3><a class="toc-backref" href="#id32" role="doc-backlink">5 – Recurrence Plots</a><a class="headerlink" href="#recurrence-plots" title="Link to this heading">#</a></h3>
-<a class="reference internal image-reference" href="../_images/recurrence_plots.png"><img alt="Auto-recurrence plots for chaotic and periodic trajectories." class="align-center" src="../_images/recurrence_plots.png" style="width: 1861.0px; height: 884.0px;" />
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">5 – Recurrence Plots</a><a class="headerlink" href="#recurrence-plots" title="Link to this heading">#</a></h3>
+<a class="reference internal image-reference" href="../_images/recurrence_plots.png"><img alt="Auto-recurrence plots for chaotic and periodic trajectories." class="align-center" src="../_images/recurrence_plots.png" style="width: 1116.6px; height: 530.4px;" />
 </a>
 <ul class="simple">
 <li><p>Chaotic RP: broken diagonal segments, short lines → high unpredictability.</p></li>
@@ -754,7 +747,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </section>
 </section>
 <section id="final-analysis-summary">
-<h2><a class="toc-backref" href="#id33" role="doc-backlink">Final Analysis Summary</a><a class="headerlink" href="#final-analysis-summary" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Final Analysis Summary</a><a class="headerlink" href="#final-analysis-summary" title="Link to this heading">#</a></h2>
 <p>Below is the exact console read-out that the script prints once all surrogate tests and RQA computations have finished.  It consolidates the <strong>system parameters</strong>, the <strong>surrogate-test configuration</strong>, and the <strong>side-by-side RQA comparison</strong> between the chaotic and periodic regimes.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">============================================================</span>
 <span class="go">ANALYSIS SUMMARY</span>
@@ -779,7 +772,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </pre></div>
 </div>
 <section id="interpretation">
-<h3><a class="toc-backref" href="#id34" role="doc-backlink">Interpretation</a><a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id30" role="doc-backlink">Interpretation</a><a class="headerlink" href="#interpretation" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Recurrence Rate (RR)</strong> is deliberately held around 0.05 through the adaptive threshold so that any change in the other measures reflects genuine structural differences rather than trivial density effects.</p></li>
 <li><p><strong>Determinism (DET)</strong> approaches unity for the periodic orbit, indicating that virtually all recurrence points belong to long, uninterrupted diagonal lines — the hallmark of strict periodicity.  The chaotic regime, while still highly deterministic (≈ 0.9996), shows slightly more diagonal interruptions due to the sensitive dependence on initial conditions.</p></li>
@@ -788,9 +781,9 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </section>
 </section>
 <section id="metric-reference-sheet">
-<h2><a class="toc-backref" href="#id35" role="doc-backlink">Metric Reference Sheet</a><a class="headerlink" href="#metric-reference-sheet" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id31" role="doc-backlink">Metric Reference Sheet</a><a class="headerlink" href="#metric-reference-sheet" title="Link to this heading">#</a></h2>
 <section id="surrogate-diagnostics">
-<h3><a class="toc-backref" href="#id36" role="doc-backlink">Surrogate-diagnostics</a><a class="headerlink" href="#surrogate-diagnostics" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Surrogate-diagnostics</a><a class="headerlink" href="#surrogate-diagnostics" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt><code class="docutils literal notranslate"><span class="pre">lyapunov_exponent</span></code></dt><dd><p>Largest Lyapunov exponent obtained via Wolf–Sano algorithm <a class="footnote-reference brackets" href="#id12" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>24<span class="fn-bracket">]</span></a>.</p>
 </dd>
@@ -799,7 +792,7 @@ explain the observed dynamics.  We test six popular null-hypotheses:
 </dl>
 </section>
 <section id="rqa-core-measures">
-<h3><a class="toc-backref" href="#id37" role="doc-backlink">RQA core measures</a><a class="headerlink" href="#rqa-core-measures" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">RQA core measures</a><a class="headerlink" href="#rqa-core-measures" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>RR (Recurrence Rate)</dt><dd><p><span class="math notranslate nohighlight">\(RR = \frac{1}{N^2}\sum_{i,j} R_{ij}\)</span> — probability that two states are within
 <span class="math notranslate nohighlight">\(\varepsilon\)</span> <a class="footnote-reference brackets" href="#id15" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>45<span class="fn-bracket">]</span></a>.</p>
@@ -813,7 +806,7 @@ High DET implies rule-based (deterministic) evolution <a class="footnote-referen
 <dt>DIV (Divergence)</dt><dd><p>Reciprocal of Lmax.</p>
 </dd>
 <dt>LAM (Laminarity)</dt><dd><p>Share of points on <em>vertical</em> (or horizontal) lines, signalling laminar plateaus
-in the trajectory <a href="#id41"><span class="problematic" id="id8">[79]_</span></a>.</p>
+in the trajectory <a href="#id37"><span class="problematic" id="id8">[79]_</span></a>.</p>
 </dd>
 <dt>TT (Trapping Time)</dt><dd><p>Mean length of vertical lines.</p>
 </dd>
@@ -829,7 +822,7 @@ into the working directory:</p>
 </section>
 </section>
 <section id="interpreting-the-numbers">
-<h2><a class="toc-backref" href="#id38" role="doc-backlink">Interpreting the Numbers</a><a class="headerlink" href="#interpreting-the-numbers" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id34" role="doc-backlink">Interpreting the Numbers</a><a class="headerlink" href="#interpreting-the-numbers" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>The chaotic signal shows a <strong>positive Lyapunov exponent</strong> and a lower DET than</p></li>
 </ul>
@@ -844,15 +837,15 @@ intrinsic structural differences, <em>not</em> threshold artefacts.</p></li>
 </ul>
 </section>
 <section id="further-reading">
-<h2><a class="toc-backref" href="#id39" role="doc-backlink">Further Reading</a><a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id35" role="doc-backlink">Further Reading</a><a class="headerlink" href="#further-reading" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Strogatz, <em>Nonlinear Dynamics and Chaos</em> <a href="#id42"><span class="problematic" id="id9">[63]_</span></a></p></li>
+<li><p>Strogatz, <em>Nonlinear Dynamics and Chaos</em> <a href="#id38"><span class="problematic" id="id9">[63]_</span></a></p></li>
 <li><p>Marwan et al., <em>Phys. Rep.</em> 438 (2007) – Recurrence plots for complex systems <a class="footnote-reference brackets" href="#id14" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>40<span class="fn-bracket">]</span></a></p></li>
 <li><p>Marwan, <em>Int. J. Bifurcation &amp; Chaos</em> 21 (2011) – Pitfalls in RP analysis <a class="footnote-reference brackets" href="#id18" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>83<span class="fn-bracket">]</span></a></p></li>
 </ul>
 </section>
 <section id="appendix-a-full-script-listing">
-<h2><a class="toc-backref" href="#id40" role="doc-backlink">Appendix A – Full Script Listing</a><a class="headerlink" href="#appendix-a-full-script-listing" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id36" role="doc-backlink">Appendix A – Full Script Listing</a><a class="headerlink" href="#appendix-a-full-script-listing" title="Link to this heading">#</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="ch">#!/usr/bin/env python3</span>
 <span class="linenos">  2</span>
 <span class="linenos">  3</span><span class="c1"># rossler_attractor_analysis.py - Corrected version based on actual RQA2.py implementation</span>
