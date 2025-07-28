@@ -30,15 +30,15 @@ The Rössler system is a three‐dimensional continuous‐time flow introduced b
    \dot y &= x + a y \\
    \dot z &= b + z (x - c)
 
-Here, $x$ and $y$ act as transverse coordinates that spiral in the $x$–$y$ plane, while $z$ feeds back nonlinearly, providing a “kick” whenever $x$ passes the threshold set by the parameter $c$.  The constants $a$ and $b$ control linear growth or decay in the $y$ and $z$ directions, respectively, and $c$ regulates the strength of the nonlinear stretching in the $z$‐equation.
+Here, :math:`x` and :math:`y` act as transverse coordinates that spiral in the :math:`x–y` plane, while :math:`z` feeds back nonlinearly, providing a “kick” whenever :math:`x` passes the threshold set by the parameter :math:`c`.  The constants :math:`a` and :math:`b` control linear growth or decay in the :math:`y` and :math:`z` directions, respectively, and :math:`c` regulates the strength of the nonlinear stretching in the :math:`z`‐equation.
 
-For the canonical choice of parameters $a=b=0.2$ and $c=5.7$, the system exhibits a strange (chaotic) attractor.  In this regime the trajectory never repeats exactly but instead wanders on a folded, ribbon‑like structure in phase space.  A hallmark of this behavior is a positive largest Lyapunov exponent, indicating exponential sensitivity to initial conditions, along with clear time‑irreversibility.  By contrast, if $a$ is reduced below approximately 0.1 (keeping $b=0.2$ and $c=5.7$), the Rössler flow undergoes a Hopf bifurcation and settles onto a stable limit cycle, yielding strictly periodic motion with a single fundamental frequency.
+For the canonical choice of parameters :math:`a=b=0.2` and :math:`c=5.7`, the system exhibits a strange (chaotic) attractor.  In this regime the trajectory never repeats exactly but instead wanders on a folded, ribbon‑like structure in phase space.  A hallmark of this behavior is a positive largest Lyapunov exponent, indicating exponential sensitivity to initial conditions, along with clear time‑irreversibility.  By contrast, if :math:`a` is reduced below approximately 0.1 (keeping :math:`b=0.2` and :math:`c=5.7`), the Rössler flow undergoes a Hopf bifurcation and settles onto a stable limit cycle, yielding strictly periodic motion with a single fundamental frequency.
 
-Geometrically, one may understand the Rössler attractor as follows.  In the $x$–$y$ plane the combined action of $\dot x=-y-z$ and $\dot y=x+a\,y$ produces a weakly repelling spiral when $a>0$.  As the orbit spirals outward, the term $z\,(x-c)$ in $\dot z$ remains small until $x$ exceeds $c$.  At that point $z$ grows rapidly, and the term $-z$ in the $\dot x$‐equation “snaps” the trajectory back toward the origin.  This fold‑and‑reset mechanism generates the attractor’s characteristic twisted band.
+Geometrically, one may understand the Rössler attractor as follows.  In the :math:`x–y` plane the combined action of :math:`\dot x=-y-z` and :math:`\dot y=x+a\,y` produces a weakly repelling spiral when :math:`a>0`.  As the orbit spirals outward, the term :math:`z\,(x-c)` in :math:`\dot z` remains small until :math:`x` exceeds :math:`c`.  At that point :math:`z` grows rapidly, and the term :math:`-z` in the :math:`\dot x`‐equation “snaps” the trajectory back toward the origin.  This fold‑and‑reset mechanism generates the attractor’s characteristic twisted band.
 
-As one increases $a$ from zero to about 0.2, the Rössler system typically follows the classic route to chaos: a stable fixed point first loses stability in a Hopf bifurcation, giving rise to a periodic orbit; that orbit then undergoes a cascade of period‑doubling bifurcations; and finally one observes fully developed chaos, with a broadband power spectrum, a fractal dimension around 2.0–2.1, and positive Lyapunov exponent.
+As one increases :math:`a` from zero to about 0.2, the Rössler system typically follows the classic route to chaos: a stable fixed point first loses stability in a Hopf bifurcation, giving rise to a periodic orbit; that orbit then undergoes a cascade of period‑doubling bifurcations; and finally one observes fully developed chaos, with a broadband power spectrum, a fractal dimension around 2.0–2.1, and positive Lyapunov exponent.
 
-Key diagnostics for studying the Rössler attractor include (1) the largest Lyapunov exponent $\lambda_1>0$, which measures the rate at which nearby trajectories diverge; (2) the fractal (correlation) dimension $D_2\approx2.05$, which quantifies the attractor’s “thickness”; and (3) Poincaré sections (for example, sampling the flow whenever $z=c$), which reveal a Cantor‑set–like 1D return map.  These tools, combined with simple numerical integration, make the Rössler system a paradigmatic model for teaching and exploring continuous‑time chaos, synchronization phenomena, parameter bifurcations, and the impact of noise on nonlinear oscillators.
+Key diagnostics for studying the Rössler attractor include (1) the largest Lyapunov exponent :math:`\lambda_1>0`, which measures the rate at which nearby trajectories diverge; (2) the fractal (correlation) dimension :math:`D_2\approx2.05`, which quantifies the attractor’s “thickness”; and (3) Poincaré sections (for example, sampling the flow whenever :math:`z=c`), which reveal a Cantor‑set–like 1D return map.  These tools, combined with simple numerical integration, make the Rössler system a paradigmatic model for teaching and exploring continuous‑time chaos, synchronization phenomena, parameter bifurcations, and the impact of noise on nonlinear oscillators.
 
 ================  =============================
  a-value           Behaviour
@@ -93,7 +93,7 @@ both signals have identical length.
 
 .. image:: rossler_3d_attractors.png
    :alt: Chaotic vs periodic Rössler attractors in 3-D.
-   :scale: 50 %
+   :scale: 30 %
    :align: center
 
 *Left:* the well-known *banded* chaotic attractor.  *Right:* a single closed orbit.
@@ -133,7 +133,7 @@ Interpretation primer
    \:alt: Surrogate Test Results: Original vs Surrogates
    \:name: fig\:surrogate
 
-   **Figure:** Density estimates of metric values computed on 500 surrogate time series (colored curves) compared to the original Rössler data (brown dashed vertical lines).  Top row: chaotic regime (a=0.2); bottom row: periodic regime (a=0.05).  Left column: log of the largest Lyapunov exponent; right column: log of the time‑irreversibility statistic.
+**Figure:** Density estimates of metric values computed on 500 surrogate time series (colored curves) compared to the original Rössler data (brown dashed vertical lines).  Top row: chaotic regime (a=0.2); bottom row: periodic regime (a=0.05).  Left column: log of the largest Lyapunov exponent; right column: log of the time‑irreversibility statistic.
 
 ## Overview
 
@@ -149,17 +149,17 @@ Surrogate data testing is a nonparametric hypothesis‐testing method used to de
 
 ## Metrics under Test
 
-* **Largest Lyapunov Exponent** $\lambda_1$: measures average exponential divergence of nearby trajectories; a positive value indicates chaos.  We plot $\log_{10}(\lambda_1)$.
+* **Largest Lyapunov Exponent** :math:`\lambda_1`: measures average exponential divergence of nearby trajectories; a positive value indicates chaos.  We plot :math:`\log_{10}(\lambda_1)`.
 * **Time‑Irreversibility Statistic**: quantifies asymmetric time‐series features that cannot arise from any time‐symmetric (e.g. linear) process; also displayed on a log scale.
 
 ## Chaotic Regime (top row)
 
-* **Largest Lyapunov Exponent (top‐left):**  The true Rössler exponent (dashed line at $\log_{10}\lambda_1\approx -2.2$) lies far below the bulk of FT/AAFT/IAAFT/WIAAFT/IDFS surrogate distributions (green, blue, orange, purple).  These null models destroy the low‐dimensional flow and create effectively high‐dimensional noise, inflating divergence rates (surrogate $\log_{10}\lambda_1\sim -1.3$ to $-1.0$).  Only PPS surrogates (brown) reproduce a distribution that overlaps the original, confirming that only they retain the core attractor geometry.
-* **Time‑Irreversibility (top‐right):**  The real data’s irreversibility statistic (dashed line at $\approx2.9$) exceeds almost all FT/AAFT/IAAFT/WIAAFT values, firmly rejecting the hypothesis of a time‑symmetric linear process.  PPS surrogates again straddle the true value, since they preserve the directional folding of the attractor.
+* **Largest Lyapunov Exponent (top‐left):**  The true Rössler exponent (dashed line at :math:`\log_{10}\lambda_1\approx -2.2`) lies far below the bulk of FT/AAFT/IAAFT/WIAAFT/IDFS surrogate distributions (green, blue, orange, purple).  These null models destroy the low‐dimensional flow and create effectively high‐dimensional noise, inflating divergence rates (surrogate :math:`\log_{10}\lambda_1\sim -1.3` to :math:`-1.0`).  Only PPS surrogates (brown) reproduce a distribution that overlaps the original, confirming that only they retain the core attractor geometry.
+* **Time‑Irreversibility (top‐right):**  The real data’s irreversibility statistic (dashed line at :math:`\approx2.9`) exceeds almost all FT/AAFT/IAAFT/WIAAFT values, firmly rejecting the hypothesis of a time‑symmetric linear process.  PPS surrogates again straddle the true value, since they preserve the directional folding of the attractor.
 
 ## Periodic Regime (bottom row)
 
-* **Largest Lyapunov Exponent (bottom‐left):**  For periodic Rössler (a=0.05), the true exponent is near zero (dashed at $\log_{10}\lambda_1\approx -1.75$).  FT/AAFT/IAAFT/WIAAFT/IDFS surrogates generate spurious positive estimates (clusters around $-1.2$ to $-0.9$), reflecting destroyed periodicity.  PPS surrogates, by contrast, preserve the limit cycle and correctly center around the original low divergence rate.
+* **Largest Lyapunov Exponent (bottom‐left):**  For periodic Rössler (a=0.05), the true exponent is near zero (dashed at :math:`\log_{10}\lambda_1\approx -1.75`).  FT/AAFT/IAAFT/WIAAFT/IDFS surrogates generate spurious positive estimates (clusters around :math:`-1.2` to :math:`-0.9`), reflecting destroyed periodicity.  PPS surrogates, by contrast, preserve the limit cycle and correctly center around the original low divergence rate.
 * **Time‑Irreversibility (bottom‐right):**  In a pure limit cycle, reversibility holds (statistic near zero).  Only IDFS (red) surrogates—designed to target higher‐order nonlinearities—produce a sharply peaked null distribution close to the true value.  Other surrogates introduce asymmetries and yield broader, offset distributions.
 
 ## Interpretation
@@ -197,71 +197,71 @@ The recurrence threshold ``eps`` is adjusted so that the *target* recurrence rat
    \:alt: Time Delay vs Mutual Information
    \:name: fig\:tau-mi
 
-   **Figure 1:** Mutual information between the scalar time series value at time $t$ and at time $t+\tau$, plotted as a function of the delay $\tau$ for chaotic attractor.
+**Figure 1:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for chaotic attractor.
 
 .. figure:: Chaotic_fnn_curve_plot.png
    \:align: center
    \:alt: Embedding Dimension vs False Nearest Neighbors
    \:name: fig\:fnn
 
-   **Figure 2:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension $m$ for chaotic attractor.
+**Figure 2:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for chaotic attractor.
 
 .. figure:: Periodic_tau_mi_plot.png
    \:align: center
    \:alt: Time Delay vs Mutual Information
    \:name: fig\:tau-mi
 
-   **Figure 3:** Mutual information between the scalar time series value at time $t$ and at time $t+\tau$, plotted as a function of the delay $\tau$ for chaotic attractor.
+**Figure 3:** Mutual information between the scalar time series value at time :math:`t` and at time :math:`t+\tau`, plotted as a function of the delay :math:`\tau` for chaotic attractor.
 
 .. figure:: Periodic_fnn_curve_plot.png
    \:align: center
    \:alt: Embedding Dimension vs False Nearest Neighbors
    \:name: fig\:fnn
 
-   **Figure 4:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension $m$ for chaotic attractor.
+**Figure 4:** Fraction of false nearest neighbors (FNN) as a function of embedding dimension :math:`m` for chaotic attractor.
 
-Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series $x(t)$, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form
+Recurrence Quantification Analysis (RQA) is a nonlinear time-series analysis technique that characterizes the times at which a dynamical system returns to previously visited regions in its phase space.  Since real-world measurements often provide only a single scalar time series :math:`x(t)`, reconstructing an equivalent representation of the system’s full state space is a critical preliminary step.  Takens’ embedding theorem guarantees that, under mild conditions, a time-delay embedding of the form
 
 .. math::
    \mathbf{X}(t) = \bigl\[,x(t),,x(t+\tau),,x(t+2\tau),,\dots,,x(t+(m-1)\tau)\bigr]
 
-in an $m$-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension $m$ is sufficiently large ($m>2d_f$, where $d_f$ is the fractal dimension) and the delay $\tau$ avoids redundancy.
+in an :math:`m`-dimensional space is diffeomorphic (one-to-one and smooth) to the original attractor, provided that the embedding dimension :math:`m` is sufficiently large (:math:`m>2d_f`, where :math:`d_f` is the fractal dimension) and the delay :math:`\tau` avoids redundancy.
 
-## Choosing the Time Delay $\tau$
+## Choosing the Time Delay :math:`\tau`
 
-The time delay $\tau$ determines the spacing between successive coordinates in the delay vector.  Two competing requirements must be balanced:
+The time delay :math:`\tau` determines the spacing between successive coordinates in the delay vector.  Two competing requirements must be balanced:
 
-1. **Statistical independence:**  If $\tau$ is too small, successive coordinates $x(t)$ and $x(t+\tau)$ are highly correlated, causing the reconstructed manifold to lie near the diagonal hyperplane, wasting dimensions.
+1. **Statistical independence:**  If :math:`\tau` is too small, successive coordinates :math:`x(t)` and :math:`x(t+\tau)` are highly correlated, causing the reconstructed manifold to lie near the diagonal hyperplane, wasting dimensions.
 
-2. **Dynamic relevance:**  If $\tau$ is too large, the coordinates become effectively independent and the reconstruction may sample points from unrelated regions of the attractor, destroying the local geometry.
+2. **Dynamic relevance:**  If :math:`\tau` is too large, the coordinates become effectively independent and the reconstruction may sample points from unrelated regions of the attractor, destroying the local geometry.
 
-A standard method for selecting $\tau$ is to compute the average mutual information
+A standard method for selecting :math:`\tau` is to compute the average mutual information
 
 .. math::
    I\[\tau] = \sum\_{i,j} p\_{ij}(\tau) \log \frac{p\_{ij}(\tau)}{p\_i p\_j},
 
-where $p_i=\Pr(x(t)\in\text{bin }i)$ and $p_{ij}(\tau)=\Pr(x(t)\in i,\,x(t+\tau)\in j)$.  The first local minimum of $I[\tau]$ (Figure \:ref:`fig:tau-mi`) identifies the delay $\tau^*\approx27$ at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.
+where :math:`p_i=\Pr(x(t)\in\text{bin }i)` and :math:`p_{ij}(\tau)=\Pr(x(t)\in i,\,x(t+\tau)\in j)`.  The first local minimum of :math:`I[\tau]` (Figure \:ref:`fig:tau-mi`) identifies the delay :math:`\tau^*\approx27` at which coordinates share minimal redundant information yet remain causally linked by the system’s evolution.
 
-## Selecting the Embedding Dimension $m$
+## Selecting the Embedding Dimension :math:`m`
 
-The embedding dimension $m$ must be large enough to unfold the attractor so that distinct trajectories in the original phase space do not project onto the same point in the reconstructed space.  The False Nearest Neighbors (FNN) algorithm quantitatively assesses this requirement:
+The embedding dimension :math:`m` must be large enough to unfold the attractor so that distinct trajectories in the original phase space do not project onto the same point in the reconstructed space.  The False Nearest Neighbors (FNN) algorithm quantitatively assesses this requirement:
 
-1. For each candidate $m$, compute the nearest neighbor distance $R_m(i)$ between points $\mathbf{X}_m(t_i)$ and its nearest neighbor in $\mathbb{R}^m$.
-2. Calculate the distance in $m+1$ dimensions by appending the next delayed coordinate $x(t+(m)\tau)$.  If the increase in distance exceeds a threshold (relative to $R_m(i)$), the neighbor is classified as false.
-3. The ratio of false neighbors over all points yields the FNN fraction at dimension $m$.
+1. For each candidate :math:`m`, compute the nearest neighbor distance :math:`R_m(i)` between points :math:`\mathbf{X}_m(t_i)` and its nearest neighbor in :math:`\mathbb{R}^m`.
+2. Calculate the distance in :math:`m+1` dimensions by appending the next delayed coordinate :math:`x(t+(m)\tau)`.  If the increase in distance exceeds a threshold (relative to :math:`R_m(i)`), the neighbor is classified as false.
+3. The ratio of false neighbors over all points yields the FNN fraction at dimension :math:`m`.
 
-In Figure \:ref:`fig:fnn`, the FNN fraction decreases sharply from nearly 1.0 at $m=1$ to essentially zero at $m=5$.  The first $m$ at which the FNN ratio falls below a small tolerance (e.g., 1–2%) is chosen as the optimal embedding dimension; here, $m^*=5$ ensures a one-to-one unfolding of the Rössler attractor.
+In Figure \:ref:`fig:fnn`, the FNN fraction decreases sharply from nearly 1.0 at :math:`m=1` to essentially zero at :math:`m=5`.  The first :math:`m` at which the FNN ratio falls below a small tolerance (e.g., 1–2%) is chosen as the optimal embedding dimension; here, :math:`m^*=5` ensures a one-to-one unfolding of the Rössler attractor.
 
 ## Implications for RQA
 
-With $\tau^*=27$ and $m^*=5$, the delay-coordinate vectors
+With :math:`\tau^*=27` and :math:`m^*=5`, the delay-coordinate vectors
 
 .. math::
    \mathbf{X}(t) = \bigl\[x(t),,x(t+27),,x(t+2\cdot27),,x(t+3\cdot27),,x(t+4\cdot27)\bigr]
 
 span a reconstructed phase space that accurately preserves the geometry and topology of the original Rössler attractor.  Consequently:
 
-* **Recurrence plots** constructed by thresholding $\|\mathbf{X}(t_i)-\mathbf{X}(t_j)\|$ reveal true return times and recurrence structures.
+* **Recurrence plots** constructed by thresholding :math:`\|\mathbf{X}(t_i)-\mathbf{X}(t_j)\|` reveal true return times and recurrence structures.
 * **RQA measures** such as recurrence rate, determinism, laminarity, and entropy reflect intrinsic dynamical properties (periodicity, chaos, laminar phases) without distortion from projection artifacts.
 
 Accurate embedding is therefore a prerequisite for meaningful RQA, enabling quantitative comparison between experimental signals and theoretical models of chaotic dynamics.
@@ -301,7 +301,7 @@ LAM             *Laminarity* – proportion of points on vertical lines (laminar
 ~~~~~~~~~~~~~~~~~~~~
 .. image:: recurrence_plots.png
    :alt: Auto-recurrence plots for chaotic and periodic trajectories.
-   :scale: 50 %
+   :scale: 30 %
    :align: center
 
 * Chaotic RP: broken diagonal segments, short lines → high unpredictability.
