@@ -129,7 +129,7 @@ Interpretation primer
 
 .. figure:: surrogate_results.png
    :align: center
-   :scale: 50%
+   :scale: 30%
    :alt: Surrogate Test Results: Original vs Surrogates
    :name: fig:surrogate
 
