@@ -4,7 +4,7 @@ jobs:
   snyk:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Run Snyk to check Kubernetes manifest file for issues
       continue-on-error: true
       uses: snyk/actions/iac@master
