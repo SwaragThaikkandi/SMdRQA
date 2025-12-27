@@ -95,7 +95,7 @@ jobs:
 
     # ---------- Upload validation artefacts ----------
     - name: Upload validation artefacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: surrogate-validation
         path: |
