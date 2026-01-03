@@ -28,6 +28,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: install
         run: python -m pip install .
-      - uses: sigstore/gh-action-sigstore-python@v3.0.1
+      - uses: sigstore/gh-action-sigstore-python@v3.2.0
         with:
           inputs: file.txt
