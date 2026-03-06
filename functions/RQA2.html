@@ -1,0 +1,1320 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>RQA2 &#8212; SMdRQA 2025.7.27 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=11407cb5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'functions/RQA2';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nl_tests" href="nl_tests.html" />
+    <link rel="prev" title="Functions" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2025.7.27 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../RQA2_documentation.html">RQA2 – Comprehensive Reference Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rossler_analysis_tutorial.html">RQA2 module example - Rössler Attractor Analysis Tutorial</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Functions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">RQA2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/functions/RQA2.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Ffunctions/RQA2.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/functions/RQA2.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>RQA2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">RQA2</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2"><code class="docutils literal notranslate"><span class="pre">RQA2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.batch_process"><code class="docutils literal notranslate"><span class="pre">RQA2.batch_process()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_embedded_signal()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_embedding_dimension"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_embedding_dimension()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_neighborhood_radius"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_neighborhood_radius()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_recurrence_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_rqa_measures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_time_delay"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_time_delay()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.determinism"><code class="docutils literal notranslate"><span class="pre">RQA2.determinism()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.embedded_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.eps"><code class="docutils literal notranslate"><span class="pre">RQA2.eps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.get_summary"><code class="docutils literal notranslate"><span class="pre">RQA2.get_summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.laminarity"><code class="docutils literal notranslate"><span class="pre">RQA2.laminarity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.load_data"><code class="docutils literal notranslate"><span class="pre">RQA2.load_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.load_results"><code class="docutils literal notranslate"><span class="pre">RQA2.load_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.m"><code class="docutils literal notranslate"><span class="pre">RQA2.m</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_fnn_curve"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_fnn_curve()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_recurrence_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_rqa_measures_summary"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_rqa_measures_summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_tau_mi_curve"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_tau_mi_curve()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_time_series"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_time_series()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_plot</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_rate"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_rate</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.save_results"><code class="docutils literal notranslate"><span class="pre">RQA2.save_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.tau"><code class="docutils literal notranslate"><span class="pre">RQA2.tau</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.trapping_time"><code class="docutils literal notranslate"><span class="pre">RQA2.trapping_time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-simulators">RQA2_simulators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.chua"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.chua()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.generate_test_battery"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.generate_test_battery()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.henon"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.henon()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.lorenz"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.lorenz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.rossler"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.rossler()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.seed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-tests">RQA2_tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests"><code class="docutils literal notranslate"><span class="pre">RQA2_tests</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.comprehensive_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.comprehensive_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.generate"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.generate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.max_workers"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.max_workers</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.seed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.signal"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <figure class="align-left" style="width: 40%">
+<a class="reference internal image-reference" href="../_images/smdrqa_logo1.svg"><img alt="../_images/smdrqa_logo1.svg" src="../_images/smdrqa_logo1.svg" style="width: 40%;" />
+</a>
+</figure>
+<section id="rqa2">
+<h1>RQA2<a class="headerlink" href="#rqa2" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">RQA2</span></code> module provides a modern, object-oriented interface for
+Recurrence Quantification Analysis (RQA).  It supersedes the procedural
+functions in <code class="xref py py-mod docutils literal notranslate"><span class="pre">SMdRQA.RQA_functions</span></code> and adds surrogate-data testing and
+chaotic-system simulation in a single coherent package.</p>
+<section id="id1">
+<h2>RQA2<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">RQA2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Comprehensive Recurrence Quantification Analysis class that handles all RQA computations,
+visualizations, and batch processing in an object-oriented manner.</p>
+<p>Fixed version with proper 0-based indexing throughout.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.batch_process">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">batch_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_level_estimates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.batch_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.batch_process" title="Link to this definition">#</a></dt>
+<dd><p>Analyse all <code class="docutils literal notranslate"><span class="pre">.npy</span></code> files in <em>input_path</em> and write results to
+<em>output_path</em>.</p>
+<p>Two CSV files are written: <code class="docutils literal notranslate"><span class="pre">rqa_results.csv</span></code> (one row per file with
+all RQA measures) and <code class="docutils literal notranslate"><span class="pre">error_report.csv</span></code> (files that could not be
+processed).  Recurrence plots are saved as <code class="docutils literal notranslate"><span class="pre">.npy</span></code> arrays alongside
+the CSVs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_path</strong> (<em>str or path-like</em>) – Directory containing <code class="docutils literal notranslate"><span class="pre">.npy</span></code> time-series files.</p></li>
+<li><p><strong>output_path</strong> (<em>str or path-like</em>) – Directory where outputs are written (created if absent).</p></li>
+<li><p><strong>group_level</strong> (bool, default <code class="docutils literal notranslate"><span class="pre">False</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, replace per-file parameters with group averages for
+the parameters listed in <em>group_level_estimates</em>.</p></li>
+<li><p><strong>group_level_estimates</strong> (<em>list of {‘tau’, ‘m’, ‘eps’}, optional</em>) – Which parameters to estimate at the group level.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to <code class="docutils literal notranslate"><span class="pre">RQA2.__init__</span></code> for each file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>results</strong> (<em>list of dict</em>) – Per-file dictionaries containing file name, RQA parameters, and
+measure values.</p></li>
+<li><p><strong>error_files</strong> (<em>list of dict</em>) – Per-file dictionaries for failed files, containing <code class="docutils literal notranslate"><span class="pre">'file'</span></code> and
+<code class="docutils literal notranslate"><span class="pre">'error'</span></code> keys.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_embedded_signal">
+<span class="sig-name descname"><span class="pre">compute_embedded_signal</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_embedded_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_embedded_signal" title="Link to this definition">#</a></dt>
+<dd><p>Build the time-delay embedding tensor.</p>
+<p>Constructs delay vectors of the form
+<code class="docutils literal notranslate"><span class="pre">[x(t),</span> <span class="pre">x(t+τ),</span> <span class="pre">…,</span> <span class="pre">x(t+(m-1)τ)]</span></code> for each valid time index t.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ndarray, shape (N_embedded, m, D)</em> – Delay-embedded signal where <code class="docutils literal notranslate"><span class="pre">N_embedded</span> <span class="pre">=</span> <span class="pre">N</span> <span class="pre">-</span> <span class="pre">(m-1)*τ</span></code>,
+m is the embedding dimension, and D is the number of original
+signal dimensions.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no data have been loaded or if the data are too short for the
+    chosen (τ, m) combination.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_embedding_dimension">
+<span class="sig-name descname"><span class="pre">compute_embedding_dimension</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_embedding_dimension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_embedding_dimension" title="Link to this definition">#</a></dt>
+<dd><p>Estimate the optimal embedding dimension m via False Nearest Neighbours.</p>
+<p>Uses the FNN criterion: the embedding dimension is the smallest m for
+which the fraction of false nearest neighbours drops below
+<code class="docutils literal notranslate"><span class="pre">self.config['bound']</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>int</em> – Embedding dimension m ≥ 1.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no data have been loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_neighborhood_radius">
+<span class="sig-name descname"><span class="pre">compute_neighborhood_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reqrr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_neighborhood_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_neighborhood_radius" title="Link to this definition">#</a></dt>
+<dd><p>Find the neighbourhood radius ε that achieves a target recurrence rate.</p>
+<p>The search scans <code class="docutils literal notranslate"><span class="pre">self.config['epsdiv']</span></code> evenly-spaced candidate
+values between <code class="docutils literal notranslate"><span class="pre">epsmin</span></code> and <code class="docutils literal notranslate"><span class="pre">epsmax</span></code> and returns the first ε for
+which <a href="#id2"><span class="problematic" id="id3">|RR − reqrr|</span></a> &lt; <code class="docutils literal notranslate"><span class="pre">rr_delta</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reqrr</strong> (<em>float, optional</em>) – Target recurrence rate in (0, 1).  Clamped to [0.01, 0.99].
+Defaults to <code class="docutils literal notranslate"><span class="pre">self.config['reqrr']</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>float</em> – Neighbourhood radius ε &gt; 0.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If no data have been loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_recurrence_plot">
+<span class="sig-name descname"><span class="pre">compute_recurrence_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_recurrence_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_recurrence_plot" title="Link to this definition">#</a></dt>
+<dd><p>Build the binary recurrence plot matrix from the current parameters.</p>
+<p>Uses the delay-embedded signal with the stored (or lazily computed)
+τ, m, and ε.  Two delay vectors are considered recurrent when their
+Euclidean distance is less than ε.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ndarray of int, shape (N_embedded, N_embedded)</em> – Symmetric binary matrix; 1 indicates recurrence, 0 otherwise.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If no data have been loaded or if the embedding parameters yield
+    an empty embedded signal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_rqa_measures">
+<span class="sig-name descname"><span class="pre">compute_rqa_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_rqa_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_rqa_measures" title="Link to this definition">#</a></dt>
+<dd><p>Compute the full set of RQA measures from the recurrence plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lmin</strong> (<em>int, optional</em>) – Minimum line length for DET and LAM computation.
+Defaults to <code class="docutils literal notranslate"><span class="pre">self.config['lmin']</span></code> (typically 2).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><em>dict</em> – Dictionary with the following keys:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">recurrence_rate</span></code><span class="classifier">float</span></dt><dd><p>Fraction of recurrent points (RR).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">determinism</span></code><span class="classifier">float</span></dt><dd><p>Fraction of recurrent points on diagonal lines ≥ lmin (DET).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">laminarity</span></code><span class="classifier">float</span></dt><dd><p>Fraction of recurrent points on vertical lines ≥ lmin (LAM).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">diagonal_entropy</span></code><span class="classifier">float</span></dt><dd><p>Shannon entropy of diagonal line-length distribution (L_entr).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">vertical_entropy</span></code><span class="classifier">float</span></dt><dd><p>Shannon entropy of vertical line-length distribution (V_entr).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">average_diagonal_length</span></code><span class="classifier">float</span></dt><dd><p>Mean length of diagonal lines ≥ lmin (L).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">average_vertical_length</span></code><span class="classifier">float</span></dt><dd><p>Mean length of vertical lines ≥ lmin (TT – trapping time).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">max_diagonal_length</span></code><span class="classifier">float</span></dt><dd><p>Maximum diagonal line length (L_max).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">max_vertical_length</span></code><span class="classifier">float</span></dt><dd><p>Maximum vertical line length (V_max).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">diagonal_mode</span></code><span class="classifier">float</span></dt><dd><p>Mode of the diagonal line-length distribution.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">vertical_mode</span></code><span class="classifier">float</span></dt><dd><p>Mode of the vertical line-length distribution.</p>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_time_delay">
+<span class="sig-name descname"><span class="pre">compute_time_delay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mi_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_time_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_time_delay" title="Link to this definition">#</a></dt>
+<dd><p>Estimate the optimal time delay τ from the mutual-information curve.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>{‘default’, ‘polynomial’}, optional</em>) – Algorithm used to locate the minimum of the MI curve.
+<code class="docutils literal notranslate"><span class="pre">'default'</span></code> selects the first local minimum; <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code>
+fits a cross-validated polynomial and uses its first minimum.
+Defaults to <code class="docutils literal notranslate"><span class="pre">self.config['tau_method']</span></code>.</p></li>
+<li><p><strong>mi_method</strong> (<em>{‘histdd’, ‘avg’}, optional</em>) – Mutual-information estimator.  Defaults to
+<code class="docutils literal notranslate"><span class="pre">self.config['mi_method']</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>int</em> – Optimal time delay τ ≥ 1.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If no data have been loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.determinism">
+<span class="sig-name descname"><span class="pre">determinism</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.determinism"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.determinism" title="Link to this definition">#</a></dt>
+<dd><p>Return the determinism (DET) measure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lmin</strong> (<em>int, optional</em>) – Minimum diagonal line length threshold.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>float</em> – DET in [0, 1].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.embedded_signal">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">embedded_signal</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.embedded_signal" title="Link to this definition">#</a></dt>
+<dd><p>Time-delayed embedded signal.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.eps">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">eps</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.eps" title="Link to this definition">#</a></dt>
+<dd><p>Neighborhood radius.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.get_summary">
+<span class="sig-name descname"><span class="pre">get_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.get_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.get_summary" title="Link to this definition">#</a></dt>
+<dd><p>Return a nested dictionary summarising data info, parameters, and
+(if already computed) RQA measures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>dict</em> – Top-level keys: <code class="docutils literal notranslate"><span class="pre">'Data</span> <span class="pre">Info'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Parameters'</span></code>, and
+optionally <code class="docutils literal notranslate"><span class="pre">'RQA</span> <span class="pre">Measures'</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.laminarity">
+<span class="sig-name descname"><span class="pre">laminarity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.laminarity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.laminarity" title="Link to this definition">#</a></dt>
+<dd><p>Return the laminarity (LAM) measure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lmin</strong> (<em>int, optional</em>) – Minimum vertical line length threshold.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>float</em> – LAM in [0, 1].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.load_data" title="Link to this definition">#</a></dt>
+<dd><p>Load (and optionally normalise) time-series data, resetting all caches.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array_like</em>) – Time-series array of shape <code class="docutils literal notranslate"><span class="pre">(N,)</span></code> or <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">D)</span></code>.</p></li>
+<li><p><strong>normalize</strong> (bool, default <code class="docutils literal notranslate"><span class="pre">True</span></code>) – Apply z-score normalisation column-wise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.load_results">
+<span class="sig-name descname"><span class="pre">load_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.load_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.load_results" title="Link to this definition">#</a></dt>
+<dd><p>Restore RQA state from a pickle file previously written by
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2.save_results" title="SMdRQA.RQA2.RQA2.save_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_results()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str or path-like</em>) – Path to a <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> file created by <a class="reference internal" href="#SMdRQA.RQA2.RQA2.save_results" title="SMdRQA.RQA2.RQA2.save_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_results()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.m">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">m</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.m" title="Link to this definition">#</a></dt>
+<dd><p>Embedding dimension.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.plot_fnn_curve">
+<span class="sig-name descname"><span class="pre">plot_fnn_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.plot_fnn_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.plot_fnn_curve" title="Link to this definition">#</a></dt>
+<dd><p>Plot the false nearest-neighbours ratio as a function of embedding
+dimension m.</p>
+<p>A vertical dashed line marks the automatically selected m value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_m</strong> (<em>int, optional</em>) – Maximum embedding dimension to evaluate.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple of float, default (10, 6)</em>) – Figure dimensions in inches.</p></li>
+<li><p><strong>save_path</strong> (<em>str or path-like, optional</em>) – Destination path for saving the figure at 300 dpi.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.plot_recurrence_plot">
+<span class="sig-name descname"><span class="pre">plot_recurrence_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.plot_recurrence_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.plot_recurrence_plot" title="Link to this definition">#</a></dt>
+<dd><p>Display the recurrence plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>tuple of float, default (8, 8)</em>) – Width and height of the figure in inches.</p></li>
+<li><p><strong>title</strong> (<em>str, optional</em>) – Figure title.  Defaults to <code class="docutils literal notranslate"><span class="pre">'Recurrence</span> <span class="pre">Plot</span> <span class="pre">(RR=&lt;value&gt;)'</span></code>.</p></li>
+<li><p><strong>save_path</strong> (<em>str or path-like, optional</em>) – If given, the figure is saved to this path at 300 dpi before
+being displayed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.plot_rqa_measures_summary">
+<span class="sig-name descname"><span class="pre">plot_rqa_measures_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.plot_rqa_measures_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.plot_rqa_measures_summary" title="Link to this definition">#</a></dt>
+<dd><p>Display a 2×3 panel summarising the main RQA measures and parameters.</p>
+<p>Panels: main measures (RR, DET, LAM), entropy measures, average line
+lengths, maximum line lengths, mode line lengths, and RQA parameters
+(τ, m, ε).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>tuple of float, default (12, 8)</em>) – Figure dimensions in inches.</p></li>
+<li><p><strong>save_path</strong> (<em>str or path-like, optional</em>) – Destination path for saving the figure at 300 dpi.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.plot_tau_mi_curve">
+<span class="sig-name descname"><span class="pre">plot_tau_mi_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_tau</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(10,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.plot_tau_mi_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.plot_tau_mi_curve" title="Link to this definition">#</a></dt>
+<dd><p>Plot the mutual information as a function of time delay τ.</p>
+<p>A vertical dashed line marks the automatically selected τ value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_tau</strong> (<em>int, optional</em>) – Maximum τ to evaluate.  Defaults to <code class="docutils literal notranslate"><span class="pre">min(100,</span> <span class="pre">N/4)</span></code>.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple of float, default (10, 6)</em>) – Figure dimensions in inches.</p></li>
+<li><p><strong>save_path</strong> (<em>str or path-like, optional</em>) – Destination path for saving the figure at 300 dpi.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.plot_time_series">
+<span class="sig-name descname"><span class="pre">plot_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(12,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.plot_time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.plot_time_series" title="Link to this definition">#</a></dt>
+<dd><p>Plot the original (unnormalised) time-series data.</p>
+<p>For univariate data a single line plot is drawn; for multivariate
+data each of the first five dimensions is shown in a stacked subplot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figsize</strong> (<em>tuple of float, default (12, 6)</em>) – Figure dimensions in inches.</p></li>
+<li><p><strong>save_path</strong> (<em>str or path-like, optional</em>) – Destination path for saving the figure at 300 dpi.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If no data have been loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.recurrence_plot">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">recurrence_plot</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.recurrence_plot" title="Link to this definition">#</a></dt>
+<dd><p>Recurrence plot matrix.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.recurrence_rate">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">recurrence_rate</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.recurrence_rate" title="Link to this definition">#</a></dt>
+<dd><p>Recurrence rate of the RP.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.save_results">
+<span class="sig-name descname"><span class="pre">save_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.save_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.save_results" title="Link to this definition">#</a></dt>
+<dd><p>Serialise all computed RQA state to a pickle file.</p>
+<p>Saved fields: <code class="docutils literal notranslate"><span class="pre">data</span></code>, <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code>,
+<code class="docutils literal notranslate"><span class="pre">recurrence_plot</span></code>, <code class="docutils literal notranslate"><span class="pre">rqa_measures</span></code>, <code class="docutils literal notranslate"><span class="pre">config</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str or path-like</em>) – Destination file path (e.g. <code class="docutils literal notranslate"><span class="pre">'analysis.pkl'</span></code>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.tau">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">tau</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2.tau" title="Link to this definition">#</a></dt>
+<dd><p>Time delay parameter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.trapping_time">
+<span class="sig-name descname"><span class="pre">trapping_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.trapping_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.trapping_time" title="Link to this definition">#</a></dt>
+<dd><p>Return the trapping time (TT) – mean vertical line length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>lmin</strong> (<em>int, optional</em>) – Minimum vertical line length threshold.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>float</em> – Average vertical line length TT ≥ 0.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="rqa2-simulators">
+<h2>RQA2_simulators<a class="headerlink" href="#rqa2-simulators" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">RQA2_simulators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generators for chaotic dynamical systems used to test RQA2 and surrogate
+methods.</p>
+<p>All ODE systems are integrated with <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> using
+the RK45 solver at tight tolerances (<code class="docutils literal notranslate"><span class="pre">rtol=1e-9</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1e-12</span></code>).
+Discrete maps are iterated directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int or None, optional</em>) – Seed for the internal <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.random.Generator</span></code>.  Use an
+integer for reproducible results.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sim</span> <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">battery</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">generate_test_battery</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.chua">
+<span class="sig-name descname"><span class="pre">chua</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.1,</span> <span class="pre">0.1,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">15.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">28.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-1.143</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">-0.714</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators.chua"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.chua" title="Link to this definition">#</a></dt>
+<dd><p>Simulate Chua’s circuit attractor.</p>
+<p>Uses the piecewise-linear Chua diode characteristic h(x) and the
+three-dimensional ODE:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">α·</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">h</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">dy</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span>
+<span class="n">dz</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">β·y</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tmax</strong> (<em>int, default 10000</em>) – Number of integration steps.</p></li>
+<li><p><strong>n</strong> (<em>int, default 2000</em>) – Number of output points.</p></li>
+<li><p><strong>Xi</strong> (<em>tuple of float, default (0.1, 0.1, 0.1)</em>) – Initial conditions (x₀, y₀, z₀).</p></li>
+<li><p><strong>alpha, beta</strong> (<em>float</em>) – Circuit parameters.</p></li>
+<li><p><strong>m0, m1</strong> (<em>float</em>) – Slopes of the piecewise-linear Chua diode.</p></li>
+<li><p><strong>dt</strong> (<em>float, default 0.01</em>) – Integration step size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x, y, z</strong> (<em>ndarray, shape (n,)</em>) – State variables at <em>n</em> equidistant times.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.generate_test_battery">
+<span class="sig-name descname"><span class="pre">generate_test_battery</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators.generate_test_battery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.generate_test_battery" title="Link to this definition">#</a></dt>
+<dd><p>Generate a standard battery of chaotic and periodic test signals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>dict</em> – Keys: <code class="docutils literal notranslate"><span class="pre">'rossler_chaotic'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rossler_sync'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lorenz'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'henon'</span></code>, <code class="docutils literal notranslate"><span class="pre">'chua'</span></code>.  Each value is a dict with keys
+<code class="docutils literal notranslate"><span class="pre">'x'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y'</span></code>, (optionally <code class="docutils literal notranslate"><span class="pre">'z'</span></code>), and <code class="docutils literal notranslate"><span class="pre">'regime'</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.henon">
+<span class="sig-name descname"><span class="pre">henon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.1,</span> <span class="pre">0.1)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators.henon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.henon" title="Link to this definition">#</a></dt>
+<dd><p>Simulate the Hénon map.</p>
+<p>Defined by the 2-D discrete-time recurrence:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>x_{n+1} = 1 - a·x_n² + y_n
+y_{n+1} = b·x_n
+</pre></div>
+</div>
+<p>The classic chaotic attractor uses <code class="docutils literal notranslate"><span class="pre">a=1.4,</span> <span class="pre">b=0.3</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int, default 2000</em>) – Number of iterations.</p></li>
+<li><p><strong>Xi</strong> (<em>tuple of float, default (0.1, 0.1)</em>) – Initial conditions (x₀, y₀).</p></li>
+<li><p><strong>a, b</strong> (<em>float</em>) – Map parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X, Y</strong> (<em>ndarray, shape (n,)</em>) – Trajectory of the x and y coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.lorenz">
+<span class="sig-name descname"><span class="pre">lorenz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">28.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2.6666666666666665</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators.lorenz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.lorenz" title="Link to this definition">#</a></dt>
+<dd><p>Simulate the Lorenz attractor.</p>
+<p>The system is defined by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">σ·</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">dy</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">ρ·x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x·z</span>
+<span class="n">dz</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">x·y</span> <span class="o">-</span> <span class="n">β·z</span>
+</pre></div>
+</div>
+<p>The classic chaotic butterfly attractor uses
+<code class="docutils literal notranslate"><span class="pre">σ=10,</span> <span class="pre">ρ=28,</span> <span class="pre">β=8/3</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tmax</strong> (<em>int, default 10000</em>) – Number of integration steps.</p></li>
+<li><p><strong>n</strong> (<em>int, default 2000</em>) – Number of output points.</p></li>
+<li><p><strong>Xi</strong> (<em>tuple of float, default (1.0, 1.0, 1.0)</em>) – Initial conditions (x₀, y₀, z₀).</p></li>
+<li><p><strong>sigma, rho, beta</strong> (<em>float</em>) – System parameters.</p></li>
+<li><p><strong>dt</strong> (<em>float, default 0.01</em>) – Integration step size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x, y, z</strong> (<em>ndarray, shape (n,)</em>) – State variables at <em>n</em> equidistant times.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.rossler">
+<span class="sig-name descname"><span class="pre">rossler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xi</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_simulators.rossler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.rossler" title="Link to this definition">#</a></dt>
+<dd><p>Simulate the Rössler attractor.</p>
+<p>The system is defined by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span> <span class="o">-</span> <span class="n">z</span>
+<span class="n">dy</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span>  <span class="n">x</span> <span class="o">+</span> <span class="n">a·y</span>
+<span class="n">dz</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span>  <span class="n">b</span> <span class="o">+</span> <span class="n">z·</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">b=0.2,</span> <span class="pre">c=5.7</span></code>: chaotic for <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">≲</span> <span class="pre">0.2</span></code>, periodic for
+<code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">≳</span> <span class="pre">0.2</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tmax</strong> (<em>int, default 10000</em>) – Number of integration steps.</p></li>
+<li><p><strong>n</strong> (<em>int, default 2000</em>) – Number of output points (sub-sampled from the solution).</p></li>
+<li><p><strong>Xi</strong> (<em>tuple of float, default (1.0, 1.0, 1.0)</em>) – Initial conditions (x₀, y₀, z₀).</p></li>
+<li><p><strong>a, b, c</strong> (<em>float</em>) – System parameters.  Classic chaotic: <code class="docutils literal notranslate"><span class="pre">a=0.2,</span> <span class="pre">b=0.2,</span> <span class="pre">c=5.7</span></code>.</p></li>
+<li><p><strong>dt</strong> (<em>float, default 0.01</em>) – Integration step size.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>x, y, z</strong> (<em>ndarray, shape (n,)</em>) – State variables sampled at <em>n</em> equidistant times.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_simulators.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2_simulators.seed" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="rqa2-tests">
+<h2>RQA2_tests<a class="headerlink" href="#rqa2-tests" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">RQA2_tests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_tests"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Surrogate-data generation and statistical validation for nonlinear
+dynamics testing.</p>
+<p>Implements six surrogate algorithms and a comprehensive validation
+framework that tests each algorithm against multiple nonlinear metrics
+(Lyapunov exponent, sample entropy, correlation dimension, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signal</strong> (<em>ndarray of float</em>) – 1-D floating-point time series to be tested.</p></li>
+<li><p><strong>seed</strong> (<em>int or None, optional</em>) – Seed for reproducible surrogate generation.</p></li>
+<li><p><strong>max_workers</strong> (<em>int, default 1</em>) – Number of parallel workers for surrogate generation
+(parallelism kicks in when <code class="docutils literal notranslate"><span class="pre">n_surrogates</span> <span class="pre">&gt;=</span> <span class="pre">50</span></code>).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If <em>signal</em> is not a floating-point array.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">signal</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tester</span> <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">surrogates</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;IAAFT&#39;</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">surrogates</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(100, 512)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests.comprehensive_validation">
+<span class="sig-name descname"><span class="pre">comprehensive_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">systems_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_surrogates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'surrogate_validation_results.png'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_tests.comprehensive_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests.comprehensive_validation" title="Link to this definition">#</a></dt>
+<dd><p>Run all six surrogate algorithms against multiple dynamical systems
+and return rank-based two-sided p-values for six nonlinear metrics.</p>
+<p>A heatmap of the results is saved to <em>save_path</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>systems_data</strong> (<em>dict</em>) – Mapping from system name (str) to a dict with at least an
+<code class="docutils literal notranslate"><span class="pre">'x'</span></code> key containing a 1-D ndarray (the x-coordinate of
+the attractor).  Typically produced by
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2_simulators.generate_test_battery" title="SMdRQA.RQA2.RQA2_simulators.generate_test_battery"><code class="xref py py-meth docutils literal notranslate"><span class="pre">RQA2_simulators.generate_test_battery()</span></code></a>.</p></li>
+<li><p><strong>n_surrogates</strong> (<em>int, default 200</em>) – Number of surrogates per algorithm per system.</p></li>
+<li><p><strong>save_path</strong> (<em>str, default ‘surrogate_validation_results.png’</em>) – Path where the validation heatmap is saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>dict</em> – Nested dict: <code class="docutils literal notranslate"><span class="pre">results[system_name][surrogate_method][metric]</span></code>
+→ p-value (float, or <code class="docutils literal notranslate"><span class="pre">nan</span></code> if the metric could not be
+computed).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests.generate">
+<span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FT'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'AAFT'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'IAAFT'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'IDFS'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'WIAAFT'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'PPS'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'FT'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_surrogates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_tests.generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests.generate" title="Link to this definition">#</a></dt>
+<dd><p>Generate an ensemble of surrogate time series.</p>
+<p>Each surrogate is produced with an independent random seed to
+ensure statistical independence.  When <code class="docutils literal notranslate"><span class="pre">n_surrogates</span> <span class="pre">&gt;=</span> <span class="pre">50</span></code> and
+<code class="docutils literal notranslate"><span class="pre">max_workers</span> <span class="pre">&gt;</span> <span class="pre">1</span></code> the ensemble is generated in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kind</strong> (<em>{‘FT’, ‘AAFT’, ‘IAAFT’, ‘IDFS’, ‘WIAAFT’, ‘PPS’}, default ‘FT’</em>) – Surrogate algorithm:</p>
+<ul>
+<li><p><strong>FT</strong> – Fourier-Transform phase randomisation.</p></li>
+<li><p><strong>AAFT</strong> – Amplitude-Adjusted Fourier Transform.</p></li>
+<li><p><strong>IAAFT</strong> – Iterative AAFT (n_iter=100 by default).</p></li>
+<li><p><strong>IDFS</strong> – Iterative Digitally-Filtered Shuffled.</p></li>
+<li><p><strong>WIAAFT</strong> – Wavelet-based IAAFT.</p></li>
+<li><p><strong>PPS</strong> – Pseudo-Periodic Surrogate.</p></li>
+</ul>
+</li>
+<li><p><strong>n_surrogates</strong> (<em>int, default 200</em>) – Number of surrogates to generate.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to the underlying surrogate algorithm (e.g.
+<code class="docutils literal notranslate"><span class="pre">n_iter=200</span></code> for IAAFT, <code class="docutils literal notranslate"><span class="pre">wavelet='db4'</span></code> for WIAAFT).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray, shape (n_surrogates, N)</em> – Array of surrogate time series, one per row.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>KeyError</strong> – If <em>kind</em> is not a recognised algorithm name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests.max_workers">
+<span class="sig-name descname"><span class="pre">max_workers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests.max_workers" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests.seed">
+<span class="sig-name descname"><span class="pre">seed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests.seed" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_tests.signal">
+<span class="sig-name descname"><span class="pre">signal</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></span><a class="headerlink" href="#SMdRQA.RQA2.RQA2_tests.signal" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nl_tests.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nl_tests</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">RQA2</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2"><code class="docutils literal notranslate"><span class="pre">RQA2</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.batch_process"><code class="docutils literal notranslate"><span class="pre">RQA2.batch_process()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_embedded_signal()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_embedding_dimension"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_embedding_dimension()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_neighborhood_radius"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_neighborhood_radius()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_recurrence_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_rqa_measures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_time_delay"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_time_delay()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.determinism"><code class="docutils literal notranslate"><span class="pre">RQA2.determinism()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.embedded_signal</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.eps"><code class="docutils literal notranslate"><span class="pre">RQA2.eps</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.get_summary"><code class="docutils literal notranslate"><span class="pre">RQA2.get_summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.laminarity"><code class="docutils literal notranslate"><span class="pre">RQA2.laminarity()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.load_data"><code class="docutils literal notranslate"><span class="pre">RQA2.load_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.load_results"><code class="docutils literal notranslate"><span class="pre">RQA2.load_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.m"><code class="docutils literal notranslate"><span class="pre">RQA2.m</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_fnn_curve"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_fnn_curve()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_recurrence_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_rqa_measures_summary"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_rqa_measures_summary()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_tau_mi_curve"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_tau_mi_curve()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.plot_time_series"><code class="docutils literal notranslate"><span class="pre">RQA2.plot_time_series()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_plot</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_rate"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_rate</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.save_results"><code class="docutils literal notranslate"><span class="pre">RQA2.save_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.tau"><code class="docutils literal notranslate"><span class="pre">RQA2.tau</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.trapping_time"><code class="docutils literal notranslate"><span class="pre">RQA2.trapping_time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-simulators">RQA2_simulators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.chua"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.chua()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.generate_test_battery"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.generate_test_battery()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.henon"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.henon()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.lorenz"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.lorenz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.rossler"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.rossler()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_simulators.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_simulators.seed</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-tests">RQA2_tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests"><code class="docutils literal notranslate"><span class="pre">RQA2_tests</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.comprehensive_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.comprehensive_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.generate"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.generate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.max_workers"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.max_workers</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.seed</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.signal"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

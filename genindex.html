@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; SMdRQA 2024.04.01 documentation</title>
+    <title>Index &#8212; SMdRQA 2025.7.27 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="_static/documentation_options.js?v=11407cb5"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -135,7 +135,7 @@
   
   
   
-    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+    <p class="title logo__title">SMdRQA 2025.7.27 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -155,7 +155,7 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">SMdRQA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="RQA2_documentation.html">RQA2.rst – Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="RQA2_documentation.html">RQA2 – Comprehensive Reference Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cite_us.html">Cite us</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -175,6 +175,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions/RQA2.html">RQA2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/nl_tests.html">nl_tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
@@ -350,6 +351,7 @@ document.write(`
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#K"><strong>K</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -378,6 +380,10 @@ document.write(`
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.batch_process">batch_process() (RQA2 class method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">binscalc() (in module SMdRQA.RQA_functions)</a>
 </li>
   </ul></td>
@@ -390,9 +396,25 @@ document.write(`
 </li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.Chi2_test">Chi2_test() (in module SMdRQA.nl_tests)</a>
 </li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.chua">chua() (RQA2_simulators method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.comprehensive_validation">comprehensive_validation() (RQA2_tests method)</a>
+</li>
+      <li><a href="functions/utils.html#SMdRQA.utils.compute_3D_matrix_size">compute_3D_matrix_size() (in module SMdRQA.utils)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_embedded_signal">compute_embedded_signal() (RQA2 method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="functions/utils.html#SMdRQA.utils.compute_3D_matrix_size">compute_3D_matrix_size() (in module SMdRQA.utils)</a>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_embedding_dimension">compute_embedding_dimension() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_neighborhood_radius">compute_neighborhood_radius() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_recurrence_plot">compute_recurrence_plot() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_rqa_measures">compute_rqa_measures() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_time_delay">compute_time_delay() (RQA2 method)</a>
 </li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.Correlation_sum_plot">Correlation_sum_plot() (in module SMdRQA.nl_tests)</a>
 </li>
@@ -406,6 +428,8 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.determinism">determinism() (RQA2 method)</a>
+</li>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.diaghist">diaghist() (in module SMdRQA.RQA_functions)</a>
 </li>
   </ul></td>
@@ -414,7 +438,13 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.embedded_signal">embedded_signal (RQA2 property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.entropy">entropy() (in module SMdRQA.RQA_functions)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.eps">eps (RQA2 property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -456,13 +486,25 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.generate">generate() (RQA2_tests method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.generate_test_battery">generate_test_battery() (RQA2_simulators method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RP_maker_diagnose.html#SMdRQA.RP_maker_diagnose.get_minFNN_distribution_plot">get_minFNN_distribution_plot() (in module SMdRQA.RP_maker_diagnose)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.get_summary">get_summary() (RQA2 method)</a>
 </li>
   </ul></td>
 </tr></table>
 
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.henon">henon() (RQA2_simulators method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.HistogramSampling">HistogramSampling() (in module SMdRQA.window_size)</a>
 </li>
@@ -487,15 +529,35 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="M">M</h2>
+<h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">maxi() (in module SMdRQA.RQA_functions)</a>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.laminarity">laminarity() (RQA2 method)</a>
 </li>
-      <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Mode">Mode() (in module SMdRQA.Extract_from_RP)</a>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.load_data">load_data() (RQA2 method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.load_results">load_results() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.lorenz">lorenz() (RQA2_simulators method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.m">m (RQA2 property)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.max_workers">max_workers (RQA2_tests attribute)</a>
+</li>
+      <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">maxi() (in module SMdRQA.RQA_functions)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Mode">Mode() (in module SMdRQA.Extract_from_RP)</a>
+</li>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.mode">mode() (in module SMdRQA.RQA_functions)</a>
 </li>
       <li><a href="chapters/Chapter2.html#SMdRQA.RQA_functions.mutualinfo">mutualinfo() (in module SMdRQA.RQA_functions)</a>, <a href="functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[1]</a>
@@ -528,8 +590,18 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.percentmorethan">percentmorethan() (in module SMdRQA.RQA_functions)</a>
 </li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.plot_fnn_curve">plot_fnn_curve() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.plot_recurrence_plot">plot_recurrence_plot() (RQA2 method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.plot_rqa_measures_summary">plot_rqa_measures_summary() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.plot_tau_mi_curve">plot_tau_mi_curve() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.plot_time_series">plot_time_series() (RQA2 method)</a>
+</li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.preprocessing">preprocessing() (in module SMdRQA.nl_tests)</a>
 </li>
   </ul></td>
@@ -542,11 +614,23 @@ document.write(`
 </li>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">reccrate() (in module SMdRQA.RQA_functions)</a>
 </li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.recurrence_plot">recurrence_plot (RQA2 property)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.recurrence_rate">recurrence_rate (RQA2 property)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.rossler">rossler() (RQA2_simulators method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RP_maker.html#SMdRQA.RP_maker.RP_computer">RP_computer() (in module SMdRQA.RP_maker)</a>
 </li>
       <li><a href="functions/RP_maker_diagnose.html#SMdRQA.RP_maker_diagnose.RP_diagnose">RP_diagnose() (in module SMdRQA.RP_maker_diagnose)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2">RQA2 (class in SMdRQA.RQA2)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators">RQA2_simulators (class in SMdRQA.RQA2)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests">RQA2_tests (class in SMdRQA.RQA2)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -554,16 +638,26 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.save_results">save_results() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.seed">seed (RQA2_simulators attribute)</a>
+
+      <ul>
+        <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.seed">(RQA2_tests attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.signal">signal (RQA2_tests attribute)</a>
+</li>
       <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Sliding_window">Sliding_window() (in module SMdRQA.Extract_from_RP)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_window_whole_data">Sliding_window_whole_data() (in module SMdRQA.window_size)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS">Sliding_windowBS() (in module SMdRQA.window_size)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">Sliding_windowBS_sub_avg_diag() (in module SMdRQA.window_size)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">Sliding_windowBS_sub_avg_vert() (in module SMdRQA.window_size)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_per_lam">Sliding_windowBS_sub_per_lam() (in module SMdRQA.window_size)</a>
@@ -578,11 +672,15 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.tau">tau (RQA2 property)</a>
+</li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.time_irreversibility">time_irreversibility() (in module SMdRQA.nl_tests)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="chapters/Chapter2.html#SMdRQA.RQA_functions.timedelayMI">timedelayMI() (in module SMdRQA.RQA_functions)</a>, <a href="functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[1]</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.trapping_time">trapping_time() (RQA2 method)</a>
 </li>
   </ul></td>
 </tr></table>

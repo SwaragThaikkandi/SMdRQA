@@ -12,6 +12,7 @@ You can find here the API documentation of SMdRQA, with a description of all the
    :caption: Modules
    :titlesonly:
 
+   RQA2
    nl_tests
    RQA_functions
    RP_maker

@@ -265,7 +265,8 @@ The embedding dimension :math:`m` must be large enough to unfold the attractor s
 
 In Figure \:ref:`fig:fnn`, the FNN fraction decreases sharply from nearly 1.0 at :math:`m=1` to essentially zero at :math:`m=5`.  The first :math:`m` at which the FNN ratio falls below a small tolerance (e.g., 1–2%) is chosen as the optimal embedding dimension; here, :math:`m^*=5` ensures a one-to-one unfolding of the Rössler attractor.
 
-## Implications for RQA
+Implications for RQA
+^^^^^^^^^^^^^^^^^^^^
 
 With :math:`\tau^*=27` and :math:`m^*=5`, the delay-coordinate vectors
 

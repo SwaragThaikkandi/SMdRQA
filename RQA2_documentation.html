@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>RQA2.rst – Documentation &#8212; SMdRQA 2024.04.01 documentation</title>
+    <title>RQA2 – Comprehensive Reference Guide &#8212; SMdRQA 2025.7.27 documentation</title>
   
   
   
@@ -38,12 +38,13 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=d6f9e291"></script>
+    <script src="_static/documentation_options.js?v=11407cb5"></script>
     <script src="_static/doctools.js?v=fd6eb6e6"></script>
     <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'RQA2_documentation';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -136,7 +137,7 @@
   
   
   
-    <p class="title logo__title">SMdRQA 2024.04.01 documentation</p>
+    <p class="title logo__title">SMdRQA 2025.7.27 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -156,7 +157,7 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">SMdRQA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">RQA2.rst – Documentation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">RQA2 – Comprehensive Reference Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Authors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cite_us.html">Cite us</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -176,6 +177,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions/RQA2.html">RQA2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/nl_tests.html">nl_tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
@@ -391,7 +393,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>RQA2.rst – Documentation</h1>
+    <h1>RQA2 – Comprehensive Reference Guide</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -401,25 +403,60 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-capabilities">Key Capabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-design-principles">Key Design Principles</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-background">Mathematical Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#takens-delay-embedding">Takens’ Delay Embedding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrence-matrix">Recurrence Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa-measures-definitions">RQA Measures – Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-estimation-algorithms">Parameter Estimation Algorithms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-delay-tau">Time Delay tau</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-dimension-m">Embedding Dimension m</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbourhood-radius-epsilon">Neighbourhood Radius epsilon</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-reference">Configuration Reference</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API Reference</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lazy-properties">Lazy Properties</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-methods">Core Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-processing">Batch Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-computation-methods">Core Computation Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation-methods">Visualisation Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-and-batch-processing">Persistence and Batch Processing</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-highlights">Implementation Highlights</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithmic-choices">Algorithmic Choices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structures">Data Structures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-1-single-univariate-signal">Workflow 1 – Single Univariate Signal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-2-multivariate-mdrqa">Workflow 2 – Multivariate (MdRQA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-3-surrogate-validation">Workflow 3 – Surrogate Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-4-batch-processing">Workflow 4 – Batch Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-5-save-and-reload">Workflow 5 – Save and Reload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-6-inspecting-parameter-curves">Workflow 6 – Inspecting Parameter Curves</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-best-practices">Reproducibility &amp; Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-simulators-chaotic-system-generators">RQA2_simulators – Chaotic System Generators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-tests-surrogate-data-and-validation">RQA2_tests – Surrogate Data and Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-algorithms">Surrogate Algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-validation-metrics">Nonlinear Validation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehensive-validation">Comprehensive Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-generation">Parallel Generation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-notes">Implementation Notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">Indexing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-computation">Distance Computation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validated-polynomial-degree">Cross-Validated Polynomial Degree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-seeding">Surrogate Seeding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-checklist">Reproducibility Checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extending-rqa2">Extending RQA2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-rqa2">Citing RQA2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-work">Citing This Work</a></li>
 </ul>
             </nav>
         </div>
@@ -431,167 +468,1009 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="rqa2-rst-documentation">
-<h1>RQA2.rst – Documentation<a class="headerlink" href="#rqa2-rst-documentation" title="Link to this heading">#</a></h1>
+  <section id="rqa2-comprehensive-reference-guide">
+<h1>RQA2 – Comprehensive Reference Guide<a class="headerlink" href="#rqa2-comprehensive-reference-guide" title="Link to this heading">#</a></h1>
 <nav class="contents local" id="table-of-contents">
 <p class="topic-title">Table of Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#introduction" id="id5">Introduction</a></p></li>
-<li><p><a class="reference internal" href="#key-capabilities" id="id6">Key Capabilities</a></p></li>
-<li><p><a class="reference internal" href="#quick-start" id="id7">Quick Start</a></p></li>
-<li><p><a class="reference internal" href="#api-reference" id="id8">API Reference</a></p>
+<li><p><a class="reference internal" href="#overview" id="id4">Overview</a></p>
 <ul>
-<li><p><a class="reference internal" href="#constructor" id="id9">Constructor</a></p></li>
-<li><p><a class="reference internal" href="#lazy-properties" id="id10">Lazy Properties</a></p></li>
-<li><p><a class="reference internal" href="#core-methods" id="id11">Core Methods</a></p></li>
-<li><p><a class="reference internal" href="#batch-processing" id="id12">Batch Processing</a></p></li>
+<li><p><a class="reference internal" href="#key-design-principles" id="id5">Key Design Principles</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#implementation-highlights" id="id13">Implementation Highlights</a></p>
+<li><p><a class="reference internal" href="#quick-start" id="id6">Quick Start</a></p></li>
+<li><p><a class="reference internal" href="#mathematical-background" id="id7">Mathematical Background</a></p>
 <ul>
-<li><p><a class="reference internal" href="#algorithmic-choices" id="id14">Algorithmic Choices</a></p></li>
-<li><p><a class="reference internal" href="#data-structures" id="id15">Data Structures</a></p></li>
-<li><p><a class="reference internal" href="#performance-considerations" id="id16">Performance Considerations</a></p></li>
+<li><p><a class="reference internal" href="#takens-delay-embedding" id="id8">Takens’ Delay Embedding</a></p></li>
+<li><p><a class="reference internal" href="#recurrence-matrix" id="id9">Recurrence Matrix</a></p></li>
+<li><p><a class="reference internal" href="#rqa-measures-definitions" id="id10">RQA Measures – Definitions</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#reproducibility-best-practices" id="id17">Reproducibility &amp; Best Practices</a></p></li>
-<li><p><a class="reference internal" href="#extending-rqa2" id="id18">Extending RQA2</a></p></li>
-<li><p><a class="reference internal" href="#citing-rqa2" id="id19">Citing RQA2</a></p></li>
+<li><p><a class="reference internal" href="#parameter-estimation-algorithms" id="id11">Parameter Estimation Algorithms</a></p>
+<ul>
+<li><p><a class="reference internal" href="#time-delay-tau" id="id12">Time Delay tau</a></p></li>
+<li><p><a class="reference internal" href="#embedding-dimension-m" id="id13">Embedding Dimension m</a></p></li>
+<li><p><a class="reference internal" href="#neighbourhood-radius-epsilon" id="id14">Neighbourhood Radius epsilon</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#configuration-reference" id="id15">Configuration Reference</a></p></li>
+<li><p><a class="reference internal" href="#api-reference" id="id16">API Reference</a></p>
+<ul>
+<li><p><a class="reference internal" href="#constructor" id="id17">Constructor</a></p></li>
+<li><p><a class="reference internal" href="#lazy-properties" id="id18">Lazy Properties</a></p></li>
+<li><p><a class="reference internal" href="#core-computation-methods" id="id19">Core Computation Methods</a></p></li>
+<li><p><a class="reference internal" href="#visualisation-methods" id="id20">Visualisation Methods</a></p></li>
+<li><p><a class="reference internal" href="#persistence-and-batch-processing" id="id21">Persistence and Batch Processing</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#common-workflows" id="id22">Common Workflows</a></p>
+<ul>
+<li><p><a class="reference internal" href="#workflow-1-single-univariate-signal" id="id23">Workflow 1 – Single Univariate Signal</a></p></li>
+<li><p><a class="reference internal" href="#workflow-2-multivariate-mdrqa" id="id24">Workflow 2 – Multivariate (MdRQA)</a></p></li>
+<li><p><a class="reference internal" href="#workflow-3-surrogate-validation" id="id25">Workflow 3 – Surrogate Validation</a></p></li>
+<li><p><a class="reference internal" href="#workflow-4-batch-processing" id="id26">Workflow 4 – Batch Processing</a></p></li>
+<li><p><a class="reference internal" href="#workflow-5-save-and-reload" id="id27">Workflow 5 – Save and Reload</a></p></li>
+<li><p><a class="reference internal" href="#workflow-6-inspecting-parameter-curves" id="id28">Workflow 6 – Inspecting Parameter Curves</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#rqa2-simulators-chaotic-system-generators" id="id29">RQA2_simulators – Chaotic System Generators</a></p></li>
+<li><p><a class="reference internal" href="#rqa2-tests-surrogate-data-and-validation" id="id30">RQA2_tests – Surrogate Data and Validation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#surrogate-algorithms" id="id31">Surrogate Algorithms</a></p></li>
+<li><p><a class="reference internal" href="#nonlinear-validation-metrics" id="id32">Nonlinear Validation Metrics</a></p></li>
+<li><p><a class="reference internal" href="#comprehensive-validation" id="id33">Comprehensive Validation</a></p></li>
+<li><p><a class="reference internal" href="#parallel-generation" id="id34">Parallel Generation</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#implementation-notes" id="id35">Implementation Notes</a></p>
+<ul>
+<li><p><a class="reference internal" href="#indexing" id="id36">Indexing</a></p></li>
+<li><p><a class="reference internal" href="#distance-computation" id="id37">Distance Computation</a></p></li>
+<li><p><a class="reference internal" href="#cross-validated-polynomial-degree" id="id38">Cross-Validated Polynomial Degree</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-seeding" id="id39">Surrogate Seeding</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#reproducibility-checklist" id="id40">Reproducibility Checklist</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting" id="id41">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#extending-rqa2" id="id42">Extending RQA2</a></p></li>
+<li><p><a class="reference internal" href="#citing-this-work" id="id43">Citing This Work</a></p></li>
 </ul>
 </nav>
-<section id="introduction">
-<h2><a class="toc-backref" href="#id5" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
-<p>The <strong>RQA2</strong> class provides a modern, object-oriented interface to Recurrence Quantification
-Analysis (RQA) tailored for scientific research.  It unifies data handling,
-parameter estimation, recurrence-plot generation, quantitative measure
-extraction, and visualization in a single coherent workflow.  RQA2 is part of
-the <em>SMdRQA</em> package (version 2.0.0) and is intended for researchers working in
-nonlinear dynamics, neuroscience, climate science, physiology, finance, and
-other fields that require robust analysis of complex time series.</p>
-</section>
-<section id="key-capabilities">
-<h2><a class="toc-backref" href="#id6" role="doc-backlink">Key Capabilities</a><a class="headerlink" href="#key-capabilities" title="Link to this heading">#</a></h2>
+<section id="overview">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<p>The <strong>RQA2</strong> module is the modern, object-oriented core of the <em>SMdRQA</em> package
+(version 2025.7.27).  It supersedes the legacy <code class="docutils literal notranslate"><span class="pre">RQA_functions</span></code> procedural
+interface and bundles three cooperating classes:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Class</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/RQA2.html#SMdRQA.RQA2.RQA2" title="SMdRQA.RQA2.RQA2"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2</span></code></a></p></td>
+<td><p>End-to-end RQA pipeline: data loading, parameter estimation, recurrence-plot
+construction, measure computation, visualisation, and batch processing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators" title="SMdRQA.RQA2.RQA2_simulators"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2_simulators</span></code></a></p></td>
+<td><p>Reproducible generators for well-known chaotic dynamical systems
+(Rössler, Lorenz, Hénon, Chua) used for benchmarking.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests" title="SMdRQA.RQA2.RQA2_tests"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2_tests</span></code></a></p></td>
+<td><p>Surrogate-data generation (FT, AAFT, IAAFT, IDFS, WIAAFT, PPS) and
+comprehensive statistical validation of nonlinear dynamics metrics.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="key-design-principles">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Key Design Principles</a><a class="headerlink" href="#key-design-principles" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong>Unified API</strong> – All functionality is accessed through one class instance.</p></li>
-<li><p><strong>Lazy Evaluation</strong> – Parameters τ (delay), m (embedding dimension), and ε
-(radius) are computed only when first requested and cached thereafter.</p></li>
-<li><p><strong>Advanced Parameter Selection</strong> – Mutual-information and polynomial
-minimisation algorithms for τ; False Nearest Neighbours for m; adaptive
-recurrence-rate targeting for ε.</p></li>
-<li><p><strong>Full RQA Measure Suite</strong> – Determinism, Laminarity, Trapping Time, line-length
-statistics, and entropic measures.</p></li>
-<li><p><strong>High-Quality Visualisation</strong> – Publication-ready plots for recurrence
-matrices, MI curves, FNN curves, measure summaries, and raw time series.</p></li>
-<li><p><strong>Batch Processing</strong> – Automated analysis of entire directories with optional
-group-level parameter estimation.</p></li>
-<li><p><strong>Reproducibility</strong> – Complete state serialisation (<cite>save_results</cite>/<cite>load_results</cite>).</p></li>
+<li><p><strong>Lazy evaluation</strong> – Parameters τ, m, and ε are computed on first access
+and cached; re-loading data resets all caches automatically.</p></li>
+<li><p><strong>Unified API</strong> – One class instance drives the entire analysis pipeline.</p></li>
+<li><p><strong>Reproducibility</strong> – Full state (data, parameters, measures, config) is
+serialisable via <code class="docutils literal notranslate"><span class="pre">save_results</span></code> / <code class="docutils literal notranslate"><span class="pre">load_results</span></code>.</p></li>
+<li><p><strong>Separation of concerns</strong> – Simulation, surrogate testing, and measurement
+live in dedicated classes that are each independently unit-testable.</p></li>
 </ul>
 </section>
+</section>
 <section id="quick-start">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Quick Start</a><a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Quick Start</a><a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="c1"># Load or create time-series data</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mytimeseries.npy&#39;</span><span class="p">)</span>      <span class="c1"># shape (N,) or (N, D)</span>
+<span class="c1"># ── 1. Load data (shape (N,) or (N, D)) ──────────────────────────────</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mytimeseries.npy&#39;</span><span class="p">)</span>
 
-<span class="c1"># Initialise analysis object (normalises by default)</span>
-<span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.10</span><span class="p">)</span>            <span class="c1"># target 10 % recurrence-rate</span>
+<span class="c1"># ── 2. Create analysis object (z-scores the data by default) ─────────</span>
+<span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.10</span><span class="p">)</span>   <span class="c1"># target 10 % recurrence rate</span>
 
-<span class="c1"># Access core parameters (computed lazily)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;τ =&quot;</span><span class="p">,</span> <span class="n">rqa</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;m =&quot;</span><span class="p">,</span> <span class="n">rqa</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ε =&quot;</span><span class="p">,</span> <span class="n">rqa</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+<span class="c1"># ── 3. Inspect automatically selected parameters ──────────────────────</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;tau = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">tau</span><span class="si">}</span><span class="s2">,  m = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">m</span><span class="si">}</span><span class="s2">,  eps = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">eps</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="c1"># Generate recurrence plot and compute measures</span>
-<span class="n">rp</span>      <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">recurrence_plot</span>           <span class="c1"># binary matrix</span>
+<span class="c1"># ── 4. Compute all RQA measures in one call ──────────────────────────</span>
 <span class="n">measures</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_rqa_measures</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">measures</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">30s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Determinism:&quot;</span><span class="p">,</span> <span class="n">measures</span><span class="p">[</span><span class="s1">&#39;determinism&#39;</span><span class="p">])</span>
-
-<span class="c1"># Visualise</span>
-<span class="n">rqa</span><span class="o">.</span><span class="n">plot_recurrence_plot</span><span class="p">()</span>
+<span class="c1"># ── 5. Visualise ─────────────────────────────────────────────────────</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_recurrence_plot</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;rp.png&#39;</span><span class="p">)</span>
 <span class="n">rqa</span><span class="o">.</span><span class="n">plot_rqa_measures_summary</span><span class="p">()</span>
 
-<span class="c1"># Persist results for full reproducibility</span>
+<span class="c1"># ── 6. Save for auditable workflows ──────────────────────────────────</span>
 <span class="n">rqa</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;analysis.pkl&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
-<section id="api-reference">
-<h2><a class="toc-backref" href="#id8" role="doc-backlink">API Reference</a><a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
-<section id="constructor">
-<h3><a class="toc-backref" href="#id9" role="doc-backlink">Constructor</a><a class="headerlink" href="#constructor" title="Link to this heading">#</a></h3>
-</section>
-<section id="lazy-properties">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">Lazy Properties</a><a class="headerlink" href="#lazy-properties" title="Link to this heading">#</a></h3>
-</section>
-<section id="core-methods">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Core Methods</a><a class="headerlink" href="#core-methods" title="Link to this heading">#</a></h3>
-</section>
-<section id="batch-processing">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Batch Processing</a><a class="headerlink" href="#batch-processing" title="Link to this heading">#</a></h3>
-</section>
-</section>
-<section id="implementation-highlights">
-<h2><a class="toc-backref" href="#id13" role="doc-backlink">Implementation Highlights</a><a class="headerlink" href="#implementation-highlights" title="Link to this heading">#</a></h2>
-<section id="algorithmic-choices">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Algorithmic Choices</a><a class="headerlink" href="#algorithmic-choices" title="Link to this heading">#</a></h3>
+<section id="mathematical-background">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Mathematical Background</a><a class="headerlink" href="#mathematical-background" title="Link to this heading">#</a></h2>
+<section id="takens-delay-embedding">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Takens’ Delay Embedding</a><a class="headerlink" href="#takens-delay-embedding" title="Link to this heading">#</a></h3>
+<p>Given a scalar time series <span class="math notranslate nohighlight">\(\{x(t)\}_{t=1}^{N}\)</span> sampled from an unknown
+dynamical system, the <strong>delay-embedding theorem</strong> (Takens, 1981) guarantees that
+the map</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{X}(t) =
+\bigl[x(t),\; x(t+\tau),\; x(t+2\tau),\; \ldots,\; x(t+(m-1)\tau)\bigr]\]</div>
+<p>is a <em>diffeomorphism</em> (smooth bijection) between the original attractor and the
+reconstructed manifold in <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>, provided:</p>
 <ul class="simple">
-<li><p><strong>Time-Delay (τ)</strong> – The default method selects the first local minimum of
-the time-delay mutual information curve; the polynomial variant fits a
-cross-validated polynomial and chooses its first minimum.</p></li>
-<li><p><strong>Embedding Dimension (m)</strong> – Determined using the false-nearest-neighbour
-criterion with adaptive search for the <em>r</em> threshold where the FNN ratio
-first reaches zero.</p></li>
-<li><p><strong>Neighbourhood Radius (ε)</strong> – Binary search over a user-defined interval
-to achieve the desired recurrence-rate within tolerance <em>rr_delta</em>.</p></li>
+<li><p>the embedding dimension satisfies <span class="math notranslate nohighlight">\(m \geq 2 d_f + 1\)</span> (where <span class="math notranslate nohighlight">\(d_f\)</span>
+is the fractal dimension of the attractor), and</p></li>
+<li><p>the delay <span class="math notranslate nohighlight">\(\tau\)</span> avoids both redundancy (too small) and independence
+(too large).</p></li>
 </ul>
+<p>The result extends straightforwardly to multivariate data: for a
+<span class="math notranslate nohighlight">\(D\)</span>-dimensional input the delay vector has shape
+<span class="math notranslate nohighlight">\((N_\text{emb},\, m,\, D)\)</span> with
+<span class="math notranslate nohighlight">\(N_\text{emb} = N - (m-1)\tau\)</span>.</p>
 </section>
-<section id="data-structures">
-<h3><a class="toc-backref" href="#id15" role="doc-backlink">Data Structures</a><a class="headerlink" href="#data-structures" title="Link to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Delay-Embedded Tensor:</strong> <code class="docutils literal notranslate"><span class="pre">shape</span> <span class="pre">=</span> <span class="pre">(N_embedded,</span> <span class="pre">m,</span> <span class="pre">D)</span></code></p></li>
-<li><p><strong>Recurrence Plot:</strong> <code class="docutils literal notranslate"><span class="pre">shape</span> <span class="pre">=</span> <span class="pre">(N_embedded,</span> <span class="pre">N_embedded)</span></code>, dtype <code class="docutils literal notranslate"><span class="pre">uint8</span></code>.</p></li>
-</ul>
+<section id="recurrence-matrix">
+<h3><a class="toc-backref" href="#id9" role="doc-backlink">Recurrence Matrix</a><a class="headerlink" href="#recurrence-matrix" title="Link to this heading">#</a></h3>
+<p>Given the embedded signal, the <strong>recurrence matrix</strong> is</p>
+<div class="math notranslate nohighlight">
+\[R_{ij} = \Theta\!\bigl(\varepsilon - \|\mathbf{X}(t_i) - \mathbf{X}(t_j)\|\bigr),
+\qquad i,j = 1,\ldots,N_\text{emb}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Theta\)</span> is the Heaviside step function and <span class="math notranslate nohighlight">\(\varepsilon\)</span>
+is the neighbourhood radius.  <span class="math notranslate nohighlight">\(R_{ij}=1\)</span> iff the two state vectors are
+within <span class="math notranslate nohighlight">\(\varepsilon\)</span> of each other in Euclidean distance.</p>
 </section>
-<section id="performance-considerations">
-<h3><a class="toc-backref" href="#id16" role="doc-backlink">Performance Considerations</a><a class="headerlink" href="#performance-considerations" title="Link to this heading">#</a></h3>
-<p>Vectorised distance computations from <em>SciPy</em>’s <a href="#id1"><span class="problematic" id="id2">:pyfunc:`scipy.spatial.distance.cdist`</span></a>
-are used to minimise Python-level loops.  Memory usage scales quadratically
-with <em>N_embedded</em>; users analysing very large datasets should apply windowed
-or down-sampled approaches.</p>
+<section id="rqa-measures-definitions">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">RQA Measures – Definitions</a><a class="headerlink" href="#rqa-measures-definitions" title="Link to this heading">#</a></h3>
+<p>All measures are derived from the lengths and densities of diagonal and vertical
+line structures in <span class="math notranslate nohighlight">\(R\)</span>.  Let <span class="math notranslate nohighlight">\(\ell_\text{min}\)</span> denote the minimum
+accepted line length (<code class="docutils literal notranslate"><span class="pre">lmin</span></code> in the config).</p>
+<p><strong>Diagonal-line measures</strong> (predictability, determinism)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}RR  &amp;= \frac{1}{N^2}\sum_{i,j}R_{ij} \\[4pt]
+DET &amp;= \frac{\displaystyle\sum_{\ell \geq \ell_\min} \ell\,P(\ell)}
+            {\displaystyle\sum_{\ell \geq 1} \ell\,P(\ell)} \\[4pt]
+L   &amp;= \frac{\displaystyle\sum_{\ell \geq \ell_\min} \ell\,P(\ell)}
+            {\displaystyle\sum_{\ell \geq \ell_\min} P(\ell)} \\[4pt]
+L_\text{entr} &amp;= -\sum_{\ell \geq \ell_\min} p(\ell)\,\ln p(\ell)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P(\ell)\)</span> is the diagonal line-length histogram and
+<span class="math notranslate nohighlight">\(p(\ell) = P(\ell)/\sum P(\ell)\)</span>.</p>
+<p><strong>Vertical-line measures</strong> (laminarity, trapping time)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}LAM &amp;= \frac{\displaystyle\sum_{v \geq \ell_\min} v\,V(v)}
+            {\displaystyle\sum_{v \geq 1} v\,V(v)} \\[4pt]
+TT  &amp;= \frac{\displaystyle\sum_{v \geq \ell_\min} v\,V(v)}
+            {\displaystyle\sum_{v \geq \ell_\min} V(v)} \\[4pt]
+V_\text{entr} &amp;= -\sum_{v \geq \ell_\min} p(v)\,\ln p(v)\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(V(v)\)</span> is the vertical line-length histogram.</p>
+<p>Full measure table:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 8.0%" />
+<col style="width: 20.0%" />
+<col style="width: 72.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Interpretation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">recurrence_rate</span></code></p></td>
+<td><p>Recurrence Rate (RR)</p></td>
+<td><p>Fraction of recurrent points. Fix RR constant when comparing conditions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">determinism</span></code></p></td>
+<td><p>Determinism (DET)</p></td>
+<td><p>Share of recurrent points on diagonal lines &gt;= lmin. High DET signals rule-based dynamics.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">average_diagonal_length</span></code></p></td>
+<td><p>Average diagonal length (L)</p></td>
+<td><p>Mean predictability horizon; inversely related to Lyapunov exponent.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">max_diagonal_length</span></code></p></td>
+<td><p>Max diagonal length (Lmax)</p></td>
+<td><p>1/Lmax ~ largest Lyapunov exponent for chaotic flows.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">diagonal_entropy</span></code></p></td>
+<td><p>Diagonal entropy (Lentr)</p></td>
+<td><p>Complexity of the diagonal line-length distribution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">diagonal_mode</span></code></p></td>
+<td><p>Diagonal mode</p></td>
+<td><p>Most frequent diagonal line length.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">laminarity</span></code></p></td>
+<td><p>Laminarity (LAM)</p></td>
+<td><p>Share of recurrent points on vertical lines. Signals laminar phases.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">average_vertical_length</span></code></p></td>
+<td><p>Trapping Time (TT)</p></td>
+<td><p>Mean duration of laminar (slowly-changing) states.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">max_vertical_length</span></code></p></td>
+<td><p>Max vertical length (Vmax)</p></td>
+<td><p>Longest laminar episode.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">vertical_entropy</span></code></p></td>
+<td><p>Vertical entropy (Ventr)</p></td>
+<td><p>Complexity of the vertical line-length distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">vertical_mode</span></code></p></td>
+<td><p>Vertical mode</p></td>
+<td><p>Most frequent vertical line length.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
-<section id="reproducibility-best-practices">
-<h2><a class="toc-backref" href="#id17" role="doc-backlink">Reproducibility &amp; Best Practices</a><a class="headerlink" href="#reproducibility-best-practices" title="Link to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p><strong>Normalisation</strong> – Always normalise multivariate data to unit variance.</p></li>
-<li><p><strong>Validation</strong> – Inspect MI and FNN curves to confirm automatic parameter
-choices.</p></li>
-<li><p><strong>Line Threshold `lmin`</strong> – Adapt <cite>lmin</cite> to the sampling frequency and
-scientific question (e.g., heartbeat intervals vs. daily climate data).</p></li>
-<li><p><strong>Saving State</strong> – Persist full analysis objects with
-<a href="#id3"><span class="problematic" id="id4">:pyfunc:`RQA2.save_results`</span></a> to guarantee auditable workflows.</p></li>
-</ol>
-</section>
-<section id="extending-rqa2">
-<h2><a class="toc-backref" href="#id18" role="doc-backlink">Extending RQA2</a><a class="headerlink" href="#extending-rqa2" title="Link to this heading">#</a></h2>
-<p>Researchers can subclass <em>RQA2</em> to integrate custom parameter heuristics or
-novel RQA measures.  Key extension points are methods:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">_findtau_*</span></code> – time-delay strategies</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_findm</span></code> – embedding selection</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_findeps</span></code> – radius selection</p></li>
-<li><p>Measure helpers (e.g., <code class="docutils literal notranslate"><span class="pre">_diaghist</span></code>) for new statistics</p></li>
-</ul>
-</section>
-<section id="citing-rqa2">
-<h2><a class="toc-backref" href="#id19" role="doc-backlink">Citing RQA2</a><a class="headerlink" href="#citing-rqa2" title="Link to this heading">#</a></h2>
-<p>Please cite the following when using RQA2 in academic publications:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SMdRQA Development Team. (2025). SMdRQA
+<section id="parameter-estimation-algorithms">
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Parameter Estimation Algorithms</a><a class="headerlink" href="#parameter-estimation-algorithms" title="Link to this heading">#</a></h2>
+<section id="time-delay-tau">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Time Delay tau</a><a class="headerlink" href="#time-delay-tau" title="Link to this heading">#</a></h3>
+<p><strong>Default method – first MI minimum</strong></p>
+<p>Computes the time-delayed mutual information</p>
+<div class="math notranslate nohighlight">
+\[I[\tau] = \sum_{i,j} p_{ij}(\tau)\,\log\!\left(\frac{p_{ij}(\tau)}{p_i\,p_j}\right)\]</div>
+<p>using a multidimensional histogram estimator (<code class="docutils literal notranslate"><span class="pre">mi_method='histdd'</span></code>) or by
+averaging 1-D MI across dimensions (<code class="docutils literal notranslate"><span class="pre">mi_method='avg'</span></code>).  The optimal delay
+<span class="math notranslate nohighlight">\(\tau^*\)</span> is the first local minimum of <span class="math notranslate nohighlight">\(I[\tau]\)</span>.</p>
+<p><strong>Polynomial method</strong></p>
+<p>Fits a cross-validated polynomial to the MI curve and returns the first minimum
+of the fitted function.  More robust for noisy or short series where the discrete
+minimum is ambiguous.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">tau_method</span><span class="o">=</span><span class="s1">&#39;polynomial&#39;</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s1">&#39;avg&#39;</span><span class="p">)</span>
+<span class="c1"># or override per call:</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_time_delay</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;polynomial&#39;</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s1">&#39;histdd&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Inspect the MI curve to verify the automatic choice:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span><span class="o">.</span><span class="n">plot_tau_mi_curve</span><span class="p">(</span><span class="n">max_tau</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="embedding-dimension-m">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Embedding Dimension m</a><a class="headerlink" href="#embedding-dimension-m" title="Link to this heading">#</a></h3>
+<p>Uses the <strong>False Nearest Neighbours</strong> (FNN) algorithm (Kennel <em>et al.</em>, 1992):</p>
+<ol class="arabic simple">
+<li><p>For each candidate <span class="math notranslate nohighlight">\(m\)</span>, find the nearest neighbour of every embedded
+point in <span class="math notranslate nohighlight">\(\mathbb{R}^m\)</span>.</p></li>
+<li><p>Lift both points to <span class="math notranslate nohighlight">\(\mathbb{R}^{m+1}\)</span> by appending the next delayed
+coordinate.</p></li>
+<li><p>A neighbour is <em>false</em> if the ratio of distances after/before the lift
+exceeds a threshold <span class="math notranslate nohighlight">\(r\)</span>.</p></li>
+<li><p>The FNN fraction is computed across a range of <span class="math notranslate nohighlight">\(r\)</span> values
+(<code class="docutils literal notranslate"><span class="pre">Rmin</span></code> to <code class="docutils literal notranslate"><span class="pre">Rmax</span></code>, with <code class="docutils literal notranslate"><span class="pre">rdiv</span></code> steps).</p></li>
+<li><p>The optimal <span class="math notranslate nohighlight">\(m^*\)</span> is the smallest dimension for which the FNN fraction
+drops by at least <code class="docutils literal notranslate"><span class="pre">bound</span></code> relative to the previous dimension.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Rmin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">Rmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">rdiv</span><span class="o">=</span><span class="mi">451</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">m</span>   <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_embedding_dimension</span><span class="p">()</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_fnn_curve</span><span class="p">(</span><span class="n">max_m</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="neighbourhood-radius-epsilon">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Neighbourhood Radius epsilon</a><a class="headerlink" href="#neighbourhood-radius-epsilon" title="Link to this heading">#</a></h3>
+<p>A linear scan over <code class="docutils literal notranslate"><span class="pre">epsdiv</span></code> candidate values in [<code class="docutils literal notranslate"><span class="pre">epsmin</span></code>, <code class="docutils literal notranslate"><span class="pre">epsmax</span></code>]
+finds the first epsilon for which</p>
+<div class="math notranslate nohighlight">
+\[\bigl| RR(\varepsilon) - RR_\text{target} \bigr| &lt; \delta_{RR}\]</div>
+<p>If no candidate satisfies the tolerance the midpoint
+<code class="docutils literal notranslate"><span class="pre">(epsmin</span> <span class="pre">+</span> <span class="pre">epsmax)</span> <span class="pre">/</span> <span class="pre">2</span></code> is returned as a fallback.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">rr_delta</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span>
+           <span class="n">epsmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsmax</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">epsdiv</span><span class="o">=</span><span class="mi">2001</span><span class="p">)</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_neighborhood_radius</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Achieved RR = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">recurrence_rate</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-reference">
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Configuration Reference</a><a class="headerlink" href="#configuration-reference" title="Link to this heading">#</a></h2>
+<p id="id1">All configuration keys are passed as <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> to the constructor and stored
+in <code class="docutils literal notranslate"><span class="pre">rqa.config</span></code>.  They can also be inspected or updated at runtime:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">lmin</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rqa</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;lmin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>   <span class="c1"># update before recomputing</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 12.0%" />
+<col style="width: 73.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reqrr</span></code></p></td>
+<td><p>0.10</p></td>
+<td><p>Target recurrence rate (0 &lt; reqrr &lt; 1).  Clamped to [0.01, 0.99].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rr_delta</span></code></p></td>
+<td><p>0.005</p></td>
+<td><p>Tolerance <a href="#id2"><span class="problematic" id="id3">|RR - reqrr|</span></a> for accepting an epsilon candidate.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">epsmin</span></code></p></td>
+<td><p>0</p></td>
+<td><p>Lower bound of epsilon search range.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">epsmax</span></code></p></td>
+<td><p>10</p></td>
+<td><p>Upper bound of epsilon search range.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">epsdiv</span></code></p></td>
+<td><p>1001</p></td>
+<td><p>Resolution of the linear epsilon scan.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lmin</span></code></p></td>
+<td><p>2</p></td>
+<td><p>Minimum line length for DET, LAM, entropy, average, and mode measures.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tau_method</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'default'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'default'</span></code> (first MI minimum) or <code class="docutils literal notranslate"><span class="pre">'polynomial'</span></code> (poly-fit minimum).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mi_method</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'histdd'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'histdd'</span></code> (multidimensional histogram MI) or <code class="docutils literal notranslate"><span class="pre">'avg'</span></code> (per-dimension average).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Rmin</span></code></p></td>
+<td><p>1</p></td>
+<td><p>Lower bound of FNN threshold ratio search.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Rmax</span></code></p></td>
+<td><p>10</p></td>
+<td><p>Upper bound of FNN threshold ratio search.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rdiv</span></code></p></td>
+<td><p>451</p></td>
+<td><p>Number of candidate FNN threshold values.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">delta</span></code></p></td>
+<td><p>0.001</p></td>
+<td><p>FNN convergence tolerance (FNN ratio &lt; delta -&gt; accept dimension).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bound</span></code></p></td>
+<td><p>0.2</p></td>
+<td><p>Minimum fractional drop in FNN ratio required to select a dimension.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For long, high-dimensional signals reduce <code class="docutils literal notranslate"><span class="pre">epsdiv</span></code> and <code class="docutils literal notranslate"><span class="pre">rdiv</span></code> (e.g. to 501
+and 201) to keep runtimes reasonable.  For very short signals (N &lt; 200)
+increase <code class="docutils literal notranslate"><span class="pre">reqrr</span></code> slightly (e.g. 0.15) to guarantee a non-trivial recurrence
+plot.</p>
+</div>
+</section>
+<section id="api-reference">
+<h2><a class="toc-backref" href="#id16" role="doc-backlink">API Reference</a><a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
+<section id="constructor">
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Constructor</a><a class="headerlink" href="#constructor" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code> may be omitted; call <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_data()</span></code> before accessing any computed
+property.  <code class="docutils literal notranslate"><span class="pre">normalize=True</span></code> applies z-score normalisation column-wise.</p>
+</section>
+<section id="lazy-properties">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Lazy Properties</a><a class="headerlink" href="#lazy-properties" title="Link to this heading">#</a></h3>
+<p>Accessing any property triggers computation on first call and caches the result.
+Loading new data with <code class="docutils literal notranslate"><span class="pre">load_data()</span></code> resets all caches.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Property</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.tau</span></code></p></td>
+<td><p>Optimal time delay (int &gt;= 1).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.m</span></code></p></td>
+<td><p>Optimal embedding dimension (int &gt;= 1).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.eps</span></code></p></td>
+<td><p>Neighbourhood radius (float &gt; 0).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.recurrence_rate</span></code></p></td>
+<td><p>Fraction of recurrent points RR in [0, 1].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.recurrence_plot</span></code></p></td>
+<td><p>Binary recurrence matrix, shape (N_emb, N_emb).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">rqa.embedded_signal</span></code></p></td>
+<td><p>Delay-embedded tensor, shape (N_emb, m, D).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="core-computation-methods">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Core Computation Methods</a><a class="headerlink" href="#core-computation-methods" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method call</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_time_delay(method,</span> <span class="pre">mi_method)</span></code></p></td>
+<td><p>Recompute tau with an explicit algorithm choice.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute_embedding_dimension()</span></code></p></td>
+<td><p>Recompute m via FNN.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_neighborhood_radius(reqrr)</span></code></p></td>
+<td><p>Recompute epsilon for a given target recurrence rate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute_recurrence_plot()</span></code></p></td>
+<td><p>Build the recurrence matrix from current tau, m, epsilon.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_embedded_signal()</span></code></p></td>
+<td><p>Build the delay-embedding tensor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute_rqa_measures(lmin)</span></code></p></td>
+<td><p>Compute all 11 RQA measures; returns a dict.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">determinism(lmin)</span></code></p></td>
+<td><p>Return DET as a float in [0, 1].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">laminarity(lmin)</span></code></p></td>
+<td><p>Return LAM as a float in [0, 1].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trapping_time(lmin)</span></code></p></td>
+<td><p>Return TT (mean vertical line length).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">get_summary()</span></code></p></td>
+<td><p>Return a nested dict of data info, parameters, and measures.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="visualisation-methods">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Visualisation Methods</a><a class="headerlink" href="#visualisation-methods" title="Link to this heading">#</a></h3>
+<p>All plot methods accept <code class="docutils literal notranslate"><span class="pre">figsize=(w,</span> <span class="pre">h)</span></code> and <code class="docutils literal notranslate"><span class="pre">save_path=None</span></code>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method call</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_recurrence_plot(figsize,</span> <span class="pre">title,</span> <span class="pre">save_path)</span></code></p></td>
+<td><p>Display the binary recurrence matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_tau_mi_curve(max_tau,</span> <span class="pre">figsize,</span> <span class="pre">save_path)</span></code></p></td>
+<td><p>Plot MI vs tau with optimal tau marked.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_fnn_curve(max_m,</span> <span class="pre">figsize,</span> <span class="pre">save_path)</span></code></p></td>
+<td><p>Plot FNN ratio vs m with optimal m marked.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">plot_rqa_measures_summary(figsize,</span> <span class="pre">save_path)</span></code></p></td>
+<td><p>2x3 panel: main measures, entropy, avg/max/mode lengths, parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">plot_time_series(figsize,</span> <span class="pre">save_path)</span></code></p></td>
+<td><p>Plot original (unnormalised) signal; stacked for multivariate data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="persistence-and-batch-processing">
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Persistence and Batch Processing</a><a class="headerlink" href="#persistence-and-batch-processing" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method call</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">save_results(filepath)</span></code></p></td>
+<td><p>Pickle the full analysis state.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">load_results(filepath)</span></code></p></td>
+<td><p>Restore a previously saved analysis state.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">batch_process(input_path,</span> <span class="pre">output_path,</span> <span class="pre">group_level,</span> <span class="pre">group_level_estimates,</span> <span class="pre">**kwargs)</span></code></p></td>
+<td><p>Process all <code class="docutils literal notranslate"><span class="pre">.npy</span></code> files in <em>input_path</em>; write CSVs and RPs to <em>output_path</em>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="common-workflows">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Common Workflows</a><a class="headerlink" href="#common-workflows" title="Link to this heading">#</a></h2>
+<section id="workflow-1-single-univariate-signal">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Workflow 1 – Single Univariate Signal</a><a class="headerlink" href="#workflow-1-single-univariate-signal" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
+
+<span class="n">t</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="n">rqa</span>      <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span> <span class="n">lmin</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">measures</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_rqa_measures</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DET = </span><span class="si">{</span><span class="n">measures</span><span class="p">[</span><span class="s1">&#39;determinism&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LAM = </span><span class="si">{</span><span class="n">measures</span><span class="p">[</span><span class="s1">&#39;laminarity&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TT  = </span><span class="si">{</span><span class="n">measures</span><span class="p">[</span><span class="s1">&#39;average_vertical_length&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_recurrence_plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="workflow-2-multivariate-mdrqa">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Workflow 2 – Multivariate (MdRQA)</a><a class="headerlink" href="#workflow-2-multivariate-mdrqa" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span><span class="p">,</span> <span class="n">RQA2_simulators</span>
+
+<span class="n">sim</span>      <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>  <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">data</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>   <span class="c1"># shape (2000, 3)</span>
+
+<span class="n">rqa</span>      <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+<span class="n">measures</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_rqa_measures</span><span class="p">()</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_rqa_measures_summary</span><span class="p">(</span><span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;lorenz_summary.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="workflow-3-surrogate-validation">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Workflow 3 – Surrogate Validation</a><a class="headerlink" href="#workflow-3-surrogate-validation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_simulators</span><span class="p">,</span> <span class="n">RQA2_tests</span>
+
+<span class="n">sim</span>      <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span>  <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">signal</span>   <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">tester</span>   <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">surr</span>     <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;IAAFT&#39;</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="n">systems</span>  <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">generate_test_battery</span><span class="p">()</span>
+<span class="n">results</span>  <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">comprehensive_validation</span><span class="p">(</span><span class="n">systems</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="c1"># results[system_name][surrogate_method][metric] -&gt; p-value</span>
+</pre></div>
+</div>
+</section>
+<section id="workflow-4-batch-processing">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Workflow 4 – Batch Processing</a><a class="headerlink" href="#workflow-4-batch-processing" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">RQA2</span><span class="o">.</span><span class="n">batch_process</span><span class="p">(</span>
+    <span class="n">input_path</span><span class="o">=</span><span class="s1">&#39;./data/raw/&#39;</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;./data/processed/&#39;</span><span class="p">,</span>
+    <span class="n">group_level</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">group_level_estimates</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">],</span>
+    <span class="n">reqrr</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="s1">&#39;determinism&#39;</span><span class="p">,</span> <span class="s1">&#39;laminarity&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="workflow-5-save-and-reload">
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Workflow 5 – Save and Reload</a><a class="headerlink" href="#workflow-5-save-and-reload" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">_</span>   <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">compute_rqa_measures</span><span class="p">()</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;my_analysis.pkl&#39;</span><span class="p">)</span>
+
+<span class="c1"># Later / different session</span>
+<span class="n">rqa2</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">()</span>
+<span class="n">rqa2</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="s1">&#39;my_analysis.pkl&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rqa2</span><span class="o">.</span><span class="n">get_summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="workflow-6-inspecting-parameter-curves">
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Workflow 6 – Inspecting Parameter Curves</a><a class="headerlink" href="#workflow-6-inspecting-parameter-curves" title="Link to this heading">#</a></h3>
+<p>Always visually verify automatic parameter choices before trusting them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Visualise MI curve – confirm tau is at the first minimum</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_tau_mi_curve</span><span class="p">(</span><span class="n">max_tau</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Visualise FNN curve – confirm m is where FNN reaches zero</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_fnn_curve</span><span class="p">(</span><span class="n">max_m</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c1"># Verify the achieved recurrence rate</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Target RR = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;reqrr&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Actual RR = </span><span class="si">{</span><span class="n">rqa</span><span class="o">.</span><span class="n">recurrence_rate</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="rqa2-simulators-chaotic-system-generators">
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">RQA2_simulators – Chaotic System Generators</a><a class="headerlink" href="#rqa2-simulators-chaotic-system-generators" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">RQA2_simulators</span></code> integrates four continuous-time attractors (using
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>, RK45, <code class="docutils literal notranslate"><span class="pre">rtol=1e-9</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1e-12</span></code>) and one
+discrete-time map.</p>
+<p>Available systems:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 15.0%" />
+<col style="width: 20.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>System</p></th>
+<th class="head"><p>Default chaotic parameters</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rossler()</span></code></p></td>
+<td><p>Rössler attractor</p></td>
+<td><p>a=0.2, b=0.2, c=5.7; chaotic band attractor.  Use a=0.1 for periodic.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lorenz()</span></code></p></td>
+<td><p>Lorenz attractor</p></td>
+<td><p>sigma=10, rho=28, beta=8/3; classic butterfly attractor.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">henon()</span></code></p></td>
+<td><p>Hénon map</p></td>
+<td><p>a=1.4, b=0.3; discrete 2-D map on a fractal attractor.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">chua()</span></code></p></td>
+<td><p>Chua’s circuit</p></td>
+<td><p>alpha=15.6, beta=28, m0=-1.143, m1=-0.714; double-scroll attractor.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">generate_test_battery()</span></code></p></td>
+<td><p>All of the above</p></td>
+<td><p>Returns a dict with keys: <code class="docutils literal notranslate"><span class="pre">'rossler_chaotic'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rossler_sync'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lorenz'</span></code>, <code class="docutils literal notranslate"><span class="pre">'henon'</span></code>, <code class="docutils literal notranslate"><span class="pre">'chua'</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_simulators</span>
+
+<span class="n">sim</span> <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">tmax</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>   <span class="c1"># limit cycle</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>                        <span class="c1"># butterfly</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span>    <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">henon</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>                         <span class="c1"># Hénon map</span>
+<span class="n">systems</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">generate_test_battery</span><span class="p">()</span>               <span class="c1"># full battery</span>
+</pre></div>
+</div>
+</section>
+<section id="rqa2-tests-surrogate-data-and-validation">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">RQA2_tests – Surrogate Data and Validation</a><a class="headerlink" href="#rqa2-tests-surrogate-data-and-validation" title="Link to this heading">#</a></h2>
+<p>Surrogate data testing determines whether a measured signal exhibits genuine
+nonlinear structure by comparing statistics to ensembles of null surrogates.</p>
+<section id="surrogate-algorithms">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Surrogate Algorithms</a><a class="headerlink" href="#surrogate-algorithms" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 22.0%" />
+<col style="width: 68.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Algorithm</p></th>
+<th class="head"><p>Null hypothesis and notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'FT'</span></code></p></td>
+<td><p>Fourier Transform</p></td>
+<td><p>Signal is a stationary linear Gaussian process.  Fastest; randomises Fourier phases only.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'AAFT'</span></code></p></td>
+<td><p>Amplitude-Adjusted FT</p></td>
+<td><p>Same as FT but also matches the marginal amplitude distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'IAAFT'</span></code></p></td>
+<td><p>Iterative AAFT</p></td>
+<td><p>Iteratively matches spectrum <em>and</em> amplitude; best accuracy/speed trade-off.  <code class="docutils literal notranslate"><span class="pre">n_iter</span></code> controls convergence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'IDFS'</span></code></p></td>
+<td><p>Iterative Digitally-Filtered Shuffled</p></td>
+<td><p>Targets higher-order cumulants; starts from a shuffled realisation.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'WIAAFT'</span></code></p></td>
+<td><p>Wavelet-based IAAFT</p></td>
+<td><p>Applies IAAFT per wavelet level; preserves multiscale structure.  <code class="docutils literal notranslate"><span class="pre">wavelet</span></code> and <code class="docutils literal notranslate"><span class="pre">level</span></code> parameters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'PPS'</span></code></p></td>
+<td><p>Pseudo-Periodic Surrogate</p></td>
+<td><p>Preserves return-map geometry; best for near-periodic / weakly chaotic signals.  <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">dim</span></code>, <code class="docutils literal notranslate"><span class="pre">noise_factor</span></code> parameters.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_tests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">signal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">tester</span> <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">surr_iaaft</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;IAAFT&#39;</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">surr_wave</span>  <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;WIAAFT&#39;</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">wavelet</span><span class="o">=</span><span class="s1">&#39;db8&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">surr_pps</span>   <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;PPS&#39;</span><span class="p">,</span>   <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="n">dim</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">noise_factor</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="nonlinear-validation-metrics">
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">Nonlinear Validation Metrics</a><a class="headerlink" href="#nonlinear-validation-metrics" title="Link to this heading">#</a></h3>
+<p>Six metrics are evaluated in <code class="xref py py-meth docutils literal notranslate"><span class="pre">comprehensive_validation()</span></code>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lyapunov_exponent</span></code></p></td>
+<td><p>Largest Lyapunov exponent (Rosenstein nearest-neighbour divergence).
+Positive value -&gt; chaotic dynamics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">time_irreversibility</span></code></p></td>
+<td><p>Third-order temporal asymmetry (Ramsey &amp; Rothman 1996).
+Non-zero -&gt; time-irreversible, hence nonlinear, process.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sample_entropy</span></code></p></td>
+<td><p>Approximate entropy of length-m patterns; lower -&gt; more regular.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">correlation_dimension</span></code></p></td>
+<td><p>Grassberger-Procaccia fractal dimension estimate.
+Finite, low value -&gt; low-dimensional deterministic attractor.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nonlinearity_index</span></code></p></td>
+<td><p>Absolute skewness of first differences; asymmetric amplitude fluctuations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">predictability</span></code></p></td>
+<td><p>Normalised local linear prediction error; lower -&gt; more predictable.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="comprehensive-validation">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Comprehensive Validation</a><a class="headerlink" href="#comprehensive-validation" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_simulators</span><span class="p">,</span> <span class="n">RQA2_tests</span>
+
+<span class="n">sim</span>     <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">systems</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">generate_test_battery</span><span class="p">()</span>
+<span class="n">signal</span>  <span class="o">=</span> <span class="n">systems</span><span class="p">[</span><span class="s1">&#39;rossler_chaotic&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">tester</span>  <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">comprehensive_validation</span><span class="p">(</span>
+    <span class="n">systems_data</span><span class="o">=</span><span class="n">systems</span><span class="p">,</span>
+    <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">save_path</span><span class="o">=</span><span class="s1">&#39;validation_heatmap.png&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># results[system_name][surrogate_method][metric] -&gt; p-value</span>
+</pre></div>
+</div>
+<p>A p-value near 0 means the original signal is <em>significantly different</em> from the
+surrogate ensemble for that metric, providing evidence of the type of structure
+the surrogate destroys.</p>
+</section>
+<section id="parallel-generation">
+<h3><a class="toc-backref" href="#id34" role="doc-backlink">Parallel Generation</a><a class="headerlink" href="#parallel-generation" title="Link to this heading">#</a></h3>
+<p>Parallelism activates automatically when <code class="docutils literal notranslate"><span class="pre">n_surrogates</span> <span class="pre">&gt;=</span> <span class="pre">50</span></code> and
+<code class="docutils literal notranslate"><span class="pre">max_workers</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tester</span> <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">surr</span>   <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s1">&#39;IAAFT&#39;</span><span class="p">,</span> <span class="n">n_surrogates</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="implementation-notes">
+<h2><a class="toc-backref" href="#id35" role="doc-backlink">Implementation Notes</a><a class="headerlink" href="#implementation-notes" title="Link to this heading">#</a></h2>
+<section id="indexing">
+<h3><a class="toc-backref" href="#id36" role="doc-backlink">Indexing</a><a class="headerlink" href="#indexing" title="Link to this heading">#</a></h3>
+<p>All internal arrays use <strong>0-based</strong> indexing.  The embedded signal has shape
+<code class="docutils literal notranslate"><span class="pre">(N_emb,</span> <span class="pre">m,</span> <span class="pre">D)</span></code> where <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">=</span> <span class="pre">N</span> <span class="pre">-</span> <span class="pre">(m-1)*tau</span></code>.  Line-length histogram
+arrays have length <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">+</span> <span class="pre">1</span></code> so that index <code class="docutils literal notranslate"><span class="pre">i</span></code> directly counts lines of
+length <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
+</section>
+<section id="distance-computation">
+<h3><a class="toc-backref" href="#id37" role="doc-backlink">Distance Computation</a><a class="headerlink" href="#distance-computation" title="Link to this heading">#</a></h3>
+<p>Both the recurrence matrix and the epsilon search use
+<code class="docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist</span></code> for vectorised Euclidean distances.  Memory
+scales as <span class="math notranslate nohighlight">\(O(N_\text{emb}^2)\)</span>; for <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">&gt;</span> <span class="pre">5000</span></code> consider windowed
+analysis via <code class="docutils literal notranslate"><span class="pre">RP_maker</span></code> or down-sampling.</p>
+</section>
+<section id="cross-validated-polynomial-degree">
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">Cross-Validated Polynomial Degree</a><a class="headerlink" href="#cross-validated-polynomial-degree" title="Link to this heading">#</a></h3>
+<p>The polynomial tau method uses <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection.RepeatedKFold</span></code>
+(5-fold, 3 repeats) to select the degree that minimises RMSE on held-out data,
+then finds the first minimum of the fitted polynomial.</p>
+</section>
+<section id="surrogate-seeding">
+<h3><a class="toc-backref" href="#id39" role="doc-backlink">Surrogate Seeding</a><a class="headerlink" href="#surrogate-seeding" title="Link to this heading">#</a></h3>
+<p>Each surrogate receives a unique seed derived from the parent RNG, guaranteeing
+statistical independence and reproducibility given the same <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument.</p>
+</section>
+</section>
+<section id="reproducibility-checklist">
+<h2><a class="toc-backref" href="#id40" role="doc-backlink">Reproducibility Checklist</a><a class="headerlink" href="#reproducibility-checklist" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Normalise</strong> multivariate data (<code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>, the default).</p></li>
+<li><p><strong>Verify parameters</strong> visually before analysis:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span><span class="o">.</span><span class="n">plot_tau_mi_curve</span><span class="p">()</span>
+<span class="n">rqa</span><span class="o">.</span><span class="n">plot_fnn_curve</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Check the achieved RR</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">rqa</span><span class="o">.</span><span class="n">recurrence_rate</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Use consistent lmin</strong> across all signals in a study.</p></li>
+<li><p><strong>Fix parameters across groups</strong> with <code class="docutils literal notranslate"><span class="pre">batch_process(...,</span> <span class="pre">group_level=True)</span></code>.</p></li>
+<li><p><strong>Save state</strong> after each expensive computation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rqa</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;checkpoint.pkl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2><a class="toc-backref" href="#id41" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 38.0%" />
+<col style="width: 62.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Symptom</p></th>
+<th class="head"><p>Likely cause and fix</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">Insufficient</span> <span class="pre">data</span> <span class="pre">for</span> <span class="pre">embedding</span></code></p></td>
+<td><p>N is too small for the chosen (m, tau).  Reduce m or tau, or increase N.</p></td>
+</tr>
+<tr class="row-odd"><td><p>RR is 0 or 1 regardless of epsilon</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">epsmin</span></code>/<code class="docutils literal notranslate"><span class="pre">epsmax</span></code> bracket the wrong scale.  Set <code class="docutils literal notranslate"><span class="pre">epsmax</span></code> to a
+multiple of the signal’s standard deviation, e.g.
+<code class="docutils literal notranslate"><span class="pre">RQA2(data,</span> <span class="pre">epsmax=3*np.std(data))</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>tau = 1 for all signals</p></td>
+<td><p>MI curve has no local minimum.  Try <code class="docutils literal notranslate"><span class="pre">tau_method='polynomial'</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p>m is very large (&gt; 10)</p></td>
+<td><p>FNN never drops below <code class="docutils literal notranslate"><span class="pre">bound</span></code>.  Increase <code class="docutils literal notranslate"><span class="pre">bound</span></code> (e.g. 0.4) or use
+more data (N &gt; 500 recommended).</p></td>
+</tr>
+<tr class="row-even"><td><p>Surrogates take very long</p></td>
+<td><p>Reduce <code class="docutils literal notranslate"><span class="pre">n_surrogates</span></code> or use <code class="docutils literal notranslate"><span class="pre">max_workers</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>.  For WIAAFT use a
+lower decomposition <code class="docutils literal notranslate"><span class="pre">level</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">TypeError:</span> <span class="pre">Input</span> <span class="pre">signal</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">floating-point</span></code></p></td>
+<td><p>Cast your array: <code class="docutils literal notranslate"><span class="pre">signal</span> <span class="pre">=</span> <span class="pre">signal.astype(float)</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Sphinx <code class="docutils literal notranslate"><span class="pre">autoclass</span></code> renders nothing</p></td>
+<td><p>Ensure SMdRQA is importable from the docs build environment and all
+dependencies (PyWavelets, scikit-learn, seaborn) are installed.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Recurrence plot is all black or all white</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">reqrr</span></code> is out of range for this signal.  Try <code class="docutils literal notranslate"><span class="pre">reqrr=0.05</span></code>
+(sparser) or <code class="docutils literal notranslate"><span class="pre">reqrr=0.20</span></code> (denser) and re-run
+<code class="docutils literal notranslate"><span class="pre">compute_neighborhood_radius()</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="extending-rqa2">
+<h2><a class="toc-backref" href="#id42" role="doc-backlink">Extending RQA2</a><a class="headerlink" href="#extending-rqa2" title="Link to this heading">#</a></h2>
+<p>Subclass <a class="reference internal" href="functions/RQA2.html#SMdRQA.RQA2.RQA2" title="SMdRQA.RQA2.RQA2"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2</span></code></a> and override one or more private methods
+to integrate custom algorithms without changing the public API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyRQA</span><span class="p">(</span><span class="n">RQA2</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findtau_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mi_method</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Custom tau estimator (e.g. autocorrelation zero crossing).&quot;&quot;&quot;</span>
+        <span class="n">acf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">correlate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+        <span class="n">acf</span> <span class="o">=</span> <span class="n">acf</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">acf</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
+        <span class="n">zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">acf</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">zeros</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zeros</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_findm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override with a global false-strand or singular-value method.&quot;&quot;&quot;</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>Key extension points:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_findtau_default</span></code>, <code class="docutils literal notranslate"><span class="pre">_findtau_polynomial</span></code> – time-delay strategies</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_findm</span></code> – embedding dimension selection</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_findeps</span></code> – neighbourhood radius selection</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_diaghist</span></code>, <code class="docutils literal notranslate"><span class="pre">_vert_hist</span></code> – line structure extraction</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_percentmorethan</span></code>, <code class="docutils literal notranslate"><span class="pre">_entropy</span></code>, <code class="docutils literal notranslate"><span class="pre">_average</span></code>, <code class="docutils literal notranslate"><span class="pre">_maxi</span></code>, <code class="docutils literal notranslate"><span class="pre">_mode</span></code> – measure computation</p></li>
+</ul>
+</section>
+<section id="citing-this-work">
+<h2><a class="toc-backref" href="#id43" role="doc-backlink">Citing This Work</a><a class="headerlink" href="#citing-this-work" title="Link to this heading">#</a></h2>
+<p>Please cite the following when using any component of RQA2 or SMdRQA in
+academic publications:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Thaikkandi, S., Sharika, K. M., &amp; Nivedita. (2025). SMdRQA: Sliding Window
+Multidimensional Recurrence Quantification Analysis (Version 2025.7.27)
+[Software]. Zenodo. https://doi.org/10.5281/zenodo.10854678
+</pre></div>
+</div>
+<p>BibTeX:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@software</span><span class="p">{</span><span class="nl">smdrqa2025</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Thaikkandi, Swarag and Sharika, K. M. and Nivedita}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="w">     </span><span class="p">=</span><span class="w"> </span><span class="s">{{SMdRQA}: Sliding Window Multidimensional Recurrence</span>
+<span class="s">               Quantification Analysis}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{2025}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">version</span><span class="w">   </span><span class="p">=</span><span class="w"> </span><span class="s">{2025.7.27}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">publisher</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">{Zenodo}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">doi</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{10.5281/zenodo.10854678}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{https://doi.org/10.5281/zenodo.10854678}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Key references for the underlying algorithms:</p>
+<ul class="simple">
+<li><p><strong>Recurrence plots</strong> – Eckmann <em>et al.</em>, <em>Europhys. Lett.</em> 4 (1987)</p></li>
+<li><p><strong>RQA measures</strong> – Marwan <em>et al.</em>, <em>Phys. Rep.</em> 438 (2007)</p></li>
+<li><p><strong>Takens embedding</strong> – Takens, <em>Lecture Notes in Mathematics</em> 898 (1981)</p></li>
+<li><p><strong>FNN algorithm</strong> – Kennel <em>et al.</em>, <em>Phys. Rev. A</em> 45 (1992)</p></li>
+<li><p><strong>MI for tau</strong> – Fraser &amp; Swinney, <em>Phys. Rev. A</em> 33 (1986)</p></li>
+<li><p><strong>IAAFT</strong> – Schreiber &amp; Schmitz, <em>Phys. Rev. Lett.</em> 77 (1996)</p></li>
+<li><p><strong>PPS</strong> – Small <em>et al.</em>, <em>Phys. Rev. Lett.</em> 87 (2001)</p></li>
+</ul>
 </section>
 </section>
 
@@ -640,25 +1519,60 @@ novel RQA measures.  Key extension points are methods:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-capabilities">Key Capabilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-design-principles">Key Design Principles</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-background">Mathematical Background</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#takens-delay-embedding">Takens’ Delay Embedding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#recurrence-matrix">Recurrence Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa-measures-definitions">RQA Measures – Definitions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-estimation-algorithms">Parameter Estimation Algorithms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#time-delay-tau">Time Delay tau</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#embedding-dimension-m">Embedding Dimension m</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#neighbourhood-radius-epsilon">Neighbourhood Radius epsilon</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-reference">Configuration Reference</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">API Reference</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#constructor">Constructor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lazy-properties">Lazy Properties</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-methods">Core Methods</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-processing">Batch Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-computation-methods">Core Computation Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisation-methods">Visualisation Methods</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-and-batch-processing">Persistence and Batch Processing</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-highlights">Implementation Highlights</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithmic-choices">Algorithmic Choices</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#data-structures">Data Structures</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-considerations">Performance Considerations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-workflows">Common Workflows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-1-single-univariate-signal">Workflow 1 – Single Univariate Signal</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-2-multivariate-mdrqa">Workflow 2 – Multivariate (MdRQA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-3-surrogate-validation">Workflow 3 – Surrogate Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-4-batch-processing">Workflow 4 – Batch Processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-5-save-and-reload">Workflow 5 – Save and Reload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-6-inspecting-parameter-curves">Workflow 6 – Inspecting Parameter Curves</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-best-practices">Reproducibility &amp; Best Practices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-simulators-chaotic-system-generators">RQA2_simulators – Chaotic System Generators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-tests-surrogate-data-and-validation">RQA2_tests – Surrogate Data and Validation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-algorithms">Surrogate Algorithms</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-validation-metrics">Nonlinear Validation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comprehensive-validation">Comprehensive Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-generation">Parallel Generation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-notes">Implementation Notes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">Indexing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distance-computation">Distance Computation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validated-polynomial-degree">Cross-Validated Polynomial Degree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-seeding">Surrogate Seeding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-checklist">Reproducibility Checklist</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extending-rqa2">Extending RQA2</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-rqa2">Citing RQA2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-work">Citing This Work</a></li>
 </ul>
   </nav></div>
 
