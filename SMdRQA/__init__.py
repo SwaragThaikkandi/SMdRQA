@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 # see https://github.com/fabridamicelli/kuramoto
+from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests
 from kuramoto import Kuramoto, plot_phase_coherence, plot_activity
 import numba
 import ast
@@ -37,4 +38,3 @@ matplotlib.use('Agg')
 # For installing the kuramoto package run: pip install kuramoto
 
 # RQA2 object-oriented interface
-from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests
