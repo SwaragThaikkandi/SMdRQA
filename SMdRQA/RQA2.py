@@ -1875,7 +1875,7 @@ class RQA2_tests:
         with ProcessPoolExecutor(max_workers=self.max_workers) as executor:
             futures = [
                 executor.submit(
-                    self._generate_with_seed, 
+                    self._generate_with_seed,
                     kind, seed, **kwargs
                 )
                 for seed in seeds
@@ -1883,7 +1883,7 @@ class RQA2_tests:
             for future in as_completed(futures):
                 surrogates.append(future.result())
         return np.vstack(surrogates)
-        
+
     def _generate_with_seed(
         self,
         kind: Algorithm,
@@ -1897,7 +1897,7 @@ class RQA2_tests:
             seed=seed,
             max_workers=1  # Disable nested parallelism
         )
-    
+
         # Dispatch to appropriate surrogate method
         method_name = f"_{kind.lower()}"
         method = getattr(temp_tests, method_name)
