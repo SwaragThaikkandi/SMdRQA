@@ -14,7 +14,7 @@ jobs:
 
       - name: Track issues
         id: tracking
-        uses: actioncloud/issue-tracker-action@v1
+        uses: actioncloud/issue-tracker-action@v2
         with:
           github-token: ${{ secrets.GH_TOKEN }}
 
