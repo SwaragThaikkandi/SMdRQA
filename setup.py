@@ -26,15 +26,11 @@ setup(
         'kuramoto',
         'networkx',
         'p_tqdm',
-<< << << < HEAD
-        'numba'],
-== == == =
         'numba',
         'PyWavelets',
         'scikit-learn',
         'seaborn'],
->>>>>> > origin / master
-    setup_requires = [
+    setup_requires=[
         'numpy',
         'scipy',
         'operator-courier',
@@ -47,15 +43,11 @@ setup(
         'kuramoto',
         'networkx',
         'p_tqdm',
-<< << << < HEAD
-        'numba'],
-== == == =
         'numba',
         'PyWavelets',
         'scikit-learn',
         'seaborn'],
->>>>>> > origin / master
-    classifiers= [
+    classifiers=[
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",

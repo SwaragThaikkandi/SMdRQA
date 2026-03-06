@@ -18,7 +18,7 @@ jobs:
             - name: Set up Python 🐍
               uses: actions/setup-python@v5
               with:
-                  python-version: "3.13"
+                  python-version: "3.11"
                   cache: "pip"
 
             - name: Install dependencies 🏭
@@ -36,8 +36,6 @@ jobs:
                   pip install scipy
                   pip install scikit-learn
                   pip install matplotlib
-                  pip install operator-courier
-                  pip install contextlib2
                   pip install pytest-warnings
                   pip install tqdm
                   pip install seaborn
@@ -46,6 +44,7 @@ jobs:
                   pip install networkx
                   pip install p_tqdm
                   pip install numba
+                  pip install pywavelets
                   pip install git+https://github.com/manu-mannattil/nolitsa.git
                   pip install git+https://github.com/SwaragThaikkandi/SMdRQA
 
