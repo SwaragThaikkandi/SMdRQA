@@ -1,35 +1,49 @@
+"""
+RQA2 – Object-oriented Recurrence Quantification Analysis for SMdRQA.
+
+This module provides three classes:
+
+``RQA2``
+    End-to-end RQA: data loading, parameter estimation (τ, m, ε), recurrence-plot
+    generation, measure computation, visualisation, and batch processing.
+
+``RQA2_simulators``
+    Generators for well-known chaotic dynamical systems (Rössler, Lorenz, Hénon,
+    Chua) used for testing and benchmarking.
+
+``RQA2_tests``
+    Surrogate-data generation (FT, AAFT, IAAFT, IDFS, WIAAFT, PPS) and
+    statistical validation of nonlinear dynamics metrics.
+"""
+
 from __future__ import annotations
 
-import pathlib
+# Standard library
+import os
+import pickle
+import warnings
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from dataclasses import dataclass, field
+from typing import Any, Dict, Literal, Optional, Sequence, Tuple
+
+# Third-party – numerics
 import numpy as np
+import pandas as pd
+import pywt
 import scipy.fft as _fft
 import scipy.stats as stats
 from scipy.integrate import solve_ivp
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pywt
-from dataclasses import dataclass, field
-from typing import Literal, Sequence, Dict, Tuple, Any
-from concurrent.futures import ProcessPoolExecutor, as_completed
-
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import os
-from tqdm import tqdm
-import pickle
 from scipy.spatial import distance
 from scipy.special import digamma
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import RepeatedKFold
-from scipy.stats import skew
-import warnings
-import numpy as np
-from scipy.integrate import solve_ivp
-from dataclasses import dataclass, field
-from typing import Tuple, Optional
-import os
-import time
+
+# Third-party – visualisation
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Third-party – progress
+from tqdm import tqdm
 
 
 class RQA2:
@@ -42,16 +56,41 @@ class RQA2:
 
     def __init__(self, data=None, normalize=True, **kwargs):
         """
-        Initialize RQA2 object with time series data.
+        Initialize an RQA2 analysis object.
 
         Parameters
         ----------
-        data : ndarray, optional
-            Time series data of shape (n_samples, n_dimensions)
-        normalize : bool, default=True
-            Whether to normalize the data (z-score normalization)
-        **kwargs : dict
-            Additional parameters for RQA computation
+        data : array_like, optional
+            Time-series data of shape ``(N,)`` or ``(N, D)``.  When omitted,
+            call :meth:`load_data` before accessing any computed property.
+        normalize : bool, default ``True``
+            Apply z-score (zero-mean, unit-variance) normalisation column-wise.
+        **kwargs
+            Override any default configuration parameter.  Recognised keys:
+
+            rdiv : int, default 451
+                Number of candidate *r* values tested in the FNN search.
+            Rmin, Rmax : float, default 1 and 10
+                Search range for the FNN ratio threshold.
+            delta : float, default 0.001
+                Convergence tolerance for the FNN ratio.
+            bound : float, default 0.2
+                Minimum drop in FNN ratio required to select an embedding
+                dimension.
+            reqrr : float, default 0.10
+                Target recurrence rate (0 < reqrr < 1).
+            rr_delta : float, default 0.005
+                Tolerance around *reqrr* when searching for ε.
+            epsmin, epsmax : float, default 0 and 10
+                Search range for the neighbourhood radius ε.
+            epsdiv : int, default 1001
+                Number of candidate ε values.
+            mi_method : {'histdd', 'avg'}, default 'histdd'
+                Mutual-information estimator used for τ selection.
+            tau_method : {'default', 'polynomial'}, default 'default'
+                Strategy for choosing the optimal time delay.
+            lmin : int, default 2
+                Minimum line length for DET and LAM computation.
         """
         # Data properties
         self.data = None
@@ -89,7 +128,20 @@ class RQA2:
 
     # Data handling methods
     def load_data(self, data, normalize=True):
-        """Load and optionally normalize time series data."""
+        """
+        Load (and optionally normalise) time-series data, resetting all caches.
+
+        Parameters
+        ----------
+        data : array_like
+            Time-series array of shape ``(N,)`` or ``(N, D)``.
+        normalize : bool, default ``True``
+            Apply z-score normalisation column-wise.
+
+        Returns
+        -------
+        None
+        """
         self.original_data = np.array(data)
         if self.original_data.ndim == 1:
             self.original_data = self.original_data.reshape(-1, 1)
@@ -167,7 +219,30 @@ class RQA2:
 
     # Core computation methods
     def compute_time_delay(self, method=None, mi_method=None):
-        """Compute optimal time delay using mutual information."""
+        """
+        Estimate the optimal time delay τ from the mutual-information curve.
+
+        Parameters
+        ----------
+        method : {'default', 'polynomial'}, optional
+            Algorithm used to locate the minimum of the MI curve.
+            ``'default'`` selects the first local minimum; ``'polynomial'``
+            fits a cross-validated polynomial and uses its first minimum.
+            Defaults to ``self.config['tau_method']``.
+        mi_method : {'histdd', 'avg'}, optional
+            Mutual-information estimator.  Defaults to
+            ``self.config['mi_method']``.
+
+        Returns
+        -------
+        int
+            Optimal time delay τ ≥ 1.
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded.
+        """
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
@@ -185,7 +260,23 @@ class RQA2:
         return self._tau
 
     def compute_embedding_dimension(self):
-        """Compute optimal embedding dimension using false nearest neighbors."""
+        """
+        Estimate the optimal embedding dimension m via False Nearest Neighbours.
+
+        Uses the FNN criterion: the embedding dimension is the smallest m for
+        which the fraction of false nearest neighbours drops below
+        ``self.config['bound']``.
+
+        Returns
+        -------
+        int
+            Embedding dimension m ≥ 1.
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded.
+        """
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
@@ -197,7 +288,29 @@ class RQA2:
         return self._m
 
     def compute_neighborhood_radius(self, reqrr=None):
-        """Compute neighborhood radius for specified recurrence rate."""
+        """
+        Find the neighbourhood radius ε that achieves a target recurrence rate.
+
+        The search scans ``self.config['epsdiv']`` evenly-spaced candidate
+        values between ``epsmin`` and ``epsmax`` and returns the first ε for
+        which |RR − reqrr| < ``rr_delta``.
+
+        Parameters
+        ----------
+        reqrr : float, optional
+            Target recurrence rate in (0, 1).  Clamped to [0.01, 0.99].
+            Defaults to ``self.config['reqrr']``.
+
+        Returns
+        -------
+        float
+            Neighbourhood radius ε > 0.
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded.
+        """
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
@@ -211,7 +324,24 @@ class RQA2:
         return self._eps
 
     def compute_recurrence_plot(self):
-        """Compute the recurrence plot."""
+        """
+        Build the binary recurrence plot matrix from the current parameters.
+
+        Uses the delay-embedded signal with the stored (or lazily computed)
+        τ, m, and ε.  Two delay vectors are considered recurrent when their
+        Euclidean distance is less than ε.
+
+        Returns
+        -------
+        ndarray of int, shape (N_embedded, N_embedded)
+            Symmetric binary matrix; 1 indicates recurrence, 0 otherwise.
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded or if the embedding parameters yield
+            an empty embedded signal.
+        """
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
@@ -224,7 +354,25 @@ class RQA2:
         return rplot
 
     def compute_embedded_signal(self):
-        """Compute time-delayed embedded signal."""
+        """
+        Build the time-delay embedding tensor.
+
+        Constructs delay vectors of the form
+        ``[x(t), x(t+τ), …, x(t+(m-1)τ)]`` for each valid time index t.
+
+        Returns
+        -------
+        ndarray, shape (N_embedded, m, D)
+            Delay-embedded signal where ``N_embedded = N - (m-1)*τ``,
+            m is the embedding dimension, and D is the number of original
+            signal dimensions.
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded or if the data are too short for the
+            chosen (τ, m) combination.
+        """
         if self.data is None:
             raise ValueError("No data loaded. Please load data first.")
 
@@ -237,7 +385,43 @@ class RQA2:
 
     # RQA measures computation
     def compute_rqa_measures(self, lmin=None):
-        """Compute all RQA measures."""
+        """
+        Compute the full set of RQA measures from the recurrence plot.
+
+        Parameters
+        ----------
+        lmin : int, optional
+            Minimum line length for DET and LAM computation.
+            Defaults to ``self.config['lmin']`` (typically 2).
+
+        Returns
+        -------
+        dict
+            Dictionary with the following keys:
+
+            ``recurrence_rate`` : float
+                Fraction of recurrent points (RR).
+            ``determinism`` : float
+                Fraction of recurrent points on diagonal lines ≥ lmin (DET).
+            ``laminarity`` : float
+                Fraction of recurrent points on vertical lines ≥ lmin (LAM).
+            ``diagonal_entropy`` : float
+                Shannon entropy of diagonal line-length distribution (L_entr).
+            ``vertical_entropy`` : float
+                Shannon entropy of vertical line-length distribution (V_entr).
+            ``average_diagonal_length`` : float
+                Mean length of diagonal lines ≥ lmin (L).
+            ``average_vertical_length`` : float
+                Mean length of vertical lines ≥ lmin (TT – trapping time).
+            ``max_diagonal_length`` : float
+                Maximum diagonal line length (L_max).
+            ``max_vertical_length`` : float
+                Maximum vertical line length (V_max).
+            ``diagonal_mode`` : float
+                Mode of the diagonal line-length distribution.
+            ``vertical_mode`` : float
+                Mode of the vertical line-length distribution.
+        """
         lmin = lmin or self.config['lmin']
         rp = self.recurrence_plot
         n = rp.shape[0]
@@ -264,26 +448,78 @@ class RQA2:
         return measures
 
     def determinism(self, lmin=None):
-        """Compute determinism (DET)."""
+        """
+        Return the determinism (DET) measure.
+
+        Parameters
+        ----------
+        lmin : int, optional
+            Minimum diagonal line length threshold.
+
+        Returns
+        -------
+        float
+            DET in [0, 1].
+        """
         if 'determinism' not in self._rqa_measures:
             self.compute_rqa_measures(lmin)
         return self._rqa_measures['determinism']
 
     def laminarity(self, lmin=None):
-        """Compute laminarity (LAM)."""
+        """
+        Return the laminarity (LAM) measure.
+
+        Parameters
+        ----------
+        lmin : int, optional
+            Minimum vertical line length threshold.
+
+        Returns
+        -------
+        float
+            LAM in [0, 1].
+        """
         if 'laminarity' not in self._rqa_measures:
             self.compute_rqa_measures(lmin)
         return self._rqa_measures['laminarity']
 
     def trapping_time(self, lmin=None):
-        """Compute trapping time (TT) - average vertical line length."""
+        """
+        Return the trapping time (TT) – mean vertical line length.
+
+        Parameters
+        ----------
+        lmin : int, optional
+            Minimum vertical line length threshold.
+
+        Returns
+        -------
+        float
+            Average vertical line length TT ≥ 0.
+        """
         if 'average_vertical_length' not in self._rqa_measures:
             self.compute_rqa_measures(lmin)
         return self._rqa_measures['average_vertical_length']
 
     # Plotting methods
     def plot_recurrence_plot(self, figsize=(8, 8), title=None, save_path=None):
-        """Plot the recurrence plot."""
+        """
+        Display the recurrence plot.
+
+        Parameters
+        ----------
+        figsize : tuple of float, default (8, 8)
+            Width and height of the figure in inches.
+        title : str, optional
+            Figure title.  Defaults to ``'Recurrence Plot (RR=<value>)'``.
+        save_path : str or path-like, optional
+            If given, the figure is saved to this path at 300 dpi before
+            being displayed.
+
+        Returns
+        -------
+        None
+        """
         rp = self.recurrence_plot
 
         plt.figure(figsize=figsize)
@@ -298,7 +534,24 @@ class RQA2:
         plt.show()
 
     def plot_tau_mi_curve(self, max_tau=None, figsize=(10, 6), save_path=None):
-        """Plot tau vs mutual information curve."""
+        """
+        Plot the mutual information as a function of time delay τ.
+
+        A vertical dashed line marks the automatically selected τ value.
+
+        Parameters
+        ----------
+        max_tau : int, optional
+            Maximum τ to evaluate.  Defaults to ``min(100, N/4)``.
+        figsize : tuple of float, default (10, 6)
+            Figure dimensions in inches.
+        save_path : str or path-like, optional
+            Destination path for saving the figure at 300 dpi.
+
+        Returns
+        -------
+        None
+        """
         max_tau = max_tau or min(100, self.n_samples // 4)
 
         tau_values = []
@@ -324,7 +577,25 @@ class RQA2:
         plt.show()
 
     def plot_fnn_curve(self, max_m=None, figsize=(10, 6), save_path=None):
-        """Plot false nearest neighbors vs embedding dimension."""
+        """
+        Plot the false nearest-neighbours ratio as a function of embedding
+        dimension m.
+
+        A vertical dashed line marks the automatically selected m value.
+
+        Parameters
+        ----------
+        max_m : int, optional
+            Maximum embedding dimension to evaluate.
+        figsize : tuple of float, default (10, 6)
+            Figure dimensions in inches.
+        save_path : str or path-like, optional
+            Destination path for saving the figure at 300 dpi.
+
+        Returns
+        -------
+        None
+        """
         max_m = max_m or min(15, (3 * self.n_dimensions + 11) // 2)
         tau = self.tau
         sd = 3 * np.std(self.data)
@@ -352,7 +623,24 @@ class RQA2:
         plt.show()
 
     def plot_rqa_measures_summary(self, figsize=(12, 8), save_path=None):
-        """Plot summary of RQA measures."""
+        """
+        Display a 2×3 panel summarising the main RQA measures and parameters.
+
+        Panels: main measures (RR, DET, LAM), entropy measures, average line
+        lengths, maximum line lengths, mode line lengths, and RQA parameters
+        (τ, m, ε).
+
+        Parameters
+        ----------
+        figsize : tuple of float, default (12, 8)
+            Figure dimensions in inches.
+        save_path : str or path-like, optional
+            Destination path for saving the figure at 300 dpi.
+
+        Returns
+        -------
+        None
+        """
         measures = self.compute_rqa_measures()
 
         fig, axes = plt.subplots(2, 3, figsize=figsize)
@@ -396,7 +684,28 @@ class RQA2:
         plt.show()
 
     def plot_time_series(self, figsize=(12, 6), save_path=None):
-        """Plot the original time series data."""
+        """
+        Plot the original (unnormalised) time-series data.
+
+        For univariate data a single line plot is drawn; for multivariate
+        data each of the first five dimensions is shown in a stacked subplot.
+
+        Parameters
+        ----------
+        figsize : tuple of float, default (12, 6)
+            Figure dimensions in inches.
+        save_path : str or path-like, optional
+            Destination path for saving the figure at 300 dpi.
+
+        Returns
+        -------
+        None
+
+        Raises
+        ------
+        ValueError
+            If no data have been loaded.
+        """
         if self.original_data is None:
             raise ValueError("No data to plot.")
 
@@ -425,7 +734,38 @@ class RQA2:
     @classmethod
     def batch_process(cls, input_path, output_path, group_level=False,
                       group_level_estimates=None, **kwargs):
-        """Process multiple time series files in batch."""
+        """
+        Analyse all ``.npy`` files in *input_path* and write results to
+        *output_path*.
+
+        Two CSV files are written: ``rqa_results.csv`` (one row per file with
+        all RQA measures) and ``error_report.csv`` (files that could not be
+        processed).  Recurrence plots are saved as ``.npy`` arrays alongside
+        the CSVs.
+
+        Parameters
+        ----------
+        input_path : str or path-like
+            Directory containing ``.npy`` time-series files.
+        output_path : str or path-like
+            Directory where outputs are written (created if absent).
+        group_level : bool, default ``False``
+            If ``True``, replace per-file parameters with group averages for
+            the parameters listed in *group_level_estimates*.
+        group_level_estimates : list of {'tau', 'm', 'eps'}, optional
+            Which parameters to estimate at the group level.
+        **kwargs
+            Passed to ``RQA2.__init__`` for each file.
+
+        Returns
+        -------
+        results : list of dict
+            Per-file dictionaries containing file name, RQA parameters, and
+            measure values.
+        error_files : list of dict
+            Per-file dictionaries for failed files, containing ``'file'`` and
+            ``'error'`` keys.
+        """
         os.makedirs(output_path, exist_ok=True)
 
         files = [f for f in os.listdir(input_path) if f.endswith('.npy')]
@@ -529,7 +869,21 @@ class RQA2:
 
     # Utility methods
     def save_results(self, filepath):
-        """Save computed RQA results to file."""
+        """
+        Serialise all computed RQA state to a pickle file.
+
+        Saved fields: ``data``, ``tau``, ``m``, ``eps``,
+        ``recurrence_plot``, ``rqa_measures``, ``config``.
+
+        Parameters
+        ----------
+        filepath : str or path-like
+            Destination file path (e.g. ``'analysis.pkl'``).
+
+        Returns
+        -------
+        None
+        """
         results = {
             'data': self.data,
             'tau': self._tau,
@@ -544,7 +898,19 @@ class RQA2:
             pickle.dump(results, f)
 
     def load_results(self, filepath):
-        """Load pre-computed RQA results from file."""
+        """
+        Restore RQA state from a pickle file previously written by
+        :meth:`save_results`.
+
+        Parameters
+        ----------
+        filepath : str or path-like
+            Path to a ``.pkl`` file created by :meth:`save_results`.
+
+        Returns
+        -------
+        None
+        """
         with open(filepath, 'rb') as f:
             results = pickle.load(f)
 
@@ -560,7 +926,16 @@ class RQA2:
             self.n_samples, self.n_dimensions = self.data.shape
 
     def get_summary(self):
-        """Get summary of computed RQA parameters and measures."""
+        """
+        Return a nested dictionary summarising data info, parameters, and
+        (if already computed) RQA measures.
+
+        Returns
+        -------
+        dict
+            Top-level keys: ``'Data Info'``, ``'Parameters'``, and
+            optionally ``'RQA Measures'``.
+        """
         summary = {
             'Data Info': {
                 'Samples': self.n_samples,
@@ -1088,8 +1463,24 @@ class RQA2:
 @dataclass
 class RQA2_simulators:
     """
-    Simulate various chaotic dynamical systems for testing RQA2 and surrogate methods.
-    Includes multiple well-known chaotic attractors with configurable parameters.
+    Generators for chaotic dynamical systems used to test RQA2 and surrogate
+    methods.
+
+    All ODE systems are integrated with ``scipy.integrate.solve_ivp`` using
+    the RK45 solver at tight tolerances (``rtol=1e-9``, ``atol=1e-12``).
+    Discrete maps are iterated directly.
+
+    Parameters
+    ----------
+    seed : int or None, optional
+        Seed for the internal :class:`numpy.random.Generator`.  Use an
+        integer for reproducible results.
+
+    Examples
+    --------
+    >>> sim = RQA2_simulators(seed=42)
+    >>> x, y, z = sim.rossler(n=1000)
+    >>> battery = sim.generate_test_battery()
     """
 
     seed: Optional[int] = None
@@ -1109,9 +1500,32 @@ class RQA2_simulators:
         """
         Simulate the Rössler attractor.
 
-        For b=0.2, c=5.7:
-        - a < 0.2: chaotic regime
-        - a > 0.2: synchronous/periodic regime
+        The system is defined by::
+
+            dx/dt = -y - z
+            dy/dt =  x + a·y
+            dz/dt =  b + z·(x - c)
+
+        With ``b=0.2, c=5.7``: chaotic for ``a ≲ 0.2``, periodic for
+        ``a ≳ 0.2``.
+
+        Parameters
+        ----------
+        tmax : int, default 10000
+            Number of integration steps.
+        n : int, default 2000
+            Number of output points (sub-sampled from the solution).
+        Xi : tuple of float, default (1.0, 1.0, 1.0)
+            Initial conditions (x₀, y₀, z₀).
+        a, b, c : float
+            System parameters.  Classic chaotic: ``a=0.2, b=0.2, c=5.7``.
+        dt : float, default 0.01
+            Integration step size.
+
+        Returns
+        -------
+        x, y, z : ndarray, shape (n,)
+            State variables sampled at *n* equidistant times.
         """
         def rossler_system(t, state):
             x, y, z = state
@@ -1140,7 +1554,36 @@ class RQA2_simulators:
                rho: float = 28.0,
                beta: float = 8.0 / 3.0,
                dt: float = 0.01) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """Simulate the Lorenz attractor."""
+        """
+        Simulate the Lorenz attractor.
+
+        The system is defined by::
+
+            dx/dt = σ·(y - x)
+            dy/dt = ρ·x - y - x·z
+            dz/dt = x·y - β·z
+
+        The classic chaotic butterfly attractor uses
+        ``σ=10, ρ=28, β=8/3``.
+
+        Parameters
+        ----------
+        tmax : int, default 10000
+            Number of integration steps.
+        n : int, default 2000
+            Number of output points.
+        Xi : tuple of float, default (1.0, 1.0, 1.0)
+            Initial conditions (x₀, y₀, z₀).
+        sigma, rho, beta : float
+            System parameters.
+        dt : float, default 0.01
+            Integration step size.
+
+        Returns
+        -------
+        x, y, z : ndarray, shape (n,)
+            State variables at *n* equidistant times.
+        """
         def lorenz_system(t, state):
             x, y, z = state
             dxdt = sigma * (y - x)
@@ -1164,7 +1607,30 @@ class RQA2_simulators:
               Xi: Tuple[float, float] = (0.1, 0.1),
               a: float = 1.4,
               b: float = 0.3) -> Tuple[np.ndarray, np.ndarray]:
-        """Simulate the Hénon map."""
+        """
+        Simulate the Hénon map.
+
+        Defined by the 2-D discrete-time recurrence::
+
+            x_{n+1} = 1 - a·x_n² + y_n
+            y_{n+1} = b·x_n
+
+        The classic chaotic attractor uses ``a=1.4, b=0.3``.
+
+        Parameters
+        ----------
+        n : int, default 2000
+            Number of iterations.
+        Xi : tuple of float, default (0.1, 0.1)
+            Initial conditions (x₀, y₀).
+        a, b : float
+            Map parameters.
+
+        Returns
+        -------
+        X, Y : ndarray, shape (n,)
+            Trajectory of the x and y coordinates.
+        """
         x, y = Xi
         X, Y = [x], [y]
 
@@ -1186,7 +1652,36 @@ class RQA2_simulators:
              m0: float = -1.143,
              m1: float = -0.714,
              dt: float = 0.01) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
-        """Simulate Chua's circuit attractor."""
+        """
+        Simulate Chua's circuit attractor.
+
+        Uses the piecewise-linear Chua diode characteristic h(x) and the
+        three-dimensional ODE::
+
+            dx/dt = α·(y - x - h(x))
+            dy/dt = x - y + z
+            dz/dt = -β·y
+
+        Parameters
+        ----------
+        tmax : int, default 10000
+            Number of integration steps.
+        n : int, default 2000
+            Number of output points.
+        Xi : tuple of float, default (0.1, 0.1, 0.1)
+            Initial conditions (x₀, y₀, z₀).
+        alpha, beta : float
+            Circuit parameters.
+        m0, m1 : float
+            Slopes of the piecewise-linear Chua diode.
+        dt : float, default 0.01
+            Integration step size.
+
+        Returns
+        -------
+        x, y, z : ndarray, shape (n,)
+            State variables at *n* equidistant times.
+        """
         def chua_system(t, state):
             x, y, z = state
             # Piecewise-linear function
@@ -1214,7 +1709,16 @@ class RQA2_simulators:
         return sol.y[0][indices], sol.y[1][indices], sol.y[2][indices]
 
     def generate_test_battery(self) -> dict:
-        """Generate a complete battery of test systems."""
+        """
+        Generate a standard battery of chaotic and periodic test signals.
+
+        Returns
+        -------
+        dict
+            Keys: ``'rossler_chaotic'``, ``'rossler_sync'``, ``'lorenz'``,
+            ``'henon'``, ``'chua'``.  Each value is a dict with keys
+            ``'x'``, ``'y'``, (optionally ``'z'``), and ``'regime'``.
+        """
         systems = {}
 
         # Rössler chaotic regime
@@ -1250,8 +1754,37 @@ Algorithm = Literal[
 @dataclass
 class RQA2_tests:
     """
-    Generate surrogate data with comprehensive statistical validation
-    against chaotic dynamical systems.
+    Surrogate-data generation and statistical validation for nonlinear
+    dynamics testing.
+
+    Implements six surrogate algorithms and a comprehensive validation
+    framework that tests each algorithm against multiple nonlinear metrics
+    (Lyapunov exponent, sample entropy, correlation dimension, etc.).
+
+    Parameters
+    ----------
+    signal : ndarray of float
+        1-D floating-point time series to be tested.
+    seed : int or None, optional
+        Seed for reproducible surrogate generation.
+    max_workers : int, default 1
+        Number of parallel workers for surrogate generation
+        (parallelism kicks in when ``n_surrogates >= 50``).
+
+    Raises
+    ------
+    TypeError
+        If *signal* is not a floating-point array.
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> rng = np.random.default_rng(0)
+    >>> signal = rng.standard_normal(512).astype(float)
+    >>> tester = RQA2_tests(signal, seed=42)
+    >>> surrogates = tester.generate('IAAFT', n_surrogates=100)
+    >>> surrogates.shape
+    (100, 512)
     """
 
     signal: np.ndarray
@@ -1274,7 +1807,40 @@ class RQA2_tests:
         n_surrogates: int = 200,
         **kwargs,
     ) -> np.ndarray:
-        """Generate surrogate ensemble with unique seeds for each surrogate."""
+        """
+        Generate an ensemble of surrogate time series.
+
+        Each surrogate is produced with an independent random seed to
+        ensure statistical independence.  When ``n_surrogates >= 50`` and
+        ``max_workers > 1`` the ensemble is generated in parallel.
+
+        Parameters
+        ----------
+        kind : {'FT', 'AAFT', 'IAAFT', 'IDFS', 'WIAAFT', 'PPS'}, default 'FT'
+            Surrogate algorithm:
+
+            * **FT** – Fourier-Transform phase randomisation.
+            * **AAFT** – Amplitude-Adjusted Fourier Transform.
+            * **IAAFT** – Iterative AAFT (n_iter=100 by default).
+            * **IDFS** – Iterative Digitally-Filtered Shuffled.
+            * **WIAAFT** – Wavelet-based IAAFT.
+            * **PPS** – Pseudo-Periodic Surrogate.
+        n_surrogates : int, default 200
+            Number of surrogates to generate.
+        **kwargs
+            Passed to the underlying surrogate algorithm (e.g.
+            ``n_iter=200`` for IAAFT, ``wavelet='db4'`` for WIAAFT).
+
+        Returns
+        -------
+        ndarray, shape (n_surrogates, N)
+            Array of surrogate time series, one per row.
+
+        Raises
+        ------
+        KeyError
+            If *kind* is not a recognised algorithm name.
+        """
         _dispatcher = {
             "FT": self._ft,
             "AAFT": self._aaft,
@@ -1344,8 +1910,29 @@ class RQA2_tests:
         save_path: str = "surrogate_validation_results.png"
     ) -> Dict[str, Dict[str, float]]:
         """
-        Comprehensive validation framework testing all surrogate methods
-        against multiple chaotic systems using various nonlinear metrics.
+        Run all six surrogate algorithms against multiple dynamical systems
+        and return rank-based two-sided p-values for six nonlinear metrics.
+
+        A heatmap of the results is saved to *save_path*.
+
+        Parameters
+        ----------
+        systems_data : dict
+            Mapping from system name (str) to a dict with at least an
+            ``'x'`` key containing a 1-D ndarray (the x-coordinate of
+            the attractor).  Typically produced by
+            :meth:`RQA2_simulators.generate_test_battery`.
+        n_surrogates : int, default 200
+            Number of surrogates per algorithm per system.
+        save_path : str, default 'surrogate_validation_results.png'
+            Path where the validation heatmap is saved.
+
+        Returns
+        -------
+        dict
+            Nested dict: ``results[system_name][surrogate_method][metric]``
+            → p-value (float, or ``nan`` if the metric could not be
+            computed).
         """
         surrogate_methods = ["FT", "AAFT", "IAAFT", "IDFS", "WIAAFT", "PPS"]
         metrics = [

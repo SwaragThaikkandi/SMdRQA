@@ -20,7 +20,7 @@ from os import listdir
 import pandas as pd
 __docformat__ = "restructuredtext"
 
-__version__ = "2024.04.01"
+__version__ = "2025.7.27"
 
 import numpy as np
 from scipy.integrate import solve_ivp
@@ -35,3 +35,6 @@ import matplotlib
 matplotlib.use('Agg')
 
 # For installing the kuramoto package run: pip install kuramoto
+
+# RQA2 object-oriented interface
+from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests

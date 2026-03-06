@@ -20,7 +20,7 @@ jobs:
       contents: write
     steps:
       - name: Example
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           template: repository
           filename: metrics.repository.svg
@@ -28,7 +28,7 @@ jobs:
           user: SwaragThaikkandi
           repo: SMdRQA
       - name: Create Repository Tree
-        uses: actions/checkout@master
+        uses: actions/checkout@v4
       - name: Update Repository Tree
         uses: githubocto/repo-visualizer@0.9.1
         with:
@@ -36,7 +36,7 @@ jobs:
           branch: "graphs"
 
       - name: Half-year calendar
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           filename: metrics.plugin.isocalendar.fullyear.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
       - name: Most used
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           filename: metrics.plugin.languages.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -55,7 +55,7 @@ jobs:
             gnuplot
           plugin_languages_limit: 4
       - name: Repositories and diff history
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           filename: metrics.plugin.lines.history.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -71,7 +71,7 @@ jobs:
             +lowlighter/metrics
             
       - name: Comment reactions
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           filename: metrics.plugin.reactions.svg
           token: ${{ secrets.METRICS_TOKEN }}
@@ -81,7 +81,7 @@ jobs:
           plugin_reactions_details: percentage
 
       - name: Full history calendar
-        uses: lowlighter/metrics@latest
+        uses: lowlighter/metrics@3
         with:
           filename: metrics.plugin.calendar.full.svg
           token: ${{ secrets.METRICS_TOKEN }}
