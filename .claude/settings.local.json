@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l \"C:\\\\Users\\\\SWARAG\\\\OneDrive\\\\Documents\\\\SMdRQA-main\\\\SMdRQA\"/*.py)",
+      "Bash(python -m py_compile \"C:/Users/SWARAG/OneDrive/Documents/SMdRQA-main/SMdRQA/RQA2.py\")",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(python -m pip list)",
+      "Bash(\"C:\\\\Users\\\\SWARAG\\\\miniconda3\\\\envs\\\\dl_env\\\\python.exe\" -m pip list)",
+      "Bash(cmd /c \"where python\")",
+      "Bash(cmd /c \"where jupyter\")",
+      "Bash(cmd /c \"where sphinx-autobuild\")",
+      "Bash(powershell -Command \"Get-Command python* -ErrorAction SilentlyContinue | Select-Object Source\")",
+      "Bash(\"C:/Users/SWARAG/AppData/Local/Python/bin/python.exe\" -m pip list)",
+      "Bash(powershell -Command \"Get-Command jupyter,sphinx-autobuild,sphinx-build -ErrorAction SilentlyContinue | Select-Object Source\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\SWARAG'' -Recurse -Filter ''jupyter.exe'' -ErrorAction SilentlyContinue | Select-Object -First 5 FullName\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\SWARAG\\\\anaconda3\\\\Scripts'' -Filter ''sphinx*'' | Select-Object Name\")",
+      "Bash(powershell -Command \"Get-ChildItem ''C:\\\\Users\\\\SWARAG\\\\anaconda3\\\\envs'' | Select-Object Name\")",
+      "Bash(C:/Users/SWARAG/anaconda3/Scripts/pip.exe install sphinx-autobuild)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/sphinx-build.exe\" -b html docs docs/_build/html)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/pip.exe\" install sphinxemoji)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/pip.exe\" install sphinx-copybutton myst-nb IPython)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/pip.exe\" install sphinx-book-theme)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/python.exe\" -c \"from SMdRQA import RQA2, RQA2_simulators, RQA2_tests; print\\(''OK''\\)\")",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/pip.exe\" install kuramoto)",
+      "Bash(\"C:/Users/SWARAG/anaconda3/Scripts/pip.exe\" install memory_profiler numba p_tqdm)",
+      "WebFetch(domain:docs.anthropic.com)"
+    ]
+  }
+}

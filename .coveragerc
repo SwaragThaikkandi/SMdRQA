@@ -1,0 +1,4 @@
+[run]
+branch = True
+include = */SMdRQA/*
+disable_warnings = include-ignored

@@ -1,0 +1,46 @@
+name: "Generate Coverage Report and Upload to Codecov"
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name as needed
+
+jobs:
+  coverage:
+    name: "Python Tests with Coverage and Codecov Upload"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v4
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9  # Adjust Python version as needed
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest coverage
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi 
+
+      - name: "Run tests and collect coverage"
+        run: |
+          coverage run -m pytest SMdRQA/tests/
+          coverage report -m
+          coverage xml -o coverage.xml
+
+      - name: "Save coverage report as artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}  # Add your Codecov token as a secret
+          file: coverage.xml
+          flags: unittests  # Optional, specify flags for filtering coverage
+

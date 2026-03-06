@@ -1,0 +1,18 @@
+name-template: 'v$NEXT_PATCH_VERSION'
+categories:
+  - title: '🚀 Features'
+    label: 'feature'
+  - title: '🐛 Bug Fixes'
+    label: 'bug'
+  - title: '🔧 Maintenance'
+    label: 'maintenance'
+template: |
+  ## Changelog
+
+  <!-- TEMPLATE -->
+  $CHANGES
+
+paginate:
+  limit: 10
+  field: 'createdAt'
+  direction: 'desc'

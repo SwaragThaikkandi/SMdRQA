@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "sphinx-docs",
+      "runtimeExecutable": "C:\\Users\\SWARAG\\anaconda3\\python.exe",
+      "runtimeArgs": ["-m", "sphinx_autobuild", "docs", "docs/_build/html", "--port", "8000", "--host", "127.0.0.1"],
+      "port": 8000
+    },
+    {
+      "name": "jupyter-notebook",
+      "runtimeExecutable": "C:\\Users\\SWARAG\\anaconda3\\Scripts\\jupyter.exe",
+      "runtimeArgs": ["notebook", "--no-browser", "--port", "8888", "--ip", "127.0.0.1"],
+      "port": 8888
+    }
+  ]
+}

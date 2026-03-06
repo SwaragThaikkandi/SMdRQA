@@ -1,0 +1,45 @@
+package:
+  name: SMdRQA     # lower case name of package, may contain '-' but no spaces
+  version: 2024.03.31    # version of package
+
+source:
+# The source section specifies where the source code of the package is coming
+# from, it may be coming from a source tarball like:
+  fn: v2024.03.31.zip
+  url: https://github.com/SwaragThaikkandi/SMdRQA/archive/refs/tags/SMdRQAv2024.03.31.zip
+
+# the build and runtime requirements:
+requirements:     # (optional)
+  build:
+    - scipy
+    - numpy
+    - contextlib2
+    - pandas
+    - matplotlib
+    - operator-courier
+    - pytest-warnings
+    - tqdm
+    - memory_profiler
+    - kuramoto
+    - networkx
+    - p_tqdm
+    - nolitsa
+    - numba
+  run:
+    - scipy
+    - numpy
+    - contextlib2
+    - pandas
+    - matplotlib
+    - operator-courier
+    - pytest-warnings
+    - tqdm
+    - memory_profiler
+    - kuramoto
+    - networkx
+    - p_tqdm
+    - nolitsa
+    - numba
+about:            # (optional)
+  home: https://swaragthaikkandi.github.io/SMdRQA/index.html
+  license: GPL-3

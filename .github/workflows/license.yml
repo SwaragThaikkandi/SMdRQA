@@ -1,0 +1,15 @@
+name: License Approval
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  license:
+    runs-on: ubuntu-latest
+    steps:
+      - name: License Approval
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository }}
+        uses: ralexander-phi/license_approval@v1.0.0
+
+            
