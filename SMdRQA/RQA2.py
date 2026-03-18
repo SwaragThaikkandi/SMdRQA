@@ -35,8 +35,16 @@ import scipy.stats as stats
 from scipy.integrate import solve_ivp
 from scipy.spatial import distance
 from scipy.special import digamma
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import RepeatedKFold
+from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, silhouette_score
+from sklearn.model_selection import RepeatedKFold, StratifiedKFold
+from sklearn.base import clone
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.cluster import KMeans, AgglomerativeClustering
+from sklearn.mixture import GaussianMixture
 
 # Third-party – visualisation
 import matplotlib.pyplot as plt
@@ -446,6 +454,117 @@ class RQA2:
 
         self._rqa_measures = measures
         return measures
+
+    def compute_windowed_rqa_measures(self, window_size, window_step=1, lmin=None):
+        """
+        Compute RQA measures over sliding diagonal windows of the recurrence plot.
+
+        Parameters
+        ----------
+        window_size : int
+            Size of the square window to slide along the RP diagonal.
+        window_step : int, default 1
+            Step size for the sliding window.
+        lmin : int, optional
+            Minimum line length for DET and LAM computation.
+
+        Returns
+        -------
+        pandas.DataFrame
+            Per-window RQA measures indexed by window start position.
+        """
+        if window_size is None:
+            raise ValueError("window_size is required for windowed RQA measures.")
+        if window_size <= 0:
+            raise ValueError("window_size must be a positive integer.")
+        if window_step <= 0:
+            raise ValueError("window_step must be a positive integer.")
+
+        rp = self.recurrence_plot
+        if rp.size == 0:
+            raise ValueError("Recurrence plot is empty; cannot compute windowed measures.")
+
+        n = rp.shape[0]
+        if window_size > n:
+            raise ValueError(
+                f"window_size ({window_size}) exceeds RP size ({n}).")
+
+        lmin = lmin or self.config['lmin']
+
+        rows = []
+        indices = []
+        for start in range(0, n - window_size + 1, window_step):
+            sub = rp[start:start + window_size, start:start + window_size]
+            rr = float(np.sum(sub)) / (window_size * window_size)
+            diag_hist = self._diaghist(sub, window_size)
+            vert_hist = self._vert_hist(sub, window_size)
+
+            measures = {
+                'recurrence_rate': rr,
+                'determinism': self._percentmorethan(diag_hist, lmin, window_size),
+                'laminarity': self._percentmorethan(vert_hist, lmin, window_size),
+                'diagonal_entropy': self._entropy(diag_hist, lmin, window_size),
+                'vertical_entropy': self._entropy(vert_hist, lmin, window_size),
+                'average_diagonal_length': self._average(diag_hist, lmin, window_size),
+                'average_vertical_length': self._average(vert_hist, lmin, window_size),
+                'max_diagonal_length': self._maxi(diag_hist, lmin, window_size),
+                'max_vertical_length': self._maxi(vert_hist, lmin, window_size),
+                'diagonal_mode': self._mode(diag_hist, lmin, window_size),
+                'vertical_mode': self._mode(vert_hist, lmin, window_size),
+            }
+
+            rows.append(measures)
+            indices.append(start)
+
+        df = pd.DataFrame(rows, index=indices)
+        df.index.name = "window_start"
+        return df
+
+    def summarize_windowed_measures(self, windowed_df, stats=('mean', 'median', 'mode')):
+        """
+        Summarize windowed RQA measures with aggregate statistics.
+
+        Parameters
+        ----------
+        windowed_df : pandas.DataFrame
+            Output from :meth:`compute_windowed_rqa_measures`.
+        stats : tuple of {'mean', 'median', 'mode'}, default ('mean','median','mode')
+            Summary statistics to compute.
+
+        Returns
+        -------
+        dict
+            Flat dictionary of summary features.
+        """
+        if windowed_df is None or windowed_df.empty:
+            raise ValueError("windowed_df is empty; cannot summarize.")
+
+        stats = stats or ('mean', 'median', 'mode')
+        allowed = {'mean', 'median', 'mode'}
+        for stat in stats:
+            if stat not in allowed:
+                raise ValueError(
+                    f"Unsupported stat '{stat}'. Allowed: {sorted(allowed)}")
+
+        features = {}
+        for col in windowed_df.columns:
+            if not pd.api.types.is_numeric_dtype(windowed_df[col]):
+                continue
+            series = windowed_df[col].dropna()
+            for stat in stats:
+                if stat == 'mean':
+                    val = float(series.mean()) if len(series) else np.nan
+                elif stat == 'median':
+                    val = float(series.median()) if len(series) else np.nan
+                else:  # mode
+                    if len(series) == 0:
+                        val = np.nan
+                    else:
+                        mode_vals = series.mode()
+                        val = float(mode_vals.iloc[0]) if not mode_vals.empty else np.nan
+                features[f"{col}__{stat}"] = val
+
+        return features
 
     def determinism(self, lmin=None):
         """
@@ -2417,3 +2536,343 @@ class RQA2_tests:
         acf /= acf[0]
         zero_crossings = np.where(acf < 0)[0]
         return int(zero_crossings[0]) if len(zero_crossings) > 0 else 1
+
+
+class RQA2_ml:
+    """
+    Machine learning utilities built on top of RQA2 features.
+    """
+
+    def __init__(self, rqa_kwargs: Optional[Dict[str, Any]] = None):
+        self.rqa_kwargs = rqa_kwargs or {}
+
+    def _load_signals(self, signals_or_dir):
+        if isinstance(signals_or_dir, (str, os.PathLike)):
+            input_path = os.fspath(signals_or_dir)
+            if not os.path.isdir(input_path):
+                raise ValueError(
+                    f"signals_or_dir must be a directory path; got {input_path}")
+            files = sorted([f for f in os.listdir(
+                input_path) if f.endswith('.npy')])
+            if not files:
+                raise ValueError(
+                    f"No .npy files found in directory: {input_path}")
+            signals = []
+            ids = []
+            for fname in files:
+                data = np.load(os.path.join(input_path, fname), allow_pickle=True)
+                signals.append(data)
+                ids.append(fname)
+            return signals, ids
+
+        if isinstance(signals_or_dir, np.ndarray):
+            return [signals_or_dir], ["signal_0"]
+
+        if isinstance(signals_or_dir, (list, tuple)):
+            if len(signals_or_dir) == 0:
+                raise ValueError("signals_or_dir is empty.")
+            return list(signals_or_dir), [f"signal_{i}" for i in range(len(signals_or_dir))]
+
+        raise TypeError(
+            "signals_or_dir must be a directory path, numpy array, list, or tuple.")
+
+    def build_feature_table(
+        self,
+        signals_or_dir,
+        labels=None,
+        *,
+        window_size,
+        window_step=1,
+        window_stats=('mean', 'median', 'mode'),
+        include_params=True,
+        group_level_params=None,
+        rqa_kwargs=None,
+    ):
+        """
+        Build a feature table from RQA2 measures + windowed summaries.
+        """
+        if window_size is None:
+            raise ValueError("window_size must be provided.")
+
+        signals, ids = self._load_signals(signals_or_dir)
+        if labels is not None:
+            if len(labels) != len(signals):
+                raise ValueError(
+                    "labels length must match number of signals.")
+
+        kwargs = dict(self.rqa_kwargs)
+        if rqa_kwargs:
+            kwargs.update(rqa_kwargs)
+
+        manual_params = {}
+        for key in ('tau', 'm', 'eps'):
+            if key in kwargs:
+                manual_params[key] = kwargs.pop(key)
+
+        group_params = {}
+        if group_level_params:
+            allowed = {'tau', 'm', 'eps'}
+            unknown = set(group_level_params) - allowed
+            if unknown:
+                raise ValueError(
+                    f"Unknown group_level_params: {sorted(unknown)}")
+
+            rqa_objects = []
+            records = []
+            for signal in signals:
+                rqa = RQA2(signal, **kwargs)
+                record = {}
+                if 'tau' in group_level_params:
+                    record['tau'] = rqa.compute_time_delay()
+                if 'm' in group_level_params:
+                    record['m'] = rqa.compute_embedding_dimension()
+                if 'eps' in group_level_params:
+                    record['eps'] = rqa.compute_neighborhood_radius()
+                rqa_objects.append(rqa)
+                records.append(record)
+
+            if 'tau' in group_level_params:
+                group_params['tau'] = int(
+                    np.mean([r['tau'] for r in records]))
+            if 'm' in group_level_params:
+                group_params['m'] = int(np.mean([r['m'] for r in records]))
+            if 'eps' in group_level_params:
+                group_params['eps'] = RQA2._compute_group_epsilon(rqa_objects)
+
+        rows = []
+        for idx, signal in enumerate(signals):
+            rqa = RQA2(signal, **kwargs)
+
+            # Apply manual overrides if provided
+            if 'tau' in manual_params:
+                rqa._tau = int(manual_params['tau'])
+            if 'm' in manual_params:
+                rqa._m = int(manual_params['m'])
+            if 'eps' in manual_params:
+                rqa._eps = float(manual_params['eps'])
+
+            # Apply group-level parameters if requested
+            if group_params:
+                if 'tau' in group_params:
+                    rqa._tau = int(group_params['tau'])
+                if 'm' in group_params:
+                    rqa._m = int(group_params['m'])
+                if 'eps' in group_params:
+                    rqa._eps = float(group_params['eps'])
+
+            measures = rqa.compute_rqa_measures()
+            windowed = rqa.compute_windowed_rqa_measures(
+                window_size, window_step=window_step)
+            summary = rqa.summarize_windowed_measures(
+                windowed, stats=window_stats)
+
+            row = {
+                'id': ids[idx],
+                **measures,
+            }
+
+            row.update({f"win_{k}": v for k, v in summary.items()})
+
+            if include_params:
+                row['tau'] = rqa.tau
+                row['m'] = rqa.m
+                row['eps'] = rqa.eps
+
+            if labels is not None:
+                row['label'] = labels[idx]
+
+            rows.append(row)
+
+        df = pd.DataFrame(rows)
+        if 'label' in df.columns:
+            cols = ['id', 'label'] + \
+                [c for c in df.columns if c not in ('id', 'label')]
+            df = df[cols]
+        else:
+            cols = ['id'] + [c for c in df.columns if c != 'id']
+            df = df[cols]
+
+        return df
+
+    def supervised_benchmark(
+        self,
+        X,
+        y,
+        *,
+        models=('knn', 'svm', 'rf'),
+        cv=5,
+        scaler=True,
+        random_state=42,
+    ):
+        """
+        Run supervised model benchmarks with cross-validation.
+        """
+        X_arr = np.asarray(X)
+        if X_arr.ndim == 1:
+            X_arr = X_arr.reshape(-1, 1)
+        y_arr = np.asarray(y)
+
+        if len(np.unique(y_arr)) < 2:
+            raise ValueError("y must contain at least two classes.")
+
+        model_map = {
+            'knn': KNeighborsClassifier(),
+            'svm': SVC(kernel='rbf', gamma='scale'),
+            'rf': RandomForestClassifier(
+                n_estimators=200, random_state=random_state),
+        }
+
+        for name in models:
+            if name not in model_map:
+                raise ValueError(
+                    f"Unknown model '{name}'. Available: {sorted(model_map)}")
+
+        splitter = StratifiedKFold(
+            n_splits=cv, shuffle=True, random_state=random_state)
+        results = []
+        best_name = None
+        best_score = (-np.inf, -np.inf)
+
+        for name in models:
+            base_est = model_map[name]
+            acc_scores = []
+            f1_scores = []
+            for train_idx, test_idx in splitter.split(X_arr, y_arr):
+                est = clone(base_est)
+                if scaler:
+                    model = make_pipeline(StandardScaler(), est)
+                else:
+                    model = est
+
+                model.fit(X_arr[train_idx], y_arr[train_idx])
+                preds = model.predict(X_arr[test_idx])
+                acc_scores.append(accuracy_score(y_arr[test_idx], preds))
+                f1_scores.append(
+                    f1_score(y_arr[test_idx], preds, average='macro'))
+
+            acc_mean = float(np.mean(acc_scores))
+            acc_std = float(np.std(acc_scores))
+            f1_mean = float(np.mean(f1_scores))
+            f1_std = float(np.std(f1_scores))
+
+            results.append({
+                'model': name,
+                'accuracy_mean': acc_mean,
+                'accuracy_std': acc_std,
+                'f1_macro_mean': f1_mean,
+                'f1_macro_std': f1_std,
+            })
+
+            score_key = (acc_mean, f1_mean)
+            if score_key > best_score:
+                best_score = score_key
+                best_name = name
+
+        results_df = pd.DataFrame(results)
+
+        best_est = clone(model_map[best_name])
+        if scaler:
+            best_model = make_pipeline(StandardScaler(), best_est)
+        else:
+            best_model = best_est
+        best_model.fit(X_arr, y_arr)
+
+        return results_df, best_model
+
+    def unsupervised_benchmark(
+        self,
+        X,
+        *,
+        methods=('kmeans', 'gmm', 'agglo'),
+        n_clusters=None,
+        k_range=(2, 6),
+        scaler=True,
+        random_state=42,
+    ):
+        """
+        Run unsupervised clustering benchmarks and report silhouette scores.
+        """
+        X_arr = np.asarray(X)
+        if X_arr.ndim == 1:
+            X_arr = X_arr.reshape(-1, 1)
+
+        if scaler:
+            X_use = StandardScaler().fit_transform(X_arr)
+        else:
+            X_use = X_arr
+
+        if n_clusters is not None:
+            k_list = [int(n_clusters)]
+        else:
+            k_list = list(range(int(k_range[0]), int(k_range[1]) + 1))
+
+        results = []
+        labels_out = {}
+
+        for method in methods:
+            if method not in ('kmeans', 'gmm', 'agglo'):
+                raise ValueError(
+                    f"Unknown method '{method}'. Use 'kmeans', 'gmm', or 'agglo'.")
+
+            best_k = None
+            best_score = -np.inf
+            best_labels = None
+
+            for k in k_list:
+                if k < 2 or k >= len(X_use):
+                    continue
+
+                if method == 'kmeans':
+                    model = KMeans(
+                        n_clusters=k, random_state=random_state, n_init=10)
+                    labels = model.fit_predict(X_use)
+                elif method == 'gmm':
+                    model = GaussianMixture(
+                        n_components=k, random_state=random_state)
+                    labels = model.fit_predict(X_use)
+                else:
+                    model = AgglomerativeClustering(n_clusters=k)
+                    labels = model.fit_predict(X_use)
+
+                if len(np.unique(labels)) < 2:
+                    score = np.nan
+                else:
+                    try:
+                        score = float(silhouette_score(X_use, labels))
+                    except Exception:
+                        score = np.nan
+
+                if not np.isnan(score) and score > best_score:
+                    best_score = score
+                    best_k = k
+                    best_labels = labels
+
+            if best_labels is None:
+                # Fallback to first feasible k without silhouette
+                for k in k_list:
+                    if k < 2 or k >= len(X_use):
+                        continue
+                    if method == 'kmeans':
+                        model = KMeans(
+                            n_clusters=k, random_state=random_state, n_init=10)
+                        best_labels = model.fit_predict(X_use)
+                    elif method == 'gmm':
+                        model = GaussianMixture(
+                            n_components=k, random_state=random_state)
+                        best_labels = model.fit_predict(X_use)
+                    else:
+                        model = AgglomerativeClustering(n_clusters=k)
+                        best_labels = model.fit_predict(X_use)
+                    best_k = k
+                    best_score = np.nan
+                    break
+
+            results.append({
+                'method': method,
+                'n_clusters': best_k,
+                'silhouette': best_score,
+            })
+            labels_out[method] = best_labels
+
+        results_df = pd.DataFrame(results)
+        return results_df, labels_out

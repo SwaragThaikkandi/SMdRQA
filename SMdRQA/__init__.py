@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # see https://github.com/fabridamicelli/kuramoto
-from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests
+from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests, RQA2_ml
 from kuramoto import Kuramoto, plot_phase_coherence, plot_activity
 import numba
 import ast

@@ -554,6 +554,219 @@ Always visually verify automatic parameter choices before trusting them:
    print(f"Target RR = {rqa.config['reqrr']:.3f}")
    print(f"Actual RR = {rqa.recurrence_rate:.3f}")
 
+Workflow 7 – ML Pipelines (Supervised + Unsupervised)
+------------------------------------------------------
+
+.. code-block:: python
+
+   from SMdRQA.RQA2 import RQA2_ml, RQA2_simulators
+   import numpy as np
+
+   sim = RQA2_simulators(seed=42)
+   battery = sim.generate_test_battery()
+
+   # Build a small labeled dataset by slicing trajectories
+   signals, labels = [], []
+   for name, data in battery.items():
+       x = data['x']
+       seg_len = len(x) // 4
+       for i in range(4):
+           signals.append(x[i * seg_len:(i + 1) * seg_len])
+           labels.append(name)
+
+   ml = RQA2_ml()
+   features = ml.build_feature_table(
+       signals,
+       labels=labels,
+       window_size=100,
+       window_step=20,
+       window_stats=('mean', 'median', 'mode'),
+   )
+
+   X = features.drop(columns=['id', 'label'])
+   y = features['label']
+
+   supervised, best_model = ml.supervised_benchmark(X, y, cv=3)
+   print(supervised)
+
+   unsupervised, cluster_labels = ml.unsupervised_benchmark(
+       X, n_clusters=len(set(labels)))
+   print(unsupervised)
+
+
+Machine Learning Pipelines (RQA2_ml)
+====================================
+
+The **RQA2_ml** class provides a full feature-to-model workflow built on top
+of the RQA2 measures. It is designed for quick hypothesis testing in both
+supervised and unsupervised settings, with reproducible defaults and minimal
+boilerplate.
+
+Beginner-Friendly Overview
+--------------------------
+
+If you are new to RQA or machine learning, here is the simplest way to think
+about this pipeline:
+
+1. **Start with a time series** (a list of numbers that changes over time).
+2. **RQA turns it into numbers** that describe repeating patterns.
+3. **Windowed RQA** repeats this in small chunks to capture local changes.
+4. **Summaries (mean/median/mode)** turn those chunks into a few stable features.
+5. **Machine learning** uses those features to classify or cluster systems.
+
+Minimal “Hello World” Example
+-----------------------------
+
+.. code-block:: python
+
+   import numpy as np
+   from SMdRQA.RQA2 import RQA2_ml
+
+   # Two very simple signals
+   s1 = np.sin(np.linspace(0, 4 * np.pi, 200))
+   s2 = np.random.default_rng(0).standard_normal(200)
+
+   ml = RQA2_ml()
+   features = ml.build_feature_table(
+       [s1, s2],
+       labels=["sine", "noise"],
+       window_size=60,
+       window_step=10,
+       window_stats=("mean", "median", "mode"),
+   )
+
+   X = features.drop(columns=["id", "label"])
+   y = features["label"]
+
+   results, model = ml.supervised_benchmark(X, y, models=("svm",), cv=2)
+   print(results)
+
+What You Need to Provide
+------------------------
+
+* **Signals**: either a list of arrays or a folder of ``.npy`` files.
+* **Labels (optional)**: required only for supervised learning.
+* **window_size**: must be provided; it controls how long each window is.
+
+Rule of thumb: choose a ``window_size`` that is large enough to see
+repeating structure, but small enough to detect local changes.
+
+Windowed RQA Features
+---------------------
+
+Windowed RQA is computed by sliding a square window along the *diagonal* of
+the recurrence plot (the same strategy used in the legacy sliding-window
+utilities). For each window, RQA measures are computed, then aggregated.
+
+.. code-block:: python
+
+   rqa = RQA2(data)
+   windows = rqa.compute_windowed_rqa_measures(window_size=100, window_step=10)
+   summary = rqa.summarize_windowed_measures(
+       windows, stats=('mean', 'median', 'mode'))
+
+The summary features are flattened with names like:
+
+* ``recurrence_rate__mean``
+* ``determinism__median``
+* ``laminarity__mode``
+
+Feature Table Builder
+---------------------
+
+``build_feature_table`` returns a pandas DataFrame containing:
+
+* Whole-signal RQA measures
+* Windowed summary features (mean, median, mode)
+* Optional parameters ``tau``, ``m``, ``eps`` (when ``include_params=True``)
+
+.. code-block:: python
+
+   from SMdRQA.RQA2 import RQA2_ml
+
+   ml = RQA2_ml()
+   features = ml.build_feature_table(
+       signals_or_dir="./data/npy_files/",
+       labels=None,
+       window_size=120,
+       window_step=20,
+       window_stats=('mean', 'median', 'mode'),
+       include_params=True,
+   )
+
+Windowed features are prefixed with ``win_`` in the output DataFrame to
+avoid collisions with whole-signal measures.
+
+Supervised Benchmark
+--------------------
+
+``supervised_benchmark`` evaluates multiple classifiers with stratified
+cross-validation and reports accuracy and macro-F1 statistics:
+
+.. code-block:: python
+
+   X = features.drop(columns=['id', 'label'])
+   y = features['label']
+
+   results, best_model = ml.supervised_benchmark(
+       X, y, models=('knn', 'svm', 'rf'), cv=5)
+
+The method returns:
+
+* A results DataFrame with mean/std scores for each model
+* The best-performing fitted model (ready to ``predict``)
+
+Unsupervised Benchmark
+----------------------
+
+``unsupervised_benchmark`` evaluates clustering methods and reports silhouette
+scores. It can auto-select ``k`` if you do not supply ``n_clusters``.
+
+.. code-block:: python
+
+   results, labels = ml.unsupervised_benchmark(
+       X, methods=('kmeans', 'gmm', 'agglo'), n_clusters=5)
+
+The method returns:
+
+* A results DataFrame containing silhouette scores
+* A dict of cluster labels for each method
+
+Notes and Best Practices
+------------------------
+
+* Choose a **window_size** that preserves local dynamics but still provides
+  enough points for reliable RQA measures.
+* For fair cross-system comparisons, fix parameters across groups using
+  ``group_level_params`` in ``build_feature_table``.
+* Use ``models=('svm',)`` or ``methods=('kmeans',)`` if you want a single
+  baseline rather than full benchmarking.
+
+Glossary (Plain Language)
+-------------------------
+
+* **Recurrence plot (RP)**: a square image that marks when the system revisits
+  similar states.
+* **RQA measures**: numeric summaries extracted from the RP (e.g., recurrence
+  rate, determinism).
+* **Windowed RQA**: computing RQA on smaller slices of the RP to capture
+  local changes over time.
+* **Feature table**: a spreadsheet‑like table where each row is one signal and
+  each column is a numeric feature.
+* **Supervised learning**: you already know the label (e.g., “chaotic” vs
+  “periodic”) and train a classifier.
+* **Unsupervised learning**: you do not supply labels; clustering groups
+  similar signals together.
+
+Common Pitfalls
+---------------
+
+* **“window_size exceeds RP size”**: your signal is too short or the window is
+  too large. Reduce the window size or use longer signals.
+* **Only one class in y**: supervised learning needs at least two labels.
+* **Very small windows**: can produce unstable measures; increase window size
+  or step size.
+
 
 RQA2_simulators – Chaotic System Generators
 ============================================
