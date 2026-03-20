@@ -1,7 +1,7 @@
 """
 RQA2 – Object-oriented Recurrence Quantification Analysis for SMdRQA.
 
-This module provides three classes:
+This module provides four classes:
 
 ``RQA2``
     End-to-end RQA: data loading, parameter estimation (τ, m, ε), recurrence-plot
@@ -14,6 +14,10 @@ This module provides three classes:
 ``RQA2_tests``
     Surrogate-data generation (FT, AAFT, IAAFT, IDFS, WIAAFT, PPS) and
     statistical validation of nonlinear dynamics metrics.
+
+``RQA2_ml``
+    Machine learning utilities for building RQA feature tables and benchmarking
+    supervised classifiers and unsupervised clustering methods.
 """
 
 from __future__ import annotations
@@ -539,7 +543,8 @@ class RQA2:
         if windowed_df is None or windowed_df.empty:
             raise ValueError("windowed_df is empty; cannot summarize.")
 
-        stats = stats or ('mean', 'median', 'mode')
+        if not stats:
+            stats = ('mean', 'median', 'mode')
         allowed = {'mean', 'median', 'mode'}
         for stat in stats:
             if stat not in allowed:
@@ -2541,12 +2546,61 @@ class RQA2_tests:
 class RQA2_ml:
     """
     Machine learning utilities built on top of RQA2 features.
+
+    This class provides a complete feature-engineering and benchmarking
+    pipeline for time-series classification and clustering using Recurrence
+    Quantification Analysis measures.  It wraps :class:`RQA2` to compute
+    whole-signal and windowed RQA features, then offers convenience methods
+    for supervised (KNN, SVM, Random Forest) and unsupervised (K-Means,
+    GMM, Agglomerative) model evaluation.
+
+    Parameters
+    ----------
+    rqa_kwargs : dict, optional
+        Default keyword arguments forwarded to :class:`RQA2` when
+        constructing RQA objects internally (e.g. ``normalize``,
+        ``mi_method``).  Per-call overrides can be passed via
+        ``rqa_kwargs`` in :meth:`build_feature_table`.
+
+    Examples
+    --------
+    >>> ml = RQA2_ml()
+    >>> features = ml.build_feature_table(
+    ...     [signal_a, signal_b],
+    ...     labels=["a", "b"],
+    ...     window_size=100,
+    ...     window_step=20,
+    ...     rqa_kwargs={"tau": 2, "m": 3, "eps": 0.3},
+    ... )
+    >>> results, model = ml.supervised_benchmark(
+    ...     features.drop(columns=["id", "label"]),
+    ...     features["label"],
+    ... )
     """
 
     def __init__(self, rqa_kwargs: Optional[Dict[str, Any]] = None):
         self.rqa_kwargs = rqa_kwargs or {}
 
+    # ------------------------------------------------------------------
+    # Internal helpers
+    # ------------------------------------------------------------------
+
     def _load_signals(self, signals_or_dir):
+        """Load signals from a directory, array, or sequence.
+
+        Parameters
+        ----------
+        signals_or_dir : str, PathLike, ndarray, list, or tuple
+            If a directory path, all ``.npy`` files inside are loaded.
+            If an ndarray, it is treated as a single signal.
+            If a list/tuple, each element is treated as one signal.
+
+        Returns
+        -------
+        signals : list of ndarray
+        ids : list of str
+            Identifier for each signal (filename or ``signal_<i>``).
+        """
         if isinstance(signals_or_dir, (str, os.PathLike)):
             input_path = os.fspath(signals_or_dir)
             if not os.path.isdir(input_path):
@@ -2560,7 +2614,7 @@ class RQA2_ml:
             signals = []
             ids = []
             for fname in files:
-                data = np.load(os.path.join(input_path, fname), allow_pickle=True)
+                data = np.load(os.path.join(input_path, fname))
                 signals.append(data)
                 ids.append(fname)
             return signals, ids
@@ -2576,6 +2630,10 @@ class RQA2_ml:
         raise TypeError(
             "signals_or_dir must be a directory path, numpy array, list, or tuple.")
 
+    # ------------------------------------------------------------------
+    # Feature engineering
+    # ------------------------------------------------------------------
+
     def build_feature_table(
         self,
         signals_or_dir,
@@ -2588,8 +2646,47 @@ class RQA2_ml:
         group_level_params=None,
         rqa_kwargs=None,
     ):
-        """
-        Build a feature table from RQA2 measures + windowed summaries.
+        """Build a feature table from RQA2 measures and windowed summaries.
+
+        For each signal the method computes:
+
+        * Whole-signal RQA measures (recurrence rate, determinism, etc.).
+        * Windowed RQA measures aggregated with the requested summary
+          statistics (mean, median, mode).  These columns are prefixed
+          with ``win_`` to avoid collisions.
+        * Optionally the embedding parameters ``tau``, ``m``, ``eps``.
+
+        Parameters
+        ----------
+        signals_or_dir : str, PathLike, ndarray, list, or tuple
+            Input signals — see :meth:`_load_signals`.
+        labels : array-like, optional
+            Class labels aligned with the signals.  Required for
+            supervised benchmarking later.
+        window_size : int
+            Size of the square sliding window on the recurrence plot.
+        window_step : int, default 1
+            Step size for the sliding window.
+        window_stats : tuple of str, default ``('mean', 'median', 'mode')``
+            Aggregate statistics computed over windowed measures.
+        include_params : bool, default True
+            Whether to include ``tau``, ``m``, ``eps`` as feature columns.
+        group_level_params : set or list of str, optional
+            Subset of ``{'tau', 'm', 'eps'}`` to estimate once across all
+            signals and then apply uniformly (useful for fair cross-system
+            comparisons).
+        rqa_kwargs : dict, optional
+            Per-call overrides merged on top of ``self.rqa_kwargs``.
+            Keys ``tau``, ``m``, ``eps`` are extracted and applied as
+            manual parameter overrides rather than passed to the RQA2
+            constructor.
+
+        Returns
+        -------
+        pandas.DataFrame
+            One row per signal with columns: ``id``, (``label``),
+            whole-signal measures, ``win_*`` windowed summaries, and
+            optionally ``tau``, ``m``, ``eps``.
         """
         if window_size is None:
             raise ValueError("window_size must be provided.")
@@ -2651,7 +2748,7 @@ class RQA2_ml:
             if 'eps' in manual_params:
                 rqa._eps = float(manual_params['eps'])
 
-            # Apply group-level parameters if requested
+            # Apply group-level parameters (override manual if both set)
             if group_params:
                 if 'tau' in group_params:
                     rqa._tau = int(group_params['tau'])
@@ -2694,6 +2791,10 @@ class RQA2_ml:
 
         return df
 
+    # ------------------------------------------------------------------
+    # Supervised benchmarking
+    # ------------------------------------------------------------------
+
     def supervised_benchmark(
         self,
         X,
@@ -2704,8 +2805,37 @@ class RQA2_ml:
         scaler=True,
         random_state=42,
     ):
-        """
-        Run supervised model benchmarks with cross-validation.
+        """Evaluate supervised classifiers with stratified cross-validation.
+
+        After cross-validation the best-performing model (by accuracy,
+        then macro-F1 as tiebreaker) is refit on the **full** dataset
+        and returned alongside the per-model results table.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            Feature matrix (e.g. from :meth:`build_feature_table`).
+        y : array-like of shape (n_samples,)
+            Target labels.  Must contain at least two unique classes.
+        models : tuple of str, default ``('knn', 'svm', 'rf')``
+            Classifiers to benchmark.  Supported names:
+            ``'knn'`` (:class:`~sklearn.neighbors.KNeighborsClassifier`),
+            ``'svm'`` (:class:`~sklearn.svm.SVC` with RBF kernel),
+            ``'rf'`` (:class:`~sklearn.ensemble.RandomForestClassifier`).
+        cv : int, default 5
+            Number of stratified K-fold splits.
+        scaler : bool, default True
+            Whether to prepend a :class:`~sklearn.preprocessing.StandardScaler`.
+        random_state : int, default 42
+            Seed for reproducibility.
+
+        Returns
+        -------
+        results_df : pandas.DataFrame
+            Columns: ``model``, ``accuracy_mean``, ``accuracy_std``,
+            ``f1_macro_mean``, ``f1_macro_std``.
+        best_model : sklearn estimator
+            The best classifier refit on all of *X* and *y*.
         """
         X_arr = np.asarray(X)
         if X_arr.ndim == 1:
@@ -2770,6 +2900,7 @@ class RQA2_ml:
 
         results_df = pd.DataFrame(results)
 
+        # Refit the best model on the full dataset for deployment use
         best_est = clone(model_map[best_name])
         if scaler:
             best_model = make_pipeline(StandardScaler(), best_est)
@@ -2778,6 +2909,10 @@ class RQA2_ml:
         best_model.fit(X_arr, y_arr)
 
         return results_df, best_model
+
+    # ------------------------------------------------------------------
+    # Unsupervised benchmarking
+    # ------------------------------------------------------------------
 
     def unsupervised_benchmark(
         self,
@@ -2789,8 +2924,37 @@ class RQA2_ml:
         scaler=True,
         random_state=42,
     ):
-        """
-        Run unsupervised clustering benchmarks and report silhouette scores.
+        """Evaluate clustering methods and report silhouette scores.
+
+        For each method the best *k* (number of clusters) is selected by
+        silhouette score.  If ``n_clusters`` is given, only that value is
+        tried; otherwise *k* is swept over ``k_range``.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            Feature matrix.
+        methods : tuple of str, default ``('kmeans', 'gmm', 'agglo')``
+            Clustering algorithms to benchmark.  Supported names:
+            ``'kmeans'`` (:class:`~sklearn.cluster.KMeans`),
+            ``'gmm'`` (:class:`~sklearn.mixture.GaussianMixture`),
+            ``'agglo'`` (:class:`~sklearn.cluster.AgglomerativeClustering`).
+        n_clusters : int, optional
+            Fixed number of clusters.  Overrides *k_range*.
+        k_range : tuple of (int, int), default ``(2, 6)``
+            Inclusive range of cluster counts to try when ``n_clusters``
+            is not given.
+        scaler : bool, default True
+            Whether to standardise features before clustering.
+        random_state : int, default 42
+            Seed for reproducibility (K-Means and GMM).
+
+        Returns
+        -------
+        results_df : pandas.DataFrame
+            Columns: ``method``, ``n_clusters``, ``silhouette``.
+        labels_out : dict of {str: ndarray}
+            Cluster label arrays keyed by method name.
         """
         X_arr = np.asarray(X)
         if X_arr.ndim == 1:

@@ -13,7 +13,8 @@ def test_windowed_measures_summary():
 
     windowed = rqa.compute_windowed_rqa_measures(
         window_size=20, window_step=10)
-    assert len(windowed) == 5
+    # RP size = 60 - (2-1)*1 = 59; windows: range(0, 40, 10) → 4 windows
+    assert len(windowed) == 4
     assert 'recurrence_rate' in windowed.columns
 
     summary = rqa.summarize_windowed_measures(windowed)
