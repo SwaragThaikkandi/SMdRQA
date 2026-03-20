@@ -39,8 +39,15 @@ import scipy.stats as stats
 from scipy.integrate import solve_ivp
 from scipy.spatial import distance
 from scipy.special import digamma
-from sklearn.metrics import mean_squared_error, accuracy_score, f1_score, silhouette_score
-from sklearn.model_selection import RepeatedKFold, StratifiedKFold
+from sklearn.metrics import (
+    mean_squared_error, accuracy_score, f1_score, silhouette_score,
+    roc_auc_score, calinski_harabasz_score, davies_bouldin_score,
+    adjusted_rand_score, confusion_matrix,
+)
+from sklearn.model_selection import (
+    RepeatedKFold, StratifiedKFold, StratifiedShuffleSplit,
+    RepeatedStratifiedKFold,
+)
 from sklearn.base import clone
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -49,6 +56,8 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
+from sklearn.decomposition import PCA
+from itertools import combinations
 
 # Third-party – visualisation
 import matplotlib.pyplot as plt
@@ -2555,10 +2564,10 @@ class RQA2_ml:
 
     This class provides a complete feature-engineering and benchmarking
     pipeline for time-series classification and clustering using Recurrence
-    Quantification Analysis measures.  It wraps :class:`RQA2` to compute
-    whole-signal and windowed RQA features, then offers convenience methods
-    for supervised (KNN, SVM, Random Forest) and unsupervised (K-Means,
-    GMM, Agglomerative) model evaluation.
+    Quantification Analysis measures.  It implements the nested
+    cross-validation with best-subset feature selection procedure
+    described in the SMdRQA paper, surrogate-based null baselines,
+    permutation feature importance, and publication-ready visualisations.
 
     Parameters
     ----------
@@ -2572,17 +2581,23 @@ class RQA2_ml:
     --------
     >>> ml = RQA2_ml()
     >>> features = ml.build_feature_table(
-    ...     [signal_a, signal_b],
-    ...     labels=["a", "b"],
-    ...     window_size=100,
-    ...     window_step=20,
+    ...     [signal_a, signal_b], labels=["a", "b"],
+    ...     window_size=100, window_step=20,
     ...     rqa_kwargs={"tau": 2, "m": 3, "eps": 0.3},
     ... )
-    >>> results, model = ml.supervised_benchmark(
+    >>> results = ml.nested_cv_benchmark(
     ...     features.drop(columns=["id", "label"]),
-    ...     features["label"],
+    ...     features["label"], model="knn",
     ... )
     """
+
+    _MODEL_REGISTRY = {
+        'knn': lambda rs: KNeighborsClassifier(),
+        'svm': lambda rs: SVC(
+            kernel='rbf', gamma='scale', probability=True),
+        'rf': lambda rs: RandomForestClassifier(
+            n_estimators=200, random_state=rs),
+    }
 
     def __init__(self, rqa_kwargs: Optional[Dict[str, Any]] = None):
         self.rqa_kwargs = rqa_kwargs or {}
@@ -2611,9 +2626,10 @@ class RQA2_ml:
             input_path = os.fspath(signals_or_dir)
             if not os.path.isdir(input_path):
                 raise ValueError(
-                    f"signals_or_dir must be a directory path; got {input_path}")
-            files = sorted([f for f in os.listdir(
-                input_path) if f.endswith('.npy')])
+                    f"signals_or_dir must be a directory path; "
+                    f"got {input_path}")
+            files = sorted([
+                f for f in os.listdir(input_path) if f.endswith('.npy')])
             if not files:
                 raise ValueError(
                     f"No .npy files found in directory: {input_path}")
@@ -2631,12 +2647,142 @@ class RQA2_ml:
         if isinstance(signals_or_dir, (list, tuple)):
             if len(signals_or_dir) == 0:
                 raise ValueError("signals_or_dir is empty.")
-            return list(signals_or_dir), [
-                f"signal_{i}" for i in range(
-                    len(signals_or_dir))]
+            return (list(signals_or_dir),
+                    [f"signal_{i}" for i in range(len(signals_or_dir))])
 
         raise TypeError(
-            "signals_or_dir must be a directory path, numpy array, list, or tuple.")
+            "signals_or_dir must be a directory path, numpy array, "
+            "list, or tuple.")
+
+    @classmethod
+    def _make_model(cls, name, random_state=42):
+        """Create a fresh unfitted estimator by name.
+
+        Parameters
+        ----------
+        name : str
+            One of ``'knn'``, ``'svm'``, ``'rf'``.
+        random_state : int
+            Seed forwarded to estimators that accept it.
+
+        Returns
+        -------
+        sklearn estimator
+        """
+        if name not in cls._MODEL_REGISTRY:
+            raise ValueError(
+                f"Unknown model '{name}'. "
+                f"Available: {sorted(cls._MODEL_REGISTRY)}")
+        return cls._MODEL_REGISTRY[name](random_state)
+
+    @staticmethod
+    def _compute_roc_auc(model, X, y_true):
+        """Compute ROC AUC, handling binary and multiclass cases.
+
+        Returns ``np.nan`` when probability estimates are unavailable.
+        """
+        try:
+            classes = np.unique(y_true)
+            if len(classes) == 2:
+                if hasattr(model, 'predict_proba'):
+                    y_score = model.predict_proba(X)[:, 1]
+                elif hasattr(model, 'decision_function'):
+                    y_score = model.decision_function(X)
+                else:
+                    return np.nan
+                return float(roc_auc_score(y_true, y_score))
+            else:
+                if hasattr(model, 'predict_proba'):
+                    y_score = model.predict_proba(X)
+                    return float(roc_auc_score(
+                        y_true, y_score, multi_class='ovr'))
+                return np.nan
+        except Exception:
+            return np.nan
+
+    def _select_features(self, X, y, splitter, model_name, use_scaler,
+                         method, max_size, random_state):
+        """Dispatch to exhaustive or forward feature selection."""
+        n_features = X.shape[1]
+        if max_size is None:
+            max_size = n_features
+        if method == 'auto':
+            method = 'exhaustive' if n_features <= 12 else 'forward'
+        if method == 'exhaustive':
+            return self._select_features_exhaustive(
+                X, y, splitter, model_name, use_scaler, max_size,
+                random_state)
+        return self._select_features_forward(
+            X, y, splitter, model_name, use_scaler, max_size,
+            random_state)
+
+    def _select_features_exhaustive(self, X, y, splitter, model_name,
+                                    use_scaler, max_size, random_state):
+        """Exhaustive best-subset selection over inner CV folds.
+
+        Tests all feature subsets of size 1 through *max_size* and
+        returns the subset with the highest mean inner-CV accuracy.
+        """
+        n_features = X.shape[1]
+        best_score = -np.inf
+        best_subset = tuple(range(n_features))
+        for size in range(1, min(max_size, n_features) + 1):
+            for subset in combinations(range(n_features), size):
+                X_sub = X[:, list(subset)]
+                scores = []
+                for train_idx, val_idx in splitter.split(X_sub, y):
+                    est = self._make_model(model_name, random_state)
+                    if use_scaler:
+                        pipe = make_pipeline(StandardScaler(), est)
+                    else:
+                        pipe = est
+                    pipe.fit(X_sub[train_idx], y[train_idx])
+                    scores.append(accuracy_score(
+                        y[val_idx], pipe.predict(X_sub[val_idx])))
+                mean_score = np.mean(scores)
+                if mean_score > best_score:
+                    best_score = mean_score
+                    best_subset = subset
+        return best_subset
+
+    def _select_features_forward(self, X, y, splitter, model_name,
+                                 use_scaler, max_size, random_state):
+        """Forward sequential feature selection over inner CV folds.
+
+        Greedily adds features that maximise mean inner-CV accuracy.
+        Stops when no further improvement is found.
+        """
+        n_features = X.shape[1]
+        max_size = min(max_size, n_features)
+        selected = []
+        remaining = list(range(n_features))
+        prev_best_score = -np.inf
+        for _ in range(max_size):
+            best_score = -np.inf
+            best_feat = None
+            for feat in remaining:
+                subset = selected + [feat]
+                X_sub = X[:, subset]
+                scores = []
+                for train_idx, val_idx in splitter.split(X_sub, y):
+                    est = self._make_model(model_name, random_state)
+                    if use_scaler:
+                        pipe = make_pipeline(StandardScaler(), est)
+                    else:
+                        pipe = est
+                    pipe.fit(X_sub[train_idx], y[train_idx])
+                    scores.append(accuracy_score(
+                        y[val_idx], pipe.predict(X_sub[val_idx])))
+                mean_score = np.mean(scores)
+                if mean_score > best_score:
+                    best_score = mean_score
+                    best_feat = feat
+            if best_feat is None or best_score <= prev_best_score:
+                break
+            selected.append(best_feat)
+            remaining.remove(best_feat)
+            prev_best_score = best_score
+        return tuple(selected) if selected else tuple(range(n_features))
 
     # ------------------------------------------------------------------
     # Feature engineering
@@ -2740,15 +2886,16 @@ class RQA2_ml:
                 group_params['tau'] = int(
                     np.mean([r['tau'] for r in records]))
             if 'm' in group_level_params:
-                group_params['m'] = int(np.mean([r['m'] for r in records]))
+                group_params['m'] = int(
+                    np.mean([r['m'] for r in records]))
             if 'eps' in group_level_params:
-                group_params['eps'] = RQA2._compute_group_epsilon(rqa_objects)
+                group_params['eps'] = RQA2._compute_group_epsilon(
+                    rqa_objects)
 
         rows = []
         for idx, signal in enumerate(signals):
             rqa = RQA2(signal, **kwargs)
 
-            # Apply manual overrides if provided
             if 'tau' in manual_params:
                 rqa._tau = int(manual_params['tau'])
             if 'm' in manual_params:
@@ -2756,7 +2903,6 @@ class RQA2_ml:
             if 'eps' in manual_params:
                 rqa._eps = float(manual_params['eps'])
 
-            # Apply group-level parameters (override manual if both set)
             if group_params:
                 if 'tau' in group_params:
                     rqa._tau = int(group_params['tau'])
@@ -2771,49 +2917,188 @@ class RQA2_ml:
             summary = rqa.summarize_windowed_measures(
                 windowed, stats=window_stats)
 
-            row = {
-                'id': ids[idx],
-                **measures,
-            }
-
+            row = {'id': ids[idx], **measures}
             row.update({f"win_{k}": v for k, v in summary.items()})
 
             if include_params:
                 row['tau'] = rqa.tau
                 row['m'] = rqa.m
                 row['eps'] = rqa.eps
-
             if labels is not None:
                 row['label'] = labels[idx]
-
             rows.append(row)
 
         df = pd.DataFrame(rows)
         if 'label' in df.columns:
-            cols = ['id', 'label'] + \
-                [c for c in df.columns if c not in ('id', 'label')]
-            df = df[cols]
+            cols = (['id', 'label']
+                    + [c for c in df.columns if c not in ('id', 'label')])
         else:
             cols = ['id'] + [c for c in df.columns if c != 'id']
-            df = df[cols]
-
-        return df
+        return df[cols]
 
     # ------------------------------------------------------------------
-    # Supervised benchmarking
+    # Supervised: nested cross-validation (paper methodology)
+    # ------------------------------------------------------------------
+
+    def nested_cv_benchmark(
+        self, X, y, *,
+        model='knn',
+        outer_iterations=100,
+        test_fraction=1.0 / 3,
+        inner_splits=2,
+        inner_iterations=10,
+        feature_selection='auto',
+        max_subset_size=None,
+        scaler=True,
+        random_state=42,
+    ):
+        """Nested cross-validation with best-subset feature selection.
+
+        Implements the validation procedure described in the SMdRQA paper:
+        the outer loop evaluates generalisation performance on held-out
+        data, while the inner loop performs feature selection exclusively
+        on the training fold to prevent data leakage.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            Feature matrix (e.g. from :meth:`build_feature_table`).
+        y : array-like of shape (n_samples,)
+            Target labels.  Must contain at least two unique classes.
+        model : str, default ``'knn'``
+            One of ``'knn'``, ``'svm'``, ``'rf'``.
+        outer_iterations : int, default 100
+            Number of random stratified train/test splits.
+        test_fraction : float, default 1/3
+            Fraction of data held out as the test set in each outer
+            iteration.
+        inner_splits : int, default 2
+            Number of folds in the inner stratified CV used for feature
+            selection.
+        inner_iterations : int, default 10
+            Number of repeats of the inner CV.
+        feature_selection : {``'auto'``, ``'exhaustive'``, ``'forward'``,
+                             ``None``}, default ``'auto'``
+            Feature selection strategy.  ``'auto'`` uses exhaustive search
+            when the number of features is ≤ 12, otherwise forward
+            sequential selection.  ``None`` disables feature selection.
+        max_subset_size : int, optional
+            Maximum number of features to select.  Defaults to all.
+        scaler : bool, default True
+            Whether to prepend a
+            :class:`~sklearn.preprocessing.StandardScaler`.
+        random_state : int, default 42
+            Seed for reproducibility.
+
+        Returns
+        -------
+        dict
+            ``'accuracy'`` : ndarray of shape (*outer_iterations*,)
+                Test-set accuracy per outer iteration.
+            ``'roc_auc'`` : ndarray of shape (*outer_iterations*,)
+                Test-set ROC AUC per outer iteration.
+            ``'selected_features'`` : list of tuple
+                Feature indices selected in each outer iteration.
+            ``'feature_names'`` : list of str or None
+                Column names if *X* is a DataFrame.
+            ``'feature_frequency'`` : Series
+                How often each feature was selected across iterations.
+            ``'model'`` : str
+                The model name used.
+        """
+        X_arr = np.asarray(X, dtype=float)
+        if X_arr.ndim == 1:
+            X_arr = X_arr.reshape(-1, 1)
+        y_arr = np.asarray(y)
+        feature_names = (list(X.columns)
+                         if isinstance(X, pd.DataFrame) else None)
+
+        if len(np.unique(y_arr)) < 2:
+            raise ValueError("y must contain at least two classes.")
+
+        outer_splitter = StratifiedShuffleSplit(
+            n_splits=outer_iterations,
+            test_size=test_fraction,
+            random_state=random_state,
+        )
+
+        accuracies = []
+        roc_aucs = []
+        selected_features_list = []
+
+        for fold_idx, (train_idx, test_idx) in enumerate(
+                outer_splitter.split(X_arr, y_arr)):
+            X_train, X_test = X_arr[train_idx], X_arr[test_idx]
+            y_train, y_test = y_arr[train_idx], y_arr[test_idx]
+
+            # Inner CV for feature selection
+            if feature_selection is not None:
+                inner_splitter = RepeatedStratifiedKFold(
+                    n_splits=inner_splits,
+                    n_repeats=inner_iterations,
+                    random_state=random_state + fold_idx,
+                )
+                subset = self._select_features(
+                    X_train, y_train, inner_splitter, model, scaler,
+                    feature_selection, max_subset_size, random_state)
+            else:
+                subset = tuple(range(X_arr.shape[1]))
+
+            selected_features_list.append(subset)
+
+            # Train on full training set with selected features
+            X_train_sub = X_train[:, list(subset)]
+            X_test_sub = X_test[:, list(subset)]
+
+            est = self._make_model(model, random_state)
+            if scaler:
+                pipe = make_pipeline(StandardScaler(), est)
+            else:
+                pipe = est
+            pipe.fit(X_train_sub, y_train)
+
+            preds = pipe.predict(X_test_sub)
+            accuracies.append(accuracy_score(y_test, preds))
+            roc_aucs.append(
+                self._compute_roc_auc(pipe, X_test_sub, y_test))
+
+        # Feature selection frequency
+        n_features = X_arr.shape[1]
+        freq = np.zeros(n_features)
+        for subset in selected_features_list:
+            for idx in subset:
+                freq[idx] += 1
+        names = (feature_names if feature_names
+                 else [f"feature_{i}" for i in range(n_features)])
+        freq_series = pd.Series(
+            freq, index=names).sort_values(ascending=False)
+
+        return {
+            'accuracy': np.array(accuracies),
+            'roc_auc': np.array(roc_aucs),
+            'selected_features': selected_features_list,
+            'feature_names': feature_names,
+            'feature_frequency': freq_series,
+            'model': model,
+        }
+
+    # ------------------------------------------------------------------
+    # Supervised: quick benchmark (convenience wrapper)
     # ------------------------------------------------------------------
 
     def supervised_benchmark(
-        self,
-        X,
-        y,
-        *,
+        self, X, y, *,
         models=('knn', 'svm', 'rf'),
         cv=5,
         scaler=True,
         random_state=42,
     ):
-        """Evaluate supervised classifiers with stratified cross-validation.
+        """Quick supervised benchmark with stratified cross-validation.
+
+        This is a lighter alternative to :meth:`nested_cv_benchmark`
+        for exploratory analysis.  It does **not** perform feature
+        selection; for paper-quality validation use
+        :meth:`nested_cv_benchmark` instead.
 
         After cross-validation the best-performing model (by accuracy,
         then macro-F1 as tiebreaker) is refit on the **full** dataset
@@ -2822,48 +3107,28 @@ class RQA2_ml:
         Parameters
         ----------
         X : array-like of shape (n_samples, n_features)
-            Feature matrix (e.g. from :meth:`build_feature_table`).
         y : array-like of shape (n_samples,)
-            Target labels.  Must contain at least two unique classes.
         models : tuple of str, default ``('knn', 'svm', 'rf')``
-            Classifiers to benchmark.  Supported names:
-            ``'knn'`` (:class:`~sklearn.neighbors.KNeighborsClassifier`),
-            ``'svm'`` (:class:`~sklearn.svm.SVC` with RBF kernel),
-            ``'rf'`` (:class:`~sklearn.ensemble.RandomForestClassifier`).
         cv : int, default 5
-            Number of stratified K-fold splits.
         scaler : bool, default True
-            Whether to prepend a :class:`~sklearn.preprocessing.StandardScaler`.
         random_state : int, default 42
-            Seed for reproducibility.
 
         Returns
         -------
         results_df : pandas.DataFrame
             Columns: ``model``, ``accuracy_mean``, ``accuracy_std``,
-            ``f1_macro_mean``, ``f1_macro_std``.
+            ``f1_macro_mean``, ``f1_macro_std``, ``roc_auc_mean``,
+            ``roc_auc_std``.
         best_model : sklearn estimator
-            The best classifier refit on all of *X* and *y*.
+            Best classifier refit on all of *X* and *y*.
         """
-        X_arr = np.asarray(X)
+        X_arr = np.asarray(X, dtype=float)
         if X_arr.ndim == 1:
             X_arr = X_arr.reshape(-1, 1)
         y_arr = np.asarray(y)
 
         if len(np.unique(y_arr)) < 2:
             raise ValueError("y must contain at least two classes.")
-
-        model_map = {
-            'knn': KNeighborsClassifier(),
-            'svm': SVC(kernel='rbf', gamma='scale'),
-            'rf': RandomForestClassifier(
-                n_estimators=200, random_state=random_state),
-        }
-
-        for name in models:
-            if name not in model_map:
-                raise ValueError(
-                    f"Unknown model '{name}'. Available: {sorted(model_map)}")
 
         splitter = StratifiedKFold(
             n_splits=cv, shuffle=True, random_state=random_state)
@@ -2872,44 +3137,42 @@ class RQA2_ml:
         best_score = (-np.inf, -np.inf)
 
         for name in models:
-            base_est = model_map[name]
-            acc_scores = []
-            f1_scores = []
+            base_est = self._make_model(name, random_state)
+            acc_scores, f1_scores, auc_scores = [], [], []
             for train_idx, test_idx in splitter.split(X_arr, y_arr):
                 est = clone(base_est)
                 if scaler:
-                    model = make_pipeline(StandardScaler(), est)
+                    pipe = make_pipeline(StandardScaler(), est)
                 else:
-                    model = est
-
-                model.fit(X_arr[train_idx], y_arr[train_idx])
-                preds = model.predict(X_arr[test_idx])
-                acc_scores.append(accuracy_score(y_arr[test_idx], preds))
+                    pipe = est
+                pipe.fit(X_arr[train_idx], y_arr[train_idx])
+                preds = pipe.predict(X_arr[test_idx])
+                acc_scores.append(
+                    accuracy_score(y_arr[test_idx], preds))
                 f1_scores.append(
                     f1_score(y_arr[test_idx], preds, average='macro'))
+                auc_scores.append(
+                    self._compute_roc_auc(
+                        pipe, X_arr[test_idx], y_arr[test_idx]))
 
             acc_mean = float(np.mean(acc_scores))
-            acc_std = float(np.std(acc_scores))
             f1_mean = float(np.mean(f1_scores))
-            f1_std = float(np.std(f1_scores))
-
             results.append({
                 'model': name,
                 'accuracy_mean': acc_mean,
-                'accuracy_std': acc_std,
+                'accuracy_std': float(np.std(acc_scores)),
                 'f1_macro_mean': f1_mean,
-                'f1_macro_std': f1_std,
+                'f1_macro_std': float(np.std(f1_scores)),
+                'roc_auc_mean': float(np.nanmean(auc_scores)),
+                'roc_auc_std': float(np.nanstd(auc_scores)),
             })
-
-            score_key = (acc_mean, f1_mean)
-            if score_key > best_score:
-                best_score = score_key
+            if (acc_mean, f1_mean) > best_score:
+                best_score = (acc_mean, f1_mean)
                 best_name = name
 
         results_df = pd.DataFrame(results)
 
-        # Refit the best model on the full dataset for deployment use
-        best_est = clone(model_map[best_name])
+        best_est = self._make_model(best_name, random_state)
         if scaler:
             best_model = make_pipeline(StandardScaler(), best_est)
         else:
@@ -2919,64 +3182,212 @@ class RQA2_ml:
         return results_df, best_model
 
     # ------------------------------------------------------------------
-    # Unsupervised benchmarking
+    # Supervised: surrogate null baseline
+    # ------------------------------------------------------------------
+
+    def surrogate_baseline(
+        self, X, y, *,
+        n_permutations=100,
+        model='knn',
+        cv=5,
+        scaler=True,
+        random_state=42,
+    ):
+        """Null performance distribution by permuting labels.
+
+        Shuffles *y* ``n_permutations`` times and evaluates each with
+        stratified *k*-fold CV, yielding a null distribution against
+        which real performance can be compared via
+        :meth:`compare_scores`.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+        y : array-like of shape (n_samples,)
+        n_permutations : int, default 100
+        model : str, default ``'knn'``
+        cv : int, default 5
+        scaler : bool, default True
+        random_state : int, default 42
+
+        Returns
+        -------
+        dict
+            ``'null_accuracy'`` : ndarray of shape (*n_permutations*,)
+            ``'null_roc_auc'`` : ndarray of shape (*n_permutations*,)
+        """
+        X_arr = np.asarray(X, dtype=float)
+        if X_arr.ndim == 1:
+            X_arr = X_arr.reshape(-1, 1)
+        y_arr = np.asarray(y)
+        rng = np.random.default_rng(random_state)
+
+        null_accs, null_aucs = [], []
+        for i in range(n_permutations):
+            y_perm = rng.permutation(y_arr)
+            splitter = StratifiedKFold(
+                n_splits=cv, shuffle=True,
+                random_state=random_state + i)
+            fold_accs, fold_aucs = [], []
+            for train_idx, test_idx in splitter.split(X_arr, y_perm):
+                est = self._make_model(model, random_state)
+                if scaler:
+                    pipe = make_pipeline(StandardScaler(), est)
+                else:
+                    pipe = est
+                pipe.fit(X_arr[train_idx], y_perm[train_idx])
+                preds = pipe.predict(X_arr[test_idx])
+                fold_accs.append(
+                    accuracy_score(y_perm[test_idx], preds))
+                fold_aucs.append(
+                    self._compute_roc_auc(
+                        pipe, X_arr[test_idx], y_perm[test_idx]))
+            null_accs.append(float(np.mean(fold_accs)))
+            null_aucs.append(float(np.nanmean(fold_aucs)))
+
+        return {
+            'null_accuracy': np.array(null_accs),
+            'null_roc_auc': np.array(null_aucs),
+        }
+
+    # ------------------------------------------------------------------
+    # Statistical comparison
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def compare_scores(scores_a, scores_b, *,
+                       alternative='two-sided'):
+        """Wilcoxon signed-rank test with rank-biserial effect size.
+
+        Parameters
+        ----------
+        scores_a, scores_b : array-like
+            Paired score arrays of equal length (e.g. from
+            :meth:`nested_cv_benchmark` and :meth:`surrogate_baseline`).
+        alternative : str, default ``'two-sided'``
+            ``'two-sided'``, ``'greater'``, or ``'less'``.
+
+        Returns
+        -------
+        dict
+            ``'statistic'`` : float — Wilcoxon W statistic.
+            ``'p_value'`` : float
+            ``'effect_size'`` : float — rank-biserial *r*.
+            ``'n'`` : int — number of paired observations.
+        """
+        a = np.asarray(scores_a, dtype=float)
+        b = np.asarray(scores_b, dtype=float)
+        if len(a) != len(b):
+            raise ValueError("Score arrays must have equal length.")
+        n = len(a)
+        stat_val, p_val = stats.wilcoxon(
+            a, b, alternative=alternative)
+        effect = 1.0 - (2.0 * stat_val) / (n * (n + 1) / 2)
+        return {
+            'statistic': float(stat_val),
+            'p_value': float(p_val),
+            'effect_size': float(effect),
+            'n': n,
+        }
+
+    # ------------------------------------------------------------------
+    # Feature importance
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def feature_importance(model, X, y, *,
+                           n_repeats=10, random_state=42):
+        """Permutation feature importance on a fitted model.
+
+        Parameters
+        ----------
+        model : fitted sklearn estimator
+            E.g. the ``best_model`` returned by
+            :meth:`supervised_benchmark`.
+        X : array-like of shape (n_samples, n_features)
+        y : array-like of shape (n_samples,)
+        n_repeats : int, default 10
+        random_state : int, default 42
+
+        Returns
+        -------
+        pandas.DataFrame
+            Columns: ``feature``, ``importance_mean``,
+            ``importance_std``, sorted by descending importance.
+        """
+        from sklearn.inspection import permutation_importance
+
+        X_arr = np.asarray(X, dtype=float)
+        y_arr = np.asarray(y)
+        result = permutation_importance(
+            model, X_arr, y_arr,
+            n_repeats=n_repeats,
+            random_state=random_state,
+            scoring='accuracy',
+        )
+        if isinstance(X, pd.DataFrame):
+            names = list(X.columns)
+        else:
+            names = [f"feature_{i}" for i in range(X_arr.shape[1])]
+        return pd.DataFrame({
+            'feature': names,
+            'importance_mean': result.importances_mean,
+            'importance_std': result.importances_std,
+        }).sort_values(
+            'importance_mean', ascending=False
+        ).reset_index(drop=True)
+
+    # ------------------------------------------------------------------
+    # Unsupervised: enhanced benchmarking
     # ------------------------------------------------------------------
 
     def unsupervised_benchmark(
-        self,
-        X,
-        *,
+        self, X, *,
+        y_true=None,
         methods=('kmeans', 'gmm', 'agglo'),
         n_clusters=None,
         k_range=(2, 6),
         scaler=True,
         random_state=42,
     ):
-        """Evaluate clustering methods and report silhouette scores.
+        """Evaluate clustering with multiple validity indices.
 
-        For each method the best *k* (number of clusters) is selected by
-        silhouette score.  If ``n_clusters`` is given, only that value is
-        tried; otherwise *k* is swept over ``k_range``.
+        Reports silhouette, Calinski–Harabasz, and Davies–Bouldin
+        scores for each method × *k* combination.  When ground-truth
+        labels *y_true* are provided, the adjusted Rand index is also
+        computed.
 
         Parameters
         ----------
         X : array-like of shape (n_samples, n_features)
-            Feature matrix.
+        y_true : array-like, optional
+            Ground-truth labels for computing adjusted Rand index.
         methods : tuple of str, default ``('kmeans', 'gmm', 'agglo')``
-            Clustering algorithms to benchmark.  Supported names:
-            ``'kmeans'`` (:class:`~sklearn.cluster.KMeans`),
-            ``'gmm'`` (:class:`~sklearn.mixture.GaussianMixture`),
-            ``'agglo'`` (:class:`~sklearn.cluster.AgglomerativeClustering`).
         n_clusters : int, optional
-            Fixed number of clusters.  Overrides *k_range*.
+            Fixed cluster count.  Overrides *k_range*.
         k_range : tuple of (int, int), default ``(2, 6)``
-            Inclusive range of cluster counts to try when ``n_clusters``
-            is not given.
         scaler : bool, default True
-            Whether to standardise features before clustering.
         random_state : int, default 42
-            Seed for reproducibility (K-Means and GMM).
 
         Returns
         -------
         results_df : pandas.DataFrame
-            Columns: ``method``, ``n_clusters``, ``silhouette``.
+            One row per method × *k* with columns: ``method``,
+            ``n_clusters``, ``silhouette``, ``calinski_harabasz``,
+            ``davies_bouldin``, and optionally ``adjusted_rand``.
         labels_out : dict of {str: ndarray}
-            Cluster label arrays keyed by method name.
+            Best cluster labels (by silhouette) for each method.
         """
-        X_arr = np.asarray(X)
+        X_arr = np.asarray(X, dtype=float)
         if X_arr.ndim == 1:
             X_arr = X_arr.reshape(-1, 1)
-
         if scaler:
             X_use = StandardScaler().fit_transform(X_arr)
         else:
             X_use = X_arr
 
-        if n_clusters is not None:
-            k_list = [int(n_clusters)]
-        else:
-            k_list = list(range(int(k_range[0]), int(k_range[1]) + 1))
+        k_list = ([int(n_clusters)] if n_clusters is not None
+                  else list(range(int(k_range[0]), int(k_range[1]) + 1)))
 
         results = []
         labels_out = {}
@@ -2984,10 +3395,10 @@ class RQA2_ml:
         for method in methods:
             if method not in ('kmeans', 'gmm', 'agglo'):
                 raise ValueError(
-                    f"Unknown method '{method}'. Use 'kmeans', 'gmm', or 'agglo'.")
+                    f"Unknown method '{method}'. "
+                    "Use 'kmeans', 'gmm', or 'agglo'.")
 
-            best_k = None
-            best_score = -np.inf
+            best_sil = -np.inf
             best_labels = None
 
             for k in k_list:
@@ -2995,56 +3406,372 @@ class RQA2_ml:
                     continue
 
                 if method == 'kmeans':
-                    model = KMeans(
-                        n_clusters=k, random_state=random_state, n_init=10)
-                    labels = model.fit_predict(X_use)
+                    mdl = KMeans(
+                        n_clusters=k, random_state=random_state,
+                        n_init=10)
                 elif method == 'gmm':
-                    model = GaussianMixture(
+                    mdl = GaussianMixture(
                         n_components=k, random_state=random_state)
-                    labels = model.fit_predict(X_use)
                 else:
-                    model = AgglomerativeClustering(n_clusters=k)
-                    labels = model.fit_predict(X_use)
+                    mdl = AgglomerativeClustering(n_clusters=k)
 
-                if len(np.unique(labels)) < 2:
-                    score = np.nan
-                else:
+                lbls = mdl.fit_predict(X_use)
+                n_unique = len(np.unique(lbls))
+
+                sil = ch = db = np.nan
+                if n_unique >= 2:
                     try:
-                        score = float(silhouette_score(X_use, labels))
+                        sil = float(silhouette_score(X_use, lbls))
                     except Exception:
-                        score = np.nan
+                        pass
+                    try:
+                        ch = float(
+                            calinski_harabasz_score(X_use, lbls))
+                    except Exception:
+                        pass
+                    try:
+                        db = float(davies_bouldin_score(X_use, lbls))
+                    except Exception:
+                        pass
 
-                if not np.isnan(score) and score > best_score:
-                    best_score = score
-                    best_k = k
-                    best_labels = labels
+                row = {
+                    'method': method,
+                    'n_clusters': k,
+                    'silhouette': sil,
+                    'calinski_harabasz': ch,
+                    'davies_bouldin': db,
+                }
+                if y_true is not None:
+                    try:
+                        row['adjusted_rand'] = float(
+                            adjusted_rand_score(y_true, lbls))
+                    except Exception:
+                        row['adjusted_rand'] = np.nan
+                results.append(row)
 
-            if best_labels is None:
-                # Fallback to first feasible k without silhouette
+                if not np.isnan(sil) and sil > best_sil:
+                    best_sil = sil
+                    best_labels = lbls
+
+            if best_labels is not None:
+                labels_out[method] = best_labels
+            else:
+                # Fallback: first feasible k
                 for k in k_list:
                     if k < 2 or k >= len(X_use):
                         continue
                     if method == 'kmeans':
-                        model = KMeans(
-                            n_clusters=k, random_state=random_state, n_init=10)
-                        best_labels = model.fit_predict(X_use)
+                        mdl = KMeans(
+                            n_clusters=k, random_state=random_state,
+                            n_init=10)
                     elif method == 'gmm':
-                        model = GaussianMixture(
+                        mdl = GaussianMixture(
                             n_components=k, random_state=random_state)
-                        best_labels = model.fit_predict(X_use)
                     else:
-                        model = AgglomerativeClustering(n_clusters=k)
-                        best_labels = model.fit_predict(X_use)
-                    best_k = k
-                    best_score = np.nan
+                        mdl = AgglomerativeClustering(n_clusters=k)
+                    labels_out[method] = mdl.fit_predict(X_use)
                     break
 
-            results.append({
-                'method': method,
-                'n_clusters': best_k,
-                'silhouette': best_score,
-            })
-            labels_out[method] = best_labels
+        return pd.DataFrame(results), labels_out
 
-        results_df = pd.DataFrame(results)
-        return results_df, labels_out
+    # ------------------------------------------------------------------
+    # Unsupervised: cluster stability
+    # ------------------------------------------------------------------
+
+    def cluster_stability(
+        self, X, *,
+        method='kmeans',
+        n_clusters=2,
+        n_bootstrap=100,
+        subsample_fraction=0.8,
+        scaler=True,
+        random_state=42,
+    ):
+        """Assess cluster stability via bootstrap resampling.
+
+        For each bootstrap iteration a random subsample is drawn, the
+        clustering model is fit on the subsample, and labels are
+        predicted for the **full** dataset.  Pairwise adjusted Rand
+        indices between bootstrap label arrays measure how stable the
+        clustering is.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+        method : str, default ``'kmeans'``
+            ``'kmeans'`` or ``'gmm'``.  Agglomerative clustering has no
+            ``predict`` method and is not supported here.
+        n_clusters : int, default 2
+        n_bootstrap : int, default 100
+        subsample_fraction : float, default 0.8
+        scaler : bool, default True
+        random_state : int, default 42
+
+        Returns
+        -------
+        dict
+            ``'mean_ari'`` : float
+            ``'std_ari'`` : float
+            ``'ari_scores'`` : ndarray — pairwise ARI values.
+            ``'n_bootstrap'`` : int
+            ``'method'`` : str
+            ``'n_clusters'`` : int
+        """
+        if method not in ('kmeans', 'gmm'):
+            raise ValueError(
+                "cluster_stability requires 'kmeans' or 'gmm' "
+                "(models with a predict method).")
+
+        X_arr = np.asarray(X, dtype=float)
+        if scaler:
+            X_use = StandardScaler().fit_transform(X_arr)
+        else:
+            X_use = X_arr.copy()
+
+        rng = np.random.default_rng(random_state)
+        n = len(X_use)
+        sub_n = max(int(n * subsample_fraction), n_clusters + 1)
+
+        full_labels = []
+        for _ in range(n_bootstrap):
+            idx = rng.choice(n, size=sub_n, replace=False)
+            seed = int(rng.integers(1_000_000))
+            if method == 'kmeans':
+                mdl = KMeans(
+                    n_clusters=n_clusters, random_state=seed,
+                    n_init=10)
+            else:
+                mdl = GaussianMixture(
+                    n_components=n_clusters, random_state=seed)
+            mdl.fit(X_use[idx])
+            full_labels.append(mdl.predict(X_use))
+
+        # Pairwise ARI (cap at 500 pairs for efficiency)
+        pairs = list(combinations(range(n_bootstrap), 2))
+        if len(pairs) > 500:
+            sel = rng.choice(len(pairs), size=500, replace=False)
+            pairs = [pairs[i] for i in sel]
+        ari_scores = np.array([
+            adjusted_rand_score(full_labels[i], full_labels[j])
+            for i, j in pairs
+        ])
+
+        return {
+            'mean_ari': float(np.mean(ari_scores)),
+            'std_ari': float(np.std(ari_scores)),
+            'ari_scores': ari_scores,
+            'n_bootstrap': n_bootstrap,
+            'method': method,
+            'n_clusters': n_clusters,
+        }
+
+    # ------------------------------------------------------------------
+    # Visualisation
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def plot_benchmark_results(
+            results, *, baseline=None, save_path=None, title=None):
+        """Box plots of nested CV score distributions.
+
+        Parameters
+        ----------
+        results : dict
+            Output of :meth:`nested_cv_benchmark`.
+        baseline : dict, optional
+            Output of :meth:`surrogate_baseline`.  If given, null
+            distributions are overlaid as grey box plots.
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+        for ax, metric, label in [
+            (axes[0], 'accuracy', 'Accuracy'),
+            (axes[1], 'roc_auc', 'ROC AUC'),
+        ]:
+            data = [results[metric]]
+            labels = [results.get('model', 'model')]
+            if baseline is not None:
+                null_key = f'null_{metric}'
+                if null_key in baseline:
+                    data.append(baseline[null_key])
+                    labels.append('null')
+            bp = ax.boxplot(data, tick_labels=labels,
+                               patch_artist=True)
+            for i, patch in enumerate(bp['boxes']):
+                patch.set_facecolor(
+                    '#4C72B0' if i == 0 else '#CCCCCC')
+            ax.set_ylabel(label)
+            ax.axhline(0.5, color='grey', linestyle='--',
+                       linewidth=0.8, label='chance')
+            ax.legend(fontsize=8)
+
+        if title:
+            fig.suptitle(title)
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_confusion_matrix(
+            y_true, y_pred, *, labels=None,
+            save_path=None, title=None):
+        """Annotated confusion-matrix heatmap.
+
+        Parameters
+        ----------
+        y_true, y_pred : array-like
+        labels : list of str, optional
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        cm = confusion_matrix(y_true, y_pred)
+        fig, ax = plt.subplots(figsize=(5, 4))
+        im = ax.imshow(cm, interpolation='nearest', cmap='Blues')
+        fig.colorbar(im, ax=ax)
+
+        tick_marks = np.arange(cm.shape[0])
+        if labels is not None:
+            ax.set_xticks(tick_marks)
+            ax.set_xticklabels(labels, rotation=45, ha='right')
+            ax.set_yticks(tick_marks)
+            ax.set_yticklabels(labels)
+
+        thresh = cm.max() / 2.0
+        for i in range(cm.shape[0]):
+            for j in range(cm.shape[1]):
+                ax.text(j, i, str(cm[i, j]),
+                        ha='center', va='center',
+                        color='white' if cm[i, j] > thresh
+                        else 'black')
+        ax.set_xlabel('Predicted')
+        ax.set_ylabel('True')
+        ax.set_title(title or 'Confusion Matrix')
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_feature_importance(
+            importance_df, *, top_n=15,
+            save_path=None, title=None):
+        """Horizontal bar chart of feature importance.
+
+        Parameters
+        ----------
+        importance_df : pandas.DataFrame
+            Output of :meth:`feature_importance`.
+        top_n : int, default 15
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        df = importance_df.head(top_n).iloc[::-1]
+        fig, ax = plt.subplots(
+            figsize=(6, max(3, 0.35 * len(df))))
+        ax.barh(df['feature'], df['importance_mean'],
+                xerr=df['importance_std'], color='#4C72B0',
+                edgecolor='white')
+        ax.set_xlabel('Permutation importance (accuracy drop)')
+        ax.set_title(title or 'Feature Importance')
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_cluster_validity(
+            results_df, *, save_path=None, title=None):
+        """Line plots of clustering validity indices vs *k*.
+
+        Parameters
+        ----------
+        results_df : pandas.DataFrame
+            Output of :meth:`unsupervised_benchmark`.
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        metrics = [c for c in results_df.columns
+                   if c not in ('method', 'n_clusters')]
+        methods = results_df['method'].unique()
+        n_metrics = len(metrics)
+        fig, axes = plt.subplots(
+            1, n_metrics, figsize=(4 * n_metrics, 3.5),
+            squeeze=False)
+        axes = axes[0]
+        for ax, metric in zip(axes, metrics):
+            for method in methods:
+                sub = results_df[results_df['method'] == method]
+                ax.plot(sub['n_clusters'], sub[metric],
+                        marker='o', label=method)
+            ax.set_xlabel('k')
+            ax.set_ylabel(metric.replace('_', ' ').title())
+            ax.legend(fontsize=8)
+        if title:
+            fig.suptitle(title)
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_cluster_scatter(
+            X, labels, *, method='pca',
+            save_path=None, title=None):
+        """2-D scatter plot coloured by cluster/class labels.
+
+        Dimensionality is reduced to two components via PCA before
+        plotting.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+        labels : array-like of shape (n_samples,)
+        method : str, default ``'pca'``
+            Currently only ``'pca'`` is supported.
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        X_arr = np.asarray(X, dtype=float)
+        labels_arr = np.asarray(labels)
+        if X_arr.shape[1] > 2:
+            X_2d = PCA(n_components=2).fit_transform(X_arr)
+        else:
+            X_2d = X_arr[:, :2]
+
+        fig, ax = plt.subplots(figsize=(6, 5))
+        for lab in np.unique(labels_arr):
+            mask = labels_arr == lab
+            ax.scatter(X_2d[mask, 0], X_2d[mask, 1],
+                       label=str(lab), alpha=0.7, s=30,
+                       edgecolors='white', linewidth=0.3)
+        ax.set_xlabel('PC 1')
+        ax.set_ylabel('PC 2')
+        ax.legend(fontsize=8)
+        ax.set_title(title or 'Cluster Scatter (PCA)')
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig

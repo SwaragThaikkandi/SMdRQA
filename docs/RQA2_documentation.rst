@@ -11,7 +11,7 @@ Overview
 
 The **RQA2** module is the modern, object-oriented core of the *SMdRQA* package
 (version 2025.7.27).  It supersedes the legacy ``RQA_functions`` procedural
-interface and bundles three cooperating classes:
+interface and bundles four cooperating classes:
 
 .. list-table::
    :header-rows: 1
@@ -28,6 +28,11 @@ interface and bundles three cooperating classes:
    * - :class:`~SMdRQA.RQA2.RQA2_tests`
      - Surrogate-data generation (FT, AAFT, IAAFT, IDFS, WIAAFT, PPS) and
        comprehensive statistical validation of nonlinear dynamics metrics.
+   * - :class:`~SMdRQA.RQA2.RQA2_ml`
+     - Machine learning benchmarking: feature engineering from RQA measures,
+       nested cross-validation with best-subset feature selection, surrogate
+       null baselines, statistical comparison (Wilcoxon signed-rank), feature
+       importance, clustering validity, and publication-ready visualisations.
 
 Key Design Principles
 ---------------------
@@ -697,11 +702,11 @@ Feature Table Builder
 Windowed features are prefixed with ``win_`` in the output DataFrame to
 avoid collisions with whole-signal measures.
 
-Supervised Benchmark
---------------------
+Supervised Benchmark (Quick)
+----------------------------
 
 ``supervised_benchmark`` evaluates multiple classifiers with stratified
-cross-validation and reports accuracy and macro-F1 statistics:
+cross-validation and reports accuracy, macro-F1, and ROC AUC:
 
 .. code-block:: python
 
@@ -716,21 +721,105 @@ The method returns:
 * A results DataFrame with mean/std scores for each model
 * The best-performing fitted model (ready to ``predict``)
 
+This is a lighter alternative for exploratory analysis. For paper-quality
+validation, use ``nested_cv_benchmark`` instead.
+
+Nested Cross-Validation with Feature Selection
+-----------------------------------------------
+
+``nested_cv_benchmark`` implements the validation procedure described in
+the SMdRQA paper: the outer loop evaluates generalisation on held-out data,
+while the inner loop performs best-subset feature selection exclusively on
+the training fold to prevent data leakage.
+
+.. code-block:: python
+
+   results = ml.nested_cv_benchmark(
+       X, y, model='knn',
+       outer_iterations=100,
+       test_fraction=1/3,
+       feature_selection='auto',   # exhaustive if <= 12 features, else forward
+   )
+   print(f"Accuracy: {results['accuracy'].mean():.3f} +/- {results['accuracy'].std():.3f}")
+   print(f"ROC AUC:  {results['roc_auc'].mean():.3f} +/- {results['roc_auc'].std():.3f}")
+   print("Most selected features:")
+   print(results['feature_frequency'].head(5))
+
+Returns a dict with:
+
+* ``accuracy`` / ``roc_auc``: score arrays (one per outer iteration)
+* ``selected_features``: list of feature-index tuples per iteration
+* ``feature_frequency``: Series counting how often each feature was selected
+
+Surrogate Null Baseline
+-----------------------
+
+``surrogate_baseline`` shuffles the labels ``n_permutations`` times and
+evaluates each with stratified k-fold CV, yielding a null distribution:
+
+.. code-block:: python
+
+   null = ml.surrogate_baseline(X, y, model='knn', n_permutations=100)
+
+Statistical Comparison
+----------------------
+
+``compare_scores`` implements the Wilcoxon signed-rank test with
+rank-biserial effect size:
+
+.. code-block:: python
+
+   stat = RQA2_ml.compare_scores(
+       results['accuracy'], null['null_accuracy'],
+       alternative='greater')
+   print(f"p = {stat['p_value']:.4f}, effect size r = {stat['effect_size']:.2f}")
+
+Feature Importance
+------------------
+
+``feature_importance`` computes permutation importance on a fitted model:
+
+.. code-block:: python
+
+   imp = RQA2_ml.feature_importance(best_model, X, y, n_repeats=10)
+   print(imp.head(10))
+   RQA2_ml.plot_feature_importance(imp, save_path='importance.png')
+
 Unsupervised Benchmark
 ----------------------
 
-``unsupervised_benchmark`` evaluates clustering methods and reports silhouette
-scores. It can auto-select ``k`` if you do not supply ``n_clusters``.
+``unsupervised_benchmark`` evaluates clustering methods and reports multiple
+validity indices: silhouette, Calinski-Harabasz, and Davies-Bouldin. When
+ground-truth labels are available, the adjusted Rand index is also computed.
 
 .. code-block:: python
 
    results, labels = ml.unsupervised_benchmark(
-       X, methods=('kmeans', 'gmm', 'agglo'), n_clusters=5)
+       X, y_true=y, methods=('kmeans', 'gmm', 'agglo'), k_range=(2, 6))
+   ml.plot_cluster_validity(results, save_path='validity.png')
 
-The method returns:
+Cluster Stability
+-----------------
 
-* A results DataFrame containing silhouette scores
-* A dict of cluster labels for each method
+``cluster_stability`` assesses reproducibility via bootstrap resampling:
+
+.. code-block:: python
+
+   stab = ml.cluster_stability(X, method='kmeans', n_clusters=2, n_bootstrap=100)
+   print(f"Stability ARI: {stab['mean_ari']:.3f} +/- {stab['std_ari']:.3f}")
+
+Visualisation Methods
+---------------------
+
+All plotting methods accept an optional ``save_path`` for direct export and
+return the matplotlib Figure object:
+
+* ``plot_benchmark_results(results, baseline=None)`` — box plots of score
+  distributions, optionally overlaying null distributions.
+* ``plot_confusion_matrix(y_true, y_pred, labels=None)`` — annotated heatmap.
+* ``plot_feature_importance(importance_df, top_n=15)`` — horizontal bar chart.
+* ``plot_cluster_validity(results_df)`` — line plots of validity indices vs *k*.
+* ``plot_cluster_scatter(X, labels, method='pca')`` — PCA-projected 2-D scatter.
 
 Notes and Best Practices
 ------------------------
@@ -739,6 +828,10 @@ Notes and Best Practices
   enough points for reliable RQA measures.
 * For fair cross-system comparisons, fix parameters across groups using
   ``group_level_params`` in ``build_feature_table``.
+* Use ``nested_cv_benchmark`` for paper-quality validation and
+  ``supervised_benchmark`` for quick exploration.
+* Always compare against a surrogate baseline to ensure classification
+  performance exceeds chance.
 * Use ``models=('svm',)`` or ``methods=('kmeans',)`` if you want a single
   baseline rather than full benchmarking.
 
