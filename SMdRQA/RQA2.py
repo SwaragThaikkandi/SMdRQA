@@ -459,7 +459,8 @@ class RQA2:
         self._rqa_measures = measures
         return measures
 
-    def compute_windowed_rqa_measures(self, window_size, window_step=1, lmin=None):
+    def compute_windowed_rqa_measures(
+            self, window_size, window_step=1, lmin=None):
         """
         Compute RQA measures over sliding diagonal windows of the recurrence plot.
 
@@ -478,7 +479,8 @@ class RQA2:
             Per-window RQA measures indexed by window start position.
         """
         if window_size is None:
-            raise ValueError("window_size is required for windowed RQA measures.")
+            raise ValueError(
+                "window_size is required for windowed RQA measures.")
         if window_size <= 0:
             raise ValueError("window_size must be a positive integer.")
         if window_step <= 0:
@@ -486,7 +488,8 @@ class RQA2:
 
         rp = self.recurrence_plot
         if rp.size == 0:
-            raise ValueError("Recurrence plot is empty; cannot compute windowed measures.")
+            raise ValueError(
+                "Recurrence plot is empty; cannot compute windowed measures.")
 
         n = rp.shape[0]
         if window_size > n:
@@ -524,7 +527,9 @@ class RQA2:
         df.index.name = "window_start"
         return df
 
-    def summarize_windowed_measures(self, windowed_df, stats=('mean', 'median', 'mode')):
+    def summarize_windowed_measures(
+        self, windowed_df, stats=(
+            'mean', 'median', 'mode')):
         """
         Summarize windowed RQA measures with aggregate statistics.
 
@@ -566,7 +571,8 @@ class RQA2:
                         val = np.nan
                     else:
                         mode_vals = series.mode()
-                        val = float(mode_vals.iloc[0]) if not mode_vals.empty else np.nan
+                        val = float(
+                            mode_vals.iloc[0]) if not mode_vals.empty else np.nan
                 features[f"{col}__{stat}"] = val
 
         return features
@@ -1167,8 +1173,8 @@ class RQA2:
             p_x /= np.sum(p_x)
             p_y /= np.sum(p_y)
 
-            return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x * \
-                          np.log2(p_x)) - np.sum(p_y * np.log2(p_y))
+            return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x *
+                                                         np.log2(p_x)) - np.sum(p_y * np.log2(p_y))
         except BaseException:
             return 0.0
 
@@ -2625,7 +2631,9 @@ class RQA2_ml:
         if isinstance(signals_or_dir, (list, tuple)):
             if len(signals_or_dir) == 0:
                 raise ValueError("signals_or_dir is empty.")
-            return list(signals_or_dir), [f"signal_{i}" for i in range(len(signals_or_dir))]
+            return list(signals_or_dir), [
+                f"signal_{i}" for i in range(
+                    len(signals_or_dir))]
 
         raise TypeError(
             "signals_or_dir must be a directory path, numpy array, list, or tuple.")
