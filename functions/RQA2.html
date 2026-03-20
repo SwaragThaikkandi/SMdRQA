@@ -162,6 +162,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/rossler_analysis_tutorial.html">RQA2 module example - Rössler Attractor Analysis Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rqa2_ml_pipeline_example.html">RQA2 ML Pipeline Example</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Functions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -397,6 +398,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_recurrence_plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_rqa_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_time_delay"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_time_delay()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_windowed_rqa_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.determinism"><code class="docutils literal notranslate"><span class="pre">RQA2.determinism()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.embedded_signal</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.eps"><code class="docutils literal notranslate"><span class="pre">RQA2.eps</span></code></a></li>
@@ -413,6 +415,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_plot</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_rate"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_rate</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.save_results"><code class="docutils literal notranslate"><span class="pre">RQA2.save_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.summarize_windowed_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.summarize_windowed_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.tau"><code class="docutils literal notranslate"><span class="pre">RQA2.tau</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.trapping_time"><code class="docutils literal notranslate"><span class="pre">RQA2.trapping_time()</span></code></a></li>
 </ul>
@@ -438,6 +441,15 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.max_workers"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.max_workers</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.signal"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-ml">RQA2_ml</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml"><code class="docutils literal notranslate"><span class="pre">RQA2_ml</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.build_feature_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.supervised_benchmark()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.unsupervised_benchmark()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -639,6 +651,24 @@ Defaults to <code class="docutils literal notranslate"><span class="pre">self.co
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ValueError</strong> – If no data have been loaded.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures">
+<span class="sig-name descname"><span class="pre">compute_windowed_rqa_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.compute_windowed_rqa_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures" title="Link to this definition">#</a></dt>
+<dd><p>Compute RQA measures over sliding diagonal windows of the recurrence plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_size</strong> (<em>int</em>) – Size of the square window to slide along the RP diagonal.</p></li>
+<li><p><strong>window_step</strong> (<em>int, default 1</em>) – Step size for the sliding window.</p></li>
+<li><p><strong>lmin</strong> (<em>int, optional</em>) – Minimum line length for DET and LAM computation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>pandas.DataFrame</em> – Per-window RQA measures indexed by window start position.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -858,6 +888,23 @@ data each of the first five dimensions is shown in a stacked subplot.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2.summarize_windowed_measures">
+<span class="sig-name descname"><span class="pre">summarize_windowed_measures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">windowed_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2.summarize_windowed_measures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2.summarize_windowed_measures" title="Link to this definition">#</a></dt>
+<dd><p>Summarize windowed RQA measures with aggregate statistics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>windowed_df</strong> (<em>pandas.DataFrame</em>) – Output from <a class="reference internal" href="#SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures" title="SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compute_windowed_rqa_measures()</span></code></a>.</p></li>
+<li><p><strong>stats</strong> (<em>tuple of {‘mean’, ‘median’, ‘mode’}, default (‘mean’,’median’,’mode’)</em>) – Summary statistics to compute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>dict</em> – Flat dictionary of summary features.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1148,6 +1195,148 @@ ensure statistical independence.  When <code class="docutils literal notranslate
 </dd></dl>
 
 </section>
+<section id="rqa2-ml">
+<h2>RQA2_ml<a class="headerlink" href="#rqa2-ml" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">RQA2_ml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rqa_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Machine learning utilities built on top of RQA2 features.</p>
+<p>This class provides a complete feature-engineering and benchmarking
+pipeline for time-series classification and clustering using Recurrence
+Quantification Analysis measures.  It wraps <a class="reference internal" href="#SMdRQA.RQA2.RQA2" title="SMdRQA.RQA2.RQA2"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2</span></code></a> to compute
+whole-signal and windowed RQA features, then offers convenience methods
+for supervised (KNN, SVM, Random Forest) and unsupervised (K-Means,
+GMM, Agglomerative) model evaluation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>rqa_kwargs</strong> (<em>dict, optional</em>) – Default keyword arguments forwarded to <a class="reference internal" href="#SMdRQA.RQA2.RQA2" title="SMdRQA.RQA2.RQA2"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2</span></code></a> when
+constructing RQA objects internally (e.g. <code class="docutils literal notranslate"><span class="pre">normalize</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mi_method</span></code>).  Per-call overrides can be passed via
+<code class="docutils literal notranslate"><span class="pre">rqa_kwargs</span></code> in <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ml</span> <span class="o">=</span> <span class="n">RQA2_ml</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">features</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">build_feature_table</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="n">signal_a</span><span class="p">,</span> <span class="n">signal_b</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">window_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">window_step</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">rqa_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="p">,</span> <span class="n">model</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">supervised_benchmark</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">features</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">features</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">],</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.build_feature_table">
+<span class="sig-name descname"><span class="pre">build_feature_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals_or_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_level_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rqa_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.build_feature_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="Link to this definition">#</a></dt>
+<dd><p>Build a feature table from RQA2 measures and windowed summaries.</p>
+<p>For each signal the method computes:</p>
+<ul class="simple">
+<li><p>Whole-signal RQA measures (recurrence rate, determinism, etc.).</p></li>
+<li><p>Windowed RQA measures aggregated with the requested summary
+statistics (mean, median, mode).  These columns are prefixed
+with <code class="docutils literal notranslate"><span class="pre">win_</span></code> to avoid collisions.</p></li>
+<li><p>Optionally the embedding parameters <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signals_or_dir</strong> (<em>str, PathLike, ndarray, list, or tuple</em>) – Input signals — see <code class="xref py py-meth docutils literal notranslate"><span class="pre">_load_signals()</span></code>.</p></li>
+<li><p><strong>labels</strong> (<em>array-like, optional</em>) – Class labels aligned with the signals.  Required for
+supervised benchmarking later.</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – Size of the square sliding window on the recurrence plot.</p></li>
+<li><p><strong>window_step</strong> (<em>int, default 1</em>) – Step size for the sliding window.</p></li>
+<li><p><strong>window_stats</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></code>) – Aggregate statistics computed over windowed measures.</p></li>
+<li><p><strong>include_params</strong> (<em>bool, default True</em>) – Whether to include <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code> as feature columns.</p></li>
+<li><p><strong>group_level_params</strong> (<em>set or list of str, optional</em>) – Subset of <code class="docutils literal notranslate"><span class="pre">{'tau',</span> <span class="pre">'m',</span> <span class="pre">'eps'}</span></code> to estimate once across all
+signals and then apply uniformly (useful for fair cross-system
+comparisons).</p></li>
+<li><p><strong>rqa_kwargs</strong> (<em>dict, optional</em>) – Per-call overrides merged on top of <code class="docutils literal notranslate"><span class="pre">self.rqa_kwargs</span></code>.
+Keys <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code> are extracted and applied as
+manual parameter overrides rather than passed to the RQA2
+constructor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>pandas.DataFrame</em> – One row per signal with columns: <code class="docutils literal notranslate"><span class="pre">id</span></code>, (<code class="docutils literal notranslate"><span class="pre">label</span></code>),
+whole-signal measures, <code class="docutils literal notranslate"><span class="pre">win_*</span></code> windowed summaries, and
+optionally <code class="docutils literal notranslate"><span class="pre">tau</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.supervised_benchmark">
+<span class="sig-name descname"><span class="pre">supervised_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('knn',</span> <span class="pre">'svm',</span> <span class="pre">'rf')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.supervised_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate supervised classifiers with stratified cross-validation.</p>
+<p>After cross-validation the best-performing model (by accuracy,
+then macro-F1 as tiebreaker) is refit on the <strong>full</strong> dataset
+and returned alongside the per-model results table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>) – Feature matrix (e.g. from <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>).</p></li>
+<li><p><strong>y</strong> (<em>array-like of shape (n_samples,)</em>) – Target labels.  Must contain at least two unique classes.</p></li>
+<li><p><strong>models</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('knn',</span> <span class="pre">'svm',</span> <span class="pre">'rf')</span></code>) – Classifiers to benchmark.  Supported names:
+<code class="docutils literal notranslate"><span class="pre">'knn'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">KNeighborsClassifier</span></code>),
+<code class="docutils literal notranslate"><span class="pre">'svm'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">SVC</span></code> with RBF kernel),
+<code class="docutils literal notranslate"><span class="pre">'rf'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">RandomForestClassifier</span></code>).</p></li>
+<li><p><strong>cv</strong> (<em>int, default 5</em>) – Number of stratified K-fold splits.</p></li>
+<li><p><strong>scaler</strong> (<em>bool, default True</em>) – Whether to prepend a <code class="xref py py-class docutils literal notranslate"><span class="pre">StandardScaler</span></code>.</p></li>
+<li><p><strong>random_state</strong> (<em>int, default 42</em>) – Seed for reproducibility.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>results_df</strong> (<em>pandas.DataFrame</em>) – Columns: <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">accuracy_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">accuracy_std</span></code>,
+<code class="docutils literal notranslate"><span class="pre">f1_macro_mean</span></code>, <code class="docutils literal notranslate"><span class="pre">f1_macro_std</span></code>.</p></li>
+<li><p><strong>best_model</strong> (<em>sklearn estimator</em>) – The best classifier refit on all of <em>X</em> and <em>y</em>.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark">
+<span class="sig-name descname"><span class="pre">unsupervised_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('kmeans',</span> <span class="pre">'gmm',</span> <span class="pre">'agglo')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.unsupervised_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate clustering methods and report silhouette scores.</p>
+<p>For each method the best <em>k</em> (number of clusters) is selected by
+silhouette score.  If <code class="docutils literal notranslate"><span class="pre">n_clusters</span></code> is given, only that value is
+tried; otherwise <em>k</em> is swept over <code class="docutils literal notranslate"><span class="pre">k_range</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>) – Feature matrix.</p></li>
+<li><p><strong>methods</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('kmeans',</span> <span class="pre">'gmm',</span> <span class="pre">'agglo')</span></code>) – Clustering algorithms to benchmark.  Supported names:
+<code class="docutils literal notranslate"><span class="pre">'kmeans'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">KMeans</span></code>),
+<code class="docutils literal notranslate"><span class="pre">'gmm'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">GaussianMixture</span></code>),
+<code class="docutils literal notranslate"><span class="pre">'agglo'</span></code> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AgglomerativeClustering</span></code>).</p></li>
+<li><p><strong>n_clusters</strong> (<em>int, optional</em>) – Fixed number of clusters.  Overrides <em>k_range</em>.</p></li>
+<li><p><strong>k_range</strong> (tuple of (int, int), default <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">6)</span></code>) – Inclusive range of cluster counts to try when <code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>
+is not given.</p></li>
+<li><p><strong>scaler</strong> (<em>bool, default True</em>) – Whether to standardise features before clustering.</p></li>
+<li><p><strong>random_state</strong> (<em>int, default 42</em>) – Seed for reproducibility (K-Means and GMM).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>results_df</strong> (<em>pandas.DataFrame</em>) – Columns: <code class="docutils literal notranslate"><span class="pre">method</span></code>, <code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>, <code class="docutils literal notranslate"><span class="pre">silhouette</span></code>.</p></li>
+<li><p><strong>labels_out</strong> (<em>dict of {str: ndarray}</em>) – Cluster label arrays keyed by method name.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -1206,6 +1395,7 @@ ensure statistical independence.  When <code class="docutils literal notranslate
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_recurrence_plot()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_rqa_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_time_delay"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_time_delay()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.compute_windowed_rqa_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.determinism"><code class="docutils literal notranslate"><span class="pre">RQA2.determinism()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.embedded_signal"><code class="docutils literal notranslate"><span class="pre">RQA2.embedded_signal</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.eps"><code class="docutils literal notranslate"><span class="pre">RQA2.eps</span></code></a></li>
@@ -1222,6 +1412,7 @@ ensure statistical independence.  When <code class="docutils literal notranslate
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_plot"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_plot</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.recurrence_rate"><code class="docutils literal notranslate"><span class="pre">RQA2.recurrence_rate</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.save_results"><code class="docutils literal notranslate"><span class="pre">RQA2.save_results()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.summarize_windowed_measures"><code class="docutils literal notranslate"><span class="pre">RQA2.summarize_windowed_measures()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.tau"><code class="docutils literal notranslate"><span class="pre">RQA2.tau</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2.trapping_time"><code class="docutils literal notranslate"><span class="pre">RQA2.trapping_time()</span></code></a></li>
 </ul>
@@ -1247,6 +1438,15 @@ ensure statistical independence.  When <code class="docutils literal notranslate
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.max_workers"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.max_workers</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.seed"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_tests.signal"><code class="docutils literal notranslate"><span class="pre">RQA2_tests.signal</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rqa2-ml">RQA2_ml</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml"><code class="docutils literal notranslate"><span class="pre">RQA2_ml</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.build_feature_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.supervised_benchmark()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.unsupervised_benchmark()</span></code></a></li>
 </ul>
 </li>
 </ul>

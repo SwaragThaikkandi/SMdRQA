@@ -161,6 +161,7 @@
 <li class="toctree-l2"><a class="reference internal" href="examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/rossler_analysis_tutorial.html">RQA2 module example - Rössler Attractor Analysis Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/rqa2_ml_pipeline_example.html">RQA2 ML Pipeline Example</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -345,6 +346,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
@@ -371,6 +373,8 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">binscalc() (in module SMdRQA.RQA_functions)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.build_feature_table">build_feature_table() (RQA2_ml method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -401,6 +405,8 @@
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_rqa_measures">compute_rqa_measures() (RQA2 method)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_time_delay">compute_time_delay() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.compute_windowed_rqa_measures">compute_windowed_rqa_measures() (RQA2 method)</a>
 </li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.Correlation_sum_plot">Correlation_sum_plot() (in module SMdRQA.nl_tests)</a>
 </li>
@@ -614,6 +620,8 @@
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2">RQA2 (class in SMdRQA.RQA2)</a>
 </li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml">RQA2_ml (class in SMdRQA.RQA2)</a>
+</li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators">RQA2_simulators (class in SMdRQA.RQA2)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests">RQA2_tests (class in SMdRQA.RQA2)</a>
@@ -638,10 +646,10 @@
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_window_whole_data">Sliding_window_whole_data() (in module SMdRQA.window_size)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS">Sliding_windowBS() (in module SMdRQA.window_size)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">Sliding_windowBS_sub_avg_diag() (in module SMdRQA.window_size)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">Sliding_windowBS_sub_avg_vert() (in module SMdRQA.window_size)</a>
@@ -649,6 +657,10 @@
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_per_lam">Sliding_windowBS_sub_per_lam() (in module SMdRQA.window_size)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_percent_det">Sliding_windowBS_sub_percent_det() (in module SMdRQA.window_size)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.summarize_windowed_measures">summarize_windowed_measures() (RQA2 method)</a>
+</li>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.supervised_benchmark">supervised_benchmark() (RQA2_ml method)</a>
 </li>
       <li><a href="functions/nl_tests.html#SMdRQA.nl_tests.surrogate">surrogate() (in module SMdRQA.nl_tests)</a>
 </li>
@@ -667,6 +679,14 @@
       <li><a href="chapters/Chapter2.html#SMdRQA.RQA_functions.timedelayMI">timedelayMI() (in module SMdRQA.RQA_functions)</a>, <a href="functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[1]</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.trapping_time">trapping_time() (RQA2 method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark">unsupervised_benchmark() (RQA2_ml method)</a>
 </li>
   </ul></td>
 </tr></table>
