@@ -367,8 +367,15 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">distance</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">digamma</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">silhouette_score</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepeatedKFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">silhouette_score</span><span class="p">,</span>
+    <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">calinski_harabasz_score</span><span class="p">,</span> <span class="n">davies_bouldin_score</span><span class="p">,</span>
+    <span class="n">adjusted_rand_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">RepeatedKFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">StratifiedShuffleSplit</span><span class="p">,</span>
+    <span class="n">RepeatedStratifiedKFold</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
@@ -377,6 +384,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span><span class="p">,</span> <span class="n">AgglomerativeClustering</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.mixture</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianMixture</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
 
 <span class="c1"># Third-party – visualisation</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -2978,10 +2987,10 @@
 
 <span class="sd">    This class provides a complete feature-engineering and benchmarking</span>
 <span class="sd">    pipeline for time-series classification and clustering using Recurrence</span>
-<span class="sd">    Quantification Analysis measures.  It wraps :class:`RQA2` to compute</span>
-<span class="sd">    whole-signal and windowed RQA features, then offers convenience methods</span>
-<span class="sd">    for supervised (KNN, SVM, Random Forest) and unsupervised (K-Means,</span>
-<span class="sd">    GMM, Agglomerative) model evaluation.</span>
+<span class="sd">    Quantification Analysis measures.  It implements the nested</span>
+<span class="sd">    cross-validation with best-subset feature selection procedure</span>
+<span class="sd">    described in the SMdRQA paper, surrogate-based null baselines,</span>
+<span class="sd">    permutation feature importance, and publication-ready visualisations.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -2995,17 +3004,23 @@
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; ml = RQA2_ml()</span>
 <span class="sd">    &gt;&gt;&gt; features = ml.build_feature_table(</span>
-<span class="sd">    ...     [signal_a, signal_b],</span>
-<span class="sd">    ...     labels=[&quot;a&quot;, &quot;b&quot;],</span>
-<span class="sd">    ...     window_size=100,</span>
-<span class="sd">    ...     window_step=20,</span>
+<span class="sd">    ...     [signal_a, signal_b], labels=[&quot;a&quot;, &quot;b&quot;],</span>
+<span class="sd">    ...     window_size=100, window_step=20,</span>
 <span class="sd">    ...     rqa_kwargs={&quot;tau&quot;: 2, &quot;m&quot;: 3, &quot;eps&quot;: 0.3},</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &gt;&gt;&gt; results, model = ml.supervised_benchmark(</span>
+<span class="sd">    &gt;&gt;&gt; results = ml.nested_cv_benchmark(</span>
 <span class="sd">    ...     features.drop(columns=[&quot;id&quot;, &quot;label&quot;]),</span>
-<span class="sd">    ...     features[&quot;label&quot;],</span>
+<span class="sd">    ...     features[&quot;label&quot;], model=&quot;knn&quot;,</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_MODEL_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;knn&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">KNeighborsClassifier</span><span class="p">(),</span>
+        <span class="s1">&#39;svm&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">SVC</span><span class="p">(</span>
+            <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="s1">&#39;rf&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
+            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
+    <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rqa_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rqa_kwargs</span> <span class="o">=</span> <span class="n">rqa_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
@@ -3034,9 +3049,10 @@
             <span class="n">input_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">input_path</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;signals_or_dir must be a directory path; got </span><span class="si">{</span><span class="n">input_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span>
-                <span class="n">input_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">)])</span>
+                    <span class="sa">f</span><span class="s2">&quot;signals_or_dir must be a directory path; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">input_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span>
+                <span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">)])</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;No .npy files found in directory: </span><span class="si">{</span><span class="n">input_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -3054,12 +3070,142 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;signals_or_dir is empty.&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">),</span> <span class="p">[</span>
-                <span class="sa">f</span><span class="s2">&quot;signal_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
-                    <span class="nb">len</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">))]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">),</span>
+                    <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;signal_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signals_or_dir</span><span class="p">))])</span>
 
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;signals_or_dir must be a directory path, numpy array, list, or tuple.&quot;</span><span class="p">)</span>
+            <span class="s2">&quot;signals_or_dir must be a directory path, numpy array, &quot;</span>
+            <span class="s2">&quot;list, or tuple.&quot;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_model</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a fresh unfitted estimator by name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            One of ``&#39;knn&#39;``, ``&#39;svm&#39;``, ``&#39;rf&#39;``.</span>
+<span class="sd">        random_state : int</span>
+<span class="sd">            Seed forwarded to estimators that accept it.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sklearn estimator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL_REGISTRY</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown model &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL_REGISTRY</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_MODEL_REGISTRY</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="n">random_state</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_compute_roc_auc</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y_true</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute ROC AUC, handling binary and multiclass cases.</span>
+
+<span class="sd">        Returns ``np.nan`` when probability estimates are unavailable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;predict_proba&#39;</span><span class="p">):</span>
+                    <span class="n">y_score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;decision_function&#39;</span><span class="p">):</span>
+                    <span class="n">y_score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">decision_function</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;predict_proba&#39;</span><span class="p">):</span>
+                    <span class="n">y_score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span>
+                        <span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">multi_class</span><span class="o">=</span><span class="s1">&#39;ovr&#39;</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">use_scaler</span><span class="p">,</span>
+                         <span class="n">method</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dispatch to exhaustive or forward feature selection.&quot;&quot;&quot;</span>
+        <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">max_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">max_size</span> <span class="o">=</span> <span class="n">n_features</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;exhaustive&#39;</span> <span class="k">if</span> <span class="n">n_features</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="k">else</span> <span class="s1">&#39;forward&#39;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;exhaustive&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_features_exhaustive</span><span class="p">(</span>
+                <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">use_scaler</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_features_forward</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">use_scaler</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_features_exhaustive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span>
+                                    <span class="n">use_scaler</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exhaustive best-subset selection over inner CV folds.</span>
+
+<span class="sd">        Tests all feature subsets of size 1 through *max_size* and</span>
+<span class="sd">        returns the subset with the highest mean inner-CV accuracy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">best_subset</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">),</span> <span class="n">size</span><span class="p">):</span>
+                <span class="n">X_sub</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">)]</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="ow">in</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sub</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                    <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">use_scaler</span><span class="p">:</span>
+                        <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+                    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                        <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_subset</span> <span class="o">=</span> <span class="n">subset</span>
+        <span class="k">return</span> <span class="n">best_subset</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_select_features_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span>
+                                 <span class="n">use_scaler</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward sequential feature selection over inner CV folds.</span>
+
+<span class="sd">        Greedily adds features that maximise mean inner-CV accuracy.</span>
+<span class="sd">        Stops when no further improvement is found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">max_size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+        <span class="n">selected</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">remaining</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
+        <span class="n">prev_best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_size</span><span class="p">):</span>
+            <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">best_feat</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">feat</span> <span class="ow">in</span> <span class="n">remaining</span><span class="p">:</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="n">selected</span> <span class="o">+</span> <span class="p">[</span><span class="n">feat</span><span class="p">]</span>
+                <span class="n">X_sub</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">subset</span><span class="p">]</span>
+                <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="ow">in</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_sub</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+                    <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">use_scaler</span><span class="p">:</span>
+                        <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+                    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                        <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                    <span class="n">best_feat</span> <span class="o">=</span> <span class="n">feat</span>
+            <span class="k">if</span> <span class="n">best_feat</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">best_score</span> <span class="o">&lt;=</span> <span class="n">prev_best_score</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">selected</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_feat</span><span class="p">)</span>
+            <span class="n">remaining</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">best_feat</span><span class="p">)</span>
+            <span class="n">prev_best_score</span> <span class="o">=</span> <span class="n">best_score</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span> <span class="k">if</span> <span class="n">selected</span> <span class="k">else</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Feature engineering</span>
@@ -3165,15 +3311,16 @@
                 <span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
                     <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">]))</span>
             <span class="k">if</span> <span class="s1">&#39;m&#39;</span> <span class="ow">in</span> <span class="n">group_level_params</span><span class="p">:</span>
-                <span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">]))</span>
+                <span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">records</span><span class="p">]))</span>
             <span class="k">if</span> <span class="s1">&#39;eps&#39;</span> <span class="ow">in</span> <span class="n">group_level_params</span><span class="p">:</span>
-                <span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">RQA2</span><span class="o">.</span><span class="n">_compute_group_epsilon</span><span class="p">(</span><span class="n">rqa_objects</span><span class="p">)</span>
+                <span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">RQA2</span><span class="o">.</span><span class="n">_compute_group_epsilon</span><span class="p">(</span>
+                    <span class="n">rqa_objects</span><span class="p">)</span>
 
         <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">signal</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">signals</span><span class="p">):</span>
             <span class="n">rqa</span> <span class="o">=</span> <span class="n">RQA2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-            <span class="c1"># Apply manual overrides if provided</span>
             <span class="k">if</span> <span class="s1">&#39;tau&#39;</span> <span class="ow">in</span> <span class="n">manual_params</span><span class="p">:</span>
                 <span class="n">rqa</span><span class="o">.</span><span class="n">_tau</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">manual_params</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">])</span>
             <span class="k">if</span> <span class="s1">&#39;m&#39;</span> <span class="ow">in</span> <span class="n">manual_params</span><span class="p">:</span>
@@ -3181,7 +3328,6 @@
             <span class="k">if</span> <span class="s1">&#39;eps&#39;</span> <span class="ow">in</span> <span class="n">manual_params</span><span class="p">:</span>
                 <span class="n">rqa</span><span class="o">.</span><span class="n">_eps</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">manual_params</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">])</span>
 
-            <span class="c1"># Apply group-level parameters (override manual if both set)</span>
             <span class="k">if</span> <span class="n">group_params</span><span class="p">:</span>
                 <span class="k">if</span> <span class="s1">&#39;tau&#39;</span> <span class="ow">in</span> <span class="n">group_params</span><span class="p">:</span>
                     <span class="n">rqa</span><span class="o">.</span><span class="n">_tau</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">group_params</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">])</span>
@@ -3196,52 +3342,194 @@
             <span class="n">summary</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">summarize_windowed_measures</span><span class="p">(</span>
                 <span class="n">windowed</span><span class="p">,</span> <span class="n">stats</span><span class="o">=</span><span class="n">window_stats</span><span class="p">)</span>
 
-            <span class="n">row</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">ids</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span>
-                <span class="o">**</span><span class="n">measures</span><span class="p">,</span>
-            <span class="p">}</span>
-
+            <span class="n">row</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">ids</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="o">**</span><span class="n">measures</span><span class="p">}</span>
             <span class="n">row</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;win_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
 
             <span class="k">if</span> <span class="n">include_params</span><span class="p">:</span>
                 <span class="n">row</span><span class="p">[</span><span class="s1">&#39;tau&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">tau</span>
                 <span class="n">row</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">m</span>
                 <span class="n">row</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rqa</span><span class="o">.</span><span class="n">eps</span>
-
             <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">row</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-
             <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
         <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-            <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">+</span> \
-                <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">)]</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="p">([</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="s1">&#39;id&#39;</span><span class="p">]</span>
-            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
-
-        <span class="k">return</span> <span class="n">df</span></div>
+        <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span></div>
 
 
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="c1"># Supervised benchmarking</span>
+    <span class="c1"># Supervised: nested cross-validation (paper methodology)</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.nested_cv_benchmark">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nested_cv_benchmark</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span>
+        <span class="n">outer_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">test_fraction</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">inner_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">feature_selection</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="n">max_subset_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Nested cross-validation with best-subset feature selection.</span>
+
+<span class="sd">        Implements the validation procedure described in the SMdRQA paper:</span>
+<span class="sd">        the outer loop evaluates generalisation performance on held-out</span>
+<span class="sd">        data, while the inner loop performs feature selection exclusively</span>
+<span class="sd">        on the training fold to prevent data leakage.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like of shape (n_samples, n_features)</span>
+<span class="sd">            Feature matrix (e.g. from :meth:`build_feature_table`).</span>
+<span class="sd">        y : array-like of shape (n_samples,)</span>
+<span class="sd">            Target labels.  Must contain at least two unique classes.</span>
+<span class="sd">        model : str, default ``&#39;knn&#39;``</span>
+<span class="sd">            One of ``&#39;knn&#39;``, ``&#39;svm&#39;``, ``&#39;rf&#39;``.</span>
+<span class="sd">        outer_iterations : int, default 100</span>
+<span class="sd">            Number of random stratified train/test splits.</span>
+<span class="sd">        test_fraction : float, default 1/3</span>
+<span class="sd">            Fraction of data held out as the test set in each outer</span>
+<span class="sd">            iteration.</span>
+<span class="sd">        inner_splits : int, default 2</span>
+<span class="sd">            Number of folds in the inner stratified CV used for feature</span>
+<span class="sd">            selection.</span>
+<span class="sd">        inner_iterations : int, default 10</span>
+<span class="sd">            Number of repeats of the inner CV.</span>
+<span class="sd">        feature_selection : {``&#39;auto&#39;``, ``&#39;exhaustive&#39;``, ``&#39;forward&#39;``,</span>
+<span class="sd">                             ``None``}, default ``&#39;auto&#39;``</span>
+<span class="sd">            Feature selection strategy.  ``&#39;auto&#39;`` uses exhaustive search</span>
+<span class="sd">            when the number of features is ≤ 12, otherwise forward</span>
+<span class="sd">            sequential selection.  ``None`` disables feature selection.</span>
+<span class="sd">        max_subset_size : int, optional</span>
+<span class="sd">            Maximum number of features to select.  Defaults to all.</span>
+<span class="sd">        scaler : bool, default True</span>
+<span class="sd">            Whether to prepend a</span>
+<span class="sd">            :class:`~sklearn.preprocessing.StandardScaler`.</span>
+<span class="sd">        random_state : int, default 42</span>
+<span class="sd">            Seed for reproducibility.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            ``&#39;accuracy&#39;`` : ndarray of shape (*outer_iterations*,)</span>
+<span class="sd">                Test-set accuracy per outer iteration.</span>
+<span class="sd">            ``&#39;roc_auc&#39;`` : ndarray of shape (*outer_iterations*,)</span>
+<span class="sd">                Test-set ROC AUC per outer iteration.</span>
+<span class="sd">            ``&#39;selected_features&#39;`` : list of tuple</span>
+<span class="sd">                Feature indices selected in each outer iteration.</span>
+<span class="sd">            ``&#39;feature_names&#39;`` : list of str or None</span>
+<span class="sd">                Column names if *X* is a DataFrame.</span>
+<span class="sd">            ``&#39;feature_frequency&#39;`` : Series</span>
+<span class="sd">                How often each feature was selected across iterations.</span>
+<span class="sd">            ``&#39;model&#39;`` : str</span>
+<span class="sd">                The model name used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">y_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">feature_names</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+                         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_arr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must contain at least two classes.&quot;</span><span class="p">)</span>
+
+        <span class="n">outer_splitter</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span>
+            <span class="n">n_splits</span><span class="o">=</span><span class="n">outer_iterations</span><span class="p">,</span>
+            <span class="n">test_size</span><span class="o">=</span><span class="n">test_fraction</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">selected_features_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="n">outer_splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">)):</span>
+            <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+
+            <span class="c1"># Inner CV for feature selection</span>
+            <span class="k">if</span> <span class="n">feature_selection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">inner_splitter</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+                    <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+                    <span class="n">n_repeats</span><span class="o">=</span><span class="n">inner_iterations</span><span class="p">,</span>
+                    <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span> <span class="o">+</span> <span class="n">fold_idx</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_features</span><span class="p">(</span>
+                    <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">inner_splitter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span>
+                    <span class="n">feature_selection</span><span class="p">,</span> <span class="n">max_subset_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+            <span class="n">selected_features_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+
+            <span class="c1"># Train on full training set with selected features</span>
+            <span class="n">X_train_sub</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">)]</span>
+            <span class="n">X_test_sub</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">)]</span>
+
+            <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
+                <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+            <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_sub</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+            <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_sub</span><span class="p">)</span>
+            <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+            <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_compute_roc_auc</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_test_sub</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
+
+        <span class="c1"># Feature selection frequency</span>
+        <span class="n">n_features</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_features</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">subset</span> <span class="ow">in</span> <span class="n">selected_features_list</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">subset</span><span class="p">:</span>
+                <span class="n">freq</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">(</span><span class="n">feature_names</span> <span class="k">if</span> <span class="n">feature_names</span>
+                 <span class="k">else</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;feature_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">)])</span>
+        <span class="n">freq_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="n">freq</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">names</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracies</span><span class="p">),</span>
+            <span class="s1">&#39;roc_auc&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">),</span>
+            <span class="s1">&#39;selected_features&#39;</span><span class="p">:</span> <span class="n">selected_features_list</span><span class="p">,</span>
+            <span class="s1">&#39;feature_names&#39;</span><span class="p">:</span> <span class="n">feature_names</span><span class="p">,</span>
+            <span class="s1">&#39;feature_frequency&#39;</span><span class="p">:</span> <span class="n">freq_series</span><span class="p">,</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Supervised: quick benchmark (convenience wrapper)</span>
     <span class="c1"># ------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="RQA2_ml.supervised_benchmark">
 <a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.supervised_benchmark">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">supervised_benchmark</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">X</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
         <span class="n">models</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span> <span class="s1">&#39;svm&#39;</span><span class="p">,</span> <span class="s1">&#39;rf&#39;</span><span class="p">),</span>
         <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
         <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate supervised classifiers with stratified cross-validation.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Quick supervised benchmark with stratified cross-validation.</span>
+
+<span class="sd">        This is a lighter alternative to :meth:`nested_cv_benchmark`</span>
+<span class="sd">        for exploratory analysis.  It does **not** perform feature</span>
+<span class="sd">        selection; for paper-quality validation use</span>
+<span class="sd">        :meth:`nested_cv_benchmark` instead.</span>
 
 <span class="sd">        After cross-validation the best-performing model (by accuracy,</span>
 <span class="sd">        then macro-F1 as tiebreaker) is refit on the **full** dataset</span>
@@ -3250,48 +3538,28 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : array-like of shape (n_samples, n_features)</span>
-<span class="sd">            Feature matrix (e.g. from :meth:`build_feature_table`).</span>
 <span class="sd">        y : array-like of shape (n_samples,)</span>
-<span class="sd">            Target labels.  Must contain at least two unique classes.</span>
 <span class="sd">        models : tuple of str, default ``(&#39;knn&#39;, &#39;svm&#39;, &#39;rf&#39;)``</span>
-<span class="sd">            Classifiers to benchmark.  Supported names:</span>
-<span class="sd">            ``&#39;knn&#39;`` (:class:`~sklearn.neighbors.KNeighborsClassifier`),</span>
-<span class="sd">            ``&#39;svm&#39;`` (:class:`~sklearn.svm.SVC` with RBF kernel),</span>
-<span class="sd">            ``&#39;rf&#39;`` (:class:`~sklearn.ensemble.RandomForestClassifier`).</span>
 <span class="sd">        cv : int, default 5</span>
-<span class="sd">            Number of stratified K-fold splits.</span>
 <span class="sd">        scaler : bool, default True</span>
-<span class="sd">            Whether to prepend a :class:`~sklearn.preprocessing.StandardScaler`.</span>
 <span class="sd">        random_state : int, default 42</span>
-<span class="sd">            Seed for reproducibility.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        results_df : pandas.DataFrame</span>
 <span class="sd">            Columns: ``model``, ``accuracy_mean``, ``accuracy_std``,</span>
-<span class="sd">            ``f1_macro_mean``, ``f1_macro_std``.</span>
+<span class="sd">            ``f1_macro_mean``, ``f1_macro_std``, ``roc_auc_mean``,</span>
+<span class="sd">            ``roc_auc_std``.</span>
 <span class="sd">        best_model : sklearn estimator</span>
-<span class="sd">            The best classifier refit on all of *X* and *y*.</span>
+<span class="sd">            Best classifier refit on all of *X* and *y*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">y_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_arr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must contain at least two classes.&quot;</span><span class="p">)</span>
-
-        <span class="n">model_map</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;knn&#39;</span><span class="p">:</span> <span class="n">KNeighborsClassifier</span><span class="p">(),</span>
-            <span class="s1">&#39;svm&#39;</span><span class="p">:</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;rf&#39;</span><span class="p">:</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
-                <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">),</span>
-        <span class="p">}</span>
-
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_map</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unknown model &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;. Available: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">model_map</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="n">splitter</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span>
             <span class="n">n_splits</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
@@ -3300,44 +3568,42 @@
         <span class="n">best_score</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
-            <span class="n">base_est</span> <span class="o">=</span> <span class="n">model_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="n">acc_scores</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">f1_scores</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">base_est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="n">acc_scores</span><span class="p">,</span> <span class="n">f1_scores</span><span class="p">,</span> <span class="n">auc_scores</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">):</span>
                 <span class="n">est</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">base_est</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
-                    <span class="n">model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">model</span> <span class="o">=</span> <span class="n">est</span>
-
-                <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
-                <span class="n">preds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
-                <span class="n">acc_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+                <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
+                <span class="n">acc_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
                 <span class="n">f1_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">f1_score</span><span class="p">(</span><span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">preds</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">))</span>
+                <span class="n">auc_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_compute_roc_auc</span><span class="p">(</span>
+                        <span class="n">pipe</span><span class="p">,</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]))</span>
 
             <span class="n">acc_mean</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">acc_scores</span><span class="p">))</span>
-            <span class="n">acc_std</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">acc_scores</span><span class="p">))</span>
             <span class="n">f1_mean</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">f1_scores</span><span class="p">))</span>
-            <span class="n">f1_std</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f1_scores</span><span class="p">))</span>
-
             <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
                 <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
                 <span class="s1">&#39;accuracy_mean&#39;</span><span class="p">:</span> <span class="n">acc_mean</span><span class="p">,</span>
-                <span class="s1">&#39;accuracy_std&#39;</span><span class="p">:</span> <span class="n">acc_std</span><span class="p">,</span>
+                <span class="s1">&#39;accuracy_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">acc_scores</span><span class="p">)),</span>
                 <span class="s1">&#39;f1_macro_mean&#39;</span><span class="p">:</span> <span class="n">f1_mean</span><span class="p">,</span>
-                <span class="s1">&#39;f1_macro_std&#39;</span><span class="p">:</span> <span class="n">f1_std</span><span class="p">,</span>
+                <span class="s1">&#39;f1_macro_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">f1_scores</span><span class="p">)),</span>
+                <span class="s1">&#39;roc_auc_mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">auc_scores</span><span class="p">)),</span>
+                <span class="s1">&#39;roc_auc_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">auc_scores</span><span class="p">)),</span>
             <span class="p">})</span>
-
-            <span class="n">score_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">acc_mean</span><span class="p">,</span> <span class="n">f1_mean</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">score_key</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
-                <span class="n">best_score</span> <span class="o">=</span> <span class="n">score_key</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">acc_mean</span><span class="p">,</span> <span class="n">f1_mean</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">acc_mean</span><span class="p">,</span> <span class="n">f1_mean</span><span class="p">)</span>
                 <span class="n">best_name</span> <span class="o">=</span> <span class="n">name</span>
 
         <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 
-        <span class="c1"># Refit the best model on the full dataset for deployment use</span>
-        <span class="n">best_est</span> <span class="o">=</span> <span class="n">clone</span><span class="p">(</span><span class="n">model_map</span><span class="p">[</span><span class="n">best_name</span><span class="p">])</span>
+        <span class="n">best_est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">best_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
             <span class="n">best_model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">best_est</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -3348,66 +3614,223 @@
 
 
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="c1"># Unsupervised benchmarking</span>
+    <span class="c1"># Supervised: surrogate null baseline</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.surrogate_baseline">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.surrogate_baseline">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">surrogate_baseline</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+        <span class="n">n_permutations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span>
+        <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Null performance distribution by permuting labels.</span>
+
+<span class="sd">        Shuffles *y* ``n_permutations`` times and evaluates each with</span>
+<span class="sd">        stratified *k*-fold CV, yielding a null distribution against</span>
+<span class="sd">        which real performance can be compared via</span>
+<span class="sd">        :meth:`compare_scores`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like of shape (n_samples, n_features)</span>
+<span class="sd">        y : array-like of shape (n_samples,)</span>
+<span class="sd">        n_permutations : int, default 100</span>
+<span class="sd">        model : str, default ``&#39;knn&#39;``</span>
+<span class="sd">        cv : int, default 5</span>
+<span class="sd">        scaler : bool, default True</span>
+<span class="sd">        random_state : int, default 42</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            ``&#39;null_accuracy&#39;`` : ndarray of shape (*n_permutations*,)</span>
+<span class="sd">            ``&#39;null_roc_auc&#39;`` : ndarray of shape (*n_permutations*,)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">y_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="n">null_accs</span><span class="p">,</span> <span class="n">null_aucs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_permutations</span><span class="p">):</span>
+            <span class="n">y_perm</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">y_arr</span><span class="p">)</span>
+            <span class="n">splitter</span> <span class="o">=</span> <span class="n">StratifiedKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">fold_accs</span><span class="p">,</span> <span class="n">fold_aucs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_arr</span><span class="p">,</span> <span class="n">y_perm</span><span class="p">):</span>
+                <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+                <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_perm</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span>
+                <span class="n">fold_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_perm</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">preds</span><span class="p">))</span>
+                <span class="n">fold_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_compute_roc_auc</span><span class="p">(</span>
+                        <span class="n">pipe</span><span class="p">,</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">],</span> <span class="n">y_perm</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]))</span>
+            <span class="n">null_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">fold_accs</span><span class="p">)))</span>
+            <span class="n">null_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">fold_aucs</span><span class="p">)))</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;null_accuracy&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">null_accs</span><span class="p">),</span>
+            <span class="s1">&#39;null_roc_auc&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">null_aucs</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Statistical comparison</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.compare_scores">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.compare_scores">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_scores</span><span class="p">(</span><span class="n">scores_a</span><span class="p">,</span> <span class="n">scores_b</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                       <span class="n">alternative</span><span class="o">=</span><span class="s1">&#39;two-sided&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Wilcoxon signed-rank test with rank-biserial effect size.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        scores_a, scores_b : array-like</span>
+<span class="sd">            Paired score arrays of equal length (e.g. from</span>
+<span class="sd">            :meth:`nested_cv_benchmark` and :meth:`surrogate_baseline`).</span>
+<span class="sd">        alternative : str, default ``&#39;two-sided&#39;``</span>
+<span class="sd">            ``&#39;two-sided&#39;``, ``&#39;greater&#39;``, or ``&#39;less&#39;``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            ``&#39;statistic&#39;`` : float — Wilcoxon W statistic.</span>
+<span class="sd">            ``&#39;p_value&#39;`` : float</span>
+<span class="sd">            ``&#39;effect_size&#39;`` : float — rank-biserial *r*.</span>
+<span class="sd">            ``&#39;n&#39;`` : int — number of paired observations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">scores_a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">scores_b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Score arrays must have equal length.&quot;</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">stat_val</span><span class="p">,</span> <span class="n">p_val</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">wilcoxon</span><span class="p">(</span>
+            <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="n">alternative</span><span class="p">)</span>
+        <span class="n">effect</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">stat_val</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;statistic&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">stat_val</span><span class="p">),</span>
+            <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">p_val</span><span class="p">),</span>
+            <span class="s1">&#39;effect_size&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">effect</span><span class="p">),</span>
+            <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Feature importance</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.feature_importance">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.feature_importance">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feature_importance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                           <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Permutation feature importance on a fitted model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : fitted sklearn estimator</span>
+<span class="sd">            E.g. the ``best_model`` returned by</span>
+<span class="sd">            :meth:`supervised_benchmark`.</span>
+<span class="sd">        X : array-like of shape (n_samples, n_features)</span>
+<span class="sd">        y : array-like of shape (n_samples,)</span>
+<span class="sd">        n_repeats : int, default 10</span>
+<span class="sd">        random_state : int, default 42</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pandas.DataFrame</span>
+<span class="sd">            Columns: ``feature``, ``importance_mean``,</span>
+<span class="sd">            ``importance_std``, sorted by descending importance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.inspection</span><span class="w"> </span><span class="kn">import</span> <span class="n">permutation_importance</span>
+
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">y_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">permutation_importance</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">,</span>
+            <span class="n">n_repeats</span><span class="o">=</span><span class="n">n_repeats</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;accuracy&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;feature_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s1">&#39;feature&#39;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span>
+            <span class="s1">&#39;importance_mean&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_mean</span><span class="p">,</span>
+            <span class="s1">&#39;importance_std&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">importances_std</span><span class="p">,</span>
+        <span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="s1">&#39;importance_mean&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Unsupervised: enhanced benchmarking</span>
     <span class="c1"># ------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="RQA2_ml.unsupervised_benchmark">
 <a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">unsupervised_benchmark</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">X</span><span class="p">,</span>
-        <span class="o">*</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+        <span class="n">y_true</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="s1">&#39;gmm&#39;</span><span class="p">,</span> <span class="s1">&#39;agglo&#39;</span><span class="p">),</span>
         <span class="n">n_clusters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">k_range</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
         <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate clustering methods and report silhouette scores.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate clustering with multiple validity indices.</span>
 
-<span class="sd">        For each method the best *k* (number of clusters) is selected by</span>
-<span class="sd">        silhouette score.  If ``n_clusters`` is given, only that value is</span>
-<span class="sd">        tried; otherwise *k* is swept over ``k_range``.</span>
+<span class="sd">        Reports silhouette, Calinski–Harabasz, and Davies–Bouldin</span>
+<span class="sd">        scores for each method × *k* combination.  When ground-truth</span>
+<span class="sd">        labels *y_true* are provided, the adjusted Rand index is also</span>
+<span class="sd">        computed.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        X : array-like of shape (n_samples, n_features)</span>
-<span class="sd">            Feature matrix.</span>
+<span class="sd">        y_true : array-like, optional</span>
+<span class="sd">            Ground-truth labels for computing adjusted Rand index.</span>
 <span class="sd">        methods : tuple of str, default ``(&#39;kmeans&#39;, &#39;gmm&#39;, &#39;agglo&#39;)``</span>
-<span class="sd">            Clustering algorithms to benchmark.  Supported names:</span>
-<span class="sd">            ``&#39;kmeans&#39;`` (:class:`~sklearn.cluster.KMeans`),</span>
-<span class="sd">            ``&#39;gmm&#39;`` (:class:`~sklearn.mixture.GaussianMixture`),</span>
-<span class="sd">            ``&#39;agglo&#39;`` (:class:`~sklearn.cluster.AgglomerativeClustering`).</span>
 <span class="sd">        n_clusters : int, optional</span>
-<span class="sd">            Fixed number of clusters.  Overrides *k_range*.</span>
+<span class="sd">            Fixed cluster count.  Overrides *k_range*.</span>
 <span class="sd">        k_range : tuple of (int, int), default ``(2, 6)``</span>
-<span class="sd">            Inclusive range of cluster counts to try when ``n_clusters``</span>
-<span class="sd">            is not given.</span>
 <span class="sd">        scaler : bool, default True</span>
-<span class="sd">            Whether to standardise features before clustering.</span>
 <span class="sd">        random_state : int, default 42</span>
-<span class="sd">            Seed for reproducibility (K-Means and GMM).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        results_df : pandas.DataFrame</span>
-<span class="sd">            Columns: ``method``, ``n_clusters``, ``silhouette``.</span>
+<span class="sd">            One row per method × *k* with columns: ``method``,</span>
+<span class="sd">            ``n_clusters``, ``silhouette``, ``calinski_harabasz``,</span>
+<span class="sd">            ``davies_bouldin``, and optionally ``adjusted_rand``.</span>
 <span class="sd">        labels_out : dict of {str: ndarray}</span>
-<span class="sd">            Cluster label arrays keyed by method name.</span>
+<span class="sd">            Best cluster labels (by silhouette) for each method.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
             <span class="n">X_use</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_arr</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">X_use</span> <span class="o">=</span> <span class="n">X_arr</span>
 
-        <span class="k">if</span> <span class="n">n_clusters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">k_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">k_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">k_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">k_list</span> <span class="o">=</span> <span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)]</span> <span class="k">if</span> <span class="n">n_clusters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                  <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">k_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">k_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
 
         <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">labels_out</span> <span class="o">=</span> <span class="p">{}</span>
@@ -3415,10 +3838,10 @@
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="s1">&#39;gmm&#39;</span><span class="p">,</span> <span class="s1">&#39;agglo&#39;</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unknown method &#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39;. Use &#39;kmeans&#39;, &#39;gmm&#39;, or &#39;agglo&#39;.&quot;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unknown method &#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                    <span class="s2">&quot;Use &#39;kmeans&#39;, &#39;gmm&#39;, or &#39;agglo&#39;.&quot;</span><span class="p">)</span>
 
-            <span class="n">best_k</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+            <span class="n">best_sil</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
             <span class="n">best_labels</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_list</span><span class="p">:</span>
@@ -3426,59 +3849,393 @@
                     <span class="k">continue</span>
 
                 <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">:</span>
-                    <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
-                        <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-                    <span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
+                    <span class="n">mdl</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
+                        <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+                        <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;gmm&#39;</span><span class="p">:</span>
-                    <span class="n">model</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
+                    <span class="n">mdl</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
                         <span class="n">n_components</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
-                    <span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">model</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
-                    <span class="n">labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
+                    <span class="n">mdl</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-                <span class="k">else</span><span class="p">:</span>
+                <span class="n">lbls</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
+                <span class="n">n_unique</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">lbls</span><span class="p">))</span>
+
+                <span class="n">sil</span> <span class="o">=</span> <span class="n">ch</span> <span class="o">=</span> <span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="k">if</span> <span class="n">n_unique</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">X_use</span><span class="p">,</span> <span class="n">labels</span><span class="p">))</span>
+                        <span class="n">sil</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">silhouette_score</span><span class="p">(</span><span class="n">X_use</span><span class="p">,</span> <span class="n">lbls</span><span class="p">))</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                        <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                        <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">ch</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                            <span class="n">calinski_harabasz_score</span><span class="p">(</span><span class="n">X_use</span><span class="p">,</span> <span class="n">lbls</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">db</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">davies_bouldin_score</span><span class="p">(</span><span class="n">X_use</span><span class="p">,</span> <span class="n">lbls</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="k">pass</span>
 
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
-                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">score</span>
-                    <span class="n">best_k</span> <span class="o">=</span> <span class="n">k</span>
-                    <span class="n">best_labels</span> <span class="o">=</span> <span class="n">labels</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+                    <span class="s1">&#39;n_clusters&#39;</span><span class="p">:</span> <span class="n">k</span><span class="p">,</span>
+                    <span class="s1">&#39;silhouette&#39;</span><span class="p">:</span> <span class="n">sil</span><span class="p">,</span>
+                    <span class="s1">&#39;calinski_harabasz&#39;</span><span class="p">:</span> <span class="n">ch</span><span class="p">,</span>
+                    <span class="s1">&#39;davies_bouldin&#39;</span><span class="p">:</span> <span class="n">db</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="n">y_true</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;adjusted_rand&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+                            <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">lbls</span><span class="p">))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="n">row</span><span class="p">[</span><span class="s1">&#39;adjusted_rand&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">best_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="c1"># Fallback to first feasible k without silhouette</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">sil</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sil</span> <span class="o">&gt;</span> <span class="n">best_sil</span><span class="p">:</span>
+                    <span class="n">best_sil</span> <span class="o">=</span> <span class="n">sil</span>
+                    <span class="n">best_labels</span> <span class="o">=</span> <span class="n">lbls</span>
+
+            <span class="k">if</span> <span class="n">best_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">labels_out</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_labels</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Fallback: first feasible k</span>
                 <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">k_list</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">k</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_use</span><span class="p">):</span>
                         <span class="k">continue</span>
                     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">:</span>
-                        <span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
-                            <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-                        <span class="n">best_labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
+                        <span class="n">mdl</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
+                            <span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+                            <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;gmm&#39;</span><span class="p">:</span>
-                        <span class="n">model</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
+                        <span class="n">mdl</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
                             <span class="n">n_components</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
-                        <span class="n">best_labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">model</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
-                        <span class="n">best_labels</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
-                    <span class="n">best_k</span> <span class="o">=</span> <span class="n">k</span>
-                    <span class="n">best_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                        <span class="n">mdl</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+                    <span class="n">labels_out</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">mdl</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
                     <span class="k">break</span>
 
-            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-                <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
-                <span class="s1">&#39;n_clusters&#39;</span><span class="p">:</span> <span class="n">best_k</span><span class="p">,</span>
-                <span class="s1">&#39;silhouette&#39;</span><span class="p">:</span> <span class="n">best_score</span><span class="p">,</span>
-            <span class="p">})</span>
-            <span class="n">labels_out</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">best_labels</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">),</span> <span class="n">labels_out</span></div>
 
-        <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">results_df</span><span class="p">,</span> <span class="n">labels_out</span></div>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Unsupervised: cluster stability</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.cluster_stability">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.cluster_stability">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cluster_stability</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span>
+        <span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">n_bootstrap</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">subsample_fraction</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+        <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assess cluster stability via bootstrap resampling.</span>
+
+<span class="sd">        For each bootstrap iteration a random subsample is drawn, the</span>
+<span class="sd">        clustering model is fit on the subsample, and labels are</span>
+<span class="sd">        predicted for the **full** dataset.  Pairwise adjusted Rand</span>
+<span class="sd">        indices between bootstrap label arrays measure how stable the</span>
+<span class="sd">        clustering is.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like of shape (n_samples, n_features)</span>
+<span class="sd">        method : str, default ``&#39;kmeans&#39;``</span>
+<span class="sd">            ``&#39;kmeans&#39;`` or ``&#39;gmm&#39;``.  Agglomerative clustering has no</span>
+<span class="sd">            ``predict`` method and is not supported here.</span>
+<span class="sd">        n_clusters : int, default 2</span>
+<span class="sd">        n_bootstrap : int, default 100</span>
+<span class="sd">        subsample_fraction : float, default 0.8</span>
+<span class="sd">        scaler : bool, default True</span>
+<span class="sd">        random_state : int, default 42</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            ``&#39;mean_ari&#39;`` : float</span>
+<span class="sd">            ``&#39;std_ari&#39;`` : float</span>
+<span class="sd">            ``&#39;ari_scores&#39;`` : ndarray — pairwise ARI values.</span>
+<span class="sd">            ``&#39;n_bootstrap&#39;`` : int</span>
+<span class="sd">            ``&#39;method&#39;`` : str</span>
+<span class="sd">            ``&#39;n_clusters&#39;`` : int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="s1">&#39;gmm&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;cluster_stability requires &#39;kmeans&#39; or &#39;gmm&#39; &quot;</span>
+                <span class="s2">&quot;(models with a predict method).&quot;</span><span class="p">)</span>
+
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
+            <span class="n">X_use</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_arr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X_use</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">random_state</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_use</span><span class="p">)</span>
+        <span class="n">sub_n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">subsample_fraction</span><span class="p">),</span> <span class="n">n_clusters</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">full_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_bootstrap</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">sub_n</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;kmeans&#39;</span><span class="p">:</span>
+                <span class="n">mdl</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span>
+                    <span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+                    <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mdl</span> <span class="o">=</span> <span class="n">GaussianMixture</span><span class="p">(</span>
+                    <span class="n">n_components</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+            <span class="n">mdl</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_use</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+            <span class="n">full_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mdl</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_use</span><span class="p">))</span>
+
+        <span class="c1"># Pairwise ARI (cap at 500 pairs for efficiency)</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_bootstrap</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
+            <span class="n">sel</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pairs</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">pairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sel</span><span class="p">]</span>
+        <span class="n">ari_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+            <span class="n">adjusted_rand_score</span><span class="p">(</span><span class="n">full_labels</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">full_labels</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">pairs</span>
+        <span class="p">])</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;mean_ari&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">ari_scores</span><span class="p">)),</span>
+            <span class="s1">&#39;std_ari&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ari_scores</span><span class="p">)),</span>
+            <span class="s1">&#39;ari_scores&#39;</span><span class="p">:</span> <span class="n">ari_scores</span><span class="p">,</span>
+            <span class="s1">&#39;n_bootstrap&#39;</span><span class="p">:</span> <span class="n">n_bootstrap</span><span class="p">,</span>
+            <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+            <span class="s1">&#39;n_clusters&#39;</span><span class="p">:</span> <span class="n">n_clusters</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Visualisation</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.plot_benchmark_results">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.plot_benchmark_results">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_benchmark_results</span><span class="p">(</span>
+            <span class="n">results</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Box plots of nested CV score distributions.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        results : dict</span>
+<span class="sd">            Output of :meth:`nested_cv_benchmark`.</span>
+<span class="sd">        baseline : dict, optional</span>
+<span class="sd">            Output of :meth:`surrogate_baseline`.  If given, null</span>
+<span class="sd">            distributions are overlaid as grey box plots.</span>
+<span class="sd">        save_path : str, optional</span>
+<span class="sd">        title : str, optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;Accuracy&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;roc_auc&#39;</span><span class="p">,</span> <span class="s1">&#39;ROC AUC&#39;</span><span class="p">),</span>
+        <span class="p">]:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="p">[</span><span class="n">metric</span><span class="p">]]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="s1">&#39;model&#39;</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">baseline</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">null_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;null_</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s1">&#39;</span>
+                <span class="k">if</span> <span class="n">null_key</span> <span class="ow">in</span> <span class="n">baseline</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">baseline</span><span class="p">[</span><span class="n">null_key</span><span class="p">])</span>
+                    <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">)</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">tick_labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
+                               <span class="n">patch_artist</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">patch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bp</span><span class="p">[</span><span class="s1">&#39;boxes&#39;</span><span class="p">]):</span>
+                <span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span>
+                    <span class="s1">&#39;#4C72B0&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;#CCCCCC&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+                       <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;chance&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="RQA2_ml.plot_confusion_matrix">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.plot_confusion_matrix">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_confusion_matrix</span><span class="p">(</span>
+            <span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotated confusion-matrix heatmap.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        y_true, y_pred : array-like</span>
+<span class="sd">        labels : list of str, optional</span>
+<span class="sd">        save_path : str, optional</span>
+<span class="sd">        title : str, optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+        <span class="n">tick_marks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">tick_marks</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">/</span> <span class="mf">2.0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cm</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]),</span>
+                        <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="s1">&#39;white&#39;</span> <span class="k">if</span> <span class="n">cm</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">thresh</span>
+                        <span class="k">else</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;True&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="RQA2_ml.plot_feature_importance">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.plot_feature_importance">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_feature_importance</span><span class="p">(</span>
+            <span class="n">importance_df</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">top_n</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+            <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Horizontal bar chart of feature importance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        importance_df : pandas.DataFrame</span>
+<span class="sd">            Output of :meth:`feature_importance`.</span>
+<span class="sd">        top_n : int, default 15</span>
+<span class="sd">        save_path : str, optional</span>
+<span class="sd">        title : str, optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">importance_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">top_n</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;importance_mean&#39;</span><span class="p">],</span>
+                <span class="n">xerr</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;importance_std&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#4C72B0&#39;</span><span class="p">,</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Permutation importance (accuracy drop)&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s1">&#39;Feature Importance&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="RQA2_ml.plot_cluster_validity">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.plot_cluster_validity">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_cluster_validity</span><span class="p">(</span>
+            <span class="n">results_df</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Line plots of clustering validity indices vs *k*.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        results_df : pandas.DataFrame</span>
+<span class="sd">            Output of :meth:`unsupervised_benchmark`.</span>
+<span class="sd">        save_path : str, optional</span>
+<span class="sd">        title : str, optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">results_df</span><span class="o">.</span><span class="n">columns</span>
+                   <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;n_clusters&#39;</span><span class="p">)]</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="n">n_metrics</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="n">n_metrics</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">n_metrics</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">),</span>
+            <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">metric</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">method</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;n_clusters&#39;</span><span class="p">],</span> <span class="n">sub</span><span class="p">[</span><span class="n">metric</span><span class="p">],</span>
+                        <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">metric</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="RQA2_ml.plot_cluster_scatter">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.plot_cluster_scatter">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_cluster_scatter</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;pca&#39;</span><span class="p">,</span>
+            <span class="n">save_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;2-D scatter plot coloured by cluster/class labels.</span>
+
+<span class="sd">        Dimensionality is reduced to two components via PCA before</span>
+<span class="sd">        plotting.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : array-like of shape (n_samples, n_features)</span>
+<span class="sd">        labels : array-like of shape (n_samples,)</span>
+<span class="sd">        method : str, default ``&#39;pca&#39;``</span>
+<span class="sd">            Currently only ``&#39;pca&#39;`` is supported.</span>
+<span class="sd">        save_path : str, optional</span>
+<span class="sd">        title : str, optional</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        matplotlib.figure.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">labels_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">X_2d</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_arr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">X_2d</span> <span class="o">=</span> <span class="n">X_arr</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">lab</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">labels_arr</span><span class="p">):</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">labels_arr</span> <span class="o">==</span> <span class="n">lab</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_2d</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_2d</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                       <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">lab</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                       <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;PC 1&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;PC 2&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s1">&#39;Cluster Scatter (PCA)&#39;</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">save_path</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fig</span></div>
 </div>
 
 </pre></div>
