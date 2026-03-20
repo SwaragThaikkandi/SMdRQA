@@ -34,3 +34,11 @@ RQA2_tests
    :members:
    :undoc-members:
    :show-inheritance:
+
+RQA2_ml
+-------
+
+.. autoclass:: SMdRQA.RQA2.RQA2_ml
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -9,4 +9,5 @@ Examples
    koul_et_al
    troubleshoot-parameter
    rossler_analysis_tutorial
+   rqa2_ml_pipeline_example
    
