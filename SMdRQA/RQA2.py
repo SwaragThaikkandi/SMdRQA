@@ -3265,8 +3265,8 @@ class RQA2_ml:
     # ------------------------------------------------------------------
 
     def _generate_surrogate_signals(self, signals, kind, *,
-                                     surrogate_kwargs=None,
-                                     random_state=42):
+                                    surrogate_kwargs=None,
+                                    random_state=42):
         """Generate one surrogate time series per input signal.
 
         Parameters
@@ -4183,7 +4183,7 @@ class RQA2_ml:
 
         for kind in surrogate_kinds:
             null_scores = {method: {m: [] for m in _validity_metrics}
-                          for method in methods}
+                           for method in methods}
             iterator = range(n_surrogate_iterations)
             if verbose:
                 iterator = tqdm(
@@ -4340,7 +4340,7 @@ class RQA2_ml:
                     data.append(baseline[null_key])
                     labels.append('null')
             bp = ax.boxplot(data, tick_labels=labels,
-                               patch_artist=True)
+                            patch_artist=True)
             for i, patch in enumerate(bp['boxes']):
                 patch.set_facecolor(
                     '#4C72B0' if i == 0 else '#CCCCCC')

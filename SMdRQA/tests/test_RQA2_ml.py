@@ -7,17 +7,16 @@ Covers: build_feature_table, supervised_benchmark, nested_cv_benchmark,
         and all visualisation helpers.
 """
 
+from SMdRQA.RQA2 import RQA2, RQA2_ml
+import pytest
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 import os
 import tempfile
 
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import pytest
-
-from SMdRQA.RQA2 import RQA2, RQA2_ml
 
 
 # ---------------------------------------------------------------------------
@@ -272,9 +271,9 @@ class TestCompareScores:
 
     def test_different_scores_low_p(self):
         a = np.array([0.9, 0.92, 0.91, 0.93, 0.90,
-                       0.91, 0.92, 0.93, 0.90, 0.94])
+                      0.91, 0.92, 0.93, 0.90, 0.94])
         b = np.array([0.5, 0.52, 0.49, 0.51, 0.50,
-                       0.48, 0.51, 0.49, 0.50, 0.52])
+                      0.48, 0.51, 0.49, 0.50, 0.52])
         result = RQA2_ml.compare_scores(a, b)
         assert result['p_value'] < 0.05
         assert result['effect_size'] != 0
@@ -285,9 +284,9 @@ class TestCompareScores:
 
     def test_alternative_greater(self):
         a = np.array([0.9, 0.95, 0.92, 0.93, 0.91,
-                       0.94, 0.90, 0.92, 0.93, 0.91])
+                      0.94, 0.90, 0.92, 0.93, 0.91])
         b = np.array([0.5, 0.52, 0.49, 0.51, 0.50,
-                       0.48, 0.51, 0.49, 0.50, 0.52])
+                      0.48, 0.51, 0.49, 0.50, 0.52])
         result = RQA2_ml.compare_scores(a, b, alternative='greater')
         assert result['p_value'] < 0.05
 
@@ -618,7 +617,7 @@ class TestStaticHelpers:
 
     def test_rank_p_value_less_alternative(self):
         p = RQA2_ml._rank_p_value(0.0, np.array([1, 2, 3, 4, 5]),
-                                   alternative='less')
+                                  alternative='less')
         assert p == pytest.approx(1 / 6)
 
     def test_benjamini_hochberg_no_correction_needed(self):
@@ -651,7 +650,7 @@ class TestSurrogateSignalGeneration:
         signals = [rng.standard_normal(128).astype(float) for _ in range(3)]
         ml = RQA2_ml()
         surr = ml._generate_surrogate_signals(signals, 'FT',
-                                               random_state=0)
+                                              random_state=0)
         assert len(surr) == 3
         for s, orig in zip(surr, signals):
             assert len(s) == len(orig)
@@ -663,7 +662,7 @@ class TestSurrogateSignalGeneration:
         signals = [rng.standard_normal(128).astype(float) for _ in range(2)]
         ml = RQA2_ml()
         surr = ml._generate_surrogate_signals(signals, 'AAFT',
-                                               random_state=1)
+                                              random_state=1)
         assert len(surr) == 2
 
     def test_generate_surrogate_signals_reproducible(self):
@@ -671,9 +670,9 @@ class TestSurrogateSignalGeneration:
         signals = [rng.standard_normal(128).astype(float)]
         ml = RQA2_ml()
         s1 = ml._generate_surrogate_signals(signals, 'FT',
-                                             random_state=99)
+                                            random_state=99)
         s2 = ml._generate_surrogate_signals(signals, 'FT',
-                                             random_state=99)
+                                            random_state=99)
         assert np.allclose(s1[0], s2[0])
 
 
@@ -960,7 +959,7 @@ class TestSurrogateNullVisualization:
         }
         path = str(tmp_path / "surr_null.png")
         fig = RQA2_ml.plot_surrogate_null_results(results,
-                                                    save_path=path)
+                                                  save_path=path)
         assert os.path.isfile(path)
         plt.close(fig)
 
