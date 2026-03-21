@@ -457,8 +457,12 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_cluster_validity"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_cluster_validity()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_confusion_matrix"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_confusion_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_feature_importance"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_feature_importance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_cluster_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_surrogate_cluster_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_null_results"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_surrogate_null_results()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.supervised_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_baseline"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_baseline()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_cluster_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_null_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.unsupervised_benchmark()</span></code></a></li>
 </ul>
 </li>
@@ -1504,6 +1508,52 @@ plotting.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.plot_surrogate_cluster_validation">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">plot_surrogate_cluster_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'silhouette'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.plot_surrogate_cluster_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_cluster_validation" title="Link to this definition">#</a></dt>
+<dd><p>Visualise surrogate null distributions for clustering validity.</p>
+<p>For each surrogate type and clustering method, shows the null
+distribution of the selected validity metric as a violin plot
+with the real-data value overlaid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<em>dict</em>) – Output of <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation" title="SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surrogate_cluster_validation()</span></code></a>.</p></li>
+<li><p><strong>metric</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'silhouette'</span></code>) – Validity metric to plot (<code class="docutils literal notranslate"><span class="pre">'silhouette'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'calinski_harabasz'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'davies_bouldin'</span></code>).</p></li>
+<li><p><strong>save_path</strong> (<em>str, optional</em>)</p></li>
+<li><p><strong>title</strong> (<em>str, optional</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>matplotlib.figure.Figure</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.plot_surrogate_null_results">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">plot_surrogate_null_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.plot_surrogate_null_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_null_results" title="Link to this definition">#</a></dt>
+<dd><p>Multi-panel visualisation of surrogate null benchmarking.</p>
+<p>Displays the real classification performance against the null
+distribution from each surrogate type (and optionally the
+label-permutation null).  Each panel shows violin plots of the
+null accuracy distributions with the real mean accuracy overlaid
+as a horizontal line, annotated with the FDR-corrected p-value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results</strong> (<em>dict</em>) – Output of <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark" title="SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark"><code class="xref py py-meth docutils literal notranslate"><span class="pre">surrogate_null_benchmark()</span></code></a>.</p></li>
+<li><p><strong>save_path</strong> (<em>str, optional</em>)</p></li>
+<li><p><strong>title</strong> (<em>str, optional</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>matplotlib.figure.Figure</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.supervised_benchmark">
 <span class="sig-name descname"><span class="pre">supervised_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('knn',</span> <span class="pre">'svm',</span> <span class="pre">'rf')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.supervised_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark" title="Link to this definition">#</a></dt>
 <dd><p>Quick supervised benchmark with stratified cross-validation.</p>
@@ -1560,6 +1610,126 @@ which real performance can be compared via
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>dict</em> – <code class="docutils literal notranslate"><span class="pre">'null_accuracy'</span></code> : ndarray of shape (<em>n_permutations</em>,)
 <code class="docutils literal notranslate"><span class="pre">'null_roc_auc'</span></code> : ndarray of shape (<em>n_permutations</em>,)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation">
+<span class="sig-name descname"><span class="pre">surrogate_cluster_validation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_level_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rqa_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_kinds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('FT',</span> <span class="pre">'AAFT',</span> <span class="pre">'IAAFT')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_surrogate_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">methods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('kmeans',</span> <span class="pre">'gmm',</span> <span class="pre">'agglo')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(2,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fdr_bh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.surrogate_cluster_validation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation" title="Link to this definition">#</a></dt>
+<dd><p>Surrogate-based null hypothesis testing for clustering.</p>
+<p>Evaluates whether the clustering structure found in RQA features
+exceeds what would be expected from data whose nonlinear dynamics
+have been destroyed.  For each surrogate algorithm, surrogate
+time series are generated, RQA features are extracted, and
+clustering validity indices are computed.  The resulting null
+distributions are compared against the real-data validity indices
+via rank-based p-values with multiple comparison correction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signals</strong> (<em>list of ndarray</em>) – Raw time-series signals.</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – Forwarded to <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.</p></li>
+<li><p><strong>window_step</strong> (<em>int, default 1</em>)</p></li>
+<li><p><strong>window_stats</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></code>)</p></li>
+<li><p><strong>include_params</strong> (<em>bool, default True</em>)</p></li>
+<li><p><strong>group_level_params</strong> (<em>set, optional</em>)</p></li>
+<li><p><strong>rqa_kwargs</strong> (<em>dict, optional</em>)</p></li>
+<li><p><strong>surrogate_kinds</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('FT',</span> <span class="pre">'AAFT',</span> <span class="pre">'IAAFT')</span></code>)</p></li>
+<li><p><strong>n_surrogate_iterations</strong> (<em>int, default 20</em>)</p></li>
+<li><p><strong>surrogate_kwargs</strong> (<em>dict, optional</em>)</p></li>
+<li><p><strong>methods</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('kmeans',</span> <span class="pre">'gmm',</span> <span class="pre">'agglo')</span></code>)</p></li>
+<li><p><strong>n_clusters</strong> (<em>int, optional</em>)</p></li>
+<li><p><strong>k_range</strong> (tuple, default <code class="docutils literal notranslate"><span class="pre">(2,</span> <span class="pre">6)</span></code>)</p></li>
+<li><p><strong>scaler</strong> (<em>bool, default True</em>)</p></li>
+<li><p><strong>random_state</strong> (<em>int, default 42</em>)</p></li>
+<li><p><strong>alpha</strong> (<em>float, default 0.05</em>)</p></li>
+<li><p><strong>correction</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'fdr_bh'</span></code>)</p></li>
+<li><p><strong>verbose</strong> (<em>bool, default True</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><em>dict</em> – <code class="docutils literal notranslate"><span class="pre">'real'</span></code> : dict — validity indices from real data
+(best silhouette per method).</p>
+<p><code class="docutils literal notranslate"><span class="pre">'surrogates'</span></code> : dict of {str: dict} — per-surrogate-kind
+null distributions and p-values for each validity index.</p>
+<p><code class="docutils literal notranslate"><span class="pre">'corrected_p_values'</span></code> : dict — FDR-corrected p-values.</p>
+<p><code class="docutils literal notranslate"><span class="pre">'summary'</span></code> : DataFrame — one-row-per-surrogate summary.</p>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark">
+<span class="sig-name descname"><span class="pre">surrogate_null_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_stats</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_level_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rqa_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_kinds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('FT',</span> <span class="pre">'AAFT',</span> <span class="pre">'IAAFT')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_surrogate_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'knn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surrogate_outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_selection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fdr_bh'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_permutation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.surrogate_null_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark" title="Link to this definition">#</a></dt>
+<dd><p>Surrogate-based null hypothesis testing for classification.</p>
+<p>For each surrogate algorithm the method replaces every original
+time series with a surrogate, re-extracts RQA features, and runs
+the full nested cross-validation procedure.  Repeating this
+<code class="docutils literal notranslate"><span class="pre">n_surrogate_iterations</span></code> times yields a null distribution of
+classification accuracy that would be obtained from data whose
+nonlinear structure has been destroyed according to the specific
+null hypothesis encoded by the surrogate type:</p>
+<ul class="simple">
+<li><p><strong>FT</strong> — preserves power spectrum (null: linear autocorrelation
+alone explains classification).</p></li>
+<li><p><strong>AAFT</strong> — preserves amplitude distribution + spectrum (null:
+linear structure + marginal distribution suffice).</p></li>
+<li><p><strong>IAAFT</strong> — tighter amplitude + spectrum match.</p></li>
+<li><p><strong>WIAAFT</strong> — preserves time-frequency structure.</p></li>
+<li><p><strong>PPS</strong> — preserves periodic structure (null: periodicity alone
+suffices).</p></li>
+</ul>
+<p>Optionally a label-permutation baseline (the classical approach)
+is computed alongside for comparison.  All p-values are corrected
+for multiple comparisons using Benjamini-Hochberg FDR.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signals</strong> (<em>list of ndarray</em>) – Raw time-series signals (same order as <em>labels</em>).</p></li>
+<li><p><strong>labels</strong> (<em>array-like</em>) – Class labels aligned with <em>signals</em>.</p></li>
+<li><p><strong>window_size</strong> (<em>int</em>) – Forwarded to <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.</p></li>
+<li><p><strong>window_step</strong> (<em>int, default 1</em>)</p></li>
+<li><p><strong>window_stats</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('mean',</span> <span class="pre">'median',</span> <span class="pre">'mode')</span></code>)</p></li>
+<li><p><strong>include_params</strong> (<em>bool, default True</em>)</p></li>
+<li><p><strong>group_level_params</strong> (<em>set, optional</em>)</p></li>
+<li><p><strong>rqa_kwargs</strong> (<em>dict, optional</em>)</p></li>
+<li><p><strong>surrogate_kinds</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('FT',</span> <span class="pre">'AAFT',</span> <span class="pre">'IAAFT')</span></code>) – Surrogate algorithms to test.</p></li>
+<li><p><strong>n_surrogate_iterations</strong> (<em>int, default 20</em>) – How many surrogate datasets to generate per algorithm.</p></li>
+<li><p><strong>surrogate_kwargs</strong> (<em>dict, optional</em>) – Extra keyword arguments for surrogate generation.</p></li>
+<li><p><strong>model</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'knn'</span></code>)</p></li>
+<li><p><strong>outer_iterations</strong> (<em>int, default 100</em>) – Outer CV iterations for the <strong>real</strong> data.</p></li>
+<li><p><strong>surrogate_outer_iterations</strong> (<em>int, default 30</em>) – Outer CV iterations for each surrogate dataset (lower for
+computational tractability).</p></li>
+<li><p><strong>test_fraction</strong> (<em>float, default 1/3</em>)</p></li>
+<li><p><strong>inner_splits</strong> (<em>int, default 2</em>)</p></li>
+<li><p><strong>inner_iterations</strong> (<em>int, default 10</em>)</p></li>
+<li><p><strong>feature_selection</strong> (str or None, default <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>)</p></li>
+<li><p><strong>max_subset_size</strong> (<em>int, optional</em>)</p></li>
+<li><p><strong>scaler</strong> (<em>bool, default True</em>)</p></li>
+<li><p><strong>random_state</strong> (<em>int, default 42</em>)</p></li>
+<li><p><strong>alpha</strong> (<em>float, default 0.05</em>) – Significance level for FDR correction.</p></li>
+<li><p><strong>correction</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'fdr_bh'</span></code>) – <code class="docutils literal notranslate"><span class="pre">'fdr_bh'</span></code> for Benjamini-Hochberg; <code class="docutils literal notranslate"><span class="pre">'bonferroni'</span></code> for
+Bonferroni correction.</p></li>
+<li><p><strong>include_permutation</strong> (<em>bool, default True</em>) – Whether to also compute a label-permutation null.</p></li>
+<li><p><strong>n_permutations</strong> (<em>int, default 100</em>)</p></li>
+<li><p><strong>verbose</strong> (<em>bool, default True</em>) – Show progress bars.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><em>dict</em> – <code class="docutils literal notranslate"><span class="pre">'real'</span></code> : dict — output of <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nested_cv_benchmark()</span></code></a>
+on the real data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">'surrogates'</span></code> : dict of {str: dict} — per-surrogate-kind
+results containing <code class="docutils literal notranslate"><span class="pre">'null_accuracies'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'null_roc_aucs'</span></code>, <code class="docutils literal notranslate"><span class="pre">'p_value_accuracy'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'p_value_roc_auc'</span></code>, <code class="docutils literal notranslate"><span class="pre">'effect_size'</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">'permutation'</span></code> : dict or <code class="docutils literal notranslate"><span class="pre">None</span></code> — label-permutation
+null (if <em>include_permutation</em> is True).</p>
+<p><code class="docutils literal notranslate"><span class="pre">'corrected_p_values'</span></code> : dict — FDR-corrected p-values
+per surrogate kind and metric.</p>
+<p><code class="docutils literal notranslate"><span class="pre">'summary'</span></code> : DataFrame — one-row-per-null summary table.</p>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1716,8 +1886,12 @@ computed.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_cluster_validity"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_cluster_validity()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_confusion_matrix"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_confusion_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_feature_importance"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_feature_importance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_cluster_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_surrogate_cluster_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_surrogate_null_results"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_surrogate_null_results()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.supervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.supervised_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_baseline"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_baseline()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_cluster_validation()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.surrogate_null_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.unsupervised_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.unsupervised_benchmark()</span></code></a></li>
 </ul>
 </li>
