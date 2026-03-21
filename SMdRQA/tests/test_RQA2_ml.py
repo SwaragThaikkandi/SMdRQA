@@ -598,3 +598,405 @@ class TestWindowedMeasures:
         assert 'recurrence_rate__mean' in summary
         assert 'recurrence_rate__median' in summary
         assert 'recurrence_rate__mode' in summary
+
+
+# ---------------------------------------------------------------------------
+# Static helper tests
+# ---------------------------------------------------------------------------
+
+class TestStaticHelpers:
+
+    def test_rank_p_value_greater(self):
+        # Real score above all nulls → p ≈ 1/(B+1)
+        p = RQA2_ml._rank_p_value(10.0, np.array([1, 2, 3, 4, 5]))
+        assert p == pytest.approx(1 / 6)
+
+    def test_rank_p_value_below_null(self):
+        # Real score below all nulls → p ≈ 1.0
+        p = RQA2_ml._rank_p_value(0.0, np.array([1, 2, 3, 4, 5]))
+        assert p == pytest.approx(6 / 6)
+
+    def test_rank_p_value_less_alternative(self):
+        p = RQA2_ml._rank_p_value(0.0, np.array([1, 2, 3, 4, 5]),
+                                   alternative='less')
+        assert p == pytest.approx(1 / 6)
+
+    def test_benjamini_hochberg_no_correction_needed(self):
+        pvals = {'a': 0.01, 'b': 0.02, 'c': 0.03}
+        adj, rej = RQA2_ml._benjamini_hochberg(pvals, alpha=0.05)
+        assert all(rej.values()), "All should be significant"
+        for k in pvals:
+            assert adj[k] <= 0.05
+
+    def test_benjamini_hochberg_some_rejected(self):
+        pvals = {'a': 0.01, 'b': 0.5, 'c': 0.9}
+        adj, rej = RQA2_ml._benjamini_hochberg(pvals, alpha=0.05)
+        assert rej['a'] is True
+        assert rej['c'] is False
+
+    def test_benjamini_hochberg_empty(self):
+        adj, rej = RQA2_ml._benjamini_hochberg({}, alpha=0.05)
+        assert adj == {}
+        assert rej == {}
+
+
+# ---------------------------------------------------------------------------
+# Surrogate signal generation
+# ---------------------------------------------------------------------------
+
+class TestSurrogateSignalGeneration:
+
+    def test_generate_surrogate_signals_ft(self):
+        rng = np.random.default_rng(42)
+        signals = [rng.standard_normal(128).astype(float) for _ in range(3)]
+        ml = RQA2_ml()
+        surr = ml._generate_surrogate_signals(signals, 'FT',
+                                               random_state=0)
+        assert len(surr) == 3
+        for s, orig in zip(surr, signals):
+            assert len(s) == len(orig)
+            # Surrogate should differ from original
+            assert not np.allclose(s, orig)
+
+    def test_generate_surrogate_signals_aaft(self):
+        rng = np.random.default_rng(42)
+        signals = [rng.standard_normal(128).astype(float) for _ in range(2)]
+        ml = RQA2_ml()
+        surr = ml._generate_surrogate_signals(signals, 'AAFT',
+                                               random_state=1)
+        assert len(surr) == 2
+
+    def test_generate_surrogate_signals_reproducible(self):
+        rng = np.random.default_rng(42)
+        signals = [rng.standard_normal(128).astype(float)]
+        ml = RQA2_ml()
+        s1 = ml._generate_surrogate_signals(signals, 'FT',
+                                             random_state=99)
+        s2 = ml._generate_surrogate_signals(signals, 'FT',
+                                             random_state=99)
+        assert np.allclose(s1[0], s2[0])
+
+
+# ---------------------------------------------------------------------------
+# Surrogate null benchmark (supervised) – lightweight smoke test
+# ---------------------------------------------------------------------------
+
+class TestSurrogateNullBenchmark:
+
+    @pytest.fixture()
+    def _two_class_signals(self):
+        """Generate two classes of short signals with different dynamics."""
+        rng = np.random.default_rng(42)
+        t = np.linspace(0, 4 * np.pi, 80)
+        signals = []
+        labels = []
+        for _ in range(4):
+            signals.append(
+                (np.sin(t) + 0.1 * rng.standard_normal(80)).astype(float))
+            labels.append(0)
+        for _ in range(4):
+            signals.append(
+                (np.sin(3 * t) + 0.1 * rng.standard_normal(80)).astype(float))
+            labels.append(1)
+        return signals, labels
+
+    def test_surrogate_null_benchmark_smoke(self, _two_class_signals):
+        """End-to-end smoke test with minimal iterations."""
+        signals, labels = _two_class_signals
+        ml = RQA2_ml(rqa_kwargs={'normalize': True})
+        results = ml.surrogate_null_benchmark(
+            signals, labels,
+            window_size=20,
+            window_step=10,
+            surrogate_kinds=('FT',),
+            n_surrogate_iterations=2,
+            model='knn',
+            outer_iterations=5,
+            surrogate_outer_iterations=3,
+            inner_splits=2,
+            inner_iterations=1,
+            feature_selection=None,
+            scaler=True,
+            random_state=42,
+            include_permutation=True,
+            n_permutations=5,
+            verbose=False,
+        )
+
+        # Check structure
+        assert 'real' in results
+        assert 'surrogates' in results
+        assert 'permutation' in results
+        assert 'corrected_p_values' in results
+        assert 'summary' in results
+
+        # Real results
+        assert 'accuracy' in results['real']
+        assert len(results['real']['accuracy']) == 5
+
+        # Surrogate results
+        assert 'FT' in results['surrogates']
+        ft = results['surrogates']['FT']
+        assert len(ft['null_accuracies']) == 2
+        assert 'p_value_accuracy' in ft
+        assert 'effect_size_accuracy' in ft
+
+        # Permutation results
+        assert 'null_accuracy' in results['permutation']
+        assert len(results['permutation']['null_accuracy']) == 5
+
+        # Summary table
+        summary = results['summary']
+        assert isinstance(summary, pd.DataFrame)
+        assert len(summary) == 2  # FT + permutation
+        assert 'null_type' in summary.columns
+        assert 'p_value_accuracy' in summary.columns
+        assert 'adjusted_p_accuracy' in summary.columns
+        assert 'effect_size_accuracy' in summary.columns
+
+    def test_surrogate_null_no_permutation(self, _two_class_signals):
+        signals, labels = _two_class_signals
+        ml = RQA2_ml()
+        results = ml.surrogate_null_benchmark(
+            signals, labels,
+            window_size=20,
+            surrogate_kinds=('FT',),
+            n_surrogate_iterations=2,
+            outer_iterations=3,
+            surrogate_outer_iterations=2,
+            inner_splits=2,
+            inner_iterations=1,
+            feature_selection=None,
+            include_permutation=False,
+            verbose=False,
+        )
+        assert results['permutation'] is None
+        assert len(results['summary']) == 1  # FT only
+
+    def test_surrogate_null_multiple_kinds(self, _two_class_signals):
+        signals, labels = _two_class_signals
+        ml = RQA2_ml()
+        results = ml.surrogate_null_benchmark(
+            signals, labels,
+            window_size=20,
+            surrogate_kinds=('FT', 'AAFT'),
+            n_surrogate_iterations=2,
+            outer_iterations=3,
+            surrogate_outer_iterations=2,
+            inner_splits=2,
+            inner_iterations=1,
+            feature_selection=None,
+            include_permutation=False,
+            verbose=False,
+        )
+        assert 'FT' in results['surrogates']
+        assert 'AAFT' in results['surrogates']
+        assert len(results['summary']) == 2
+
+    def test_surrogate_null_bonferroni(self, _two_class_signals):
+        signals, labels = _two_class_signals
+        ml = RQA2_ml()
+        results = ml.surrogate_null_benchmark(
+            signals, labels,
+            window_size=20,
+            surrogate_kinds=('FT',),
+            n_surrogate_iterations=2,
+            outer_iterations=3,
+            surrogate_outer_iterations=2,
+            inner_splits=2,
+            inner_iterations=1,
+            feature_selection=None,
+            include_permutation=False,
+            correction='bonferroni',
+            verbose=False,
+        )
+        assert 'corrected_p_values' in results
+
+    def test_surrogate_null_invalid_kind_raises(self, _two_class_signals):
+        signals, labels = _two_class_signals
+        ml = RQA2_ml()
+        with pytest.raises(ValueError, match="Unknown surrogate"):
+            ml.surrogate_null_benchmark(
+                signals, labels,
+                window_size=20,
+                surrogate_kinds=('INVALID',),
+                verbose=False,
+            )
+
+
+# ---------------------------------------------------------------------------
+# Surrogate cluster validation (unsupervised) – lightweight smoke test
+# ---------------------------------------------------------------------------
+
+class TestSurrogateClusterValidation:
+
+    @pytest.fixture()
+    def _signals(self):
+        rng = np.random.default_rng(42)
+        t = np.linspace(0, 4 * np.pi, 80)
+        signals = []
+        for i in range(6):
+            freq = 1 + (i % 3)
+            signals.append(
+                (np.sin(freq * t) + 0.1 * rng.standard_normal(80)
+                 ).astype(float))
+        return signals
+
+    def test_surrogate_cluster_validation_smoke(self, _signals):
+        ml = RQA2_ml()
+        results = ml.surrogate_cluster_validation(
+            _signals,
+            window_size=20,
+            window_step=10,
+            surrogate_kinds=('FT',),
+            n_surrogate_iterations=2,
+            methods=('kmeans',),
+            k_range=(2, 3),
+            scaler=True,
+            random_state=42,
+            verbose=False,
+        )
+
+        assert 'real' in results
+        assert 'surrogates' in results
+        assert 'corrected_p_values' in results
+        assert 'summary' in results
+
+        # Real results
+        assert 'validity' in results['real']
+        assert 'best_per_method' in results['real']
+
+        # Surrogate results
+        assert 'FT' in results['surrogates']
+        ft = results['surrogates']['FT']
+        assert 'kmeans' in ft
+        assert 'null_silhouette' in ft['kmeans']
+        assert len(ft['kmeans']['null_silhouette']) == 2
+
+        # Summary
+        summary = results['summary']
+        assert isinstance(summary, pd.DataFrame)
+        assert 'surrogate' in summary.columns
+        assert 'cluster_method' in summary.columns
+
+    def test_surrogate_cluster_invalid_kind_raises(self, _signals):
+        ml = RQA2_ml()
+        with pytest.raises(ValueError, match="Unknown surrogate"):
+            ml.surrogate_cluster_validation(
+                _signals,
+                window_size=20,
+                surrogate_kinds=('BADNAME',),
+                verbose=False,
+            )
+
+
+# ---------------------------------------------------------------------------
+# Surrogate null visualisation
+# ---------------------------------------------------------------------------
+
+class TestSurrogateNullVisualization:
+
+    def test_plot_surrogate_null_results(self):
+        results = {
+            'real': {
+                'accuracy': np.array([0.8, 0.85, 0.82, 0.9, 0.78]),
+                'roc_auc': np.array([0.85, 0.9, 0.87, 0.92, 0.83]),
+                'model': 'knn',
+            },
+            'surrogates': {
+                'FT': {
+                    'null_accuracies': np.array([0.5, 0.52, 0.48]),
+                    'null_roc_aucs': np.array([0.51, 0.53, 0.49]),
+                    'p_value_accuracy': 0.01,
+                    'p_value_roc_auc': 0.01,
+                },
+            },
+            'permutation': {
+                'null_accuracy': np.array([0.5, 0.55, 0.45]),
+                'null_roc_auc': np.array([0.5, 0.55, 0.45]),
+                'p_value_accuracy': 0.02,
+                'p_value_roc_auc': 0.02,
+            },
+            'corrected_p_values': {
+                'accuracy': {
+                    'adjusted_p': {'FT': 0.02, 'permutation': 0.04},
+                    'rejected': {'FT': True, 'permutation': True},
+                },
+                'roc_auc': {
+                    'adjusted_p': {'FT': 0.02, 'permutation': 0.04},
+                    'rejected': {'FT': True, 'permutation': True},
+                },
+            },
+        }
+        fig = RQA2_ml.plot_surrogate_null_results(results)
+        assert fig is not None
+        plt.close(fig)
+
+    def test_plot_surrogate_null_results_save(self, tmp_path):
+        results = {
+            'real': {
+                'accuracy': np.array([0.8, 0.85]),
+                'roc_auc': np.array([0.85, 0.9]),
+            },
+            'surrogates': {
+                'FT': {
+                    'null_accuracies': np.array([0.5, 0.52]),
+                    'null_roc_aucs': np.array([0.51, 0.53]),
+                    'p_value_accuracy': 0.01,
+                    'p_value_roc_auc': 0.01,
+                },
+            },
+            'permutation': None,
+            'corrected_p_values': {
+                'accuracy': {
+                    'adjusted_p': {'FT': 0.02},
+                    'rejected': {'FT': True},
+                },
+                'roc_auc': {
+                    'adjusted_p': {'FT': 0.02},
+                    'rejected': {'FT': True},
+                },
+            },
+        }
+        path = str(tmp_path / "surr_null.png")
+        fig = RQA2_ml.plot_surrogate_null_results(results,
+                                                    save_path=path)
+        assert os.path.isfile(path)
+        plt.close(fig)
+
+    def test_plot_surrogate_cluster_validation(self):
+        results = {
+            'real': {
+                'validity': pd.DataFrame(),
+                'labels': {},
+                'best_per_method': {
+                    'kmeans': {'silhouette': 0.6,
+                               'calinski_harabasz': 50.0,
+                               'davies_bouldin': 0.8},
+                },
+            },
+            'surrogates': {
+                'FT': {
+                    'kmeans': {
+                        'null_silhouette': np.array([0.3, 0.35, 0.32]),
+                        'p_value_silhouette': 0.01,
+                        'effect_size_silhouette': 2.0,
+                        'null_calinski_harabasz': np.array([20, 25, 22]),
+                        'p_value_calinski_harabasz': 0.01,
+                        'effect_size_calinski_harabasz': 2.0,
+                        'null_davies_bouldin': np.array([1.5, 1.4, 1.6]),
+                        'p_value_davies_bouldin': 0.01,
+                        'effect_size_davies_bouldin': -2.0,
+                    },
+                },
+            },
+            'corrected_p_values': {'adjusted_p': {}, 'rejected': {}},
+            'summary': pd.DataFrame([{
+                'surrogate': 'FT',
+                'cluster_method': 'kmeans',
+            }]),
+        }
+        fig = RQA2_ml.plot_surrogate_cluster_validation(
+            results, metric='silhouette')
+        assert fig is not None
+        plt.close(fig)

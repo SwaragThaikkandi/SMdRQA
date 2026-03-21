@@ -2558,6 +2558,16 @@ class RQA2_tests:
         return int(zero_crossings[0]) if len(zero_crossings) > 0 else 1
 
 
+_SURROGATE_NULL_DESCRIPTIONS = {
+    'FT': 'Linear autocorrelation alone explains classification',
+    'AAFT': 'Linear structure + marginal distribution suffice',
+    'IAAFT': 'Refined linear structure + amplitude distribution suffice',
+    'IDFS': 'Digitally-filtered shuffled structure suffices',
+    'WIAAFT': 'Wavelet time-frequency structure suffices',
+    'PPS': 'Periodic structure alone suffices',
+}
+
+
 class RQA2_ml:
     """
     Machine learning utilities built on top of RQA2 features.
@@ -3251,6 +3261,487 @@ class RQA2_ml:
         }
 
     # ------------------------------------------------------------------
+    # Internal: surrogate signal generation & statistical helpers
+    # ------------------------------------------------------------------
+
+    def _generate_surrogate_signals(self, signals, kind, *,
+                                     surrogate_kwargs=None,
+                                     random_state=42):
+        """Generate one surrogate time series per input signal.
+
+        Parameters
+        ----------
+        signals : list of ndarray
+            Original time-series signals.
+        kind : str
+            Surrogate algorithm forwarded to
+            :meth:`RQA2_tests.generate`.
+        surrogate_kwargs : dict, optional
+            Extra keyword arguments for the surrogate algorithm
+            (e.g. ``n_iter`` for IAAFT).
+        random_state : int, default 42
+
+        Returns
+        -------
+        list of ndarray
+            One surrogate signal per input signal.
+        """
+        surr_signals = []
+        rng = np.random.default_rng(random_state)
+        kw = dict(surrogate_kwargs or {})
+        for sig in signals:
+            seed = int(rng.integers(1_000_000_000))
+            tester = RQA2_tests(
+                signal=np.asarray(sig, dtype=float),
+                seed=seed, max_workers=1)
+            surrogates = tester.generate(kind=kind, n_surrogates=1,
+                                         **kw)
+            surr_signals.append(surrogates[0])
+        return surr_signals
+
+    @staticmethod
+    def _rank_p_value(real_score, null_scores, alternative='greater'):
+        """Monte Carlo rank-based p-value.
+
+        Parameters
+        ----------
+        real_score : float
+            Observed test statistic.
+        null_scores : array-like
+            Null distribution values.
+        alternative : str, default ``'greater'``
+            ``'greater'``: fraction of null values ≥ real_score.
+            ``'less'``: fraction of null values ≤ real_score.
+
+        Returns
+        -------
+        float
+            p-value in ``[1/(B+1), 1]`` where *B* = len(null_scores).
+        """
+        null = np.asarray(null_scores, dtype=float)
+        B = len(null)
+        if alternative == 'greater':
+            count = np.sum(null >= real_score)
+        else:
+            count = np.sum(null <= real_score)
+        return (count + 1) / (B + 1)
+
+    @staticmethod
+    def _benjamini_hochberg(p_values, alpha=0.05):
+        """Benjamini-Hochberg FDR correction.
+
+        Parameters
+        ----------
+        p_values : dict
+            Mapping of label → raw p-value.
+        alpha : float, default 0.05
+            Target false-discovery rate.
+
+        Returns
+        -------
+        adjusted : dict
+            Mapping of label → adjusted p-value.
+        rejected : dict
+            Mapping of label → bool (significant after correction).
+        """
+        keys = list(p_values.keys())
+        pvals = np.array([p_values[k] for k in keys])
+        m = len(pvals)
+        if m == 0:
+            return {}, {}
+
+        order = np.argsort(pvals)
+        ranks = np.empty(m, dtype=float)
+        ranks[order] = np.arange(1, m + 1)
+        adjusted = np.minimum(1.0, pvals * m / ranks)
+
+        # Enforce monotonicity (step-down from largest)
+        sorted_idx = np.argsort(pvals)[::-1]
+        for i in range(1, m):
+            adjusted[sorted_idx[i]] = min(
+                adjusted[sorted_idx[i]],
+                adjusted[sorted_idx[i - 1]])
+
+        rejected = adjusted <= alpha
+        return (
+            {k: float(adjusted[i]) for i, k in enumerate(keys)},
+            {k: bool(rejected[i]) for i, k in enumerate(keys)},
+        )
+
+    # ------------------------------------------------------------------
+    # Supervised: surrogate-based null hypothesis testing
+    # ------------------------------------------------------------------
+
+    def surrogate_null_benchmark(
+        self, signals, labels, *,
+        window_size,
+        window_step=1,
+        window_stats=('mean', 'median', 'mode'),
+        include_params=True,
+        group_level_params=None,
+        rqa_kwargs=None,
+        surrogate_kinds=('FT', 'AAFT', 'IAAFT'),
+        n_surrogate_iterations=20,
+        surrogate_kwargs=None,
+        model='knn',
+        outer_iterations=100,
+        surrogate_outer_iterations=30,
+        test_fraction=1.0 / 3,
+        inner_splits=2,
+        inner_iterations=10,
+        feature_selection='auto',
+        max_subset_size=None,
+        scaler=True,
+        random_state=42,
+        alpha=0.05,
+        correction='fdr_bh',
+        include_permutation=True,
+        n_permutations=100,
+        verbose=True,
+    ):
+        """Surrogate-based null hypothesis testing for classification.
+
+        For each surrogate algorithm the method replaces every original
+        time series with a surrogate, re-extracts RQA features, and runs
+        the full nested cross-validation procedure.  Repeating this
+        ``n_surrogate_iterations`` times yields a null distribution of
+        classification accuracy that would be obtained from data whose
+        nonlinear structure has been destroyed according to the specific
+        null hypothesis encoded by the surrogate type:
+
+        * **FT** — preserves power spectrum (null: linear autocorrelation
+          alone explains classification).
+        * **AAFT** — preserves amplitude distribution + spectrum (null:
+          linear structure + marginal distribution suffice).
+        * **IAAFT** — tighter amplitude + spectrum match.
+        * **WIAAFT** — preserves time-frequency structure.
+        * **PPS** — preserves periodic structure (null: periodicity alone
+          suffices).
+
+        Optionally a label-permutation baseline (the classical approach)
+        is computed alongside for comparison.  All p-values are corrected
+        for multiple comparisons using Benjamini-Hochberg FDR.
+
+        Parameters
+        ----------
+        signals : list of ndarray
+            Raw time-series signals (same order as *labels*).
+        labels : array-like
+            Class labels aligned with *signals*.
+        window_size : int
+            Forwarded to :meth:`build_feature_table`.
+        window_step : int, default 1
+        window_stats : tuple of str, default ``('mean', 'median', 'mode')``
+        include_params : bool, default True
+        group_level_params : set, optional
+        rqa_kwargs : dict, optional
+        surrogate_kinds : tuple of str, default ``('FT', 'AAFT', 'IAAFT')``
+            Surrogate algorithms to test.
+        n_surrogate_iterations : int, default 20
+            How many surrogate datasets to generate per algorithm.
+        surrogate_kwargs : dict, optional
+            Extra keyword arguments for surrogate generation.
+        model : str, default ``'knn'``
+        outer_iterations : int, default 100
+            Outer CV iterations for the **real** data.
+        surrogate_outer_iterations : int, default 30
+            Outer CV iterations for each surrogate dataset (lower for
+            computational tractability).
+        test_fraction : float, default 1/3
+        inner_splits : int, default 2
+        inner_iterations : int, default 10
+        feature_selection : str or None, default ``'auto'``
+        max_subset_size : int, optional
+        scaler : bool, default True
+        random_state : int, default 42
+        alpha : float, default 0.05
+            Significance level for FDR correction.
+        correction : str, default ``'fdr_bh'``
+            ``'fdr_bh'`` for Benjamini-Hochberg; ``'bonferroni'`` for
+            Bonferroni correction.
+        include_permutation : bool, default True
+            Whether to also compute a label-permutation null.
+        n_permutations : int, default 100
+        verbose : bool, default True
+            Show progress bars.
+
+        Returns
+        -------
+        dict
+            ``'real'`` : dict — output of :meth:`nested_cv_benchmark`
+            on the real data.
+
+            ``'surrogates'`` : dict of {str: dict} — per-surrogate-kind
+            results containing ``'null_accuracies'``,
+            ``'null_roc_aucs'``, ``'p_value_accuracy'``,
+            ``'p_value_roc_auc'``, ``'effect_size'``.
+
+            ``'permutation'`` : dict or ``None`` — label-permutation
+            null (if *include_permutation* is True).
+
+            ``'corrected_p_values'`` : dict — FDR-corrected p-values
+            per surrogate kind and metric.
+
+            ``'summary'`` : DataFrame — one-row-per-null summary table.
+        """
+        _valid_surrogates = ('FT', 'AAFT', 'IAAFT', 'IDFS',
+                             'WIAAFT', 'PPS')
+        for kind in surrogate_kinds:
+            if kind not in _valid_surrogates:
+                raise ValueError(
+                    f"Unknown surrogate kind '{kind}'. "
+                    f"Available: {_valid_surrogates}")
+
+        labels_arr = np.asarray(labels)
+
+        # Common feature-table kwargs
+        ft_kwargs = dict(
+            window_size=window_size,
+            window_step=window_step,
+            window_stats=window_stats,
+            include_params=include_params,
+            group_level_params=group_level_params,
+            rqa_kwargs=rqa_kwargs,
+        )
+
+        # Common nested-CV kwargs (for surrogates, use lighter settings)
+        cv_base = dict(
+            model=model,
+            test_fraction=test_fraction,
+            inner_splits=inner_splits,
+            inner_iterations=inner_iterations,
+            feature_selection=feature_selection,
+            max_subset_size=max_subset_size,
+            scaler=scaler,
+            random_state=random_state,
+        )
+
+        # --- Step 1: Real data benchmark ---
+        if verbose:
+            print("Building feature table from real signals...")
+        real_features = self.build_feature_table(
+            signals, labels=labels, **ft_kwargs)
+
+        feature_cols = [c for c in real_features.columns
+                        if c not in ('id', 'label')]
+        X_real = real_features[feature_cols].values
+        y_real = real_features['label'].values
+
+        if verbose:
+            print("Running nested CV on real data...")
+        real_results = self.nested_cv_benchmark(
+            X_real, y_real,
+            outer_iterations=outer_iterations, **cv_base)
+
+        real_mean_acc = float(np.mean(real_results['accuracy']))
+        real_mean_auc = float(np.nanmean(real_results['roc_auc']))
+
+        # --- Step 2: Surrogate null distributions ---
+        rng = np.random.default_rng(random_state)
+        surrogate_results = {}
+
+        for kind in surrogate_kinds:
+            null_accs = []
+            null_aucs = []
+            iterator = range(n_surrogate_iterations)
+            if verbose:
+                iterator = tqdm(
+                    iterator,
+                    desc=f"Surrogate null ({kind})",
+                    leave=True)
+
+            for it in iterator:
+                seed = int(rng.integers(1_000_000_000))
+
+                # Generate surrogates
+                surr_signals = self._generate_surrogate_signals(
+                    signals, kind,
+                    surrogate_kwargs=surrogate_kwargs,
+                    random_state=seed)
+
+                # Build features from surrogates
+                surr_features = self.build_feature_table(
+                    surr_signals, labels=labels, **ft_kwargs)
+                X_surr = surr_features[feature_cols].values
+
+                # Run nested CV on surrogate features
+                surr_cv = self.nested_cv_benchmark(
+                    X_surr, y_real,
+                    outer_iterations=surrogate_outer_iterations,
+                    **cv_base)
+                null_accs.append(float(np.mean(surr_cv['accuracy'])))
+                null_aucs.append(float(np.nanmean(
+                    surr_cv['roc_auc'])))
+
+            null_accs = np.array(null_accs)
+            null_aucs = np.array(null_aucs)
+
+            # Rank-based p-values
+            p_acc = self._rank_p_value(real_mean_acc, null_accs)
+            p_auc = self._rank_p_value(real_mean_auc, null_aucs)
+
+            # Effect size (Cohen's d)
+            d_acc = ((real_mean_acc - np.mean(null_accs))
+                     / max(np.std(null_accs), 1e-12))
+            d_auc = ((real_mean_auc - np.nanmean(null_aucs))
+                     / max(np.nanstd(null_aucs), 1e-12))
+
+            surrogate_results[kind] = {
+                'null_accuracies': null_accs,
+                'null_roc_aucs': null_aucs,
+                'null_mean_accuracy': float(np.mean(null_accs)),
+                'null_std_accuracy': float(np.std(null_accs)),
+                'null_mean_roc_auc': float(np.nanmean(null_aucs)),
+                'null_std_roc_auc': float(np.nanstd(null_aucs)),
+                'p_value_accuracy': p_acc,
+                'p_value_roc_auc': p_auc,
+                'effect_size_accuracy': d_acc,
+                'effect_size_roc_auc': d_auc,
+            }
+
+        # --- Step 3: Optional label-permutation null ---
+        permutation_results = None
+        if include_permutation:
+            if verbose:
+                print("Running label-permutation null...")
+            min_class = min(np.bincount(
+                np.unique(y_real, return_inverse=True)[1]))
+            perm_cv = min(5, min_class)
+            permutation_results = self.surrogate_baseline(
+                X_real, y_real,
+                n_permutations=n_permutations,
+                model=model, cv=max(2, perm_cv), scaler=scaler,
+                random_state=random_state)
+            perm_mean_acc = float(np.mean(
+                permutation_results['null_accuracy']))
+            perm_mean_auc = float(np.nanmean(
+                permutation_results['null_roc_auc']))
+            permutation_results['p_value_accuracy'] = (
+                self._rank_p_value(
+                    real_mean_acc,
+                    permutation_results['null_accuracy']))
+            permutation_results['p_value_roc_auc'] = (
+                self._rank_p_value(
+                    real_mean_auc,
+                    permutation_results['null_roc_auc']))
+            d_acc_perm = (
+                (real_mean_acc - perm_mean_acc)
+                / max(np.std(
+                    permutation_results['null_accuracy']), 1e-12))
+            d_auc_perm = (
+                (real_mean_auc - perm_mean_auc)
+                / max(np.nanstd(
+                    permutation_results['null_roc_auc']), 1e-12))
+            permutation_results['effect_size_accuracy'] = d_acc_perm
+            permutation_results['effect_size_roc_auc'] = d_auc_perm
+
+        # --- Step 4: Multiple comparison correction ---
+        all_p_acc = {k: v['p_value_accuracy']
+                     for k, v in surrogate_results.items()}
+        all_p_auc = {k: v['p_value_roc_auc']
+                     for k, v in surrogate_results.items()}
+        if include_permutation:
+            all_p_acc['permutation'] = (
+                permutation_results['p_value_accuracy'])
+            all_p_auc['permutation'] = (
+                permutation_results['p_value_roc_auc'])
+
+        if correction == 'fdr_bh':
+            adj_acc, rej_acc = self._benjamini_hochberg(
+                all_p_acc, alpha)
+            adj_auc, rej_auc = self._benjamini_hochberg(
+                all_p_auc, alpha)
+        elif correction == 'bonferroni':
+            m = len(all_p_acc)
+            adj_acc = {k: min(1.0, v * m)
+                       for k, v in all_p_acc.items()}
+            rej_acc = {k: v <= alpha for k, v in adj_acc.items()}
+            adj_auc = {k: min(1.0, v * m)
+                       for k, v in all_p_auc.items()}
+            rej_auc = {k: v <= alpha for k, v in adj_auc.items()}
+        else:
+            adj_acc, rej_acc = all_p_acc, {
+                k: v <= alpha for k, v in all_p_acc.items()}
+            adj_auc, rej_auc = all_p_auc, {
+                k: v <= alpha for k, v in all_p_auc.items()}
+
+        corrected = {
+            'accuracy': {
+                'adjusted_p': adj_acc,
+                'rejected': rej_acc,
+            },
+            'roc_auc': {
+                'adjusted_p': adj_auc,
+                'rejected': rej_auc,
+            },
+        }
+
+        # --- Step 5: Summary table ---
+        rows = []
+        for kind in surrogate_kinds:
+            sr = surrogate_results[kind]
+            rows.append({
+                'null_type': kind,
+                'null_hypothesis': _SURROGATE_NULL_DESCRIPTIONS.get(
+                    kind, kind),
+                'real_accuracy': real_mean_acc,
+                'null_mean_accuracy': sr['null_mean_accuracy'],
+                'null_std_accuracy': sr['null_std_accuracy'],
+                'p_value_accuracy': sr['p_value_accuracy'],
+                'adjusted_p_accuracy': adj_acc[kind],
+                'significant_accuracy': rej_acc[kind],
+                'effect_size_accuracy': sr['effect_size_accuracy'],
+                'real_roc_auc': real_mean_auc,
+                'null_mean_roc_auc': sr['null_mean_roc_auc'],
+                'null_std_roc_auc': sr['null_std_roc_auc'],
+                'p_value_roc_auc': sr['p_value_roc_auc'],
+                'adjusted_p_roc_auc': adj_auc[kind],
+                'significant_roc_auc': rej_auc[kind],
+                'effect_size_roc_auc': sr['effect_size_roc_auc'],
+            })
+        if include_permutation:
+            rows.append({
+                'null_type': 'permutation',
+                'null_hypothesis': 'Labels unrelated to features',
+                'real_accuracy': real_mean_acc,
+                'null_mean_accuracy': float(np.mean(
+                    permutation_results['null_accuracy'])),
+                'null_std_accuracy': float(np.std(
+                    permutation_results['null_accuracy'])),
+                'p_value_accuracy': (
+                    permutation_results['p_value_accuracy']),
+                'adjusted_p_accuracy': adj_acc.get(
+                    'permutation', np.nan),
+                'significant_accuracy': rej_acc.get(
+                    'permutation', False),
+                'effect_size_accuracy': (
+                    permutation_results['effect_size_accuracy']),
+                'real_roc_auc': real_mean_auc,
+                'null_mean_roc_auc': float(np.nanmean(
+                    permutation_results['null_roc_auc'])),
+                'null_std_roc_auc': float(np.nanstd(
+                    permutation_results['null_roc_auc'])),
+                'p_value_roc_auc': (
+                    permutation_results['p_value_roc_auc']),
+                'adjusted_p_roc_auc': adj_auc.get(
+                    'permutation', np.nan),
+                'significant_roc_auc': rej_auc.get(
+                    'permutation', False),
+                'effect_size_roc_auc': (
+                    permutation_results['effect_size_roc_auc']),
+            })
+
+        summary = pd.DataFrame(rows)
+
+        return {
+            'real': real_results,
+            'surrogates': surrogate_results,
+            'permutation': permutation_results,
+            'corrected_p_values': corrected,
+            'summary': summary,
+        }
+
+    # ------------------------------------------------------------------
     # Statistical comparison
     # ------------------------------------------------------------------
 
@@ -3566,6 +4057,253 @@ class RQA2_ml:
         }
 
     # ------------------------------------------------------------------
+    # Unsupervised: surrogate-based null hypothesis testing
+    # ------------------------------------------------------------------
+
+    def surrogate_cluster_validation(
+        self, signals, *,
+        window_size,
+        window_step=1,
+        window_stats=('mean', 'median', 'mode'),
+        include_params=True,
+        group_level_params=None,
+        rqa_kwargs=None,
+        surrogate_kinds=('FT', 'AAFT', 'IAAFT'),
+        n_surrogate_iterations=20,
+        surrogate_kwargs=None,
+        methods=('kmeans', 'gmm', 'agglo'),
+        n_clusters=None,
+        k_range=(2, 6),
+        scaler=True,
+        random_state=42,
+        alpha=0.05,
+        correction='fdr_bh',
+        verbose=True,
+    ):
+        """Surrogate-based null hypothesis testing for clustering.
+
+        Evaluates whether the clustering structure found in RQA features
+        exceeds what would be expected from data whose nonlinear dynamics
+        have been destroyed.  For each surrogate algorithm, surrogate
+        time series are generated, RQA features are extracted, and
+        clustering validity indices are computed.  The resulting null
+        distributions are compared against the real-data validity indices
+        via rank-based p-values with multiple comparison correction.
+
+        Parameters
+        ----------
+        signals : list of ndarray
+            Raw time-series signals.
+        window_size : int
+            Forwarded to :meth:`build_feature_table`.
+        window_step : int, default 1
+        window_stats : tuple of str, default ``('mean', 'median', 'mode')``
+        include_params : bool, default True
+        group_level_params : set, optional
+        rqa_kwargs : dict, optional
+        surrogate_kinds : tuple of str, default ``('FT', 'AAFT', 'IAAFT')``
+        n_surrogate_iterations : int, default 20
+        surrogate_kwargs : dict, optional
+        methods : tuple of str, default ``('kmeans', 'gmm', 'agglo')``
+        n_clusters : int, optional
+        k_range : tuple, default ``(2, 6)``
+        scaler : bool, default True
+        random_state : int, default 42
+        alpha : float, default 0.05
+        correction : str, default ``'fdr_bh'``
+        verbose : bool, default True
+
+        Returns
+        -------
+        dict
+            ``'real'`` : dict — validity indices from real data
+            (best silhouette per method).
+
+            ``'surrogates'`` : dict of {str: dict} — per-surrogate-kind
+            null distributions and p-values for each validity index.
+
+            ``'corrected_p_values'`` : dict — FDR-corrected p-values.
+
+            ``'summary'`` : DataFrame — one-row-per-surrogate summary.
+        """
+        _valid_surrogates = ('FT', 'AAFT', 'IAAFT', 'IDFS',
+                             'WIAAFT', 'PPS')
+        for kind in surrogate_kinds:
+            if kind not in _valid_surrogates:
+                raise ValueError(
+                    f"Unknown surrogate kind '{kind}'. "
+                    f"Available: {_valid_surrogates}")
+
+        ft_kwargs = dict(
+            window_size=window_size,
+            window_step=window_step,
+            window_stats=window_stats,
+            include_params=include_params,
+            group_level_params=group_level_params,
+            rqa_kwargs=rqa_kwargs,
+        )
+        cluster_kwargs = dict(
+            methods=methods,
+            n_clusters=n_clusters,
+            k_range=k_range,
+            scaler=scaler,
+            random_state=random_state,
+        )
+
+        # --- Step 1: Real data clustering ---
+        if verbose:
+            print("Building feature table from real signals...")
+        real_features = self.build_feature_table(signals, **ft_kwargs)
+        feature_cols = [c for c in real_features.columns
+                        if c not in ('id', 'label')]
+        X_real = real_features[feature_cols].values
+
+        if verbose:
+            print("Clustering real data...")
+        real_df, real_labels = self.unsupervised_benchmark(
+            X_real, **cluster_kwargs)
+
+        # Extract best scores per method
+        _validity_metrics = ['silhouette', 'calinski_harabasz',
+                             'davies_bouldin']
+        real_best = {}
+        for method in methods:
+            sub = real_df[real_df['method'] == method]
+            if sub.empty:
+                continue
+            best_row = sub.loc[sub['silhouette'].idxmax()]
+            real_best[method] = {
+                m: float(best_row[m]) for m in _validity_metrics
+                if m in best_row and not np.isnan(best_row[m])
+            }
+
+        # --- Step 2: Surrogate null distributions ---
+        rng = np.random.default_rng(random_state)
+        surrogate_results = {}
+
+        for kind in surrogate_kinds:
+            null_scores = {method: {m: [] for m in _validity_metrics}
+                          for method in methods}
+            iterator = range(n_surrogate_iterations)
+            if verbose:
+                iterator = tqdm(
+                    iterator,
+                    desc=f"Surrogate cluster ({kind})",
+                    leave=True)
+
+            for it in iterator:
+                seed = int(rng.integers(1_000_000_000))
+                surr_signals = self._generate_surrogate_signals(
+                    signals, kind,
+                    surrogate_kwargs=surrogate_kwargs,
+                    random_state=seed)
+                surr_features = self.build_feature_table(
+                    surr_signals, **ft_kwargs)
+                X_surr = surr_features[feature_cols].values
+
+                surr_df, _ = self.unsupervised_benchmark(
+                    X_surr, **cluster_kwargs)
+
+                for method in methods:
+                    sub = surr_df[surr_df['method'] == method]
+                    if sub.empty:
+                        for m in _validity_metrics:
+                            null_scores[method][m].append(np.nan)
+                        continue
+                    best_row = sub.loc[sub['silhouette'].idxmax()]
+                    for m in _validity_metrics:
+                        val = (float(best_row[m])
+                               if m in best_row
+                               and not np.isnan(best_row[m])
+                               else np.nan)
+                        null_scores[method][m].append(val)
+
+            # Compute p-values per method × metric
+            kind_results = {}
+            for method in methods:
+                method_results = {}
+                for m in _validity_metrics:
+                    null_arr = np.array(null_scores[method][m])
+                    real_val = real_best.get(method, {}).get(m, np.nan)
+                    if np.isnan(real_val) or np.all(np.isnan(null_arr)):
+                        method_results[f'null_{m}'] = null_arr
+                        method_results[f'p_value_{m}'] = np.nan
+                        method_results[f'effect_size_{m}'] = np.nan
+                        continue
+                    # For silhouette & CH: higher is better → greater
+                    # For DB: lower is better → less
+                    alt = 'less' if m == 'davies_bouldin' else 'greater'
+                    valid = null_arr[~np.isnan(null_arr)]
+                    p_val = (self._rank_p_value(real_val, valid, alt)
+                             if len(valid) > 0 else np.nan)
+                    d = ((real_val - np.nanmean(null_arr))
+                         / max(np.nanstd(null_arr), 1e-12))
+                    method_results[f'null_{m}'] = null_arr
+                    method_results[f'p_value_{m}'] = p_val
+                    method_results[f'effect_size_{m}'] = d
+                kind_results[method] = method_results
+            surrogate_results[kind] = kind_results
+
+        # --- Step 3: Multiple comparison correction ---
+        all_raw_p = {}
+        for kind in surrogate_kinds:
+            for method in methods:
+                for m in _validity_metrics:
+                    key = f"{kind}|{method}|{m}"
+                    p = surrogate_results[kind].get(
+                        method, {}).get(f'p_value_{m}', np.nan)
+                    if not np.isnan(p):
+                        all_raw_p[key] = p
+
+        if correction == 'fdr_bh':
+            adj_p, rej_p = self._benjamini_hochberg(all_raw_p, alpha)
+        elif correction == 'bonferroni':
+            n_tests = len(all_raw_p)
+            adj_p = {k: min(1.0, v * n_tests)
+                     for k, v in all_raw_p.items()}
+            rej_p = {k: v <= alpha for k, v in adj_p.items()}
+        else:
+            adj_p = all_raw_p
+            rej_p = {k: v <= alpha for k, v in all_raw_p.items()}
+
+        # --- Step 4: Summary table ---
+        rows = []
+        for kind in surrogate_kinds:
+            for method in methods:
+                mr = surrogate_results[kind].get(method, {})
+                rb = real_best.get(method, {})
+                row = {
+                    'surrogate': kind,
+                    'null_hypothesis': (
+                        _SURROGATE_NULL_DESCRIPTIONS.get(kind, kind)),
+                    'cluster_method': method,
+                }
+                for m in _validity_metrics:
+                    key = f"{kind}|{method}|{m}"
+                    row[f'real_{m}'] = rb.get(m, np.nan)
+                    null_arr = mr.get(f'null_{m}', np.array([]))
+                    row[f'null_mean_{m}'] = float(np.nanmean(null_arr))
+                    row[f'null_std_{m}'] = float(np.nanstd(null_arr))
+                    row[f'p_value_{m}'] = mr.get(
+                        f'p_value_{m}', np.nan)
+                    row[f'adjusted_p_{m}'] = adj_p.get(key, np.nan)
+                    row[f'significant_{m}'] = rej_p.get(key, False)
+                    row[f'effect_size_{m}'] = mr.get(
+                        f'effect_size_{m}', np.nan)
+                rows.append(row)
+
+        summary = pd.DataFrame(rows)
+
+        return {
+            'real': {'validity': real_df, 'labels': real_labels,
+                     'best_per_method': real_best},
+            'surrogates': surrogate_results,
+            'corrected_p_values': {'adjusted_p': adj_p,
+                                   'rejected': rej_p},
+            'summary': summary,
+        }
+
+    # ------------------------------------------------------------------
     # Visualisation
     # ------------------------------------------------------------------
 
@@ -3771,6 +4509,204 @@ class RQA2_ml:
         ax.set_ylabel('PC 2')
         ax.legend(fontsize=8)
         ax.set_title(title or 'Cluster Scatter (PCA)')
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_surrogate_null_results(
+            results, *, save_path=None, title=None):
+        """Multi-panel visualisation of surrogate null benchmarking.
+
+        Displays the real classification performance against the null
+        distribution from each surrogate type (and optionally the
+        label-permutation null).  Each panel shows violin plots of the
+        null accuracy distributions with the real mean accuracy overlaid
+        as a horizontal line, annotated with the FDR-corrected p-value.
+
+        Parameters
+        ----------
+        results : dict
+            Output of :meth:`surrogate_null_benchmark`.
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        real_results = results['real']
+        surr_results = results['surrogates']
+        perm_results = results.get('permutation')
+        corrected = results['corrected_p_values']
+
+        real_mean_acc = float(np.mean(real_results['accuracy']))
+        real_mean_auc = float(np.nanmean(real_results['roc_auc']))
+
+        # Collect null distributions
+        null_labels = []
+        null_acc_data = []
+        null_auc_data = []
+        p_acc_labels = []
+        p_auc_labels = []
+
+        for kind, sr in surr_results.items():
+            null_labels.append(kind)
+            null_acc_data.append(sr['null_accuracies'])
+            null_auc_data.append(sr['null_roc_aucs'])
+            adj_a = corrected['accuracy']['adjusted_p'].get(
+                kind, sr['p_value_accuracy'])
+            adj_u = corrected['roc_auc']['adjusted_p'].get(
+                kind, sr['p_value_roc_auc'])
+            p_acc_labels.append(adj_a)
+            p_auc_labels.append(adj_u)
+
+        if perm_results is not None:
+            null_labels.append('Perm.')
+            null_acc_data.append(perm_results['null_accuracy'])
+            null_auc_data.append(perm_results['null_roc_auc'])
+            p_acc_labels.append(
+                corrected['accuracy']['adjusted_p'].get(
+                    'permutation', perm_results['p_value_accuracy']))
+            p_auc_labels.append(
+                corrected['roc_auc']['adjusted_p'].get(
+                    'permutation', perm_results['p_value_roc_auc']))
+
+        n_nulls = len(null_labels)
+        fig, axes = plt.subplots(1, 2, figsize=(5 + 1.5 * n_nulls, 5))
+
+        for ax, data_list, real_val, p_list, ylabel in [
+            (axes[0], null_acc_data, real_mean_acc,
+             p_acc_labels, 'Accuracy'),
+            (axes[1], null_auc_data, real_mean_auc,
+             p_auc_labels, 'ROC AUC'),
+        ]:
+            parts = ax.violinplot(
+                data_list, positions=range(n_nulls),
+                showmeans=True, showextrema=True)
+            for pc in parts['bodies']:
+                pc.set_facecolor('#CCCCCC')
+                pc.set_alpha(0.7)
+
+            ax.axhline(real_val, color='#C44E52', linewidth=2,
+                       linestyle='--', label=f'Real ({real_val:.3f})')
+            ax.axhline(0.5, color='grey', linewidth=0.8,
+                       linestyle=':', label='Chance')
+
+            ax.set_xticks(range(n_nulls))
+            ax.set_xticklabels(null_labels, fontsize=8)
+            ax.set_ylabel(ylabel)
+
+            # Annotate p-values
+            for i, p in enumerate(p_list):
+                sig = '***' if p < 0.001 else (
+                    '**' if p < 0.01 else (
+                        '*' if p < 0.05 else 'n.s.'))
+                ax.text(i, ax.get_ylim()[1] * 0.98,
+                        f'p={p:.3f}\n{sig}',
+                        ha='center', va='top', fontsize=7)
+
+            ax.legend(fontsize=7, loc='lower left')
+
+        fig.suptitle(
+            title or 'Surrogate Null Hypothesis Testing (Supervised)',
+            fontsize=11)
+        fig.tight_layout()
+        if save_path:
+            fig.savefig(save_path, dpi=150, bbox_inches='tight')
+        return fig
+
+    @staticmethod
+    def plot_surrogate_cluster_validation(
+            results, *, metric='silhouette',
+            save_path=None, title=None):
+        """Visualise surrogate null distributions for clustering validity.
+
+        For each surrogate type and clustering method, shows the null
+        distribution of the selected validity metric as a violin plot
+        with the real-data value overlaid.
+
+        Parameters
+        ----------
+        results : dict
+            Output of :meth:`surrogate_cluster_validation`.
+        metric : str, default ``'silhouette'``
+            Validity metric to plot (``'silhouette'``,
+            ``'calinski_harabasz'``, or ``'davies_bouldin'``).
+        save_path : str, optional
+        title : str, optional
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        summary = results['summary']
+        surr_data = results['surrogates']
+        real_best = results['real']['best_per_method']
+
+        surrogate_kinds = summary['surrogate'].unique()
+        cluster_methods = summary['cluster_method'].unique()
+        n_kinds = len(surrogate_kinds)
+        n_methods = len(cluster_methods)
+
+        fig, axes = plt.subplots(
+            1, n_methods,
+            figsize=(4 * n_methods, 5),
+            squeeze=False)
+        axes = axes[0]
+
+        for ax_idx, method in enumerate(cluster_methods):
+            ax = axes[ax_idx]
+            data_list = []
+            labels_list = []
+            p_values = []
+
+            for kind in surrogate_kinds:
+                mr = surr_data.get(kind, {}).get(method, {})
+                null_arr = mr.get(f'null_{metric}', np.array([]))
+                valid = null_arr[~np.isnan(null_arr)]
+                data_list.append(
+                    valid if len(valid) > 0 else np.array([0.0]))
+                labels_list.append(kind)
+                p_val = mr.get(f'p_value_{metric}', np.nan)
+                p_values.append(p_val)
+
+            n = len(labels_list)
+            if n > 0:
+                parts = ax.violinplot(
+                    data_list, positions=range(n),
+                    showmeans=True, showextrema=True)
+                for pc in parts['bodies']:
+                    pc.set_facecolor('#CCCCCC')
+                    pc.set_alpha(0.7)
+
+            real_val = real_best.get(method, {}).get(metric, np.nan)
+            if not np.isnan(real_val):
+                ax.axhline(real_val, color='#C44E52', linewidth=2,
+                           linestyle='--',
+                           label=f'Real ({real_val:.3f})')
+
+            ax.set_xticks(range(n))
+            ax.set_xticklabels(labels_list, fontsize=8)
+            ax.set_ylabel(metric.replace('_', ' ').title())
+            ax.set_title(method, fontsize=10)
+
+            for i, p in enumerate(p_values):
+                if np.isnan(p):
+                    continue
+                sig = '***' if p < 0.001 else (
+                    '**' if p < 0.01 else (
+                        '*' if p < 0.05 else 'n.s.'))
+                ax.text(i, ax.get_ylim()[1] * 0.98,
+                        f'p={p:.3f}\n{sig}',
+                        ha='center', va='top', fontsize=7)
+
+            ax.legend(fontsize=7, loc='lower left')
+
+        fig.suptitle(
+            title or f'Surrogate Null Testing: {metric.replace("_", " ").title()}',
+            fontsize=11)
         fig.tight_layout()
         if save_path:
             fig.savefig(save_path, dpi=150, bbox_inches='tight')
