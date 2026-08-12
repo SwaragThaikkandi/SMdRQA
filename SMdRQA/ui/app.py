@@ -24,10 +24,14 @@ import streamlit as st
 from SMdRQA.RQA2 import RQA2, RQA2_ml, RQA2_simulators
 from SMdRQA.ui.recorder import ScriptRecorder
 from SMdRQA.ui.sensitivity import MEASURES, window_size_sensitivity
+from SMdRQA.ui.simulate import (
+    DISTRIBUTIONS, REGIMES, SYSTEM_PARAM_DEFAULTS,
+    regime_threshold, sample_regime_values, simulate_signal,
+)
 
 st.set_page_config(page_title="SMdRQA", layout="wide")
 
-SIMULATOR_SYSTEMS = ('rossler', 'lorenz', 'henon', 'chua',
+SIMULATOR_SYSTEMS = ('rossler', 'lorenz', 'henon', 'chua', 'kuramoto',
                      'sine', 'white_noise')
 
 
@@ -80,28 +84,55 @@ def _fig_download(fig, label, filename, key):
 # Tab 1 — Data
 # ---------------------------------------------------------------------------
 
-def _simulate_signal(system, length, noise_sd, rng, seed):
-    sim = RQA2_simulators(seed=seed)
-    if system == 'rossler':
-        x, y, z = sim.rossler(n=length)
-        sig = np.column_stack([x, y, z])
-    elif system == 'lorenz':
-        x, y, z = sim.lorenz(n=length)
-        sig = np.column_stack([x, y, z])
-    elif system == 'henon':
-        x, y = sim.henon(n=length)
-        sig = np.column_stack([x, y])
-    elif system == 'chua':
-        x, y, z = sim.chua(n=length)
-        sig = np.column_stack([x, y, z])
-    elif system == 'sine':
-        t = np.linspace(0, 8 * np.pi, length)
-        sig = np.sin(t)
-    else:  # white_noise
-        sig = rng.standard_normal(length)
-    if noise_sd > 0:
-        sig = sig + noise_sd * rng.standard_normal(sig.shape)
-    return sig
+def _system_param_inputs(system, key_prefix):
+    """Editable parameter inputs for a system; returns a params dict."""
+    defaults = SYSTEM_PARAM_DEFAULTS.get(system, {})
+    params = {}
+    if not defaults:
+        return params
+    with st.expander("System parameters", expanded=False):
+        cols = st.columns(min(len(defaults), 4))
+        for i, (name, default) in enumerate(defaults.items()):
+            if name == 'n_osc':
+                params[name] = cols[i % 4].number_input(
+                    name, 2, 200, int(default),
+                    key=f"{key_prefix}_{name}")
+            else:
+                params[name] = cols[i % 4].number_input(
+                    name, value=float(default), format="%.4f",
+                    key=f"{key_prefix}_{name}")
+    return params
+
+
+def _distribution_inputs(side, threshold, key_prefix):
+    """Distribution picker + parameters for one regime side."""
+    dist = st.selectbox(
+        f"Distribution ({side})", DISTRIBUTIONS,
+        key=f"{key_prefix}_dist")
+    if dist == 'uniform':
+        low = st.number_input(
+            "low", value=float(threshold * (0.5 if side == 'below'
+                                            else 1.0)),
+            format="%.4f", key=f"{key_prefix}_low")
+        high = st.number_input(
+            "high", value=float(threshold * (1.0 if side == 'below'
+                                             else 1.5)),
+            format="%.4f", key=f"{key_prefix}_high")
+        return dist, {'low': low, 'high': high}
+    if dist == 'normal':
+        mean = st.number_input(
+            "mean", value=float(threshold * (0.75 if side == 'below'
+                                             else 1.25)),
+            format="%.4f", key=f"{key_prefix}_mean")
+        sd = st.number_input(
+            "sd", value=float(abs(threshold) * 0.1 or 0.1),
+            format="%.4f", key=f"{key_prefix}_sd")
+        return dist, {'mean': mean, 'sd': sd}
+    value = st.number_input(
+        "value", value=float(threshold * (0.75 if side == 'below'
+                                          else 1.25)),
+        format="%.4f", key=f"{key_prefix}_value")
+    return dist, {'value': value}
 
 
 def tab_data(seed):
@@ -160,34 +191,154 @@ for fname in files:
                         f"Loaded {len(signals)} signals from {folder}")
 
     else:  # Simulate
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3 = st.columns(3)
         system = col1.selectbox("System", SIMULATOR_SYSTEMS)
-        n_signals = col2.number_input(
-            "Number of signals", 1, 500, 5)
-        length = col3.number_input("Signal length", 50, 20000, 1000)
-        noise_sd = col4.number_input(
+        length = col2.number_input("Signal length", 50, 20000, 1000)
+        noise_sd = col3.number_input(
             "Additive noise SD", 0.0, 10.0, 0.0, step=0.05)
-        label = st.text_input("Label for this batch", value=system)
-        if st.button("Add simulated batch"):
-            rng = np.random.default_rng(seed + len(ss.signals))
-            for i in range(int(n_signals)):
-                sig = _simulate_signal(
-                    system, int(length), noise_sd, rng,
-                    seed + len(ss.signals))
-                ss.signals.append(sig)
-                ss.ids.append(f"{label}_{len(ss.signals) - 1}")
-                ss.labels.append(label)
-            ss.recorder.record(
-                f'''rng = np.random.default_rng(SEED)
+
+        params = _system_param_inputs(system, f"prm_{system}")
+
+        osc_range = None
+        if system == 'kuramoto':
+            if st.checkbox("Sample oscillator count from a range"):
+                o1, o2 = st.columns(2)
+                osc_lo = o1.number_input("n_osc min", 2, 200, 5)
+                osc_hi = o2.number_input("n_osc max", 2, 200, 20)
+                osc_range = (int(osc_lo), int(max(osc_hi, osc_lo)))
+
+        regime_info = REGIMES.get(system)
+        mode_options = ["Fixed parameters"]
+        if regime_info is not None:
+            mode_options.append("Sample by regime")
+        sim_mode = st.radio(
+            "Parameter mode", mode_options, horizontal=True,
+            key=f"simmode_{system}")
+
+        if sim_mode == "Fixed parameters":
+            f1, f2 = st.columns(2)
+            n_signals = f1.number_input("Number of signals", 1, 500, 5)
+            label = f2.text_input("Label for this batch", value=system)
+            if st.button("Add simulated batch"):
+                rng = np.random.default_rng(seed + len(ss.signals))
+                sim = RQA2_simulators(seed=seed + len(ss.signals))
+                for i in range(int(n_signals)):
+                    p = dict(params)
+                    if osc_range is not None:
+                        p['n_osc'] = int(rng.integers(
+                            osc_range[0], osc_range[1] + 1))
+                    sig = simulate_signal(
+                        sim, system, int(length), noise_sd, rng, **p)
+                    ss.signals.append(sig)
+                    ss.ids.append(f"{label}_{len(ss.signals) - 1}")
+                    ss.labels.append(label)
+                osc_code = ""
+                if osc_range is not None:
+                    osc_code = (f"\n    p['n_osc'] = int(rng.integers("
+                                f"{osc_range[0]}, {osc_range[1]} + 1))")
+                ss.recorder.record(
+                    f'''rng = np.random.default_rng(SEED)
 sim = RQA2_simulators(seed=SEED)
 for i in range({int(n_signals)}):
-    # system: {system}, length: {int(length)}, noise SD: {noise_sd}
-    sig = simulate_signal(sim, "{system}", {int(length)}, {noise_sd}, rng)
+    p = dict({params!r}){osc_code}
+    sig = simulate_signal(sim, "{system}", {int(length)}, {noise_sd}, rng, **p)
     signals.append(sig)
     ids.append("{label}_" + str(len(signals) - 1))
     labels.append("{label}")''',
-                comment=f"Simulate {int(n_signals)} x {system}")
-            st.success(f"Added {int(n_signals)} {system} signals")
+                    comment=f"Simulate {int(n_signals)} x {system} "
+                            f"(fixed parameters)")
+                st.success(f"Added {int(n_signals)} {system} signals")
+
+        else:  # Sample by regime
+            bif_param = regime_info['param']
+            suggested = regime_threshold(system, params)
+            st.info(
+                f"**Bifurcation parameter: `{bif_param}`** — "
+                f"suggested threshold ≈ **{suggested:.3f}**. "
+                f"{regime_info['note']}")
+            threshold = st.number_input(
+                f"Regime threshold for {bif_param}",
+                value=float(suggested), format="%.4f",
+                key=f"thr_{system}")
+
+            side_cfg = {}
+            col_b, col_a = st.columns(2)
+            for side, col, default_label in (
+                    ('below', col_b, regime_info['below_label']),
+                    ('above', col_a, regime_info['above_label'])):
+                with col:
+                    st.markdown(
+                        f"**{side.capitalize()} threshold** "
+                        f"({bif_param} {'<' if side == 'below' else '>'}"
+                        f" {threshold:.3f})")
+                    lab = st.text_input(
+                        "Label", value=default_label,
+                        key=f"lab_{system}_{side}")
+                    n_sims = st.number_input(
+                        "Simulations", 0, 500, 10,
+                        key=f"n_{system}_{side}")
+                    dist, dist_params = _distribution_inputs(
+                        side, threshold, f"{system}_{side}")
+                    side_cfg[side] = (lab, int(n_sims), dist,
+                                      dist_params)
+
+            if st.button("Generate regime-labelled batches"):
+                rng = np.random.default_rng(seed + len(ss.signals))
+                sim = RQA2_simulators(seed=seed + len(ss.signals))
+                code_blocks = []
+                total = 0
+                progress = st.progress(0.0, text="Simulating…")
+                n_total = sum(cfg[1] for cfg in side_cfg.values())
+                for side, (lab, n_sims, dist, dist_params) in \
+                        side_cfg.items():
+                    if n_sims == 0:
+                        continue
+                    values = sample_regime_values(
+                        dist, dist_params, n_sims, side, threshold,
+                        rng)
+                    for value in values:
+                        p = dict(params)
+                        p[bif_param] = float(value)
+                        if osc_range is not None:
+                            p['n_osc'] = int(rng.integers(
+                                osc_range[0], osc_range[1] + 1))
+                        sig = simulate_signal(
+                            sim, system, int(length), noise_sd, rng,
+                            **p)
+                        ss.signals.append(sig)
+                        ss.ids.append(
+                            f"{lab}_{bif_param}={value:.3f}"
+                            f"_{len(ss.signals) - 1}")
+                        ss.labels.append(lab)
+                        total += 1
+                        progress.progress(
+                            total / max(n_total, 1),
+                            text=f"Simulating {lab} ({total}/{n_total})")
+                    osc_code = ""
+                    if osc_range is not None:
+                        osc_code = (
+                            f"\n    p['n_osc'] = int(rng.integers("
+                            f"{osc_range[0]}, {osc_range[1]} + 1))")
+                    code_blocks.append(f'''values = sample_regime_values(
+    "{dist}", {dist_params!r}, {n_sims}, "{side}", {threshold}, rng)
+for value in values:
+    p = dict({params!r})
+    p["{bif_param}"] = float(value){osc_code}
+    sig = simulate_signal(sim, "{system}", {int(length)}, {noise_sd}, rng, **p)
+    signals.append(sig)
+    ids.append("{lab}_{bif_param}=" + f"{{value:.3f}}" + "_" + str(len(signals) - 1))
+    labels.append("{lab}")''')
+                progress.progress(1.0, text="Done")
+                ss.recorder.record(
+                    "rng = np.random.default_rng(SEED)\n"
+                    "sim = RQA2_simulators(seed=SEED)\n"
+                    + "\n\n".join(code_blocks),
+                    comment=f"Regime-sampled {system} batches "
+                            f"({bif_param} threshold {threshold})")
+                st.success(
+                    f"Added {total} {system} signals across "
+                    f"{sum(1 for c in side_cfg.values() if c[1])} "
+                    f"regimes")
 
     if ss.signals:
         st.markdown(
@@ -196,12 +347,40 @@ for i in range({int(n_signals)}):
         idx = st.selectbox(
             "Preview signal", range(len(ss.signals)),
             format_func=lambda i: ss.ids[i])
-        sig = np.atleast_2d(np.asarray(ss.signals[idx], dtype=float).T).T
-        fig = go.Figure()
-        for d in range(min(sig.shape[1] if sig.ndim > 1 else 1, 3)):
-            ys = sig[:, d] if sig.ndim > 1 else sig
-            fig.add_trace(go.Scatter(y=ys, name=f"dim {d}", mode="lines"))
-        fig.update_layout(height=300, margin=dict(l=0, r=0, t=20, b=0))
+        sig = np.asarray(ss.signals[idx], dtype=float)
+        n_dims = sig.shape[1] if sig.ndim > 1 else 1
+
+        view_options = ["Time series"]
+        if n_dims >= 3:
+            view_options.insert(0, "3D phase portrait")
+        elif n_dims == 2:
+            view_options.insert(0, "2D phase portrait")
+        view = st.radio("Preview type", view_options, horizontal=True,
+                        key="preview_view")
+
+        if view == "3D phase portrait":
+            fig = go.Figure(go.Scatter3d(
+                x=sig[:, 0], y=sig[:, 1], z=sig[:, 2], mode='lines',
+                line=dict(width=2, color=np.arange(len(sig)),
+                          colorscale='Viridis')))
+            fig.update_layout(
+                height=500, margin=dict(l=0, r=0, t=20, b=0),
+                scene=dict(xaxis_title='dim 0', yaxis_title='dim 1',
+                           zaxis_title='dim 2'))
+        elif view == "2D phase portrait":
+            fig = go.Figure(go.Scatter(
+                x=sig[:, 0], y=sig[:, 1], mode='lines'))
+            fig.update_layout(
+                height=400, margin=dict(l=0, r=0, t=20, b=0),
+                xaxis_title='dim 0', yaxis_title='dim 1')
+        else:
+            fig = go.Figure()
+            for d in range(min(n_dims, 5)):
+                ys = sig[:, d] if sig.ndim > 1 else sig
+                fig.add_trace(go.Scatter(y=ys, name=f"dim {d}",
+                                         mode="lines"))
+            fig.update_layout(height=300,
+                              margin=dict(l=0, r=0, t=20, b=0))
         st.plotly_chart(fig, use_container_width=True)
         if st.button("Clear all signals"):
             ss.signals, ss.ids, ss.labels = [], [], []

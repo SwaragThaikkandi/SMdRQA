@@ -40,9 +40,12 @@ import numpy as np
 import pandas as pd
 
 from SMdRQA.RQA2 import RQA2, RQA2_simulators, RQA2_tests, RQA2_ml
+from SMdRQA.ui.simulate import sample_regime_values, simulate_signal
 
 SEED = {seed}
 np.random.seed(SEED)
+
+signals, ids, labels = [], [], []
 '''
 
     def __init__(self, seed):

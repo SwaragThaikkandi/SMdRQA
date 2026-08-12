@@ -1904,6 +1904,63 @@ class RQA2_simulators:
 
         return sol.y[0][indices], sol.y[1][indices], sol.y[2][indices]
 
+    def kuramoto(self,
+                 n: int = 2000,
+                 n_osc: int = 10,
+                 K: float = 1.0,
+                 omega_sd: float = 1.0,
+                 tmax: float = 100.0) -> np.ndarray:
+        """
+        Simulate a network of Kuramoto phase oscillators.
+
+        The system is defined by::
+
+            dθ_i/dt = ω_i + (K/N) Σ_j sin(θ_j − θ_i)
+
+        with natural frequencies ``ω_i ~ Normal(0, omega_sd)`` and
+        initial phases drawn uniformly from ``[0, 2π)`` using the
+        instance RNG (seeded via the ``seed`` field).
+
+        For Gaussian frequencies the critical coupling is
+        ``K_c = 2 / (π·g(0)) = omega_sd · √(8/π) ≈ 1.596·omega_sd``:
+        below ``K_c`` the oscillators stay incoherent, above it they
+        synchronise.
+
+        Parameters
+        ----------
+        n : int, default 2000
+            Number of output samples (uniform subsample of the
+            trajectory).
+        n_osc : int, default 10
+            Number of oscillators — the output dimensionality.
+        K : float, default 1.0
+            Coupling strength.
+        omega_sd : float, default 1.0
+            Standard deviation of the natural-frequency distribution.
+        tmax : float, default 100.0
+            Integration time.
+
+        Returns
+        -------
+        ndarray of shape (n, n_osc)
+            ``sin(θ_i(t))`` for each oscillator — a multivariate signal
+            directly usable with :class:`RQA2`.
+        """
+        n_osc = int(n_osc)
+        omega = self._rng.normal(0.0, omega_sd, n_osc)
+        theta0 = self._rng.uniform(0.0, 2.0 * np.pi, n_osc)
+
+        def kuramoto_system(t, theta):
+            phase_diff = theta[None, :] - theta[:, None]
+            return omega + (K / n_osc) * np.sin(phase_diff).sum(axis=1)
+
+        t_eval = np.linspace(0.0, tmax, n)
+        sol = solve_ivp(kuramoto_system, (0.0, tmax), theta0,
+                        t_eval=t_eval, method='RK45',
+                        rtol=1e-6, atol=1e-9)
+
+        return np.sin(sol.y.T)
+
     def generate_test_battery(self) -> dict:
         """
         Generate a standard battery of chaotic and periodic test signals.

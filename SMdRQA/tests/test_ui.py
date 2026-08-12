@@ -117,3 +117,106 @@ class TestAppSmoke:
         monkeypatch.setattr(builtins, "__import__", fake_import)
         with pytest.raises(SystemExit, match="pip install SMdRQA"):
             ui.launch()
+
+
+# ---------------------------------------------------------------------------
+# Simulation helpers (regime sampling, kuramoto)
+# ---------------------------------------------------------------------------
+
+from SMdRQA.RQA2 import RQA2_simulators
+from SMdRQA.ui.simulate import (
+    REGIMES, SYSTEM_PARAM_DEFAULTS, kuramoto_kc, regime_threshold,
+    sample_regime_values, simulate_signal,
+)
+
+
+class TestKuramotoSimulator:
+
+    def test_shape_and_range(self):
+        sim = RQA2_simulators(seed=0)
+        sig = sim.kuramoto(n=300, n_osc=7, K=2.0)
+        assert sig.shape == (300, 7)
+        assert np.all(np.abs(sig) <= 1.0)
+
+    def test_seed_reproducible(self):
+        a = RQA2_simulators(seed=3).kuramoto(n=200, n_osc=5)
+        b = RQA2_simulators(seed=3).kuramoto(n=200, n_osc=5)
+        assert np.allclose(a, b)
+
+    def test_strong_coupling_synchronises(self):
+        sim = RQA2_simulators(seed=1)
+        sig = sim.kuramoto(n=500, n_osc=20, K=10.0, omega_sd=0.5)
+        theta = np.arcsin(np.clip(sig[-1], -1, 1))
+        # crude check: strongly coupled oscillators end up clustered
+        assert np.std(sig[-1]) < 0.9
+
+
+class TestRegimeSampling:
+
+    def test_below_clipped(self):
+        rng = np.random.default_rng(0)
+        vals = sample_regime_values(
+            'normal', {'mean': 10.0, 'sd': 5.0}, 200, 'below', 5.0, rng)
+        assert np.all(vals < 5.0)
+
+    def test_above_clipped(self):
+        rng = np.random.default_rng(0)
+        vals = sample_regime_values(
+            'uniform', {'low': 0.0, 'high': 10.0}, 200, 'above', 5.0,
+            rng)
+        assert np.all(vals > 5.0)
+
+    def test_fixed_distribution(self):
+        rng = np.random.default_rng(0)
+        vals = sample_regime_values(
+            'fixed', {'value': 3.0}, 5, 'below', 5.0, rng)
+        assert np.allclose(vals, 3.0)
+
+    def test_seeded_reproducible(self):
+        kwargs = ('uniform', {'low': 1.0, 'high': 4.0}, 50, 'below', 5.0)
+        a = sample_regime_values(*kwargs, np.random.default_rng(9))
+        b = sample_regime_values(*kwargs, np.random.default_rng(9))
+        assert np.allclose(a, b)
+
+    def test_unknown_distribution_raises(self):
+        with pytest.raises(ValueError, match="Unknown distribution"):
+            sample_regime_values(
+                'beta', {}, 5, 'below', 5.0, np.random.default_rng(0))
+
+    def test_regime_registry_thresholds(self):
+        for system, info in REGIMES.items():
+            thr = regime_threshold(system)
+            assert thr is not None and thr > 0
+        assert regime_threshold('sine') is None
+        assert np.isclose(kuramoto_kc(1.0), np.sqrt(8 / np.pi))
+
+
+class TestSimulateSignal:
+
+    def test_params_change_output(self):
+        rng = np.random.default_rng(0)
+        sim_a = RQA2_simulators(seed=0)
+        sim_b = RQA2_simulators(seed=0)
+        a = simulate_signal(sim_a, 'rossler', 300, 0.0, rng, c=4.0)
+        b = simulate_signal(sim_b, 'rossler', 300, 0.0, rng, c=5.7)
+        assert a.shape == b.shape == (300, 3)
+        assert not np.allclose(a, b)
+
+    def test_kuramoto_n_osc(self):
+        rng = np.random.default_rng(0)
+        sim = RQA2_simulators(seed=0)
+        sig = simulate_signal(sim, 'kuramoto', 200, 0.0, rng, n_osc=4)
+        assert sig.shape == (200, 4)
+
+    def test_all_systems_run(self):
+        rng = np.random.default_rng(0)
+        for system in SYSTEM_PARAM_DEFAULTS:
+            sim = RQA2_simulators(seed=0)
+            kwargs = ({'n_osc': 3} if system == 'kuramoto' else {})
+            sig = simulate_signal(sim, system, 150, 0.1, rng, **kwargs)
+            assert sig.shape[0] == 150
+
+    def test_unknown_system_raises(self):
+        with pytest.raises(ValueError, match="Unknown system"):
+            simulate_signal(RQA2_simulators(seed=0), 'foo', 100, 0.0,
+                            np.random.default_rng(0))
