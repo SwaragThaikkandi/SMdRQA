@@ -2946,9 +2946,18 @@ class RQA2_ml:
                     pipe = make_pipeline(StandardScaler(), est)
                 else:
                     pipe = est
-                pipe.fit(X[train_idx], y[train_idx])
-                scores.append(accuracy_score(
-                    y[val_idx], pipe.predict(X[val_idx])))
+                # A candidate can be infeasible for small folds (e.g.
+                # knn n_neighbors > fold size); skip it like
+                # GridSearchCV's error_score instead of crashing.
+                try:
+                    pipe.fit(X[train_idx], y[train_idx])
+                    scores.append(accuracy_score(
+                        y[val_idx], pipe.predict(X[val_idx])))
+                except Exception:
+                    scores = []
+                    break
+            if not scores:
+                continue
             mean_score = np.mean(scores)
             if mean_score > best_score:
                 best_score = mean_score
@@ -2991,9 +3000,15 @@ class RQA2_ml:
                         pipe = make_pipeline(StandardScaler(), est)
                     else:
                         pipe = est
-                    pipe.fit(X_sub[train_idx], y[train_idx])
-                    scores.append(accuracy_score(
-                        y[val_idx], pipe.predict(X_sub[val_idx])))
+                    try:
+                        pipe.fit(X_sub[train_idx], y[train_idx])
+                        scores.append(accuracy_score(
+                            y[val_idx], pipe.predict(X_sub[val_idx])))
+                    except Exception:
+                        scores = []
+                        break
+                if not scores:
+                    continue
                 mean_score = np.mean(scores)
                 if mean_score > best_score:
                     best_score = mean_score
@@ -3025,9 +3040,15 @@ class RQA2_ml:
                         pipe = make_pipeline(StandardScaler(), est)
                     else:
                         pipe = est
-                    pipe.fit(X_sub[train_idx], y[train_idx])
-                    scores.append(accuracy_score(
-                        y[val_idx], pipe.predict(X_sub[val_idx])))
+                    try:
+                        pipe.fit(X_sub[train_idx], y[train_idx])
+                        scores.append(accuracy_score(
+                            y[val_idx], pipe.predict(X_sub[val_idx])))
+                    except Exception:
+                        scores = []
+                        break
+                if not scores:
+                    continue
                 mean_score = np.mean(scores)
                 if mean_score > best_score:
                     best_score = mean_score

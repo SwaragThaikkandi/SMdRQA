@@ -1195,3 +1195,31 @@ class TestSupervisedAll:
             X, y, models='all', cv=3, random_state=0)
         assert set(results_df['model']) == set(RQA2_ml._MODEL_REGISTRY)
         assert best_model.predict(X).shape == y.shape
+
+
+class TestTuningSmallFolds:
+
+    def test_tune_skips_infeasible_candidates(self):
+        # Regression: 20 samples -> inner 2-fold trains ~6 samples; knn
+        # grid candidates 7 and 9 exceed the fold size and used to raise
+        # "Expected n_neighbors <= n_samples_fit".
+        X, y = _two_class_data(n_per_class=10)
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='knn', outer_iterations=3,
+            inner_splits=2, inner_iterations=1,
+            feature_selection=None, tune=True, random_state=0)
+        assert len(res['accuracy']) == 3
+        for params in res['best_params']:
+            assert params['n_neighbors'] in (3, 5)
+
+    def test_tiny_dataset_tune_and_selection_no_crash(self):
+        # 8 samples like the reported UI crash: every knn candidate is
+        # infeasible on some inner fold -> falls back to defaults.
+        X, y = _two_class_data(n_per_class=4)
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='knn', outer_iterations=3,
+            inner_splits=2, inner_iterations=1,
+            feature_selection='forward', tune=True, random_state=0)
+        assert len(res['accuracy']) == 3
