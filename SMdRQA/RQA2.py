@@ -1235,9 +1235,43 @@ class RQA2:
             self.config['Rmax'],
             self.config['rdiv'])
 
-        for r in r_values:
-            if self._fnnratio(m, tau, r, sd) < self.config['delta']:
-                return r
+        # The embedding and nearest-neighbour search do not depend on r, so
+        # compute them once and sweep every candidate r vectorized instead of
+        # calling _fnnratio (which would redo the O(n^2) search per r).
+        if self.n_samples <= m * tau + 1:
+            return -1
+
+        try:
+            s1 = self._delayseries(tau, m)
+            s2 = self._delayseries(tau, m + 1)
+        except BaseException:
+            return -1
+
+        nn = self._nearest(s1)
+        max_valid = min(s1.shape[0], s2.shape[0], len(nn))
+        if max_valid == 0:
+            return -1
+
+        idx = np.arange(max_valid)
+        valid = nn[:max_valid] < max_valid
+        idx = idx[valid]
+        neigh_idx = nn[idx]
+
+        s1_flat = s1.reshape(s1.shape[0], -1)
+        s2_flat = s2.reshape(s2.shape[0], -1)
+        disto = np.linalg.norm(
+            s1_flat[idx] - s1_flat[neigh_idx], axis=1) + 1e-12
+        distp = np.linalg.norm(s2_flat[idx] - s2_flat[neigh_idx], axis=1)
+
+        # ratios[k, i]: neighbour/false-neighbour status of point i at
+        # r_values[k]
+        isneigh = disto[None, :] < (sd / r_values)[:, None]
+        isfalse = isneigh & ((distp / disto)[None, :] > r_values[:, None])
+        ratios = isfalse.sum(axis=1) / (isneigh.sum(axis=1) + 1e-12)
+
+        hits = np.nonzero(ratios < self.config['delta'])[0]
+        if len(hits) > 0:
+            return r_values[hits[0]]
         return -1
 
     def _fnnratio(self, m, tau, r, sd):
@@ -1306,16 +1340,17 @@ class RQA2:
         if n_embedded == 0:
             return np.array([])
 
+        s_flat = s.reshape(n_embedded, -1)
         nn = np.zeros(n_embedded, dtype=int)
 
-        for i in range(n_embedded):
-            # Fixed: Vectorized distance computation with proper bounds
-            distances = np.linalg.norm(s[i:i + 1] - s, axis=(1, 2)).flatten()
-            distances[i] = np.inf  # Exclude self-match
-
-            # Fixed: Ensure valid index
-            nearest_idx = np.argmin(distances)
-            nn[i] = int(nearest_idx)
+        # Chunked cdist keeps memory bounded (~32 MB of float64 per block)
+        chunk = max(1, int(4_000_000 // max(1, n_embedded)))
+        for start in range(0, n_embedded, chunk):
+            stop = min(start + chunk, n_embedded)
+            distances = distance.cdist(s_flat[start:stop], s_flat)
+            distances[np.arange(stop - start),
+                      np.arange(start, stop)] = np.inf  # Exclude self-match
+            nn[start:stop] = np.argmin(distances, axis=1)
 
         return nn
 
@@ -1340,20 +1375,23 @@ class RQA2:
 
         s_flat = s.reshape(n_embedded, -1)
 
+        # The distance matrix does not depend on eps: compute it once, then
+        # count recurrences for every candidate eps via a sorted search.
+        try:
+            D_sorted = np.sort(distance.cdist(s_flat, s_flat), axis=None)
+        except BaseException:
+            return (self.config['epsmin'] + self.config['epsmax']) / 2
+
         for eps in eps_values:
             if eps <= 0:
                 continue
 
-            try:
-                D = distance.cdist(s_flat, s_flat)
-                rplot = (D < eps).astype(int)
+            # Number of pairs with distance < eps, i.e. np.sum(D < eps)
+            n_recurrent = np.searchsorted(D_sorted, eps, side='left')
+            rr = float(n_recurrent) / (n_embedded * n_embedded)
 
-                rr = float(np.sum(rplot)) / (n_embedded * n_embedded)
-
-                if abs(rr - reqrr) < self.config['rr_delta']:
-                    return eps
-            except BaseException:
-                continue
+            if abs(rr - reqrr) < self.config['rr_delta']:
+                return eps
 
         return (self.config['epsmin'] + self.config['epsmax']) / 2
 
@@ -1377,25 +1415,33 @@ class RQA2:
         return rplot
 
     # RQA measure computation methods - FIXED INDEXING
+    @staticmethod
+    def _run_lengths(rows):
+        """Lengths of maximal runs of 1s along each row of a 0/1 matrix."""
+        n_rows, n_cols = rows.shape
+        padded = np.zeros((n_rows, n_cols + 2), dtype=np.int8)
+        padded[:, 1:-1] = rows
+        flat_diff = np.diff(padded.ravel())
+        starts = np.nonzero(flat_diff == 1)[0]
+        ends = np.nonzero(flat_diff == -1)[0]
+        return ends - starts
+
     def _vert_hist(self, rplot, n):
         """Compute vertical line distribution."""
         if n == 0:
             return np.array([0])
 
-        nvert = np.zeros(n + 1)
+        rows = min(n, rplot.shape[0])
+        cols = min(n, rplot.shape[1])
+        rp = (np.asarray(rplot)[:rows, :cols] == 1)
 
-        for i in range(n):  # Fixed: 0 to n-1
-            counter = 0
-            for j in range(n):  # Fixed: 0 to n-1
-                if j < rplot.shape[0] and i < rplot.shape[1]:  # Fixed: bounds check
-                    if rplot[j, i] == 1:
-                        counter += 1
-                    else:
-                        if counter < len(nvert):
-                            nvert[counter] += 1
-                        counter = 0
-            if counter < len(nvert):
-                nvert[counter] += 1
+        nvert = np.zeros(n + 1)
+        lengths = self._run_lengths(rp.T.astype(np.int8))
+        counts = np.bincount(lengths, minlength=n + 1)
+        nvert[1:] = counts[1:n + 1]
+        # Zero-length records emitted by the scanning formulation: one per
+        # zero cell not terminating a run, plus one per column ending in zero.
+        nvert[0] = (rp.size - int(rp.sum())) - len(lengths) + n
 
         return nvert
 
@@ -1404,19 +1450,26 @@ class RQA2:
         if n == 0:
             return np.array([0])
 
+        rp = np.asarray(rplot)
+
+        # Row i of M holds the diagonal starting at rplot[i, 0] (zero-padded),
+        # so all lower-triangle diagonals can be run-length encoded in one
+        # pass.
+        M = np.zeros((n, n), dtype=np.int8)
+        for i in range(n):
+            diag = np.diagonal(rp, offset=-i)
+            k = min(len(diag), n - i)
+            if k > 0:
+                M[i, :k] = (diag[:k] == 1)
+
         dghist = np.zeros(n + 1)
-
-        for i in range(n):  # Fixed: 0 to n-1
-            diag_len = n - i
-            if diag_len > 0:
-                diag = np.zeros(diag_len)
-                for j in range(diag_len):  # Fixed: 0 to diag_len-1
-                    if (i + j) < rplot.shape[0] and j < rplot.shape[1]:
-                        diag[j] = rplot[i + j, j]
-
-                subdiaghist = self._onedhist(diag, diag_len)
-                for k in range(min(len(subdiaghist), len(dghist))):
-                    dghist[k] += subdiaghist[k]
+        lengths = self._run_lengths(M)
+        counts = np.bincount(lengths, minlength=n + 1)
+        dghist[1:] = counts[1:n + 1]
+        # Zero-length records from the per-diagonal scan (diagonal i has
+        # n - i cells, n*(n+1)/2 in total).
+        total_cells = n * (n + 1) // 2
+        dghist[0] = (total_cells - int(M.sum())) - len(lengths) + n
 
         dghist *= 2
         if len(dghist) > n:
