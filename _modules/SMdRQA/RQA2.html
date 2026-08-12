@@ -3427,9 +3427,18 @@
                     <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
-                <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
-                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
-                    <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                <span class="c1"># A candidate can be infeasible for small folds (e.g.</span>
+                <span class="c1"># knn n_neighbors &gt; fold size); skip it like</span>
+                <span class="c1"># GridSearchCV&#39;s error_score instead of crashing.</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                        <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">scores</span><span class="p">:</span>
+                <span class="k">continue</span>
             <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
                 <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
@@ -3472,9 +3481,15 @@
                         <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
-                    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
-                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
-                        <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                            <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">scores</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
                     <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
@@ -3506,9 +3521,15 @@
                         <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
-                    <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
-                    <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
-                        <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                        <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                            <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_sub</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">scores</span><span class="p">:</span>
+                    <span class="k">continue</span>
                 <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
                     <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
