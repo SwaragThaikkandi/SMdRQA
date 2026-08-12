@@ -702,6 +702,49 @@ Feature Table Builder
 Windowed features are prefixed with ``win_`` in the output DataFrame to
 avoid collisions with whole-signal measures.
 
+Available Models
+----------------
+
+Eight classifiers are registered (all scikit-learn, no extra
+dependencies), chosen for small-sample tabular RQA feature tables:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 12 30 58
+
+   * - Key
+     - Estimator
+     - Why it is included
+   * - ``knn``
+     - KNeighborsClassifier
+     - Non-parametric local baseline.
+   * - ``svm``
+     - SVC (RBF, probability)
+     - Strong non-linear margin classifier.
+   * - ``rf``
+     - RandomForestClassifier
+     - Robust tree ensemble.
+   * - ``logreg``
+     - LogisticRegression
+     - Essential linear baseline with calibrated probabilities.
+   * - ``lda``
+     - LinearDiscriminantAnalysis
+     - Classic small-sample linear model (closed form).
+   * - ``nb``
+     - GaussianNB
+     - Fast high-bias baseline.
+   * - ``gb``
+     - HistGradientBoostingClassifier
+     - Modern gradient boosting, strongest tabular family.
+   * - ``et``
+     - ExtraTreesClassifier
+     - Extra-randomised trees, good on small noisy data.
+
+Each model has a compact hyperparameter grid in
+``RQA2_ml._PARAM_GRIDS`` used by the nested tuning described below.
+Pass ``models='all'`` anywhere a model tuple is accepted to run the
+whole registry.
+
 Supervised Benchmark (Quick)
 ----------------------------
 
@@ -714,7 +757,7 @@ cross-validation and reports accuracy, macro-F1, and ROC AUC:
    y = features['label']
 
    results, best_model = ml.supervised_benchmark(
-       X, y, models=('knn', 'svm', 'rf'), cv=5)
+       X, y, models=('knn', 'svm', 'rf'), cv=5)   # or models='all'
 
 The method returns:
 
@@ -729,8 +772,9 @@ Nested Cross-Validation with Feature Selection
 
 ``nested_cv_benchmark`` implements the validation procedure described in
 the SMdRQA paper: the outer loop evaluates generalisation on held-out data,
-while the inner loop performs best-subset feature selection exclusively on
-the training fold to prevent data leakage.
+while the inner loop performs best-subset feature selection — and, with
+``tune=True``, hyperparameter grid search — exclusively on the training
+fold to prevent data leakage.
 
 .. code-block:: python
 
@@ -739,17 +783,76 @@ the training fold to prevent data leakage.
        outer_iterations=100,
        test_fraction=1/3,
        feature_selection='auto',   # exhaustive if <= 12 features, else forward
+       tune=True,                  # grid-search hyperparameters per outer fold
    )
    print(f"Accuracy: {results['accuracy'].mean():.3f} +/- {results['accuracy'].std():.3f}")
    print(f"ROC AUC:  {results['roc_auc'].mean():.3f} +/- {results['roc_auc'].std():.3f}")
    print("Most selected features:")
    print(results['feature_frequency'].head(5))
+   print("Hyperparameters chosen per fold:", results['best_params'][:3])
 
 Returns a dict with:
 
-* ``accuracy`` / ``roc_auc``: score arrays (one per outer iteration)
+* ``accuracy`` / ``balanced_accuracy`` / ``f1_macro`` / ``roc_auc``:
+  score arrays (one per outer iteration)
 * ``selected_features``: list of feature-index tuples per iteration
+* ``best_params``: hyperparameters chosen in each outer iteration
+  (empty dicts when ``tune=False``, the default)
 * ``feature_frequency``: Series counting how often each feature was selected
+
+Hyperparameter Tuning (``tune=True``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+With the default ``tune=False`` every model runs with fixed default
+hyperparameters.  Setting ``tune=True`` grid-searches the model's
+``_PARAM_GRIDS`` entry (or a custom ``param_grid=``) on the inner CV of
+each outer training fold, *after* feature selection and on the selected
+subset — so the procedure is truly nested and model comparisons are not
+biased by arbitrary defaults.
+
+Group-Aware Splitting (``groups=``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When several samples come from the same subject or recording, ordinary
+stratified splits leak information: windows of one subject end up in
+both train and test.  Pass ``groups=`` (one label per sample) and both
+the outer and inner splits use ``StratifiedGroupKFold`` so each group
+stays entirely on one side of every split:
+
+.. code-block:: python
+
+   results = ml.nested_cv_benchmark(
+       X, y, model='rf', tune=True,
+       groups=features_meta['subject_id'],
+   )
+
+Integrated Benchmark (One Call)
+-------------------------------
+
+``integrated_benchmark`` chains the whole pipeline: signals (or a
+precomputed feature table) → ``build_feature_table`` → tuned nested CV
+for every requested model → per-model comparison table → pairwise
+Wilcoxon signed-rank tests with Benjamini–Hochberg correction → the best
+model refit on the full dataset.
+
+.. code-block:: python
+
+   out = ml.integrated_benchmark(
+       signals, labels,
+       window_size=100, window_step=20,
+       models='all',          # or a tuple such as ('svm', 'rf', 'logreg')
+       tune=True,
+       outer_iterations=50,
+   )
+
+   print(out['comparison'])        # mean/std of every metric per model
+   print(out['pairwise_tests'])    # Wilcoxon + BH-corrected significance
+   print(out['best_model_name'])
+   predictions = out['best_model'].predict(new_features)
+
+An optional ``progress_callback(index, total, model_name)`` is invoked
+before each model's nested CV run (used by the UI progress bar), and
+``groups=`` is forwarded to every nested CV call.
 
 Surrogate Null Baseline
 -----------------------
@@ -865,8 +968,8 @@ RQA2_simulators – Chaotic System Generators
 ============================================
 
 ``RQA2_simulators`` integrates four continuous-time attractors (using
-``scipy.integrate.solve_ivp``, RK45, ``rtol=1e-9``, ``atol=1e-12``) and one
-discrete-time map.
+``scipy.integrate.solve_ivp``, RK45, ``rtol=1e-9``, ``atol=1e-12``), one
+discrete-time map, and a Kuramoto phase-oscillator network.
 
 Available systems:
 
@@ -889,8 +992,14 @@ Available systems:
    * - ``chua()``
      - Chua's circuit
      - alpha=15.6, beta=28, m0=-1.143, m1=-0.714; double-scroll attractor.
+   * - ``kuramoto()``
+     - Kuramoto oscillator network
+     - K=1.0, omega_sd=1.0, n_osc=10; returns sin(theta) as an
+       (n, n_osc) multivariate signal.  Critical coupling
+       K_c = omega_sd·sqrt(8/pi) ≈ 1.596·omega_sd separates the
+       incoherent (below) and synchronised (above) regimes.
    * - ``generate_test_battery()``
-     - All of the above
+     - All chaotic systems
      - Returns a dict with keys: ``'rossler_chaotic'``, ``'rossler_sync'``, ``'lorenz'``, ``'henon'``, ``'chua'``.
 
 .. code-block:: python
@@ -902,7 +1011,21 @@ Available systems:
    x, y, z = sim.rossler(tmax=5000, n=2000, a=0.1)   # limit cycle
    x, y, z = sim.lorenz(n=2000)                        # butterfly
    x, y    = sim.henon(n=2000)                         # Hénon map
+   theta   = sim.kuramoto(n=2000, n_osc=15, K=2.5)     # (2000, 15) signal
    systems = sim.generate_test_battery()               # full battery
+
+Regime thresholds (useful for building labelled chaotic-vs-periodic
+datasets; see :mod:`SMdRQA.ui.simulate` and the UI's regime-sampling
+mode):
+
+* Rössler ``c`` ≈ 4.2 (with a=b=0.2): periodic below, chaotic above.
+* Lorenz ``rho`` ≈ 24.74 (with sigma=10, beta=8/3): stable fixed points
+  below, chaotic above.
+* Hénon ``a`` ≈ 1.06 (with b=0.3): largely periodic below, chaotic above.
+* Chua ``alpha`` ≈ 8.8 (approximate): limit cycles below, double-scroll
+  chaos towards alpha=15.6.
+* Kuramoto ``K_c = omega_sd·sqrt(8/pi)``: incoherent below, synchronised
+  above.
 
 
 RQA2_tests – Surrogate Data and Validation
@@ -1105,6 +1228,94 @@ Troubleshooting
      - ``reqrr`` is out of range for this signal.  Try ``reqrr=0.05``
        (sparser) or ``reqrr=0.20`` (denser) and re-run
        ``compute_neighborhood_radius()``.
+
+
+Performance Notes
+=================
+
+The parameter-estimation and measure kernels are fully vectorised
+(numpy/scipy, no extra dependencies):
+
+* ``_fnnhitszero`` computes the embedding and nearest-neighbour search
+  once and sweeps all candidate *r* values vectorised (previously the
+  O(N²) search ran once per candidate, ``rdiv=451`` times).
+* ``_findeps`` computes the distance matrix once and counts recurrences
+  for every candidate epsilon via a sorted search (previously ``cdist``
+  ran up to ``epsdiv=1001`` times).
+* ``_nearest`` uses chunked ``cdist`` + ``argmin``; ``_vert_hist`` and
+  ``_diaghist`` use vectorised run-length encoding.
+
+End-to-end parameter estimation (tau → m → epsilon → RP → measures) is
+roughly **100× faster** than the loop-based implementation, with
+bit-identical outputs.
+
+
+Interactive UI (Streamlit)
+==========================
+
+An optional browser UI covers the full workflow — data import or
+simulation, RQA analysis, window-size sensitivity, machine-learning
+benchmarking, and reproducibility — without writing code.
+
+Installation and Launch
+-----------------------
+
+.. code-block:: console
+
+   pip install SMdRQA[ui]     # installs streamlit + plotly
+   smdrqa-ui                  # or: python -m SMdRQA.ui
+
+Tabs
+----
+
+1. **Data** — load signals from a folder (``.npy``/``.csv``; labels can
+   be derived from filename prefixes) or simulate labelled batches from
+   the built-in systems.  All system parameters are editable, and
+   signals can be previewed as time series or 2-D/3-D phase portraits.
+2. **RQA** — automatic or manual tau/m/epsilon, target recurrence rate
+   and ``lmin`` (defaults match the script defaults), single-window or
+   sliding-window analysis with window size, step and central-tendency
+   choice; recurrence-plot heatmap, windowed-measure curves, CSV/HTML
+   export.
+3. **Window-size sensitivity** — a seeded, vectorised re-implementation
+   of the :mod:`SMdRQA.window_size` bootstrap
+   (:func:`SMdRQA.ui.sensitivity.window_size_sensitivity`): for each
+   window size the pooled line-length distribution is resampled and the
+   5–95 % quantile width of the chosen measure is plotted; narrow is
+   stable.
+4. **Machine learning** — runs :meth:`RQA2_ml.integrated_benchmark`
+   over the selected models with a per-model progress bar, then shows
+   the comparison table, accuracy box plots, feature-selection
+   frequency, and BH-corrected pairwise tests, all exportable.
+5. **Script** — see *Reproducibility* below.
+
+Regime-Based Simulation
+-----------------------
+
+For building labelled chaotic-vs-periodic datasets, the Data tab offers
+a *Sample by regime* mode.  The UI names the system's bifurcation
+parameter and suggests a literature-based threshold (see the simulator
+regime table above).  For each side of the threshold you choose:
+
+* a class label (e.g. ``periodic`` / ``chaotic``),
+* a sampling distribution for the parameter (uniform, normal, or fixed),
+* the number of simulations.
+
+Draws are clipped to their side of the threshold so the labels stay
+truthful, and the labelled signals feed directly into the ML tab.  For
+the Kuramoto system the oscillator count (the signal dimensionality)
+can be fixed or sampled per-simulation from a range.
+
+Reproducibility
+---------------
+
+The sidebar requires a random seed, and every action taken in the UI is
+mirrored into an equivalent block of plain Python
+(:class:`SMdRQA.ui.recorder.ScriptRecorder`).  The *Script* tab shows
+the accumulated code and offers it as a standalone ``.py`` download:
+rerunning that file reproduces the entire session, including every
+seed-dependent step.  Seed changes made mid-session are themselves
+recorded.
 
 
 Extending RQA2
