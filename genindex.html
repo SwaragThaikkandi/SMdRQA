@@ -213,6 +213,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA2.html">RQA2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/ui.html">ui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/nl_tests.html">nl_tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
@@ -443,6 +444,8 @@
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.chua">chua() (RQA2_simulators method)</a>
 </li>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder.clear">clear() (ScriptRecorder method)</a>
+</li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.cluster_stability">cluster_stability() (RQA2_ml method)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.compare_scores">compare_scores() (RQA2_ml static method)</a>
@@ -555,10 +558,12 @@
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.henon">henon() (RQA2_simulators method)</a>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder.HEADER_TEMPLATE">HEADER_TEMPLATE (ScriptRecorder attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.henon">henon() (RQA2_simulators method)</a>
+</li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.HistogramSampling">HistogramSampling() (in module SMdRQA.window_size)</a>
 </li>
   </ul></td>
@@ -589,6 +594,8 @@
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.kuramoto">kuramoto() (RQA2_simulators method)</a>
 </li>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.kuramoto_kc">kuramoto_kc() (in module SMdRQA.ui.simulate)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -617,12 +624,25 @@
 </li>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">maxi() (in module SMdRQA.RQA_functions)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/ui.html#SMdRQA.ui.sensitivity.MEASURES">MEASURES (in module SMdRQA.ui.sensitivity)</a>
+</li>
       <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Mode">Mode() (in module SMdRQA.Extract_from_RP)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.mode">mode() (in module SMdRQA.RQA_functions)</a>
 </li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.recorder">SMdRQA.ui.recorder</a>
+</li>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.sensitivity">SMdRQA.ui.sensitivity</a>
+</li>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.simulate">SMdRQA.ui.simulate</a>
+</li>
+      </ul></li>
       <li><a href="chapters/Chapter2.html#SMdRQA.RQA_functions.mutualinfo">mutualinfo() (in module SMdRQA.RQA_functions)</a>, <a href="functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[1]</a>
 </li>
   </ul></td>
@@ -631,6 +651,8 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder.n_blocks">n_blocks (ScriptRecorder property)</a>
+</li>
       <li><a href="chapters/Chapter3.html#SMdRQA.RQA_functions.nearest">nearest() (in module SMdRQA.RQA_functions)</a>, <a href="functions/RQA_functions.html#SMdRQA.RQA_functions.nearest">[1]</a>
 </li>
   </ul></td>
@@ -693,14 +715,20 @@
 </li>
       <li><a href="functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">reccrate() (in module SMdRQA.RQA_functions)</a>
 </li>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder.record">record() (ScriptRecorder method)</a>
+</li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.recurrence_plot">recurrence_plot (RQA2 property)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.recurrence_rate">recurrence_rate (RQA2 property)</a>
 </li>
-      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.rossler">rossler() (RQA2_simulators method)</a>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.regime_threshold">regime_threshold() (in module SMdRQA.ui.simulate)</a>
+</li>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.REGIMES">REGIMES (in module SMdRQA.ui.simulate)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.rossler">rossler() (RQA2_simulators method)</a>
+</li>
       <li><a href="functions/RP_maker.html#SMdRQA.RP_maker.RP_computer">RP_computer() (in module SMdRQA.RP_maker)</a>
 </li>
       <li><a href="functions/RP_maker_diagnose.html#SMdRQA.RP_maker_diagnose.RP_diagnose">RP_diagnose() (in module SMdRQA.RP_maker_diagnose)</a>
@@ -719,7 +747,13 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.sample_regime_values">sample_regime_values() (in module SMdRQA.ui.simulate)</a>
+</li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.save_results">save_results() (RQA2 method)</a>
+</li>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder.script">script() (ScriptRecorder method)</a>
+</li>
+      <li><a href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder">ScriptRecorder (class in SMdRQA.ui.recorder)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.seed">seed (RQA2_simulators attribute)</a>
 
@@ -729,6 +763,8 @@
       </ul></li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_tests.signal">signal (RQA2_tests attribute)</a>
 </li>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.simulate_signal">simulate_signal() (in module SMdRQA.ui.simulate)</a>
+</li>
       <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.Sliding_window">Sliding_window() (in module SMdRQA.Extract_from_RP)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_window_whole_data">Sliding_window_whole_data() (in module SMdRQA.window_size)</a>
@@ -737,14 +773,35 @@
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_diag">Sliding_windowBS_sub_avg_diag() (in module SMdRQA.window_size)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_avg_vert">Sliding_windowBS_sub_avg_vert() (in module SMdRQA.window_size)</a>
 </li>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_per_lam">Sliding_windowBS_sub_per_lam() (in module SMdRQA.window_size)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="functions/window_size.html#SMdRQA.window_size.Sliding_windowBS_sub_percent_det">Sliding_windowBS_sub_percent_det() (in module SMdRQA.window_size)</a>
 </li>
+      <li>
+    SMdRQA.ui.recorder
+
+      <ul>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.recorder">module</a>
+</li>
+      </ul></li>
+      <li>
+    SMdRQA.ui.sensitivity
+
+      <ul>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.sensitivity">module</a>
+</li>
+      </ul></li>
+      <li>
+    SMdRQA.ui.simulate
+
+      <ul>
+        <li><a href="functions/ui.html#module-SMdRQA.ui.simulate">module</a>
+</li>
+      </ul></li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2.summarize_windowed_measures">summarize_windowed_measures() (RQA2 method)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.supervised_benchmark">supervised_benchmark() (RQA2_ml method)</a>
@@ -756,6 +813,8 @@
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.surrogate_cluster_validation">surrogate_cluster_validation() (RQA2_ml method)</a>
 </li>
       <li><a href="functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.surrogate_null_benchmark">surrogate_null_benchmark() (RQA2_ml method)</a>
+</li>
+      <li><a href="functions/ui.html#SMdRQA.ui.simulate.SYSTEM_PARAM_DEFAULTS">SYSTEM_PARAM_DEFAULTS (in module SMdRQA.ui.simulate)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -799,6 +858,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="functions/ui.html#SMdRQA.ui.sensitivity.window_size_sensitivity">window_size_sensitivity() (in module SMdRQA.ui.sensitivity)</a>
+</li>
       <li><a href="functions/Extract_from_RP.html#SMdRQA.Extract_from_RP.windowed_RP">windowed_RP() (in module SMdRQA.Extract_from_RP)</a>
 </li>
   </ul></td>

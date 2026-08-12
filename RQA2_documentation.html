@@ -219,6 +219,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA2.html">RQA2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions/ui.html">ui</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/nl_tests.html">nl_tests</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RQA_functions.html">RQA_functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="functions/RP_maker.html">RP_maker</a></li>
@@ -490,8 +491,14 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-need-to-provide">What You Need to Provide</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windowed-rqa-features">Windowed RQA Features</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-table-builder">Feature Table Builder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#available-models">Available Models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-benchmark-quick">Supervised Benchmark (Quick)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-cross-validation-with-feature-selection">Nested Cross-Validation with Feature Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-cross-validation-with-feature-selection">Nested Cross-Validation with Feature Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning-tune-true">Hyperparameter Tuning (<code class="docutils literal notranslate"><span class="pre">tune=True</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#group-aware-splitting-groups">Group-Aware Splitting (<code class="docutils literal notranslate"><span class="pre">groups=</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrated-benchmark-one-call">Integrated Benchmark (One Call)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-null-baseline">Surrogate Null Baseline</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-comparison">Statistical Comparison</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-importance">Feature Importance</a></li>
@@ -520,6 +527,14 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-checklist">Reproducibility Checklist</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-ui-streamlit">Interactive UI (Streamlit)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-launch">Installation and Launch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabs">Tabs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regime-based-simulation">Regime-Based Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extending-rqa2">Extending RQA2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-work">Citing This Work</a></li>
 </ul>
@@ -586,40 +601,56 @@
 <li><p><a class="reference internal" href="#what-you-need-to-provide" id="id34">What You Need to Provide</a></p></li>
 <li><p><a class="reference internal" href="#windowed-rqa-features" id="id35">Windowed RQA Features</a></p></li>
 <li><p><a class="reference internal" href="#feature-table-builder" id="id36">Feature Table Builder</a></p></li>
-<li><p><a class="reference internal" href="#supervised-benchmark-quick" id="id37">Supervised Benchmark (Quick)</a></p></li>
-<li><p><a class="reference internal" href="#nested-cross-validation-with-feature-selection" id="id38">Nested Cross-Validation with Feature Selection</a></p></li>
-<li><p><a class="reference internal" href="#surrogate-null-baseline" id="id39">Surrogate Null Baseline</a></p></li>
-<li><p><a class="reference internal" href="#statistical-comparison" id="id40">Statistical Comparison</a></p></li>
-<li><p><a class="reference internal" href="#feature-importance" id="id41">Feature Importance</a></p></li>
-<li><p><a class="reference internal" href="#unsupervised-benchmark" id="id42">Unsupervised Benchmark</a></p></li>
-<li><p><a class="reference internal" href="#cluster-stability" id="id43">Cluster Stability</a></p></li>
-<li><p><a class="reference internal" href="#id2" id="id44">Visualisation Methods</a></p></li>
-<li><p><a class="reference internal" href="#notes-and-best-practices" id="id45">Notes and Best Practices</a></p></li>
-<li><p><a class="reference internal" href="#glossary-plain-language" id="id46">Glossary (Plain Language)</a></p></li>
-<li><p><a class="reference internal" href="#common-pitfalls" id="id47">Common Pitfalls</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference internal" href="#rqa2-simulators-chaotic-system-generators" id="id48">RQA2_simulators – Chaotic System Generators</a></p></li>
-<li><p><a class="reference internal" href="#rqa2-tests-surrogate-data-and-validation" id="id49">RQA2_tests – Surrogate Data and Validation</a></p>
+<li><p><a class="reference internal" href="#available-models" id="id37">Available Models</a></p></li>
+<li><p><a class="reference internal" href="#supervised-benchmark-quick" id="id38">Supervised Benchmark (Quick)</a></p></li>
+<li><p><a class="reference internal" href="#nested-cross-validation-with-feature-selection" id="id39">Nested Cross-Validation with Feature Selection</a></p>
 <ul>
-<li><p><a class="reference internal" href="#surrogate-algorithms" id="id50">Surrogate Algorithms</a></p></li>
-<li><p><a class="reference internal" href="#nonlinear-validation-metrics" id="id51">Nonlinear Validation Metrics</a></p></li>
-<li><p><a class="reference internal" href="#comprehensive-validation" id="id52">Comprehensive Validation</a></p></li>
-<li><p><a class="reference internal" href="#parallel-generation" id="id53">Parallel Generation</a></p></li>
+<li><p><a class="reference internal" href="#hyperparameter-tuning-tune-true" id="id40">Hyperparameter Tuning (<code class="docutils literal notranslate"><span class="pre">tune=True</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#group-aware-splitting-groups" id="id41">Group-Aware Splitting (<code class="docutils literal notranslate"><span class="pre">groups=</span></code>)</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#implementation-notes" id="id54">Implementation Notes</a></p>
+<li><p><a class="reference internal" href="#integrated-benchmark-one-call" id="id42">Integrated Benchmark (One Call)</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-null-baseline" id="id43">Surrogate Null Baseline</a></p></li>
+<li><p><a class="reference internal" href="#statistical-comparison" id="id44">Statistical Comparison</a></p></li>
+<li><p><a class="reference internal" href="#feature-importance" id="id45">Feature Importance</a></p></li>
+<li><p><a class="reference internal" href="#unsupervised-benchmark" id="id46">Unsupervised Benchmark</a></p></li>
+<li><p><a class="reference internal" href="#cluster-stability" id="id47">Cluster Stability</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id48">Visualisation Methods</a></p></li>
+<li><p><a class="reference internal" href="#notes-and-best-practices" id="id49">Notes and Best Practices</a></p></li>
+<li><p><a class="reference internal" href="#glossary-plain-language" id="id50">Glossary (Plain Language)</a></p></li>
+<li><p><a class="reference internal" href="#common-pitfalls" id="id51">Common Pitfalls</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#rqa2-simulators-chaotic-system-generators" id="id52">RQA2_simulators – Chaotic System Generators</a></p></li>
+<li><p><a class="reference internal" href="#rqa2-tests-surrogate-data-and-validation" id="id53">RQA2_tests – Surrogate Data and Validation</a></p>
 <ul>
-<li><p><a class="reference internal" href="#indexing" id="id55">Indexing</a></p></li>
-<li><p><a class="reference internal" href="#distance-computation" id="id56">Distance Computation</a></p></li>
-<li><p><a class="reference internal" href="#cross-validated-polynomial-degree" id="id57">Cross-Validated Polynomial Degree</a></p></li>
-<li><p><a class="reference internal" href="#surrogate-seeding" id="id58">Surrogate Seeding</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-algorithms" id="id54">Surrogate Algorithms</a></p></li>
+<li><p><a class="reference internal" href="#nonlinear-validation-metrics" id="id55">Nonlinear Validation Metrics</a></p></li>
+<li><p><a class="reference internal" href="#comprehensive-validation" id="id56">Comprehensive Validation</a></p></li>
+<li><p><a class="reference internal" href="#parallel-generation" id="id57">Parallel Generation</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#reproducibility-checklist" id="id59">Reproducibility Checklist</a></p></li>
-<li><p><a class="reference internal" href="#troubleshooting" id="id60">Troubleshooting</a></p></li>
-<li><p><a class="reference internal" href="#extending-rqa2" id="id61">Extending RQA2</a></p></li>
-<li><p><a class="reference internal" href="#citing-this-work" id="id62">Citing This Work</a></p></li>
+<li><p><a class="reference internal" href="#implementation-notes" id="id58">Implementation Notes</a></p>
+<ul>
+<li><p><a class="reference internal" href="#indexing" id="id59">Indexing</a></p></li>
+<li><p><a class="reference internal" href="#distance-computation" id="id60">Distance Computation</a></p></li>
+<li><p><a class="reference internal" href="#cross-validated-polynomial-degree" id="id61">Cross-Validated Polynomial Degree</a></p></li>
+<li><p><a class="reference internal" href="#surrogate-seeding" id="id62">Surrogate Seeding</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#reproducibility-checklist" id="id63">Reproducibility Checklist</a></p></li>
+<li><p><a class="reference internal" href="#troubleshooting" id="id64">Troubleshooting</a></p></li>
+<li><p><a class="reference internal" href="#performance-notes" id="id65">Performance Notes</a></p></li>
+<li><p><a class="reference internal" href="#interactive-ui-streamlit" id="id66">Interactive UI (Streamlit)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#installation-and-launch" id="id67">Installation and Launch</a></p></li>
+<li><p><a class="reference internal" href="#tabs" id="id68">Tabs</a></p></li>
+<li><p><a class="reference internal" href="#regime-based-simulation" id="id69">Regime-Based Simulation</a></p></li>
+<li><p><a class="reference internal" href="#reproducibility" id="id70">Reproducibility</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#extending-rqa2" id="id71">Extending RQA2</a></p></li>
+<li><p><a class="reference internal" href="#citing-this-work" id="id72">Citing This Work</a></p></li>
 </ul>
 </nav>
 <section id="overview">
@@ -1355,15 +1386,72 @@ utilities). For each window, RQA measures are computed, then aggregated.</p>
 <p>Windowed features are prefixed with <code class="docutils literal notranslate"><span class="pre">win_</span></code> in the output DataFrame to
 avoid collisions with whole-signal measures.</p>
 </section>
+<section id="available-models">
+<h3><a class="toc-backref" href="#id37" role="doc-backlink">Available Models</a><a class="headerlink" href="#available-models" title="Link to this heading">#</a></h3>
+<p>Eight classifiers are registered (all scikit-learn, no extra
+dependencies), chosen for small-sample tabular RQA feature tables:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 12.0%" />
+<col style="width: 30.0%" />
+<col style="width: 58.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Estimator</p></th>
+<th class="head"><p>Why it is included</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">knn</span></code></p></td>
+<td><p>KNeighborsClassifier</p></td>
+<td><p>Non-parametric local baseline.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">svm</span></code></p></td>
+<td><p>SVC (RBF, probability)</p></td>
+<td><p>Strong non-linear margin classifier.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">rf</span></code></p></td>
+<td><p>RandomForestClassifier</p></td>
+<td><p>Robust tree ensemble.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">logreg</span></code></p></td>
+<td><p>LogisticRegression</p></td>
+<td><p>Essential linear baseline with calibrated probabilities.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lda</span></code></p></td>
+<td><p>LinearDiscriminantAnalysis</p></td>
+<td><p>Classic small-sample linear model (closed form).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nb</span></code></p></td>
+<td><p>GaussianNB</p></td>
+<td><p>Fast high-bias baseline.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gb</span></code></p></td>
+<td><p>HistGradientBoostingClassifier</p></td>
+<td><p>Modern gradient boosting, strongest tabular family.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">et</span></code></p></td>
+<td><p>ExtraTreesClassifier</p></td>
+<td><p>Extra-randomised trees, good on small noisy data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Each model has a compact hyperparameter grid in
+<code class="docutils literal notranslate"><span class="pre">RQA2_ml._PARAM_GRIDS</span></code> used by the nested tuning described below.
+Pass <code class="docutils literal notranslate"><span class="pre">models='all'</span></code> anywhere a model tuple is accepted to run the
+whole registry.</p>
+</section>
 <section id="supervised-benchmark-quick">
-<h3><a class="toc-backref" href="#id37" role="doc-backlink">Supervised Benchmark (Quick)</a><a class="headerlink" href="#supervised-benchmark-quick" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id38" role="doc-backlink">Supervised Benchmark (Quick)</a><a class="headerlink" href="#supervised-benchmark-quick" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">supervised_benchmark</span></code> evaluates multiple classifiers with stratified
 cross-validation and reports accuracy, macro-F1, and ROC AUC:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
 
 <span class="n">results</span><span class="p">,</span> <span class="n">best_model</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">supervised_benchmark</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span> <span class="s1">&#39;svm&#39;</span><span class="p">,</span> <span class="s1">&#39;rf&#39;</span><span class="p">),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">models</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span> <span class="s1">&#39;svm&#39;</span><span class="p">,</span> <span class="s1">&#39;rf&#39;</span><span class="p">),</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># or models=&#39;all&#39;</span>
 </pre></div>
 </div>
 <p>The method returns:</p>
@@ -1375,32 +1463,86 @@ cross-validation and reports accuracy, macro-F1, and ROC AUC:</p>
 validation, use <code class="docutils literal notranslate"><span class="pre">nested_cv_benchmark</span></code> instead.</p>
 </section>
 <section id="nested-cross-validation-with-feature-selection">
-<h3><a class="toc-backref" href="#id38" role="doc-backlink">Nested Cross-Validation with Feature Selection</a><a class="headerlink" href="#nested-cross-validation-with-feature-selection" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id39" role="doc-backlink">Nested Cross-Validation with Feature Selection</a><a class="headerlink" href="#nested-cross-validation-with-feature-selection" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">nested_cv_benchmark</span></code> implements the validation procedure described in
 the SMdRQA paper: the outer loop evaluates generalisation on held-out data,
-while the inner loop performs best-subset feature selection exclusively on
-the training fold to prevent data leakage.</p>
+while the inner loop performs best-subset feature selection — and, with
+<code class="docutils literal notranslate"><span class="pre">tune=True</span></code>, hyperparameter grid search — exclusively on the training
+fold to prevent data leakage.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">nested_cv_benchmark</span><span class="p">(</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span>
     <span class="n">outer_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
     <span class="n">test_fraction</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span>
     <span class="n">feature_selection</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>   <span class="c1"># exhaustive if &lt;= 12 features, else forward</span>
+    <span class="n">tune</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                  <span class="c1"># grid-search hyperparameters per outer fold</span>
 <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROC AUC:  </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Most selected features:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;feature_frequency&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hyperparameters chosen per fold:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;best_params&#39;</span><span class="p">][:</span><span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Returns a dict with:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">accuracy</span></code> / <code class="docutils literal notranslate"><span class="pre">roc_auc</span></code>: score arrays (one per outer iteration)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accuracy</span></code> / <code class="docutils literal notranslate"><span class="pre">balanced_accuracy</span></code> / <code class="docutils literal notranslate"><span class="pre">f1_macro</span></code> / <code class="docutils literal notranslate"><span class="pre">roc_auc</span></code>:
+score arrays (one per outer iteration)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">selected_features</span></code>: list of feature-index tuples per iteration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">best_params</span></code>: hyperparameters chosen in each outer iteration
+(empty dicts when <code class="docutils literal notranslate"><span class="pre">tune=False</span></code>, the default)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">feature_frequency</span></code>: Series counting how often each feature was selected</p></li>
 </ul>
+<section id="hyperparameter-tuning-tune-true">
+<h4><a class="toc-backref" href="#id40" role="doc-backlink">Hyperparameter Tuning (<code class="docutils literal notranslate"><span class="pre">tune=True</span></code>)</a><a class="headerlink" href="#hyperparameter-tuning-tune-true" title="Link to this heading">#</a></h4>
+<p>With the default <code class="docutils literal notranslate"><span class="pre">tune=False</span></code> every model runs with fixed default
+hyperparameters.  Setting <code class="docutils literal notranslate"><span class="pre">tune=True</span></code> grid-searches the model’s
+<code class="docutils literal notranslate"><span class="pre">_PARAM_GRIDS</span></code> entry (or a custom <code class="docutils literal notranslate"><span class="pre">param_grid=</span></code>) on the inner CV of
+each outer training fold, <em>after</em> feature selection and on the selected
+subset — so the procedure is truly nested and model comparisons are not
+biased by arbitrary defaults.</p>
+</section>
+<section id="group-aware-splitting-groups">
+<h4><a class="toc-backref" href="#id41" role="doc-backlink">Group-Aware Splitting (<code class="docutils literal notranslate"><span class="pre">groups=</span></code>)</a><a class="headerlink" href="#group-aware-splitting-groups" title="Link to this heading">#</a></h4>
+<p>When several samples come from the same subject or recording, ordinary
+stratified splits leak information: windows of one subject end up in
+both train and test.  Pass <code class="docutils literal notranslate"><span class="pre">groups=</span></code> (one label per sample) and both
+the outer and inner splits use <code class="docutils literal notranslate"><span class="pre">StratifiedGroupKFold</span></code> so each group
+stays entirely on one side of every split:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">nested_cv_benchmark</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;rf&#39;</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">groups</span><span class="o">=</span><span class="n">features_meta</span><span class="p">[</span><span class="s1">&#39;subject_id&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="integrated-benchmark-one-call">
+<h3><a class="toc-backref" href="#id42" role="doc-backlink">Integrated Benchmark (One Call)</a><a class="headerlink" href="#integrated-benchmark-one-call" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">integrated_benchmark</span></code> chains the whole pipeline: signals (or a
+precomputed feature table) → <code class="docutils literal notranslate"><span class="pre">build_feature_table</span></code> → tuned nested CV
+for every requested model → per-model comparison table → pairwise
+Wilcoxon signed-rank tests with Benjamini–Hochberg correction → the best
+model refit on the full dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">integrated_benchmark</span><span class="p">(</span>
+    <span class="n">signals</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span>
+    <span class="n">window_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">window_step</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">models</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>          <span class="c1"># or a tuple such as (&#39;svm&#39;, &#39;rf&#39;, &#39;logreg&#39;)</span>
+    <span class="n">tune</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">outer_iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;comparison&#39;</span><span class="p">])</span>        <span class="c1"># mean/std of every metric per model</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;pairwise_tests&#39;</span><span class="p">])</span>    <span class="c1"># Wilcoxon + BH-corrected significance</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;best_model_name&#39;</span><span class="p">])</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s1">&#39;best_model&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">new_features</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>An optional <code class="docutils literal notranslate"><span class="pre">progress_callback(index,</span> <span class="pre">total,</span> <span class="pre">model_name)</span></code> is invoked
+before each model’s nested CV run (used by the UI progress bar), and
+<code class="docutils literal notranslate"><span class="pre">groups=</span></code> is forwarded to every nested CV call.</p>
 </section>
 <section id="surrogate-null-baseline">
-<h3><a class="toc-backref" href="#id39" role="doc-backlink">Surrogate Null Baseline</a><a class="headerlink" href="#surrogate-null-baseline" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id43" role="doc-backlink">Surrogate Null Baseline</a><a class="headerlink" href="#surrogate-null-baseline" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">surrogate_baseline</span></code> shuffles the labels <code class="docutils literal notranslate"><span class="pre">n_permutations</span></code> times and
 evaluates each with stratified k-fold CV, yielding a null distribution:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">null</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">surrogate_baseline</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s1">&#39;knn&#39;</span><span class="p">,</span> <span class="n">n_permutations</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
@@ -1408,7 +1550,7 @@ evaluates each with stratified k-fold CV, yielding a null distribution:</p>
 </div>
 </section>
 <section id="statistical-comparison">
-<h3><a class="toc-backref" href="#id40" role="doc-backlink">Statistical Comparison</a><a class="headerlink" href="#statistical-comparison" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id44" role="doc-backlink">Statistical Comparison</a><a class="headerlink" href="#statistical-comparison" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">compare_scores</span></code> implements the Wilcoxon signed-rank test with
 rank-biserial effect size:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stat</span> <span class="o">=</span> <span class="n">RQA2_ml</span><span class="o">.</span><span class="n">compare_scores</span><span class="p">(</span>
@@ -1419,7 +1561,7 @@ rank-biserial effect size:</p>
 </div>
 </section>
 <section id="feature-importance">
-<h3><a class="toc-backref" href="#id41" role="doc-backlink">Feature Importance</a><a class="headerlink" href="#feature-importance" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id45" role="doc-backlink">Feature Importance</a><a class="headerlink" href="#feature-importance" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">feature_importance</span></code> computes permutation importance on a fitted model:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">imp</span> <span class="o">=</span> <span class="n">RQA2_ml</span><span class="o">.</span><span class="n">feature_importance</span><span class="p">(</span><span class="n">best_model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">imp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
@@ -1428,7 +1570,7 @@ rank-biserial effect size:</p>
 </div>
 </section>
 <section id="unsupervised-benchmark">
-<h3><a class="toc-backref" href="#id42" role="doc-backlink">Unsupervised Benchmark</a><a class="headerlink" href="#unsupervised-benchmark" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id46" role="doc-backlink">Unsupervised Benchmark</a><a class="headerlink" href="#unsupervised-benchmark" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">unsupervised_benchmark</span></code> evaluates clustering methods and reports multiple
 validity indices: silhouette, Calinski-Harabasz, and Davies-Bouldin. When
 ground-truth labels are available, the adjusted Rand index is also computed.</p>
@@ -1439,7 +1581,7 @@ ground-truth labels are available, the adjusted Rand index is also computed.</p>
 </div>
 </section>
 <section id="cluster-stability">
-<h3><a class="toc-backref" href="#id43" role="doc-backlink">Cluster Stability</a><a class="headerlink" href="#cluster-stability" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id47" role="doc-backlink">Cluster Stability</a><a class="headerlink" href="#cluster-stability" title="Link to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">cluster_stability</span></code> assesses reproducibility via bootstrap resampling:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stab</span> <span class="o">=</span> <span class="n">ml</span><span class="o">.</span><span class="n">cluster_stability</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;kmeans&#39;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_bootstrap</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stability ARI: </span><span class="si">{</span><span class="n">stab</span><span class="p">[</span><span class="s1">&#39;mean_ari&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> +/- </span><span class="si">{</span><span class="n">stab</span><span class="p">[</span><span class="s1">&#39;std_ari&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -1447,7 +1589,7 @@ ground-truth labels are available, the adjusted Rand index is also computed.</p>
 </div>
 </section>
 <section id="id2">
-<h3><a class="toc-backref" href="#id44" role="doc-backlink">Visualisation Methods</a><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id48" role="doc-backlink">Visualisation Methods</a><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>All plotting methods accept an optional <code class="docutils literal notranslate"><span class="pre">save_path</span></code> for direct export and
 return the matplotlib Figure object:</p>
 <ul class="simple">
@@ -1460,7 +1602,7 @@ distributions, optionally overlaying null distributions.</p></li>
 </ul>
 </section>
 <section id="notes-and-best-practices">
-<h3><a class="toc-backref" href="#id45" role="doc-backlink">Notes and Best Practices</a><a class="headerlink" href="#notes-and-best-practices" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id49" role="doc-backlink">Notes and Best Practices</a><a class="headerlink" href="#notes-and-best-practices" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Choose a <strong>window_size</strong> that preserves local dynamics but still provides
 enough points for reliable RQA measures.</p></li>
@@ -1475,7 +1617,7 @@ baseline rather than full benchmarking.</p></li>
 </ul>
 </section>
 <section id="glossary-plain-language">
-<h3><a class="toc-backref" href="#id46" role="doc-backlink">Glossary (Plain Language)</a><a class="headerlink" href="#glossary-plain-language" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id50" role="doc-backlink">Glossary (Plain Language)</a><a class="headerlink" href="#glossary-plain-language" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Recurrence plot (RP)</strong>: a square image that marks when the system revisits
 similar states.</p></li>
@@ -1492,7 +1634,7 @@ similar signals together.</p></li>
 </ul>
 </section>
 <section id="common-pitfalls">
-<h3><a class="toc-backref" href="#id47" role="doc-backlink">Common Pitfalls</a><a class="headerlink" href="#common-pitfalls" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id51" role="doc-backlink">Common Pitfalls</a><a class="headerlink" href="#common-pitfalls" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>“window_size exceeds RP size”</strong>: your signal is too short or the window is
 too large. Reduce the window size or use longer signals.</p></li>
@@ -1503,10 +1645,10 @@ or step size.</p></li>
 </section>
 </section>
 <section id="rqa2-simulators-chaotic-system-generators">
-<h2><a class="toc-backref" href="#id48" role="doc-backlink">RQA2_simulators – Chaotic System Generators</a><a class="headerlink" href="#rqa2-simulators-chaotic-system-generators" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id52" role="doc-backlink">RQA2_simulators – Chaotic System Generators</a><a class="headerlink" href="#rqa2-simulators-chaotic-system-generators" title="Link to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">RQA2_simulators</span></code> integrates four continuous-time attractors (using
-<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>, RK45, <code class="docutils literal notranslate"><span class="pre">rtol=1e-9</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1e-12</span></code>) and one
-discrete-time map.</p>
+<code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code>, RK45, <code class="docutils literal notranslate"><span class="pre">rtol=1e-9</span></code>, <code class="docutils literal notranslate"><span class="pre">atol=1e-12</span></code>), one
+discrete-time map, and a Kuramoto phase-oscillator network.</p>
 <p>Available systems:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1537,8 +1679,15 @@ discrete-time map.</p>
 <td><p>Chua’s circuit</p></td>
 <td><p>alpha=15.6, beta=28, m0=-1.143, m1=-0.714; double-scroll attractor.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">generate_test_battery()</span></code></p></td>
-<td><p>All of the above</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kuramoto()</span></code></p></td>
+<td><p>Kuramoto oscillator network</p></td>
+<td><p>K=1.0, omega_sd=1.0, n_osc=10; returns sin(theta) as an
+(n, n_osc) multivariate signal.  Critical coupling
+K_c = omega_sd·sqrt(8/pi) ≈ 1.596·omega_sd separates the
+incoherent (below) and synchronised (above) regimes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">generate_test_battery()</span></code></p></td>
+<td><p>All chaotic systems</p></td>
 <td><p>Returns a dict with keys: <code class="docutils literal notranslate"><span class="pre">'rossler_chaotic'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rossler_sync'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lorenz'</span></code>, <code class="docutils literal notranslate"><span class="pre">'henon'</span></code>, <code class="docutils literal notranslate"><span class="pre">'chua'</span></code>.</p></td>
 </tr>
 </tbody>
@@ -1551,16 +1700,30 @@ discrete-time map.</p>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">tmax</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>   <span class="c1"># limit cycle</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>                        <span class="c1"># butterfly</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span>    <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">henon</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>                         <span class="c1"># Hénon map</span>
+<span class="n">theta</span>   <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">kuramoto</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">n_osc</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">K</span><span class="o">=</span><span class="mf">2.5</span><span class="p">)</span>     <span class="c1"># (2000, 15) signal</span>
 <span class="n">systems</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">generate_test_battery</span><span class="p">()</span>               <span class="c1"># full battery</span>
 </pre></div>
 </div>
+<p>Regime thresholds (useful for building labelled chaotic-vs-periodic
+datasets; see <a class="reference internal" href="functions/ui.html#module-SMdRQA.ui.simulate" title="SMdRQA.ui.simulate"><code class="xref py py-mod docutils literal notranslate"><span class="pre">SMdRQA.ui.simulate</span></code></a> and the UI’s regime-sampling
+mode):</p>
+<ul class="simple">
+<li><p>Rössler <code class="docutils literal notranslate"><span class="pre">c</span></code> ≈ 4.2 (with a=b=0.2): periodic below, chaotic above.</p></li>
+<li><p>Lorenz <code class="docutils literal notranslate"><span class="pre">rho</span></code> ≈ 24.74 (with sigma=10, beta=8/3): stable fixed points
+below, chaotic above.</p></li>
+<li><p>Hénon <code class="docutils literal notranslate"><span class="pre">a</span></code> ≈ 1.06 (with b=0.3): largely periodic below, chaotic above.</p></li>
+<li><p>Chua <code class="docutils literal notranslate"><span class="pre">alpha</span></code> ≈ 8.8 (approximate): limit cycles below, double-scroll
+chaos towards alpha=15.6.</p></li>
+<li><p>Kuramoto <code class="docutils literal notranslate"><span class="pre">K_c</span> <span class="pre">=</span> <span class="pre">omega_sd·sqrt(8/pi)</span></code>: incoherent below, synchronised
+above.</p></li>
+</ul>
 </section>
 <section id="rqa2-tests-surrogate-data-and-validation">
-<h2><a class="toc-backref" href="#id49" role="doc-backlink">RQA2_tests – Surrogate Data and Validation</a><a class="headerlink" href="#rqa2-tests-surrogate-data-and-validation" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id53" role="doc-backlink">RQA2_tests – Surrogate Data and Validation</a><a class="headerlink" href="#rqa2-tests-surrogate-data-and-validation" title="Link to this heading">#</a></h2>
 <p>Surrogate data testing determines whether a measured signal exhibits genuine
 nonlinear structure by comparing statistics to ensembles of null surrogates.</p>
 <section id="surrogate-algorithms">
-<h3><a class="toc-backref" href="#id50" role="doc-backlink">Surrogate Algorithms</a><a class="headerlink" href="#surrogate-algorithms" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id54" role="doc-backlink">Surrogate Algorithms</a><a class="headerlink" href="#surrogate-algorithms" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 10.0%" />
@@ -1614,7 +1777,7 @@ nonlinear structure by comparing statistics to ensembles of null surrogates.</p>
 </div>
 </section>
 <section id="nonlinear-validation-metrics">
-<h3><a class="toc-backref" href="#id51" role="doc-backlink">Nonlinear Validation Metrics</a><a class="headerlink" href="#nonlinear-validation-metrics" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id55" role="doc-backlink">Nonlinear Validation Metrics</a><a class="headerlink" href="#nonlinear-validation-metrics" title="Link to this heading">#</a></h3>
 <p>Six metrics are evaluated in <code class="xref py py-meth docutils literal notranslate"><span class="pre">comprehensive_validation()</span></code>:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1653,7 +1816,7 @@ Finite, low value -&gt; low-dimensional deterministic attractor.</p></td>
 </div>
 </section>
 <section id="comprehensive-validation">
-<h3><a class="toc-backref" href="#id52" role="doc-backlink">Comprehensive Validation</a><a class="headerlink" href="#comprehensive-validation" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id56" role="doc-backlink">Comprehensive Validation</a><a class="headerlink" href="#comprehensive-validation" title="Link to this heading">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_simulators</span><span class="p">,</span> <span class="n">RQA2_tests</span>
 
 <span class="n">sim</span>     <span class="o">=</span> <span class="n">RQA2_simulators</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -1674,7 +1837,7 @@ surrogate ensemble for that metric, providing evidence of the type of structure
 the surrogate destroys.</p>
 </section>
 <section id="parallel-generation">
-<h3><a class="toc-backref" href="#id53" role="doc-backlink">Parallel Generation</a><a class="headerlink" href="#parallel-generation" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id57" role="doc-backlink">Parallel Generation</a><a class="headerlink" href="#parallel-generation" title="Link to this heading">#</a></h3>
 <p>Parallelism activates automatically when <code class="docutils literal notranslate"><span class="pre">n_surrogates</span> <span class="pre">&gt;=</span> <span class="pre">50</span></code> and
 <code class="docutils literal notranslate"><span class="pre">max_workers</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tester</span> <span class="o">=</span> <span class="n">RQA2_tests</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
@@ -1684,35 +1847,35 @@ the surrogate destroys.</p>
 </section>
 </section>
 <section id="implementation-notes">
-<h2><a class="toc-backref" href="#id54" role="doc-backlink">Implementation Notes</a><a class="headerlink" href="#implementation-notes" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id58" role="doc-backlink">Implementation Notes</a><a class="headerlink" href="#implementation-notes" title="Link to this heading">#</a></h2>
 <section id="indexing">
-<h3><a class="toc-backref" href="#id55" role="doc-backlink">Indexing</a><a class="headerlink" href="#indexing" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id59" role="doc-backlink">Indexing</a><a class="headerlink" href="#indexing" title="Link to this heading">#</a></h3>
 <p>All internal arrays use <strong>0-based</strong> indexing.  The embedded signal has shape
 <code class="docutils literal notranslate"><span class="pre">(N_emb,</span> <span class="pre">m,</span> <span class="pre">D)</span></code> where <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">=</span> <span class="pre">N</span> <span class="pre">-</span> <span class="pre">(m-1)*tau</span></code>.  Line-length histogram
 arrays have length <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">+</span> <span class="pre">1</span></code> so that index <code class="docutils literal notranslate"><span class="pre">i</span></code> directly counts lines of
 length <code class="docutils literal notranslate"><span class="pre">i</span></code>.</p>
 </section>
 <section id="distance-computation">
-<h3><a class="toc-backref" href="#id56" role="doc-backlink">Distance Computation</a><a class="headerlink" href="#distance-computation" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id60" role="doc-backlink">Distance Computation</a><a class="headerlink" href="#distance-computation" title="Link to this heading">#</a></h3>
 <p>Both the recurrence matrix and the epsilon search use
 <code class="docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist</span></code> for vectorised Euclidean distances.  Memory
 scales as <span class="math notranslate nohighlight">\(O(N_\text{emb}^2)\)</span>; for <code class="docutils literal notranslate"><span class="pre">N_emb</span> <span class="pre">&gt;</span> <span class="pre">5000</span></code> consider windowed
 analysis via <code class="docutils literal notranslate"><span class="pre">RP_maker</span></code> or down-sampling.</p>
 </section>
 <section id="cross-validated-polynomial-degree">
-<h3><a class="toc-backref" href="#id57" role="doc-backlink">Cross-Validated Polynomial Degree</a><a class="headerlink" href="#cross-validated-polynomial-degree" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id61" role="doc-backlink">Cross-Validated Polynomial Degree</a><a class="headerlink" href="#cross-validated-polynomial-degree" title="Link to this heading">#</a></h3>
 <p>The polynomial tau method uses <code class="docutils literal notranslate"><span class="pre">sklearn.model_selection.RepeatedKFold</span></code>
 (5-fold, 3 repeats) to select the degree that minimises RMSE on held-out data,
 then finds the first minimum of the fitted polynomial.</p>
 </section>
 <section id="surrogate-seeding">
-<h3><a class="toc-backref" href="#id58" role="doc-backlink">Surrogate Seeding</a><a class="headerlink" href="#surrogate-seeding" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id62" role="doc-backlink">Surrogate Seeding</a><a class="headerlink" href="#surrogate-seeding" title="Link to this heading">#</a></h3>
 <p>Each surrogate receives a unique seed derived from the parent RNG, guaranteeing
 statistical independence and reproducibility given the same <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument.</p>
 </section>
 </section>
 <section id="reproducibility-checklist">
-<h2><a class="toc-backref" href="#id59" role="doc-backlink">Reproducibility Checklist</a><a class="headerlink" href="#reproducibility-checklist" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id63" role="doc-backlink">Reproducibility Checklist</a><a class="headerlink" href="#reproducibility-checklist" title="Link to this heading">#</a></h2>
 <ol class="arabic">
 <li><p><strong>Normalise</strong> multivariate data (<code class="docutils literal notranslate"><span class="pre">normalize=True</span></code>, the default).</p></li>
 <li><p><strong>Verify parameters</strong> visually before analysis:</p>
@@ -1736,7 +1899,7 @@ statistical independence and reproducibility given the same <code class="docutil
 </ol>
 </section>
 <section id="troubleshooting">
-<h2><a class="toc-backref" href="#id60" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id64" role="doc-backlink">Troubleshooting</a><a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
 <col style="width: 38.0%" />
@@ -1783,8 +1946,90 @@ dependencies (PyWavelets, scikit-learn, seaborn) are installed.</p></td>
 </table>
 </div>
 </section>
+<section id="performance-notes">
+<h2><a class="toc-backref" href="#id65" role="doc-backlink">Performance Notes</a><a class="headerlink" href="#performance-notes" title="Link to this heading">#</a></h2>
+<p>The parameter-estimation and measure kernels are fully vectorised
+(numpy/scipy, no extra dependencies):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_fnnhitszero</span></code> computes the embedding and nearest-neighbour search
+once and sweeps all candidate <em>r</em> values vectorised (previously the
+O(N²) search ran once per candidate, <code class="docutils literal notranslate"><span class="pre">rdiv=451</span></code> times).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_findeps</span></code> computes the distance matrix once and counts recurrences
+for every candidate epsilon via a sorted search (previously <code class="docutils literal notranslate"><span class="pre">cdist</span></code>
+ran up to <code class="docutils literal notranslate"><span class="pre">epsdiv=1001</span></code> times).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_nearest</span></code> uses chunked <code class="docutils literal notranslate"><span class="pre">cdist</span></code> + <code class="docutils literal notranslate"><span class="pre">argmin</span></code>; <code class="docutils literal notranslate"><span class="pre">_vert_hist</span></code> and
+<code class="docutils literal notranslate"><span class="pre">_diaghist</span></code> use vectorised run-length encoding.</p></li>
+</ul>
+<p>End-to-end parameter estimation (tau → m → epsilon → RP → measures) is
+roughly <strong>100× faster</strong> than the loop-based implementation, with
+bit-identical outputs.</p>
+</section>
+<section id="interactive-ui-streamlit">
+<h2><a class="toc-backref" href="#id66" role="doc-backlink">Interactive UI (Streamlit)</a><a class="headerlink" href="#interactive-ui-streamlit" title="Link to this heading">#</a></h2>
+<p>An optional browser UI covers the full workflow — data import or
+simulation, RQA analysis, window-size sensitivity, machine-learning
+benchmarking, and reproducibility — without writing code.</p>
+<section id="installation-and-launch">
+<h3><a class="toc-backref" href="#id67" role="doc-backlink">Installation and Launch</a><a class="headerlink" href="#installation-and-launch" title="Link to this heading">#</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install SMdRQA[ui]     # installs streamlit + plotly</span>
+<span class="go">smdrqa-ui                  # or: python -m SMdRQA.ui</span>
+</pre></div>
+</div>
+</section>
+<section id="tabs">
+<h3><a class="toc-backref" href="#id68" role="doc-backlink">Tabs</a><a class="headerlink" href="#tabs" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Data</strong> — load signals from a folder (<code class="docutils literal notranslate"><span class="pre">.npy</span></code>/<code class="docutils literal notranslate"><span class="pre">.csv</span></code>; labels can
+be derived from filename prefixes) or simulate labelled batches from
+the built-in systems.  All system parameters are editable, and
+signals can be previewed as time series or 2-D/3-D phase portraits.</p></li>
+<li><p><strong>RQA</strong> — automatic or manual tau/m/epsilon, target recurrence rate
+and <code class="docutils literal notranslate"><span class="pre">lmin</span></code> (defaults match the script defaults), single-window or
+sliding-window analysis with window size, step and central-tendency
+choice; recurrence-plot heatmap, windowed-measure curves, CSV/HTML
+export.</p></li>
+<li><p><strong>Window-size sensitivity</strong> — a seeded, vectorised re-implementation
+of the <code class="xref py py-mod docutils literal notranslate"><span class="pre">SMdRQA.window_size</span></code> bootstrap
+(<a class="reference internal" href="functions/ui.html#SMdRQA.ui.sensitivity.window_size_sensitivity" title="SMdRQA.ui.sensitivity.window_size_sensitivity"><code class="xref py py-func docutils literal notranslate"><span class="pre">SMdRQA.ui.sensitivity.window_size_sensitivity()</span></code></a>): for each
+window size the pooled line-length distribution is resampled and the
+5–95 % quantile width of the chosen measure is plotted; narrow is
+stable.</p></li>
+<li><p><strong>Machine learning</strong> — runs <code class="xref py py-meth docutils literal notranslate"><span class="pre">RQA2_ml.integrated_benchmark()</span></code>
+over the selected models with a per-model progress bar, then shows
+the comparison table, accuracy box plots, feature-selection
+frequency, and BH-corrected pairwise tests, all exportable.</p></li>
+<li><p><strong>Script</strong> — see <em>Reproducibility</em> below.</p></li>
+</ol>
+</section>
+<section id="regime-based-simulation">
+<h3><a class="toc-backref" href="#id69" role="doc-backlink">Regime-Based Simulation</a><a class="headerlink" href="#regime-based-simulation" title="Link to this heading">#</a></h3>
+<p>For building labelled chaotic-vs-periodic datasets, the Data tab offers
+a <em>Sample by regime</em> mode.  The UI names the system’s bifurcation
+parameter and suggests a literature-based threshold (see the simulator
+regime table above).  For each side of the threshold you choose:</p>
+<ul class="simple">
+<li><p>a class label (e.g. <code class="docutils literal notranslate"><span class="pre">periodic</span></code> / <code class="docutils literal notranslate"><span class="pre">chaotic</span></code>),</p></li>
+<li><p>a sampling distribution for the parameter (uniform, normal, or fixed),</p></li>
+<li><p>the number of simulations.</p></li>
+</ul>
+<p>Draws are clipped to their side of the threshold so the labels stay
+truthful, and the labelled signals feed directly into the ML tab.  For
+the Kuramoto system the oscillator count (the signal dimensionality)
+can be fixed or sampled per-simulation from a range.</p>
+</section>
+<section id="reproducibility">
+<h3><a class="toc-backref" href="#id70" role="doc-backlink">Reproducibility</a><a class="headerlink" href="#reproducibility" title="Link to this heading">#</a></h3>
+<p>The sidebar requires a random seed, and every action taken in the UI is
+mirrored into an equivalent block of plain Python
+(<a class="reference internal" href="functions/ui.html#SMdRQA.ui.recorder.ScriptRecorder" title="SMdRQA.ui.recorder.ScriptRecorder"><code class="xref py py-class docutils literal notranslate"><span class="pre">SMdRQA.ui.recorder.ScriptRecorder</span></code></a>).  The <em>Script</em> tab shows
+the accumulated code and offers it as a standalone <code class="docutils literal notranslate"><span class="pre">.py</span></code> download:
+rerunning that file reproduces the entire session, including every
+seed-dependent step.  Seed changes made mid-session are themselves
+recorded.</p>
+</section>
+</section>
 <section id="extending-rqa2">
-<h2><a class="toc-backref" href="#id61" role="doc-backlink">Extending RQA2</a><a class="headerlink" href="#extending-rqa2" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id71" role="doc-backlink">Extending RQA2</a><a class="headerlink" href="#extending-rqa2" title="Link to this heading">#</a></h2>
 <p>Subclass <a class="reference internal" href="functions/RQA2.html#SMdRQA.RQA2.RQA2" title="SMdRQA.RQA2.RQA2"><code class="xref py py-class docutils literal notranslate"><span class="pre">RQA2</span></code></a> and override one or more private methods
 to integrate custom algorithms without changing the public API:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2</span>
@@ -1813,7 +2058,7 @@ to integrate custom algorithms without changing the public API:</p>
 </ul>
 </section>
 <section id="citing-this-work">
-<h2><a class="toc-backref" href="#id62" role="doc-backlink">Citing This Work</a><a class="headerlink" href="#citing-this-work" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id72" role="doc-backlink">Citing This Work</a><a class="headerlink" href="#citing-this-work" title="Link to this heading">#</a></h2>
 <p>Please cite the following when using any component of RQA2 or SMdRQA in
 academic publications:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Thaikkandi, S., Sharika, K. M., &amp; Nivedita. (2025). SMdRQA: Sliding Window
@@ -1936,8 +2181,14 @@ Multidimensional Recurrence Quantification Analysis (Version 2025.7.27)
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-need-to-provide">What You Need to Provide</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windowed-rqa-features">Windowed RQA Features</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-table-builder">Feature Table Builder</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#available-models">Available Models</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-benchmark-quick">Supervised Benchmark (Quick)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-cross-validation-with-feature-selection">Nested Cross-Validation with Feature Selection</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nested-cross-validation-with-feature-selection">Nested Cross-Validation with Feature Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-tuning-tune-true">Hyperparameter Tuning (<code class="docutils literal notranslate"><span class="pre">tune=True</span></code>)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#group-aware-splitting-groups">Group-Aware Splitting (<code class="docutils literal notranslate"><span class="pre">groups=</span></code>)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrated-benchmark-one-call">Integrated Benchmark (One Call)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-null-baseline">Surrogate Null Baseline</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#statistical-comparison">Statistical Comparison</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-importance">Feature Importance</a></li>
@@ -1966,6 +2217,14 @@ Multidimensional Recurrence Quantification Analysis (Version 2025.7.27)
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility-checklist">Reproducibility Checklist</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance-notes">Performance Notes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-ui-streamlit">Interactive UI (Streamlit)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-and-launch">Installation and Launch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tabs">Tabs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#regime-based-simulation">Regime-Based Simulation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reproducibility">Reproducibility</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extending-rqa2">Extending RQA2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citing-this-work">Citing This Work</a></li>
 </ul>

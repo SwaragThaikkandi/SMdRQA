@@ -1,0 +1,807 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ui &#8212; SMdRQA 2025.7.27 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=4418a689" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../_static/documentation_options.js?v=11407cb5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'functions/ui';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="nl_tests" href="nl_tests.html" />
+    <link rel="prev" title="RQA2" href="RQA2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2025.7.27" />
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2025.7.27 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../RQA2_documentation.html">RQA2 – Comprehensive Reference Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rossler_analysis_tutorial.html">RQA2 module example - Rössler Attractor Analysis Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/rqa2_ml_pipeline_example.html">RQA2 ML Pipeline Example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Functions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="RQA2.html">RQA2</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">ui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/edit/main/docs/functions/ui.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2Ffunctions/ui.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/functions/ui.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ui</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.recorder">recorder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.HEADER_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.HEADER_TEMPLATE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.clear"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.clear()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.n_blocks"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.n_blocks</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.record"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.record()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.script"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.script()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.sensitivity">sensitivity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.sensitivity.MEASURES"><code class="docutils literal notranslate"><span class="pre">MEASURES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.sensitivity.window_size_sensitivity"><code class="docutils literal notranslate"><span class="pre">window_size_sensitivity()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.simulate">simulate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.REGIMES"><code class="docutils literal notranslate"><span class="pre">REGIMES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.SYSTEM_PARAM_DEFAULTS"><code class="docutils literal notranslate"><span class="pre">SYSTEM_PARAM_DEFAULTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.kuramoto_kc"><code class="docutils literal notranslate"><span class="pre">kuramoto_kc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.regime_threshold"><code class="docutils literal notranslate"><span class="pre">regime_threshold()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.sample_regime_values"><code class="docutils literal notranslate"><span class="pre">sample_regime_values()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.simulate_signal"><code class="docutils literal notranslate"><span class="pre">simulate_signal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <figure class="align-left" style="width: 40%">
+<a class="reference internal image-reference" href="../_images/smdrqa_logo1.svg"><img alt="../_images/smdrqa_logo1.svg" src="../_images/smdrqa_logo1.svg" style="width: 40%;" />
+</a>
+</figure>
+<section id="ui">
+<h1>ui<a class="headerlink" href="#ui" title="Link to this heading">#</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">SMdRQA.ui</span></code> package provides the interactive Streamlit interface
+(<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">SMdRQA[ui]</span></code>, launched with <code class="docutils literal notranslate"><span class="pre">smdrqa-ui</span></code> or
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">SMdRQA.ui</span></code>) together with UI-independent helpers that are
+also usable — and tested — without the UI dependencies installed:
+script recording for reproducibility, window-size sensitivity analysis,
+and regime-based simulation.</p>
+<p>See the <em>Interactive UI (Streamlit)</em> section of the RQA2 reference
+guide for a walkthrough of the app itself.</p>
+<section id="module-SMdRQA.ui.recorder">
+<span id="recorder"></span><h2>recorder<a class="headerlink" href="#module-SMdRQA.ui.recorder" title="Link to this heading">#</a></h2>
+<p>Script recorder for the SMdRQA UI.</p>
+<p>Every action taken in the UI appends an equivalent block of plain Python
+to a <a class="reference internal" href="#SMdRQA.ui.recorder.ScriptRecorder" title="SMdRQA.ui.recorder.ScriptRecorder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScriptRecorder</span></code></a>, so the whole interactive session can be
+downloaded as a standalone, seeded, reproducible <code class="docutils literal notranslate"><span class="pre">.py</span></code> script.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">ScriptRecorder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/recorder.html#ScriptRecorder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Accumulates Python code blocks mirroring UI actions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em>) – Random seed chosen in the UI.  Baked into the script header so
+rerunning the exported file reproduces the session exactly.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span> <span class="o">=</span> <span class="n">ScriptRecorder</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="s2">&quot;x = np.arange(10)&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Create data&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">script</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder.HEADER_TEMPLATE">
+<span class="sig-name descname"><span class="pre">HEADER_TEMPLATE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'&quot;&quot;&quot;\nSMdRQA</span> <span class="pre">reproducibility</span> <span class="pre">script.\n\nAuto-generated</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">SMdRQA</span> <span class="pre">UI</span> <span class="pre">on</span> <span class="pre">{timestamp}.\nRerunning</span> <span class="pre">this</span> <span class="pre">file</span> <span class="pre">reproduces</span> <span class="pre">every</span> <span class="pre">analysis</span> <span class="pre">performed</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">UI\nsession,</span> <span class="pre">including</span> <span class="pre">random-seed-dependent</span> <span class="pre">steps.\n&quot;&quot;&quot;\n\nimport</span> <span class="pre">os\n\nimport</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np\nimport</span> <span class="pre">pandas</span> <span class="pre">as</span> <span class="pre">pd\n\nfrom</span> <span class="pre">SMdRQA.RQA2</span> <span class="pre">import</span> <span class="pre">RQA2,</span> <span class="pre">RQA2_simulators,</span> <span class="pre">RQA2_tests,</span> <span class="pre">RQA2_ml\nfrom</span> <span class="pre">SMdRQA.ui.simulate</span> <span class="pre">import</span> <span class="pre">sample_regime_values,</span> <span class="pre">simulate_signal\n\nSEED</span> <span class="pre">=</span> <span class="pre">{seed}\nnp.random.seed(SEED)\n\nsignals,</span> <span class="pre">ids,</span> <span class="pre">labels</span> <span class="pre">=</span> <span class="pre">[],</span> <span class="pre">[],</span> <span class="pre">[]\n'</span></span><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder.HEADER_TEMPLATE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/recorder.html#ScriptRecorder.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder.clear" title="Link to this definition">#</a></dt>
+<dd><p>Drop all recorded blocks (header is kept).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder.n_blocks">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">n_blocks</span></span><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder.n_blocks" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder.record">
+<span class="sig-name descname"><span class="pre">record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/recorder.html#ScriptRecorder.record"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder.record" title="Link to this definition">#</a></dt>
+<dd><p>Append one code block, optionally preceded by a # comment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.ui.recorder.ScriptRecorder.script">
+<span class="sig-name descname"><span class="pre">script</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/recorder.html#ScriptRecorder.script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.recorder.ScriptRecorder.script" title="Link to this definition">#</a></dt>
+<dd><p>Return the full script text (header + all recorded blocks).</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-SMdRQA.ui.sensitivity">
+<span id="sensitivity"></span><h2>sensitivity<a class="headerlink" href="#module-SMdRQA.ui.sensitivity" title="Link to this heading">#</a></h2>
+<p>Window-size sensitivity analysis for the SMdRQA UI.</p>
+<p>Seeded, vectorised re-implementation of the bootstrap procedure in
+<code class="docutils literal notranslate"><span class="pre">SMdRQA.window_size</span></code>: for each candidate window size, line-length
+distributions are pooled over all diagonal sub-windows of the recurrence
+plot, resampled <code class="docutils literal notranslate"><span class="pre">n_boot</span></code> times, and the width of the 5–95 % quantile
+interval of the chosen RQA measure is reported.  Narrow intervals mean
+the measure is stable at that window size.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="SMdRQA.ui.sensitivity.MEASURES">
+<span class="sig-name descname"><span class="pre">MEASURES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'avg_diag':</span> <span class="pre">('diag',</span> <span class="pre">'average'),</span> <span class="pre">'avg_vert':</span> <span class="pre">('vert',</span> <span class="pre">'average'),</span> <span class="pre">'percent_det':</span> <span class="pre">('diag',</span> <span class="pre">'percent'),</span> <span class="pre">'percent_lam':</span> <span class="pre">('vert',</span> <span class="pre">'percent')}</span></span><a class="headerlink" href="#SMdRQA.ui.sensitivity.MEASURES" title="Link to this definition">#</a></dt>
+<dd><p>measure name -&gt; (histogram kind, statistic)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.ui.sensitivity.window_size_sensitivity">
+<span class="sig-name descname"><span class="pre">window_size_sensitivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measure</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_boot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/sensitivity.html#window_size_sensitivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.sensitivity.window_size_sensitivity" title="Link to this definition">#</a></dt>
+<dd><p>Bootstrap CI width of an RQA measure across window sizes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rp</strong> (<em>ndarray</em>) – Recurrence plot (square 0/1 matrix).</p></li>
+<li><p><strong>measure</strong> (<em>{‘percent_det’, ‘percent_lam’, ‘avg_diag’, ‘avg_vert’}</em>) – RQA measure to analyse.</p></li>
+<li><p><strong>min_size</strong> (<em>int, default 20</em>) – Smallest window size tested.</p></li>
+<li><p><strong>max_size</strong> (<em>int, optional</em>) – Largest window size tested (exclusive).  Defaults to RP size.</p></li>
+<li><p><strong>step</strong> (<em>int, default 10</em>) – Window-size increment.</p></li>
+<li><p><strong>n_boot</strong> (<em>int, default 1000</em>) – Number of bootstrap samples per window size.</p></li>
+<li><p><strong>seed</strong> (<em>int, default 42</em>) – Seed for the bootstrap RNG (the legacy implementation in
+<code class="docutils literal notranslate"><span class="pre">SMdRQA.window_size</span></code> is unseeded).</p></li>
+<li><p><strong>progress_callback</strong> (<em>callable, optional</em>) – Called as <code class="docutils literal notranslate"><span class="pre">progress_callback(index,</span> <span class="pre">total,</span> <span class="pre">window_size)</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>pandas.DataFrame</em> – Columns <code class="docutils literal notranslate"><span class="pre">window_size</span></code> and <code class="docutils literal notranslate"><span class="pre">ci_width</span></code>
+(95 % quantile − 5 % quantile).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-SMdRQA.ui.simulate">
+<span id="simulate"></span><h2>simulate<a class="headerlink" href="#module-SMdRQA.ui.simulate" title="Link to this heading">#</a></h2>
+<p>Simulation helpers for the SMdRQA UI.</p>
+<p>Provides editable per-system parameter defaults (matching the
+<code class="docutils literal notranslate"><span class="pre">RQA2_simulators</span></code> signatures), a registry of bifurcation-parameter
+regimes with suggested chaos thresholds, distribution-based parameter
+sampling for regime-labelled batch generation, and a standalone
+<code class="docutils literal notranslate"><span class="pre">simulate_signal</span></code> used both by the UI and by the exported
+reproducibility scripts.</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.REGIMES">
+<span class="sig-name descname"><span class="pre">REGIMES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chua':</span> <span class="pre">{'above_label':</span> <span class="pre">'chaotic',</span> <span class="pre">'below_label':</span> <span class="pre">'periodic',</span> <span class="pre">'note':</span> <span class="pre">&quot;With</span> <span class="pre">the</span> <span class="pre">default</span> <span class="pre">beta/m0/m1,</span> <span class="pre">Chua's</span> <span class="pre">circuit</span> <span class="pre">shows</span> <span class="pre">limit</span> <span class="pre">cycles</span> <span class="pre">at</span> <span class="pre">low</span> <span class="pre">alpha</span> <span class="pre">and</span> <span class="pre">double-scroll</span> <span class="pre">chaos</span> <span class="pre">around</span> <span class="pre">the</span> <span class="pre">canonical</span> <span class="pre">alpha=15.6;</span> <span class="pre">alpha≈8.8</span> <span class="pre">is</span> <span class="pre">an</span> <span class="pre">approximate</span> <span class="pre">transition</span> <span class="pre">guide.&quot;,</span> <span class="pre">'param':</span> <span class="pre">'alpha',</span> <span class="pre">'threshold':</span> <span class="pre">8.8},</span> <span class="pre">'henon':</span> <span class="pre">{'above_label':</span> <span class="pre">'chaotic',</span> <span class="pre">'below_label':</span> <span class="pre">'periodic',</span> <span class="pre">'note':</span> <span class="pre">'With</span> <span class="pre">b=0.3</span> <span class="pre">the</span> <span class="pre">Hénon</span> <span class="pre">map</span> <span class="pre">is</span> <span class="pre">largely</span> <span class="pre">periodic</span> <span class="pre">below</span> <span class="pre">a≈1.06</span> <span class="pre">and</span> <span class="pre">chaotic</span> <span class="pre">(with</span> <span class="pre">periodic</span> <span class="pre">windows)</span> <span class="pre">up</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">canonical</span> <span class="pre">a=1.4.',</span> <span class="pre">'param':</span> <span class="pre">'a',</span> <span class="pre">'threshold':</span> <span class="pre">1.06},</span> <span class="pre">'kuramoto':</span> <span class="pre">{'above_label':</span> <span class="pre">'synchronized',</span> <span class="pre">'below_label':</span> <span class="pre">'incoherent',</span> <span class="pre">'note':</span> <span class="pre">'For</span> <span class="pre">Gaussian</span> <span class="pre">natural</span> <span class="pre">frequencies</span> <span class="pre">the</span> <span class="pre">critical</span> <span class="pre">coupling</span> <span class="pre">is</span> <span class="pre">K_c</span> <span class="pre">=</span> <span class="pre">omega_sd·sqrt(8/pi)</span> <span class="pre">≈</span> <span class="pre">1.596·omega_sd:</span> <span class="pre">incoherent</span> <span class="pre">below,</span> <span class="pre">synchronised</span> <span class="pre">above.',</span> <span class="pre">'param':</span> <span class="pre">'K',</span> <span class="pre">'threshold':</span> <span class="pre">None},</span> <span class="pre">'lorenz':</span> <span class="pre">{'above_label':</span> <span class="pre">'chaotic',</span> <span class="pre">'below_label':</span> <span class="pre">'fixed_point',</span> <span class="pre">'note':</span> <span class="pre">'With</span> <span class="pre">sigma=10,</span> <span class="pre">beta=8/3</span> <span class="pre">the</span> <span class="pre">Lorenz</span> <span class="pre">fixed</span> <span class="pre">points</span> <span class="pre">lose</span> <span class="pre">stability</span> <span class="pre">at</span> <span class="pre">rho≈24.74;</span> <span class="pre">rho=28</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">canonical</span> <span class="pre">chaotic</span> <span class="pre">attractor.',</span> <span class="pre">'param':</span> <span class="pre">'rho',</span> <span class="pre">'threshold':</span> <span class="pre">24.74},</span> <span class="pre">'rossler':</span> <span class="pre">{'above_label':</span> <span class="pre">'chaotic',</span> <span class="pre">'below_label':</span> <span class="pre">'periodic',</span> <span class="pre">'note':</span> <span class="pre">'With</span> <span class="pre">a=b=0.2</span> <span class="pre">the</span> <span class="pre">Rössler</span> <span class="pre">system</span> <span class="pre">period-doubles</span> <span class="pre">into</span> <span class="pre">chaos</span> <span class="pre">as</span> <span class="pre">c</span> <span class="pre">grows:</span> <span class="pre">c≈3.5</span> <span class="pre">gives</span> <span class="pre">a</span> <span class="pre">simple</span> <span class="pre">limit</span> <span class="pre">cycle,</span> <span class="pre">chaos</span> <span class="pre">onsets</span> <span class="pre">near</span> <span class="pre">c≈4.2,</span> <span class="pre">and</span> <span class="pre">c=5.7</span> <span class="pre">is</span> <span class="pre">the</span> <span class="pre">canonical</span> <span class="pre">chaotic</span> <span class="pre">attractor.',</span> <span class="pre">'param':</span> <span class="pre">'c',</span> <span class="pre">'threshold':</span> <span class="pre">4.2}}</span></span><a class="headerlink" href="#SMdRQA.ui.simulate.REGIMES" title="Link to this definition">#</a></dt>
+<dd><p>Bifurcation-parameter metadata per system.  <code class="docutils literal notranslate"><span class="pre">threshold</span></code> is the
+suggested value separating the two dynamical regimes (holding the
+other parameters at their defaults); thresholds are approximate
+guides taken from the standard literature, not exact bifurcation
+points.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.SYSTEM_PARAM_DEFAULTS">
+<span class="sig-name descname"><span class="pre">SYSTEM_PARAM_DEFAULTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'chua':</span> <span class="pre">{'alpha':</span> <span class="pre">15.6,</span> <span class="pre">'beta':</span> <span class="pre">28.0,</span> <span class="pre">'m0':</span> <span class="pre">-1.143,</span> <span class="pre">'m1':</span> <span class="pre">-0.714},</span> <span class="pre">'henon':</span> <span class="pre">{'a':</span> <span class="pre">1.4,</span> <span class="pre">'b':</span> <span class="pre">0.3},</span> <span class="pre">'kuramoto':</span> <span class="pre">{'K':</span> <span class="pre">1.0,</span> <span class="pre">'n_osc':</span> <span class="pre">10,</span> <span class="pre">'omega_sd':</span> <span class="pre">1.0},</span> <span class="pre">'lorenz':</span> <span class="pre">{'beta':</span> <span class="pre">2.6666666666666665,</span> <span class="pre">'rho':</span> <span class="pre">28.0,</span> <span class="pre">'sigma':</span> <span class="pre">10.0},</span> <span class="pre">'rossler':</span> <span class="pre">{'a':</span> <span class="pre">0.2,</span> <span class="pre">'b':</span> <span class="pre">0.2,</span> <span class="pre">'c':</span> <span class="pre">5.7},</span> <span class="pre">'sine':</span> <span class="pre">{},</span> <span class="pre">'white_noise':</span> <span class="pre">{}}</span></span><a class="headerlink" href="#SMdRQA.ui.simulate.SYSTEM_PARAM_DEFAULTS" title="Link to this definition">#</a></dt>
+<dd><p>Editable parameters per system, mirroring RQA2_simulators defaults.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.kuramoto_kc">
+<span class="sig-name descname"><span class="pre">kuramoto_kc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">omega_sd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/simulate.html#kuramoto_kc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.simulate.kuramoto_kc" title="Link to this definition">#</a></dt>
+<dd><p>Critical Kuramoto coupling for Gaussian frequencies.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.regime_threshold">
+<span class="sig-name descname"><span class="pre">regime_threshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/simulate.html#regime_threshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.simulate.regime_threshold" title="Link to this definition">#</a></dt>
+<dd><p>Suggested regime threshold for <em>system</em> (None if no regime).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.sample_regime_values">
+<span class="sig-name descname"><span class="pre">sample_regime_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">side</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/simulate.html#sample_regime_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.simulate.sample_regime_values" title="Link to this definition">#</a></dt>
+<dd><p>Draw <em>n</em> bifurcation-parameter values on one side of <em>threshold</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribution</strong> (<em>{‘uniform’, ‘normal’, ‘fixed’}</em>)</p></li>
+<li><p><strong>dist_params</strong> (<em>dict</em>) – <code class="docutils literal notranslate"><span class="pre">{'low',</span> <span class="pre">'high'}</span></code> for uniform, <code class="docutils literal notranslate"><span class="pre">{'mean',</span> <span class="pre">'sd'}</span></code> for normal,
+<code class="docutils literal notranslate"><span class="pre">{'value'}</span></code> for fixed.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Number of samples.</p></li>
+<li><p><strong>side</strong> (<em>{‘below’, ‘above’}</em>) – Which side of <em>threshold</em> the samples must fall on; draws are
+clipped to that side so regime labels stay truthful.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em>) – Regime boundary.</p></li>
+<li><p><strong>rng</strong> (<em>numpy.random.Generator</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray of shape (n,)</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SMdRQA.ui.simulate.simulate_signal">
+<span class="sig-name descname"><span class="pre">simulate_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_sd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rng</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/ui/simulate.html#simulate_signal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.ui.simulate.simulate_signal" title="Link to this definition">#</a></dt>
+<dd><p>Simulate one signal from <em>system</em> with explicit parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sim</strong> (<em>RQA2_simulators</em>) – Seeded simulator instance.</p></li>
+<li><p><strong>system</strong> (<em>str</em>) – One of <code class="docutils literal notranslate"><span class="pre">SYSTEM_PARAM_DEFAULTS</span></code>.</p></li>
+<li><p><strong>length</strong> (<em>int</em>) – Number of samples.</p></li>
+<li><p><strong>noise_sd</strong> (<em>float</em>) – SD of additive Gaussian observation noise (0 disables).</p></li>
+<li><p><strong>rng</strong> (<em>numpy.random.Generator</em>) – RNG for the observation noise.</p></li>
+<li><p><strong>**params</strong> – System parameters overriding the defaults (e.g. <code class="docutils literal notranslate"><span class="pre">c=4.0</span></code> for
+Rössler, <code class="docutils literal notranslate"><span class="pre">K=2.0,</span> <span class="pre">n_osc=15</span></code> for Kuramoto).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em> – 1-D for sine/white noise, else (length, n_dims).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="RQA2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">RQA2</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="nl_tests.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">nl_tests</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.recorder">recorder</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.HEADER_TEMPLATE"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.HEADER_TEMPLATE</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.clear"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.clear()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.n_blocks"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.n_blocks</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.record"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.record()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.recorder.ScriptRecorder.script"><code class="docutils literal notranslate"><span class="pre">ScriptRecorder.script()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.sensitivity">sensitivity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.sensitivity.MEASURES"><code class="docutils literal notranslate"><span class="pre">MEASURES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.sensitivity.window_size_sensitivity"><code class="docutils literal notranslate"><span class="pre">window_size_sensitivity()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-SMdRQA.ui.simulate">simulate</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.REGIMES"><code class="docutils literal notranslate"><span class="pre">REGIMES</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.SYSTEM_PARAM_DEFAULTS"><code class="docutils literal notranslate"><span class="pre">SYSTEM_PARAM_DEFAULTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.kuramoto_kc"><code class="docutils literal notranslate"><span class="pre">kuramoto_kc()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.regime_threshold"><code class="docutils literal notranslate"><span class="pre">regime_threshold()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.sample_regime_values"><code class="docutils literal notranslate"><span class="pre">sample_regime_values()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.ui.simulate.simulate_signal"><code class="docutils literal notranslate"><span class="pre">simulate_signal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

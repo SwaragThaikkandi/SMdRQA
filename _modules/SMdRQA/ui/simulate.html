@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMdRQA.ui.simulate &#8212; SMdRQA 2025.7.27 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=4418a689" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+
+    <script src="../../../_static/documentation_options.js?v=11407cb5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/SMdRQA/ui/simulate';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="2025.7.27" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SMdRQA 2025.7.27 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Menu</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">SMdRQA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../RQA2_documentation.html">RQA2 – Comprehensive Reference Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../authors.html">Authors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cite_us.html">Cite us</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../chapters/index.html">Chapters</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../chapters/introduction.html">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../chapters/Chapter1.html">Chapter 1- The Nonlinear World</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../chapters/Chapter2.html">Chapter 2- Taken’s Theorm and Time Delayed Embedding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../chapters/Chapter3.html">Chapter 3- False Nearest Neighbours and Embedding Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../chapters/Chapter4.html">Chapter 4- Recurrence Plot and Recurrence Quantification Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/kuramoto.html">Kuramoto Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/rossler.html">Rossler Attractor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/koul_et_al.html">Data from Koul et al(2023)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/troubleshoot-parameter.html">Troubleshooting: Parameter Search for embedding dimension</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/rossler_analysis_tutorial.html">RQA2 module example - Rössler Attractor Analysis Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/rqa2_ml_pipeline_example.html">RQA2 ML Pipeline Example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../functions/index.html">Functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/RQA2.html">RQA2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/ui.html">ui</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/nl_tests.html">nl_tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/RQA_functions.html">RQA_functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/RP_maker.html">RP_maker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/window_size.html">window_size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/Extract_from_RP.html">Extract_from_RP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/RP_maker_diagnose.html">RP_maker_diagnose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/cross_validation.html">cross_validation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../functions/utils.html">Utility Functions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../repo_details.html">Repository Information</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/SwaragThaikkandi/SMdRQA">Repository</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/SwaragThaikkandi/SMdRQA/issues/new?title=Issue%20on%20page%20%2F_modules/SMdRQA/ui/simulate.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for SMdRQA.ui.simulate</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Simulation helpers for the SMdRQA UI.</span>
+
+<span class="sd">Provides editable per-system parameter defaults (matching the</span>
+<span class="sd">``RQA2_simulators`` signatures), a registry of bifurcation-parameter</span>
+<span class="sd">regimes with suggested chaos thresholds, distribution-based parameter</span>
+<span class="sd">sampling for regime-labelled batch generation, and a standalone</span>
+<span class="sd">``simulate_signal`` used both by the UI and by the exported</span>
+<span class="sd">reproducibility scripts.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">SMdRQA.RQA2</span><span class="w"> </span><span class="kn">import</span> <span class="n">RQA2_simulators</span>
+
+<span class="c1">#: Editable parameters per system, mirroring RQA2_simulators defaults.</span>
+<span class="n">SYSTEM_PARAM_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;rossler&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mf">5.7</span><span class="p">},</span>
+    <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sigma&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mf">8.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">},</span>
+    <span class="s1">&#39;henon&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">1.4</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+    <span class="s1">&#39;chua&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">15.6</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">&#39;m0&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.143</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.714</span><span class="p">},</span>
+    <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;omega_sd&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;n_osc&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">&#39;sine&#39;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">&#39;white_noise&#39;</span><span class="p">:</span> <span class="p">{},</span>
+<span class="p">}</span>
+
+<span class="c1">#: Bifurcation-parameter metadata per system.  ``threshold`` is the</span>
+<span class="c1">#: suggested value separating the two dynamical regimes (holding the</span>
+<span class="c1">#: other parameters at their defaults); thresholds are approximate</span>
+<span class="c1">#: guides taken from the standard literature, not exact bifurcation</span>
+<span class="c1">#: points.</span>
+<span class="n">REGIMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;rossler&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">,</span>
+        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With a=b=0.2 the Rössler system period-doubles into &quot;</span>
+                 <span class="s2">&quot;chaos as c grows: c≈3.5 gives a simple limit cycle, &quot;</span>
+                 <span class="s2">&quot;chaos onsets near c≈4.2, and c=5.7 is the canonical &quot;</span>
+                 <span class="s2">&quot;chaotic attractor.&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">24.74</span><span class="p">,</span>
+        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;fixed_point&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With sigma=10, beta=8/3 the Lorenz fixed points lose &quot;</span>
+                 <span class="s2">&quot;stability at rho≈24.74; rho=28 is the canonical &quot;</span>
+                 <span class="s2">&quot;chaotic attractor.&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;henon&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">1.06</span><span class="p">,</span>
+        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With b=0.3 the Hénon map is largely periodic below &quot;</span>
+                 <span class="s2">&quot;a≈1.06 and chaotic (with periodic windows) up to the &quot;</span>
+                 <span class="s2">&quot;canonical a=1.4.&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;chua&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">8.8</span><span class="p">,</span>
+        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With the default beta/m0/m1, Chua&#39;s circuit shows &quot;</span>
+                 <span class="s2">&quot;limit cycles at low alpha and double-scroll chaos &quot;</span>
+                 <span class="s2">&quot;around the canonical alpha=15.6; alpha≈8.8 is an &quot;</span>
+                 <span class="s2">&quot;approximate transition guide.&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># depends on omega_sd; use kuramoto_kc()</span>
+        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;incoherent&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;synchronized&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;For Gaussian natural frequencies the critical &quot;</span>
+                 <span class="s2">&quot;coupling is K_c = omega_sd·sqrt(8/pi) ≈ &quot;</span>
+                 <span class="s2">&quot;1.596·omega_sd: incoherent below, synchronised &quot;</span>
+                 <span class="s2">&quot;above.&quot;</span><span class="p">),</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">DISTRIBUTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;fixed&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="kuramoto_kc">
+<a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.kuramoto_kc">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">kuramoto_kc</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Critical Kuramoto coupling for Gaussian frequencies.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">8.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="regime_threshold">
+<a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.regime_threshold">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">regime_threshold</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Suggested regime threshold for *system* (None if no regime).&quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span>
+        <span class="n">omega_sd</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s1">&#39;omega_sd&#39;</span><span class="p">,</span> <span class="n">SYSTEM_PARAM_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;kuramoto&#39;</span><span class="p">][</span><span class="s1">&#39;omega_sd&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">kuramoto_kc</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="sample_regime_values">
+<a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.sample_regime_values">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_regime_values</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">dist_params</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span>
+                         <span class="n">rng</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw *n* bifurcation-parameter values on one side of *threshold*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    distribution : {&#39;uniform&#39;, &#39;normal&#39;, &#39;fixed&#39;}</span>
+<span class="sd">    dist_params : dict</span>
+<span class="sd">        ``{&#39;low&#39;, &#39;high&#39;}`` for uniform, ``{&#39;mean&#39;, &#39;sd&#39;}`` for normal,</span>
+<span class="sd">        ``{&#39;value&#39;}`` for fixed.</span>
+<span class="sd">    n : int</span>
+<span class="sd">        Number of samples.</span>
+<span class="sd">    side : {&#39;below&#39;, &#39;above&#39;}</span>
+<span class="sd">        Which side of *threshold* the samples must fall on; draws are</span>
+<span class="sd">        clipped to that side so regime labels stay truthful.</span>
+<span class="sd">    threshold : float</span>
+<span class="sd">        Regime boundary.</span>
+<span class="sd">    rng : numpy.random.Generator</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray of shape (n,)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;fixed&#39;</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unknown distribution &#39;</span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="n">DISTRIBUTIONS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">margin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;below&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;above&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">+</span> <span class="n">margin</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;side must be &#39;below&#39; or &#39;above&#39;.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="simulate_signal">
+<a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.simulate_signal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate_signal</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">noise_sd</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate one signal from *system* with explicit parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sim : RQA2_simulators</span>
+<span class="sd">        Seeded simulator instance.</span>
+<span class="sd">    system : str</span>
+<span class="sd">        One of ``SYSTEM_PARAM_DEFAULTS``.</span>
+<span class="sd">    length : int</span>
+<span class="sd">        Number of samples.</span>
+<span class="sd">    noise_sd : float</span>
+<span class="sd">        SD of additive Gaussian observation noise (0 disables).</span>
+<span class="sd">    rng : numpy.random.Generator</span>
+<span class="sd">        RNG for the observation noise.</span>
+<span class="sd">    **params</span>
+<span class="sd">        System parameters overriding the defaults (e.g. ``c=4.0`` for</span>
+<span class="sd">        Rössler, ``K=2.0, n_osc=15`` for Kuramoto).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ndarray</span>
+<span class="sd">        1-D for sine/white noise, else (length, n_dims).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">SYSTEM_PARAM_DEFAULTS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="p">{}))</span>
+    <span class="n">merged</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;rossler&#39;</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;henon&#39;</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">henon</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;chua&#39;</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">chua</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">kuramoto</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;white_noise&#39;</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown system &#39;</span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">noise_sd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span> <span class="o">+</span> <span class="n">noise_sd</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sig</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Swarag Thaikkandi, Miss Nivedita, K.M Sharika. This documentation is licensed under a <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a> license.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

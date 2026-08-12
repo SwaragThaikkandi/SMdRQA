@@ -13,6 +13,7 @@ You can find here the API documentation of SMdRQA, with a description of all the
    :titlesonly:
 
    RQA2
+   ui
    nl_tests
    RQA_functions
    RP_maker
