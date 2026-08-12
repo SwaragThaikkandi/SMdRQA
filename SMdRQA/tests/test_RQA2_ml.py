@@ -999,3 +999,199 @@ class TestSurrogateNullVisualization:
             results, metric='silhouette')
         assert fig is not None
         plt.close(fig)
+
+
+# ---------------------------------------------------------------------------
+# Expanded model registry
+# ---------------------------------------------------------------------------
+
+class TestExpandedRegistry:
+
+    def test_all_registered_models_fit(self):
+        X, y = _two_class_data(n_per_class=10)
+        for name in RQA2_ml._MODEL_REGISTRY:
+            model = RQA2_ml._make_model(name, random_state=0)
+            model.fit(X, y)
+            assert model.predict(X).shape == y.shape
+
+    def test_param_grids_cover_registry(self):
+        for name in RQA2_ml._MODEL_REGISTRY:
+            assert name in RQA2_ml._PARAM_GRIDS
+
+    def test_param_grid_values_valid(self):
+        X, y = _two_class_data(n_per_class=10)
+        from sklearn.model_selection import ParameterGrid
+        for name, grid in RQA2_ml._PARAM_GRIDS.items():
+            params = list(ParameterGrid(grid))[0]
+            model = RQA2_ml._make_model(name, random_state=0)
+            model.set_params(**params)
+            model.fit(X, y)
+
+
+# ---------------------------------------------------------------------------
+# Nested CV: hyperparameter tuning
+# ---------------------------------------------------------------------------
+
+class TestNestedCVTuning:
+
+    def test_tune_records_best_params(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='knn', outer_iterations=4,
+            inner_splits=2, inner_iterations=2,
+            feature_selection=None, tune=True, random_state=0)
+        assert len(res['best_params']) == 4
+        for params in res['best_params']:
+            assert 'n_neighbors' in params
+
+    def test_tune_false_empty_params(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='knn', outer_iterations=3,
+            feature_selection=None, tune=False, random_state=0)
+        assert all(p == {} for p in res['best_params'])
+
+    def test_custom_param_grid(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='logreg', outer_iterations=3,
+            inner_splits=2, inner_iterations=1,
+            feature_selection=None, tune=True,
+            param_grid={'C': [0.5, 2.0]}, random_state=0)
+        for params in res['best_params']:
+            assert params['C'] in (0.5, 2.0)
+
+    def test_new_metrics_present(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='nb', outer_iterations=3,
+            feature_selection=None, random_state=0)
+        assert len(res['balanced_accuracy']) == 3
+        assert len(res['f1_macro']) == 3
+        assert np.all(res['balanced_accuracy'] >= 0)
+        assert np.all(res['f1_macro'] <= 1)
+
+    def test_tuned_accuracy_reasonable(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='logreg', outer_iterations=4,
+            inner_splits=2, inner_iterations=1,
+            feature_selection=None, tune=True, random_state=0)
+        assert np.mean(res['accuracy']) > 0.9  # separable data
+
+
+# ---------------------------------------------------------------------------
+# Nested CV: group-aware splitting
+# ---------------------------------------------------------------------------
+
+class TestGroupAwareSplits:
+
+    def _grouped_data(self):
+        X, y = _two_class_data(n_per_class=20)
+        # 10 groups of 4 samples; each group is entirely one class
+        groups = np.repeat(np.arange(10), 4)
+        return X, y, groups
+
+    def test_outer_splits_respect_groups(self):
+        X, y, groups = self._grouped_data()
+        for train_idx, test_idx in RQA2_ml._outer_splits(
+                X, y, groups, 6, 1.0 / 3, 0):
+            assert set(groups[train_idx]).isdisjoint(groups[test_idx])
+
+    def test_nested_cv_with_groups_runs(self):
+        X, y, groups = self._grouped_data()
+        ml = RQA2_ml()
+        res = ml.nested_cv_benchmark(
+            X, y, model='knn', outer_iterations=4,
+            inner_splits=2, inner_iterations=1,
+            feature_selection=None, groups=groups, random_state=0)
+        assert len(res['accuracy']) == 4
+
+    def test_groups_length_mismatch_raises(self):
+        X, y, _ = self._grouped_data()
+        ml = RQA2_ml()
+        with pytest.raises(ValueError, match="groups length"):
+            ml.nested_cv_benchmark(
+                X, y, model='knn', groups=np.arange(3))
+
+
+# ---------------------------------------------------------------------------
+# Integrated benchmark
+# ---------------------------------------------------------------------------
+
+class TestIntegratedBenchmark:
+
+    def _feature_frame(self):
+        X, y = _two_class_data()
+        df = pd.DataFrame(
+            X, columns=[f"f{i}" for i in range(X.shape[1])])
+        df.insert(0, 'label', y)
+        df.insert(0, 'id', [f"s{i}" for i in range(len(y))])
+        return df
+
+    def test_with_precomputed_features(self):
+        ml = RQA2_ml()
+        out = ml.integrated_benchmark(
+            features=self._feature_frame(),
+            models=('logreg', 'nb'),
+            tune=True, feature_selection=None,
+            outer_iterations=4, inner_iterations=1,
+            random_state=0, verbose=False)
+        assert set(out) >= {'features', 'results', 'comparison',
+                            'pairwise_tests', 'best_model_name',
+                            'best_model'}
+        assert set(out['results']) == {'logreg', 'nb'}
+        acc = out['comparison']['accuracy_mean'].to_numpy()
+        assert np.all(np.diff(acc) <= 0)  # sorted descending
+        assert {'p_value', 'p_adjusted', 'significant'} <= set(
+            out['pairwise_tests'].columns)
+        preds = out['best_model'].predict(
+            self._feature_frame().drop(columns=['id', 'label']))
+        assert preds.shape == (40,)
+
+    def test_from_signals(self):
+        rng = np.random.default_rng(0)
+        signals = ([np.sin(np.linspace(0, 8 * np.pi, 80))
+                    + 0.1 * rng.standard_normal(80) for _ in range(4)]
+                   + [rng.standard_normal(80) for _ in range(4)])
+        labels = [0] * 4 + [1] * 4
+        ml = RQA2_ml()
+        out = ml.integrated_benchmark(
+            signals, labels, window_size=40,
+            models=('knn',), tune=False, feature_selection=None,
+            outer_iterations=3, inner_iterations=1,
+            random_state=0, verbose=False)
+        assert len(out['features']) == 8
+        assert 'knn' in out['results']
+
+    def test_requires_input(self):
+        ml = RQA2_ml()
+        with pytest.raises(ValueError, match="signals_or_dir or features"):
+            ml.integrated_benchmark(verbose=False)
+
+    def test_requires_labels(self):
+        ml = RQA2_ml()
+        X, _ = _two_class_data()
+        df = pd.DataFrame(X)
+        with pytest.raises(ValueError, match="label"):
+            ml.integrated_benchmark(features=df, verbose=False)
+
+
+# ---------------------------------------------------------------------------
+# supervised_benchmark models='all'
+# ---------------------------------------------------------------------------
+
+class TestSupervisedAll:
+
+    def test_models_all(self):
+        X, y = _two_class_data()
+        ml = RQA2_ml()
+        results_df, best_model = ml.supervised_benchmark(
+            X, y, models='all', cv=3, random_state=0)
+        assert set(results_df['model']) == set(RQA2_ml._MODEL_REGISTRY)
+        assert best_model.predict(X).shape == y.shape
