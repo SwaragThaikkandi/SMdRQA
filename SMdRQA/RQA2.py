@@ -1269,7 +1269,8 @@ class RQA2:
             s1_flat[idx] - s1_flat[neigh_idx], axis=1) + 1e-12
         distp = np.linalg.norm(s2_flat[idx] - s2_flat[neigh_idx], axis=1)
 
-        # ratios[k, i]: neighbour/false-neighbour status of point i at r_values[k]
+        # ratios[k, i]: neighbour/false-neighbour status of point i at
+        # r_values[k]
         isneigh = disto[None, :] < (sd / r_values)[:, None]
         isfalse = isneigh & ((distp / disto)[None, :] > r_values[:, None])
         ratios = isfalse.sum(axis=1) / (isneigh.sum(axis=1) + 1e-12)
@@ -1458,7 +1459,8 @@ class RQA2:
         rp = np.asarray(rplot)
 
         # Row i of M holds the diagonal starting at rplot[i, 0] (zero-padded),
-        # so all lower-triangle diagonals can be run-length encoded in one pass.
+        # so all lower-triangle diagonals can be run-length encoded in one
+        # pass.
         M = np.zeros((n, n), dtype=np.int8)
         for i in range(n):
             diag = np.diagonal(rp, offset=-i)
