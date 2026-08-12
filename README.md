@@ -62,6 +62,22 @@ You can obtain SMdRQA by following these steps:
    ```bash
    docker pull tsk365/smdrqa
    ```
+
+## Interactive UI
+
+SMdRQA ships an optional browser UI (Streamlit) covering the whole workflow — data import or regime-labelled simulation, single/sliding-window RQA, window-size sensitivity, and machine-learning benchmarking — with every action mirrored into a downloadable, seeded Python script for full reproducibility.
+
+```bash
+pip install SMdRQA[ui]
+smdrqa-ui
+```
+
+Highlights:
+
+- **Simulate labelled datasets**: pick a system (Rössler, Lorenz, Hénon, Chua, Kuramoto), edit its parameters, and sample the bifurcation parameter from user-chosen distributions on either side of a suggested chaos threshold — each side gets its own class label for the ML tab. For Kuramoto, the oscillator count can be sampled from a range.
+- **Machine learning**: nested cross-validation over eight scikit-learn classifiers with optional hyperparameter tuning and group-aware splits, progress bars, interactive plots, and BH-corrected pairwise model comparisons (`RQA2_ml.integrated_benchmark`).
+- **Reproducibility**: a required random seed plus a Script tab that exports the entire session as a standalone `.py` file.
+
 ## Provide Feedback
 
 Your feedback is valuable for improving SMdRQA. You can provide feedback in the following ways:
