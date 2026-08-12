@@ -424,18 +424,24 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">silhouette_score</span><span class="p">,</span>
     <span class="n">roc_auc_score</span><span class="p">,</span> <span class="n">calinski_harabasz_score</span><span class="p">,</span> <span class="n">davies_bouldin_score</span><span class="p">,</span>
-    <span class="n">adjusted_rand_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span>
+    <span class="n">adjusted_rand_score</span><span class="p">,</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">balanced_accuracy_score</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">RepeatedKFold</span><span class="p">,</span> <span class="n">StratifiedKFold</span><span class="p">,</span> <span class="n">StratifiedShuffleSplit</span><span class="p">,</span>
-    <span class="n">RepeatedStratifiedKFold</span><span class="p">,</span>
+    <span class="n">RepeatedStratifiedKFold</span><span class="p">,</span> <span class="n">StratifiedGroupKFold</span><span class="p">,</span> <span class="n">ParameterGrid</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">clone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.pipeline</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_pipeline</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsClassifier</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.discriminant_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">ExtraTreesClassifier</span><span class="p">,</span>
+    <span class="n">HistGradientBoostingClassifier</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span><span class="p">,</span> <span class="n">AgglomerativeClustering</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.mixture</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianMixture</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
@@ -3134,9 +3140,38 @@
     <span class="n">_MODEL_REGISTRY</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;knn&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">KNeighborsClassifier</span><span class="p">(),</span>
         <span class="s1">&#39;svm&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">SVC</span><span class="p">(</span>
-            <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+            <span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">probability</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
         <span class="s1">&#39;rf&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
             <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
+        <span class="s1">&#39;logreg&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">LogisticRegression</span><span class="p">(</span>
+            <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
+        <span class="s1">&#39;lda&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">(),</span>
+        <span class="s1">&#39;nb&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">GaussianNB</span><span class="p">(),</span>
+        <span class="s1">&#39;gb&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">HistGradientBoostingClassifier</span><span class="p">(</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
+        <span class="s1">&#39;et&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">rs</span><span class="p">:</span> <span class="n">ExtraTreesClassifier</span><span class="p">(</span>
+            <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">rs</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="c1">#: Compact hyperparameter grids searched in the inner CV loop when</span>
+    <span class="c1">#: ``tune=True``.  Kept deliberately small so nested search stays</span>
+    <span class="c1">#: tractable; override per call via ``param_grid``.</span>
+    <span class="n">_PARAM_GRIDS</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;knn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;n_neighbors&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+                <span class="s1">&#39;weights&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">]},</span>
+        <span class="s1">&#39;svm&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span>
+                <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]},</span>
+        <span class="s1">&#39;rf&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="s1">&#39;log2&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+               <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span>
+        <span class="s1">&#39;et&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max_features&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="s1">&#39;log2&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span>
+               <span class="s1">&#39;min_samples_leaf&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span>
+        <span class="s1">&#39;logreg&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">]},</span>
+        <span class="s1">&#39;lda&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;svd&#39;</span><span class="p">]},</span>
+                <span class="p">{</span><span class="s1">&#39;solver&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;lsqr&#39;</span><span class="p">],</span> <span class="s1">&#39;shrinkage&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">]}],</span>
+        <span class="s1">&#39;nb&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;var_smoothing&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">]},</span>
+        <span class="s1">&#39;gb&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+               <span class="s1">&#39;max_leaf_nodes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">31</span><span class="p">]},</span>
     <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rqa_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -3239,6 +3274,106 @@
                 <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_PrecomputedSplitter</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Splitter facade over a fixed list of (train, val) index pairs.</span>
+
+<span class="sd">        Lets group-aware splits flow through code written against the</span>
+<span class="sd">        sklearn splitter interface (feature selection, tuning).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_splits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_splits</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_outer_splits</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">n_iterations</span><span class="p">,</span> <span class="n">test_fraction</span><span class="p">,</span>
+                      <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Yield stratified outer train/test splits, group-aware if needed.</span>
+
+<span class="sd">        Without *groups* this matches the historical behaviour</span>
+<span class="sd">        (StratifiedShuffleSplit).  With *groups*, folds come from</span>
+<span class="sd">        re-seeded StratifiedGroupKFold sweeps so that no group ever</span>
+<span class="sd">        appears on both sides of a split.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">splitter</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="n">n_iterations</span><span class="p">,</span>
+                <span class="n">test_size</span><span class="o">=</span><span class="n">test_fraction</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">n_splits</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">test_fraction</span><span class="p">)))</span>
+        <span class="n">n_splits</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_splits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">groups</span><span class="p">)))</span>
+        <span class="n">produced</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">sweep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">produced</span> <span class="o">&lt;</span> <span class="n">n_iterations</span><span class="p">:</span>
+            <span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedGroupKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span> <span class="o">+</span> <span class="n">sweep</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span>
+                <span class="n">produced</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">produced</span> <span class="o">&gt;=</span> <span class="n">n_iterations</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="n">sweep</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inner_splitter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="p">,</span>
+                        <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the inner-CV splitter, group-aware when *groups* given.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="n">n_repeats</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+
+        <span class="n">n_splits</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_splits</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">groups</span><span class="p">)))</span>
+        <span class="n">splits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">repeat</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_repeats</span><span class="p">):</span>
+            <span class="n">skf</span> <span class="o">=</span> <span class="n">StratifiedGroupKFold</span><span class="p">(</span>
+                <span class="n">n_splits</span><span class="o">=</span><span class="n">n_splits</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span> <span class="o">+</span> <span class="n">repeat</span><span class="p">)</span>
+            <span class="n">splits</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">skf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">groups</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_PrecomputedSplitter</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tune_hyperparams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">use_scaler</span><span class="p">,</span>
+                          <span class="n">param_grid</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Grid-search hyperparameters over the inner CV splits.</span>
+
+<span class="sd">        Returns the parameter dict with the highest mean validation</span>
+<span class="sd">        accuracy (empty dict when the grid is empty).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">param_grid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PARAM_GRIDS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ParameterGrid</span><span class="p">(</span><span class="n">param_grid</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">candidates</span> <span class="k">else</span> <span class="p">{}</span>
+
+        <span class="n">splits</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">best_score</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">best_params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">params</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">val_idx</span> <span class="ow">in</span> <span class="n">splits</span><span class="p">:</span>
+                <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+                <span class="n">est</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">use_scaler</span><span class="p">:</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pipe</span> <span class="o">=</span> <span class="n">est</span>
+                <span class="n">pipe</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+                <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span>
+                    <span class="n">y</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">val_idx</span><span class="p">])))</span>
+            <span class="n">mean_score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mean_score</span> <span class="o">&gt;</span> <span class="n">best_score</span><span class="p">:</span>
+                <span class="n">best_score</span> <span class="o">=</span> <span class="n">mean_score</span>
+                <span class="n">best_params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="k">return</span> <span class="n">best_params</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_select_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">splitter</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">use_scaler</span><span class="p">,</span>
                          <span class="n">method</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">):</span>
@@ -3494,15 +3629,19 @@
         <span class="n">inner_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">feature_selection</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
         <span class="n">max_subset_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">param_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Nested cross-validation with best-subset feature selection.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Nested cross-validation with feature selection and tuning.</span>
 
 <span class="sd">        Implements the validation procedure described in the SMdRQA paper:</span>
 <span class="sd">        the outer loop evaluates generalisation performance on held-out</span>
-<span class="sd">        data, while the inner loop performs feature selection exclusively</span>
-<span class="sd">        on the training fold to prevent data leakage.</span>
+<span class="sd">        data, while the inner loop performs feature selection — and,</span>
+<span class="sd">        with ``tune=True``, hyperparameter search — exclusively on the</span>
+<span class="sd">        training fold to prevent data leakage.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -3511,15 +3650,17 @@
 <span class="sd">        y : array-like of shape (n_samples,)</span>
 <span class="sd">            Target labels.  Must contain at least two unique classes.</span>
 <span class="sd">        model : str, default ``&#39;knn&#39;``</span>
-<span class="sd">            One of ``&#39;knn&#39;``, ``&#39;svm&#39;``, ``&#39;rf&#39;``.</span>
+<span class="sd">            Any key of ``_MODEL_REGISTRY``: ``&#39;knn&#39;``, ``&#39;svm&#39;``,</span>
+<span class="sd">            ``&#39;rf&#39;``, ``&#39;logreg&#39;``, ``&#39;lda&#39;``, ``&#39;nb&#39;``, ``&#39;gb&#39;``,</span>
+<span class="sd">            ``&#39;et&#39;``.</span>
 <span class="sd">        outer_iterations : int, default 100</span>
-<span class="sd">            Number of random stratified train/test splits.</span>
+<span class="sd">            Number of stratified train/test splits.</span>
 <span class="sd">        test_fraction : float, default 1/3</span>
 <span class="sd">            Fraction of data held out as the test set in each outer</span>
 <span class="sd">            iteration.</span>
 <span class="sd">        inner_splits : int, default 2</span>
 <span class="sd">            Number of folds in the inner stratified CV used for feature</span>
-<span class="sd">            selection.</span>
+<span class="sd">            selection and tuning.</span>
 <span class="sd">        inner_iterations : int, default 10</span>
 <span class="sd">            Number of repeats of the inner CV.</span>
 <span class="sd">        feature_selection : {``&#39;auto&#39;``, ``&#39;exhaustive&#39;``, ``&#39;forward&#39;``,</span>
@@ -3529,6 +3670,17 @@
 <span class="sd">            sequential selection.  ``None`` disables feature selection.</span>
 <span class="sd">        max_subset_size : int, optional</span>
 <span class="sd">            Maximum number of features to select.  Defaults to all.</span>
+<span class="sd">        tune : bool, default ``False``</span>
+<span class="sd">            When ``True``, grid-search the model hyperparameters on the</span>
+<span class="sd">            inner CV of each outer training fold (after feature</span>
+<span class="sd">            selection) instead of using fixed defaults.</span>
+<span class="sd">        param_grid : dict or list of dict, optional</span>
+<span class="sd">            Hyperparameter grid to search when ``tune=True``.  Defaults</span>
+<span class="sd">            to ``_PARAM_GRIDS[model]``.</span>
+<span class="sd">        groups : array-like of shape (n_samples,), optional</span>
+<span class="sd">            Group labels (e.g. subject or recording IDs).  When given,</span>
+<span class="sd">            both outer and inner splits keep each group entirely on one</span>
+<span class="sd">            side, preventing group-level leakage.</span>
 <span class="sd">        scaler : bool, default True</span>
 <span class="sd">            Whether to prepend a</span>
 <span class="sd">            :class:`~sklearn.preprocessing.StandardScaler`.</span>
@@ -3540,10 +3692,17 @@
 <span class="sd">        dict</span>
 <span class="sd">            ``&#39;accuracy&#39;`` : ndarray of shape (*outer_iterations*,)</span>
 <span class="sd">                Test-set accuracy per outer iteration.</span>
+<span class="sd">            ``&#39;balanced_accuracy&#39;`` : ndarray</span>
+<span class="sd">                Test-set balanced accuracy per outer iteration.</span>
+<span class="sd">            ``&#39;f1_macro&#39;`` : ndarray</span>
+<span class="sd">                Test-set macro-averaged F1 per outer iteration.</span>
 <span class="sd">            ``&#39;roc_auc&#39;`` : ndarray of shape (*outer_iterations*,)</span>
 <span class="sd">                Test-set ROC AUC per outer iteration.</span>
 <span class="sd">            ``&#39;selected_features&#39;`` : list of tuple</span>
 <span class="sd">                Feature indices selected in each outer iteration.</span>
+<span class="sd">            ``&#39;best_params&#39;`` : list of dict</span>
+<span class="sd">                Hyperparameters chosen in each outer iteration</span>
+<span class="sd">                (empty dicts when ``tune=False``).</span>
 <span class="sd">            ``&#39;feature_names&#39;`` : list of str or None</span>
 <span class="sd">                Column names if *X* is a DataFrame.</span>
 <span class="sd">            ``&#39;feature_frequency&#39;`` : Series</span>
@@ -3555,34 +3714,39 @@
         <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">y_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">groups_arr</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
         <span class="n">feature_names</span> <span class="o">=</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
                          <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_arr</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y must contain at least two classes.&quot;</span><span class="p">)</span>
-
-        <span class="n">outer_splitter</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span>
-            <span class="n">n_splits</span><span class="o">=</span><span class="n">outer_iterations</span><span class="p">,</span>
-            <span class="n">test_size</span><span class="o">=</span><span class="n">test_fraction</span><span class="p">,</span>
-            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">groups_arr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups_arr</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_arr</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;groups length must match number of samples.&quot;</span><span class="p">)</span>
 
         <span class="n">accuracies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">balanced_accuracies</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">f1_macros</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">roc_aucs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">selected_features_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">best_params_list</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-                <span class="n">outer_splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">)):</span>
+        <span class="n">outer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outer_splits</span><span class="p">(</span>
+            <span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">,</span> <span class="n">groups_arr</span><span class="p">,</span> <span class="n">outer_iterations</span><span class="p">,</span> <span class="n">test_fraction</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">fold_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">outer</span><span class="p">):</span>
             <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">X_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
             <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y_arr</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
+            <span class="n">groups_train</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span> <span class="k">if</span> <span class="n">groups_arr</span> <span class="ow">is</span> <span class="kc">None</span>
+                            <span class="k">else</span> <span class="n">groups_arr</span><span class="p">[</span><span class="n">train_idx</span><span class="p">])</span>
+
+            <span class="n">inner_splitter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inner_splitter</span><span class="p">(</span>
+                <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">groups_train</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span>
+                <span class="n">inner_iterations</span><span class="p">,</span> <span class="n">random_state</span> <span class="o">+</span> <span class="n">fold_idx</span><span class="p">)</span>
 
             <span class="c1"># Inner CV for feature selection</span>
             <span class="k">if</span> <span class="n">feature_selection</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">inner_splitter</span> <span class="o">=</span> <span class="n">RepeatedStratifiedKFold</span><span class="p">(</span>
-                    <span class="n">n_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
-                    <span class="n">n_repeats</span><span class="o">=</span><span class="n">inner_iterations</span><span class="p">,</span>
-                    <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span> <span class="o">+</span> <span class="n">fold_idx</span><span class="p">,</span>
-                <span class="p">)</span>
                 <span class="n">subset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_features</span><span class="p">(</span>
                     <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">inner_splitter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span>
                     <span class="n">feature_selection</span><span class="p">,</span> <span class="n">max_subset_size</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
@@ -3591,11 +3755,22 @@
 
             <span class="n">selected_features_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
 
-            <span class="c1"># Train on full training set with selected features</span>
             <span class="n">X_train_sub</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">)]</span>
             <span class="n">X_test_sub</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[:,</span> <span class="nb">list</span><span class="p">(</span><span class="n">subset</span><span class="p">)]</span>
 
+            <span class="c1"># Inner CV for hyperparameter tuning on the selected subset</span>
+            <span class="k">if</span> <span class="n">tune</span><span class="p">:</span>
+                <span class="n">best_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tune_hyperparams</span><span class="p">(</span>
+                    <span class="n">X_train_sub</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">inner_splitter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span>
+                    <span class="n">param_grid</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">best_params</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">best_params_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_params</span><span class="p">)</span>
+
+            <span class="c1"># Train on full training set with selected features/params</span>
             <span class="n">est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">best_params</span><span class="p">:</span>
+                <span class="n">est</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
                 <span class="n">pipe</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">est</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -3604,6 +3779,9 @@
 
             <span class="n">preds</span> <span class="o">=</span> <span class="n">pipe</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_sub</span><span class="p">)</span>
             <span class="n">accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+            <span class="n">balanced_accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">balanced_accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">))</span>
+            <span class="n">f1_macros</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">preds</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s1">&#39;macro&#39;</span><span class="p">))</span>
             <span class="n">roc_aucs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_compute_roc_auc</span><span class="p">(</span><span class="n">pipe</span><span class="p">,</span> <span class="n">X_test_sub</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 
@@ -3620,8 +3798,11 @@
 
         <span class="k">return</span> <span class="p">{</span>
             <span class="s1">&#39;accuracy&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">accuracies</span><span class="p">),</span>
+            <span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">balanced_accuracies</span><span class="p">),</span>
+            <span class="s1">&#39;f1_macro&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f1_macros</span><span class="p">),</span>
             <span class="s1">&#39;roc_auc&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roc_aucs</span><span class="p">),</span>
             <span class="s1">&#39;selected_features&#39;</span><span class="p">:</span> <span class="n">selected_features_list</span><span class="p">,</span>
+            <span class="s1">&#39;best_params&#39;</span><span class="p">:</span> <span class="n">best_params_list</span><span class="p">,</span>
             <span class="s1">&#39;feature_names&#39;</span><span class="p">:</span> <span class="n">feature_names</span><span class="p">,</span>
             <span class="s1">&#39;feature_frequency&#39;</span><span class="p">:</span> <span class="n">freq_series</span><span class="p">,</span>
             <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
@@ -3656,7 +3837,9 @@
 <span class="sd">        ----------</span>
 <span class="sd">        X : array-like of shape (n_samples, n_features)</span>
 <span class="sd">        y : array-like of shape (n_samples,)</span>
-<span class="sd">        models : tuple of str, default ``(&#39;knn&#39;, &#39;svm&#39;, &#39;rf&#39;)``</span>
+<span class="sd">        models : tuple of str or ``&#39;all&#39;``, default ``(&#39;knn&#39;, &#39;svm&#39;, &#39;rf&#39;)``</span>
+<span class="sd">            Model names to benchmark; ``&#39;all&#39;`` runs every registered</span>
+<span class="sd">            model.</span>
 <span class="sd">        cv : int, default 5</span>
 <span class="sd">        scaler : bool, default True</span>
 <span class="sd">        random_state : int, default 42</span>
@@ -3670,6 +3853,8 @@
 <span class="sd">        best_model : sklearn estimator</span>
 <span class="sd">            Best classifier refit on all of *X* and *y*.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">models</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">models</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_MODEL_REGISTRY</span><span class="p">))</span>
         <span class="n">X_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">X_arr</span> <span class="o">=</span> <span class="n">X_arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -3728,6 +3913,224 @@
         <span class="n">best_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_arr</span><span class="p">,</span> <span class="n">y_arr</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">results_df</span><span class="p">,</span> <span class="n">best_model</span></div>
+
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Integrated end-to-end pipeline</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="RQA2_ml.integrated_benchmark">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_ml.integrated_benchmark">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">integrated_benchmark</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">signals_or_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">features</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">window_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">window_step</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">models</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+        <span class="n">tune</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">feature_selection</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
+        <span class="n">outer_iterations</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">test_fraction</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">inner_iterations</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">scaler</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+        <span class="n">rqa_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;End-to-end pipeline: signals → features → tuned nested CV →</span>
+<span class="sd">        statistical model comparison.</span>
+
+<span class="sd">        Runs :meth:`build_feature_table` (unless a precomputed</span>
+<span class="sd">        *features* table is supplied), benchmarks every requested model</span>
+<span class="sd">        with :meth:`nested_cv_benchmark` (hyperparameter tuning on by</span>
+<span class="sd">        default), compares all model pairs with Wilcoxon signed-rank</span>
+<span class="sd">        tests under Benjamini–Hochberg correction, and refits the best</span>
+<span class="sd">        model on the full dataset.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        signals_or_dir : str, PathLike, ndarray, list, or tuple, optional</span>
+<span class="sd">            Input signals — see :meth:`_load_signals`.  Not needed when</span>
+<span class="sd">            *features* is given.</span>
+<span class="sd">        labels : array-like, optional</span>
+<span class="sd">            Class labels aligned with the signals.  Required unless</span>
+<span class="sd">            *features* contains a ``label`` column.</span>
+<span class="sd">        features : pandas.DataFrame, optional</span>
+<span class="sd">            Precomputed feature table (e.g. from</span>
+<span class="sd">            :meth:`build_feature_table`).  Columns ``id`` and ``label``</span>
+<span class="sd">            are treated as metadata, everything else as features.</span>
+<span class="sd">        window_size : int, optional</span>
+<span class="sd">            Sliding-window size forwarded to</span>
+<span class="sd">            :meth:`build_feature_table`.  Required when building</span>
+<span class="sd">            features from signals.</span>
+<span class="sd">        window_step : int, default 1</span>
+<span class="sd">            Sliding-window step forwarded to</span>
+<span class="sd">            :meth:`build_feature_table`.</span>
+<span class="sd">        models : tuple of str or ``&#39;all&#39;``, default ``&#39;all&#39;``</span>
+<span class="sd">            Model names to benchmark.</span>
+<span class="sd">        tune : bool, default ``True``</span>
+<span class="sd">            Grid-search hyperparameters in the inner CV loop.</span>
+<span class="sd">        feature_selection : {``&#39;auto&#39;``, ``&#39;exhaustive&#39;``, ``&#39;forward&#39;``,</span>
+<span class="sd">                             ``None``}, default ``&#39;auto&#39;``</span>
+<span class="sd">        outer_iterations : int, default 50</span>
+<span class="sd">        test_fraction : float, default 1/3</span>
+<span class="sd">        inner_splits : int, default 2</span>
+<span class="sd">        inner_iterations : int, default 5</span>
+<span class="sd">        groups : array-like, optional</span>
+<span class="sd">            Group labels (one per sample) for leakage-free splitting —</span>
+<span class="sd">            see :meth:`nested_cv_benchmark`.</span>
+<span class="sd">        scaler : bool, default True</span>
+<span class="sd">        alpha : float, default 0.05</span>
+<span class="sd">            FDR level for the Benjamini–Hochberg correction of the</span>
+<span class="sd">            pairwise model comparisons.</span>
+<span class="sd">        random_state : int, default 42</span>
+<span class="sd">        rqa_kwargs : dict, optional</span>
+<span class="sd">            Forwarded to :meth:`build_feature_table`.</span>
+<span class="sd">        verbose : bool, default True</span>
+<span class="sd">            Print progress messages.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            ``&#39;features&#39;`` : DataFrame — the feature table used.</span>
+<span class="sd">            ``&#39;results&#39;`` : dict — model name → full</span>
+<span class="sd">            :meth:`nested_cv_benchmark` result dict.</span>
+<span class="sd">            ``&#39;comparison&#39;`` : DataFrame — one row per model with mean and</span>
+<span class="sd">            std of every metric, sorted by mean accuracy.</span>
+<span class="sd">            ``&#39;pairwise_tests&#39;`` : DataFrame — Wilcoxon test per model</span>
+<span class="sd">            pair with BH-corrected significance.</span>
+<span class="sd">            ``&#39;best_model_name&#39;`` : str</span>
+<span class="sd">            ``&#39;best_model&#39;`` : fitted sklearn estimator — best model</span>
+<span class="sd">            refit on the full dataset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">features</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signals_or_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Provide either signals_or_dir or features.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">window_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;window_size is required when building features &quot;</span>
+                    <span class="s2">&quot;from signals.&quot;</span><span class="p">)</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_feature_table</span><span class="p">(</span>
+                <span class="n">signals_or_dir</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span>
+                <span class="n">window_size</span><span class="o">=</span><span class="n">window_size</span><span class="p">,</span> <span class="n">window_step</span><span class="o">=</span><span class="n">window_step</span><span class="p">,</span>
+                <span class="n">rqa_kwargs</span><span class="o">=</span><span class="n">rqa_kwargs</span><span class="p">)</span>
+
+        <span class="n">meta_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">meta_cols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">features</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;labels must be given or features must contain a &quot;</span>
+                <span class="s2">&quot;&#39;label&#39; column.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">models</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">models</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_MODEL_REGISTRY</span><span class="p">))</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">comparison_rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[integrated_benchmark] nested CV: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested_cv_benchmark</span><span class="p">(</span>
+                <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                <span class="n">model</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">outer_iterations</span><span class="o">=</span><span class="n">outer_iterations</span><span class="p">,</span>
+                <span class="n">test_fraction</span><span class="o">=</span><span class="n">test_fraction</span><span class="p">,</span>
+                <span class="n">inner_splits</span><span class="o">=</span><span class="n">inner_splits</span><span class="p">,</span>
+                <span class="n">inner_iterations</span><span class="o">=</span><span class="n">inner_iterations</span><span class="p">,</span>
+                <span class="n">feature_selection</span><span class="o">=</span><span class="n">feature_selection</span><span class="p">,</span>
+                <span class="n">tune</span><span class="o">=</span><span class="n">tune</span><span class="p">,</span>
+                <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span>
+                <span class="n">scaler</span><span class="o">=</span><span class="n">scaler</span><span class="p">,</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+            <span class="n">comparison_rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="s1">&#39;accuracy_mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;accuracy_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;balanced_accuracy_mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;balanced_accuracy_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;balanced_accuracy&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;f1_macro_mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;f1_macro&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;f1_macro_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;f1_macro&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;roc_auc_mean&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">])),</span>
+                <span class="s1">&#39;roc_auc_std&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;roc_auc&#39;</span><span class="p">])),</span>
+            <span class="p">})</span>
+
+        <span class="n">comparison</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">comparison_rows</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="s1">&#39;accuracy_mean&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Pairwise Wilcoxon tests with BH correction</span>
+        <span class="n">pairs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">models</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">pair_rows</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name_a</span><span class="p">,</span> <span class="n">name_b</span> <span class="ow">in</span> <span class="n">pairs</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">name_a</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">name_b</span><span class="p">][</span><span class="s1">&#39;accuracy&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+                <span class="n">test</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;statistic&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                        <span class="s1">&#39;effect_size&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compare_scores</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+            <span class="n">pair_rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s1">&#39;model_a&#39;</span><span class="p">:</span> <span class="n">name_a</span><span class="p">,</span>
+                <span class="s1">&#39;model_b&#39;</span><span class="p">:</span> <span class="n">name_b</span><span class="p">,</span>
+                <span class="s1">&#39;statistic&#39;</span><span class="p">:</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;statistic&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;p_value&#39;</span><span class="p">:</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;p_value&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;effect_size&#39;</span><span class="p">:</span> <span class="n">test</span><span class="p">[</span><span class="s1">&#39;effect_size&#39;</span><span class="p">],</span>
+            <span class="p">})</span>
+            <span class="n">p_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;p_value&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">pair_rows</span><span class="p">:</span>
+            <span class="n">p_dict</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">p</span>
+                      <span class="k">for</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">p_values</span><span class="p">)}</span>
+            <span class="n">adjusted</span><span class="p">,</span> <span class="n">rejected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_benjamini_hochberg</span><span class="p">(</span>
+                <span class="n">p_dict</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="p">(</span><span class="n">name_a</span><span class="p">,</span> <span class="n">name_b</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pair_rows</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name_a</span><span class="si">}</span><span class="s2">|</span><span class="si">{</span><span class="n">name_b</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">row</span><span class="p">[</span><span class="s1">&#39;p_adjusted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adjusted</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="n">row</span><span class="p">[</span><span class="s1">&#39;significant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rejected</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">pairwise_tests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pair_rows</span><span class="p">)</span>
+
+        <span class="c1"># Refit the best model (by mean accuracy) on the full dataset</span>
+        <span class="n">best_name</span> <span class="o">=</span> <span class="n">comparison</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+        <span class="n">best_est</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_model</span><span class="p">(</span><span class="n">best_name</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tune</span><span class="p">:</span>
+            <span class="n">full_splitter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inner_splitter</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span>
+                <span class="kc">None</span> <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">groups</span><span class="p">),</span>
+                <span class="n">inner_splits</span><span class="p">,</span> <span class="n">inner_iterations</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="n">best_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tune_hyperparams</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">full_splitter</span><span class="p">,</span>
+                <span class="n">best_name</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">random_state</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">best_params</span><span class="p">:</span>
+                <span class="n">best_est</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span><span class="o">**</span><span class="n">best_params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">scaler</span><span class="p">:</span>
+            <span class="n">best_model</span> <span class="o">=</span> <span class="n">make_pipeline</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">(),</span> <span class="n">best_est</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">best_model</span> <span class="o">=</span> <span class="n">best_est</span>
+        <span class="n">best_model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+            <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="n">results</span><span class="p">,</span>
+            <span class="s1">&#39;comparison&#39;</span><span class="p">:</span> <span class="n">comparison</span><span class="p">,</span>
+            <span class="s1">&#39;pairwise_tests&#39;</span><span class="p">:</span> <span class="n">pairwise_tests</span><span class="p">,</span>
+            <span class="s1">&#39;best_model_name&#39;</span><span class="p">:</span> <span class="n">best_name</span><span class="p">,</span>
+            <span class="s1">&#39;best_model&#39;</span><span class="p">:</span> <span class="n">best_model</span><span class="p">,</span>
+        <span class="p">}</span></div>
 
 
     <span class="c1"># ------------------------------------------------------------------</span>

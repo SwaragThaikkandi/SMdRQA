@@ -509,6 +509,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.cluster_stability"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.cluster_stability()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.compare_scores"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.compare_scores()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.feature_importance"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.feature_importance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.integrated_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.integrated_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.nested_cv_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_benchmark_results"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_benchmark_results()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_cluster_scatter"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_cluster_scatter()</span></code></a></li>
@@ -1417,30 +1418,99 @@ clustering is.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.integrated_benchmark">
+<span class="sig-name descname"><span class="pre">integrated_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signals_or_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">models</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_selection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rqa_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.integrated_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.integrated_benchmark" title="Link to this definition">#</a></dt>
+<dd><p>End-to-end pipeline: signals → features → tuned nested CV →
+statistical model comparison.</p>
+<p>Runs <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a> (unless a precomputed
+<em>features</em> table is supplied), benchmarks every requested model
+with <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nested_cv_benchmark()</span></code></a> (hyperparameter tuning on by
+default), compares all model pairs with Wilcoxon signed-rank
+tests under Benjamini–Hochberg correction, and refits the best
+model on the full dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signals_or_dir</strong> (<em>str, PathLike, ndarray, list, or tuple, optional</em>) – Input signals — see <code class="xref py py-meth docutils literal notranslate"><span class="pre">_load_signals()</span></code>.  Not needed when
+<em>features</em> is given.</p></li>
+<li><p><strong>labels</strong> (<em>array-like, optional</em>) – Class labels aligned with the signals.  Required unless
+<em>features</em> contains a <code class="docutils literal notranslate"><span class="pre">label</span></code> column.</p></li>
+<li><p><strong>features</strong> (<em>pandas.DataFrame, optional</em>) – Precomputed feature table (e.g. from
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>).  Columns <code class="docutils literal notranslate"><span class="pre">id</span></code> and <code class="docutils literal notranslate"><span class="pre">label</span></code>
+are treated as metadata, everything else as features.</p></li>
+<li><p><strong>window_size</strong> (<em>int, optional</em>) – Sliding-window size forwarded to
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.  Required when building
+features from signals.</p></li>
+<li><p><strong>window_step</strong> (<em>int, default 1</em>) – Sliding-window step forwarded to
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.</p></li>
+<li><p><strong>models</strong> (tuple of str or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, default <code class="docutils literal notranslate"><span class="pre">'all'</span></code>) – Model names to benchmark.</p></li>
+<li><p><strong>tune</strong> (bool, default <code class="docutils literal notranslate"><span class="pre">True</span></code>) – Grid-search hyperparameters in the inner CV loop.</p></li>
+<li><p><strong>feature_selection</strong> ({<code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exhaustive'</span></code>, <code class="docutils literal notranslate"><span class="pre">'forward'</span></code>,) – <code class="docutils literal notranslate"><span class="pre">None</span></code>}, default <code class="docutils literal notranslate"><span class="pre">'auto'</span></code></p></li>
+<li><p><strong>outer_iterations</strong> (<em>int, default 50</em>)</p></li>
+<li><p><strong>test_fraction</strong> (<em>float, default 1/3</em>)</p></li>
+<li><p><strong>inner_splits</strong> (<em>int, default 2</em>)</p></li>
+<li><p><strong>inner_iterations</strong> (<em>int, default 5</em>)</p></li>
+<li><p><strong>groups</strong> (<em>array-like, optional</em>) – Group labels (one per sample) for leakage-free splitting —
+see <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nested_cv_benchmark()</span></code></a>.</p></li>
+<li><p><strong>scaler</strong> (<em>bool, default True</em>)</p></li>
+<li><p><strong>alpha</strong> (<em>float, default 0.05</em>) – FDR level for the Benjamini–Hochberg correction of the
+pairwise model comparisons.</p></li>
+<li><p><strong>random_state</strong> (<em>int, default 42</em>)</p></li>
+<li><p><strong>rqa_kwargs</strong> (<em>dict, optional</em>) – Forwarded to <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>.</p></li>
+<li><p><strong>verbose</strong> (<em>bool, default True</em>) – Print progress messages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>dict</em> – <code class="docutils literal notranslate"><span class="pre">'features'</span></code> : DataFrame — the feature table used.
+<code class="docutils literal notranslate"><span class="pre">'results'</span></code> : dict — model name → full
+<a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="xref py py-meth docutils literal notranslate"><span class="pre">nested_cv_benchmark()</span></code></a> result dict.
+<code class="docutils literal notranslate"><span class="pre">'comparison'</span></code> : DataFrame — one row per model with mean and
+std of every metric, sorted by mean accuracy.
+<code class="docutils literal notranslate"><span class="pre">'pairwise_tests'</span></code> : DataFrame — Wilcoxon test per model
+pair with BH-corrected significance.
+<code class="docutils literal notranslate"><span class="pre">'best_model_name'</span></code> : str
+<code class="docutils literal notranslate"><span class="pre">'best_model'</span></code> : fitted sklearn estimator — best model
+refit on the full dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark">
-<span class="sig-name descname"><span class="pre">nested_cv_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'knn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_selection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.nested_cv_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="Link to this definition">#</a></dt>
-<dd><p>Nested cross-validation with best-subset feature selection.</p>
+<span class="sig-name descname"><span class="pre">nested_cv_benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'knn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outer_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_splits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_selection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_subset_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SMdRQA/RQA2.html#RQA2_ml.nested_cv_benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark" title="Link to this definition">#</a></dt>
+<dd><p>Nested cross-validation with feature selection and tuning.</p>
 <p>Implements the validation procedure described in the SMdRQA paper:
 the outer loop evaluates generalisation performance on held-out
-data, while the inner loop performs feature selection exclusively
-on the training fold to prevent data leakage.</p>
+data, while the inner loop performs feature selection — and,
+with <code class="docutils literal notranslate"><span class="pre">tune=True</span></code>, hyperparameter search — exclusively on the
+training fold to prevent data leakage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>) – Feature matrix (e.g. from <a class="reference internal" href="#SMdRQA.RQA2.RQA2_ml.build_feature_table" title="SMdRQA.RQA2.RQA2_ml.build_feature_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_feature_table()</span></code></a>).</p></li>
 <li><p><strong>y</strong> (<em>array-like of shape (n_samples,)</em>) – Target labels.  Must contain at least two unique classes.</p></li>
-<li><p><strong>model</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'knn'</span></code>) – One of <code class="docutils literal notranslate"><span class="pre">'knn'</span></code>, <code class="docutils literal notranslate"><span class="pre">'svm'</span></code>, <code class="docutils literal notranslate"><span class="pre">'rf'</span></code>.</p></li>
-<li><p><strong>outer_iterations</strong> (<em>int, default 100</em>) – Number of random stratified train/test splits.</p></li>
+<li><p><strong>model</strong> (str, default <code class="docutils literal notranslate"><span class="pre">'knn'</span></code>) – Any key of <code class="docutils literal notranslate"><span class="pre">_MODEL_REGISTRY</span></code>: <code class="docutils literal notranslate"><span class="pre">'knn'</span></code>, <code class="docutils literal notranslate"><span class="pre">'svm'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'rf'</span></code>, <code class="docutils literal notranslate"><span class="pre">'logreg'</span></code>, <code class="docutils literal notranslate"><span class="pre">'lda'</span></code>, <code class="docutils literal notranslate"><span class="pre">'nb'</span></code>, <code class="docutils literal notranslate"><span class="pre">'gb'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'et'</span></code>.</p></li>
+<li><p><strong>outer_iterations</strong> (<em>int, default 100</em>) – Number of stratified train/test splits.</p></li>
 <li><p><strong>test_fraction</strong> (<em>float, default 1/3</em>) – Fraction of data held out as the test set in each outer
 iteration.</p></li>
 <li><p><strong>inner_splits</strong> (<em>int, default 2</em>) – Number of folds in the inner stratified CV used for feature
-selection.</p></li>
+selection and tuning.</p></li>
 <li><p><strong>inner_iterations</strong> (<em>int, default 10</em>) – Number of repeats of the inner CV.</p></li>
 <li><p><strong>feature_selection</strong> ({<code class="docutils literal notranslate"><span class="pre">'auto'</span></code>, <code class="docutils literal notranslate"><span class="pre">'exhaustive'</span></code>, <code class="docutils literal notranslate"><span class="pre">'forward'</span></code>,) –                  <code class="docutils literal notranslate"><span class="pre">None</span></code>}, default <code class="docutils literal notranslate"><span class="pre">'auto'</span></code>
 Feature selection strategy.  <code class="docutils literal notranslate"><span class="pre">'auto'</span></code> uses exhaustive search
 when the number of features is ≤ 12, otherwise forward
 sequential selection.  <code class="docutils literal notranslate"><span class="pre">None</span></code> disables feature selection.</p></li>
 <li><p><strong>max_subset_size</strong> (<em>int, optional</em>) – Maximum number of features to select.  Defaults to all.</p></li>
+<li><p><strong>tune</strong> (bool, default <code class="docutils literal notranslate"><span class="pre">False</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code>, grid-search the model hyperparameters on the
+inner CV of each outer training fold (after feature
+selection) instead of using fixed defaults.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict or list of dict, optional</em>) – Hyperparameter grid to search when <code class="docutils literal notranslate"><span class="pre">tune=True</span></code>.  Defaults
+to <code class="docutils literal notranslate"><span class="pre">_PARAM_GRIDS[model]</span></code>.</p></li>
+<li><p><strong>groups</strong> (<em>array-like of shape (n_samples,), optional</em>) – Group labels (e.g. subject or recording IDs).  When given,
+both outer and inner splits keep each group entirely on one
+side, preventing group-level leakage.</p></li>
 <li><p><strong>scaler</strong> (<em>bool, default True</em>) – Whether to prepend a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">StandardScaler</span></code>.</p></li>
 <li><p><strong>random_state</strong> (<em>int, default 42</em>) – Seed for reproducibility.</p></li>
@@ -1451,9 +1521,16 @@ sequential selection.  <code class="docutils literal notranslate"><span class="p
 <dl>
 <dt><code class="docutils literal notranslate"><span class="pre">'accuracy'</span></code><span class="classifier">ndarray of shape (<em>outer_iterations</em>,)</span></dt><dd><p>Test-set accuracy per outer iteration.</p>
 </dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'balanced_accuracy'</span></code><span class="classifier">ndarray</span></dt><dd><p>Test-set balanced accuracy per outer iteration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'f1_macro'</span></code><span class="classifier">ndarray</span></dt><dd><p>Test-set macro-averaged F1 per outer iteration.</p>
+</dd>
 <dt><code class="docutils literal notranslate"><span class="pre">'roc_auc'</span></code><span class="classifier">ndarray of shape (<em>outer_iterations</em>,)</span></dt><dd><p>Test-set ROC AUC per outer iteration.</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">'selected_features'</span></code><span class="classifier">list of tuple</span></dt><dd><p>Feature indices selected in each outer iteration.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">'best_params'</span></code><span class="classifier">list of dict</span></dt><dd><p>Hyperparameters chosen in each outer iteration
+(empty dicts when <code class="docutils literal notranslate"><span class="pre">tune=False</span></code>).</p>
 </dd>
 <dt><code class="docutils literal notranslate"><span class="pre">'feature_names'</span></code><span class="classifier">list of str or None</span></dt><dd><p>Column names if <em>X</em> is a DataFrame.</p>
 </dd>
@@ -1627,7 +1704,8 @@ and returned alongside the per-model results table.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>array-like of shape (n_samples, n_features)</em>)</p></li>
 <li><p><strong>y</strong> (<em>array-like of shape (n_samples,)</em>)</p></li>
-<li><p><strong>models</strong> (tuple of str, default <code class="docutils literal notranslate"><span class="pre">('knn',</span> <span class="pre">'svm',</span> <span class="pre">'rf')</span></code>)</p></li>
+<li><p><strong>models</strong> (tuple of str or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, default <code class="docutils literal notranslate"><span class="pre">('knn',</span> <span class="pre">'svm',</span> <span class="pre">'rf')</span></code>) – Model names to benchmark; <code class="docutils literal notranslate"><span class="pre">'all'</span></code> runs every registered
+model.</p></li>
 <li><p><strong>cv</strong> (<em>int, default 5</em>)</p></li>
 <li><p><strong>scaler</strong> (<em>bool, default True</em>)</p></li>
 <li><p><strong>random_state</strong> (<em>int, default 42</em>)</p></li>
@@ -1938,6 +2016,7 @@ computed.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.cluster_stability"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.cluster_stability()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.compare_scores"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.compare_scores()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.feature_importance"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.feature_importance()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.integrated_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.integrated_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.nested_cv_benchmark"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.nested_cv_benchmark()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_benchmark_results"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_benchmark_results()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#SMdRQA.RQA2.RQA2_ml.plot_cluster_scatter"><code class="docutils literal notranslate"><span class="pre">RQA2_ml.plot_cluster_scatter()</span></code></a></li>
