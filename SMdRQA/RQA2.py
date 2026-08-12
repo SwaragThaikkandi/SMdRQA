@@ -3452,6 +3452,7 @@ class RQA2_ml:
         random_state=42,
         rqa_kwargs=None,
         verbose=True,
+        progress_callback=None,
     ):
         """End-to-end pipeline: signals → features → tuned nested CV →
         statistical model comparison.
@@ -3504,6 +3505,10 @@ class RQA2_ml:
             Forwarded to :meth:`build_feature_table`.
         verbose : bool, default True
             Print progress messages.
+        progress_callback : callable, optional
+            Called as ``progress_callback(index, total, model_name)``
+            before each model's nested CV run (e.g. to drive a UI
+            progress bar).
 
         Returns
         -------
@@ -3548,7 +3553,9 @@ class RQA2_ml:
 
         results = {}
         comparison_rows = []
-        for name in models:
+        for model_idx, name in enumerate(models):
+            if progress_callback is not None:
+                progress_callback(model_idx, len(models), name)
             if verbose:
                 print(f"[integrated_benchmark] nested CV: {name}")
             res = self.nested_cv_benchmark(
