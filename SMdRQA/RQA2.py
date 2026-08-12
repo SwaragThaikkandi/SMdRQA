@@ -42,18 +42,24 @@ from scipy.special import digamma
 from sklearn.metrics import (
     mean_squared_error, accuracy_score, f1_score, silhouette_score,
     roc_auc_score, calinski_harabasz_score, davies_bouldin_score,
-    adjusted_rand_score, confusion_matrix,
+    adjusted_rand_score, confusion_matrix, balanced_accuracy_score,
 )
 from sklearn.model_selection import (
     RepeatedKFold, StratifiedKFold, StratifiedShuffleSplit,
-    RepeatedStratifiedKFold,
+    RepeatedStratifiedKFold, StratifiedGroupKFold, ParameterGrid,
 )
 from sklearn.base import clone
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import (
+    RandomForestClassifier, ExtraTreesClassifier,
+    HistGradientBoostingClassifier,
+)
 from sklearn.cluster import KMeans, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 from sklearn.decomposition import PCA
@@ -2655,9 +2661,38 @@ class RQA2_ml:
     _MODEL_REGISTRY = {
         'knn': lambda rs: KNeighborsClassifier(),
         'svm': lambda rs: SVC(
-            kernel='rbf', gamma='scale', probability=True),
+            kernel='rbf', gamma='scale', probability=True,
+            random_state=rs),
         'rf': lambda rs: RandomForestClassifier(
             n_estimators=200, random_state=rs),
+        'logreg': lambda rs: LogisticRegression(
+            max_iter=5000, random_state=rs),
+        'lda': lambda rs: LinearDiscriminantAnalysis(),
+        'nb': lambda rs: GaussianNB(),
+        'gb': lambda rs: HistGradientBoostingClassifier(
+            random_state=rs),
+        'et': lambda rs: ExtraTreesClassifier(
+            n_estimators=200, random_state=rs),
+    }
+
+    #: Compact hyperparameter grids searched in the inner CV loop when
+    #: ``tune=True``.  Kept deliberately small so nested search stays
+    #: tractable; override per call via ``param_grid``.
+    _PARAM_GRIDS = {
+        'knn': {'n_neighbors': [3, 5, 7, 9],
+                'weights': ['uniform', 'distance']},
+        'svm': {'C': [0.1, 1, 10, 100],
+                'gamma': ['scale', 0.01, 0.1]},
+        'rf': {'max_features': ['sqrt', 'log2', None],
+               'min_samples_leaf': [1, 3, 5]},
+        'et': {'max_features': ['sqrt', 'log2', None],
+               'min_samples_leaf': [1, 3, 5]},
+        'logreg': {'C': [0.01, 0.1, 1, 10, 100]},
+        'lda': [{'solver': ['svd']},
+                {'solver': ['lsqr'], 'shrinkage': ['auto']}],
+        'nb': {'var_smoothing': [1e-9, 1e-7, 1e-5]},
+        'gb': {'learning_rate': [0.05, 0.1],
+               'max_leaf_nodes': [7, 15, 31]},
     }
 
     def __init__(self, rqa_kwargs: Optional[Dict[str, Any]] = None):
@@ -2760,6 +2795,106 @@ class RQA2_ml:
                 return np.nan
         except Exception:
             return np.nan
+
+    class _PrecomputedSplitter:
+        """Splitter facade over a fixed list of (train, val) index pairs.
+
+        Lets group-aware splits flow through code written against the
+        sklearn splitter interface (feature selection, tuning).
+        """
+
+        def __init__(self, splits):
+            self._splits = list(splits)
+
+        def split(self, X=None, y=None, groups=None):
+            for train_idx, val_idx in self._splits:
+                yield train_idx, val_idx
+
+    @staticmethod
+    def _outer_splits(X, y, groups, n_iterations, test_fraction,
+                      random_state):
+        """Yield stratified outer train/test splits, group-aware if needed.
+
+        Without *groups* this matches the historical behaviour
+        (StratifiedShuffleSplit).  With *groups*, folds come from
+        re-seeded StratifiedGroupKFold sweeps so that no group ever
+        appears on both sides of a split.
+        """
+        if groups is None:
+            splitter = StratifiedShuffleSplit(
+                n_splits=n_iterations,
+                test_size=test_fraction,
+                random_state=random_state,
+            )
+            yield from splitter.split(X, y)
+            return
+
+        n_splits = max(2, int(round(1.0 / test_fraction)))
+        n_splits = min(n_splits, len(np.unique(groups)))
+        produced = 0
+        sweep = 0
+        while produced < n_iterations:
+            skf = StratifiedGroupKFold(
+                n_splits=n_splits, shuffle=True,
+                random_state=random_state + sweep)
+            for train_idx, test_idx in skf.split(X, y, groups):
+                yield train_idx, test_idx
+                produced += 1
+                if produced >= n_iterations:
+                    break
+            sweep += 1
+
+    @classmethod
+    def _inner_splitter(cls, X, y, groups, n_splits, n_repeats,
+                        random_state):
+        """Build the inner-CV splitter, group-aware when *groups* given."""
+        if groups is None:
+            return RepeatedStratifiedKFold(
+                n_splits=n_splits, n_repeats=n_repeats,
+                random_state=random_state)
+
+        n_splits = min(n_splits, len(np.unique(groups)))
+        splits = []
+        for repeat in range(n_repeats):
+            skf = StratifiedGroupKFold(
+                n_splits=n_splits, shuffle=True,
+                random_state=random_state + repeat)
+            splits.extend(skf.split(X, y, groups))
+        return cls._PrecomputedSplitter(splits)
+
+    def _tune_hyperparams(self, X, y, splitter, model_name, use_scaler,
+                          param_grid, random_state):
+        """Grid-search hyperparameters over the inner CV splits.
+
+        Returns the parameter dict with the highest mean validation
+        accuracy (empty dict when the grid is empty).
+        """
+        if param_grid is None:
+            param_grid = self._PARAM_GRIDS.get(model_name, {})
+        candidates = list(ParameterGrid(param_grid))
+        if len(candidates) <= 1:
+            return candidates[0] if candidates else {}
+
+        splits = list(splitter.split(X, y))
+        best_score = -np.inf
+        best_params = {}
+        for params in candidates:
+            scores = []
+            for train_idx, val_idx in splits:
+                est = self._make_model(model_name, random_state)
+                est.set_params(**params)
+                if use_scaler:
+                    pipe = make_pipeline(StandardScaler(), est)
+                else:
+                    pipe = est
+                pipe.fit(X[train_idx], y[train_idx])
+                scores.append(accuracy_score(
+                    y[val_idx], pipe.predict(X[val_idx])))
+            mean_score = np.mean(scores)
+            if mean_score > best_score:
+                best_score = mean_score
+                best_params = params
+        return best_params
 
     def _select_features(self, X, y, splitter, model_name, use_scaler,
                          method, max_size, random_state):
@@ -3010,15 +3145,19 @@ class RQA2_ml:
         inner_iterations=10,
         feature_selection='auto',
         max_subset_size=None,
+        tune=False,
+        param_grid=None,
+        groups=None,
         scaler=True,
         random_state=42,
     ):
-        """Nested cross-validation with best-subset feature selection.
+        """Nested cross-validation with feature selection and tuning.
 
         Implements the validation procedure described in the SMdRQA paper:
         the outer loop evaluates generalisation performance on held-out
-        data, while the inner loop performs feature selection exclusively
-        on the training fold to prevent data leakage.
+        data, while the inner loop performs feature selection — and,
+        with ``tune=True``, hyperparameter search — exclusively on the
+        training fold to prevent data leakage.
 
         Parameters
         ----------
@@ -3027,15 +3166,17 @@ class RQA2_ml:
         y : array-like of shape (n_samples,)
             Target labels.  Must contain at least two unique classes.
         model : str, default ``'knn'``
-            One of ``'knn'``, ``'svm'``, ``'rf'``.
+            Any key of ``_MODEL_REGISTRY``: ``'knn'``, ``'svm'``,
+            ``'rf'``, ``'logreg'``, ``'lda'``, ``'nb'``, ``'gb'``,
+            ``'et'``.
         outer_iterations : int, default 100
-            Number of random stratified train/test splits.
+            Number of stratified train/test splits.
         test_fraction : float, default 1/3
             Fraction of data held out as the test set in each outer
             iteration.
         inner_splits : int, default 2
             Number of folds in the inner stratified CV used for feature
-            selection.
+            selection and tuning.
         inner_iterations : int, default 10
             Number of repeats of the inner CV.
         feature_selection : {``'auto'``, ``'exhaustive'``, ``'forward'``,
@@ -3045,6 +3186,17 @@ class RQA2_ml:
             sequential selection.  ``None`` disables feature selection.
         max_subset_size : int, optional
             Maximum number of features to select.  Defaults to all.
+        tune : bool, default ``False``
+            When ``True``, grid-search the model hyperparameters on the
+            inner CV of each outer training fold (after feature
+            selection) instead of using fixed defaults.
+        param_grid : dict or list of dict, optional
+            Hyperparameter grid to search when ``tune=True``.  Defaults
+            to ``_PARAM_GRIDS[model]``.
+        groups : array-like of shape (n_samples,), optional
+            Group labels (e.g. subject or recording IDs).  When given,
+            both outer and inner splits keep each group entirely on one
+            side, preventing group-level leakage.
         scaler : bool, default True
             Whether to prepend a
             :class:`~sklearn.preprocessing.StandardScaler`.
@@ -3056,10 +3208,17 @@ class RQA2_ml:
         dict
             ``'accuracy'`` : ndarray of shape (*outer_iterations*,)
                 Test-set accuracy per outer iteration.
+            ``'balanced_accuracy'`` : ndarray
+                Test-set balanced accuracy per outer iteration.
+            ``'f1_macro'`` : ndarray
+                Test-set macro-averaged F1 per outer iteration.
             ``'roc_auc'`` : ndarray of shape (*outer_iterations*,)
                 Test-set ROC AUC per outer iteration.
             ``'selected_features'`` : list of tuple
                 Feature indices selected in each outer iteration.
+            ``'best_params'`` : list of dict
+                Hyperparameters chosen in each outer iteration
+                (empty dicts when ``tune=False``).
             ``'feature_names'`` : list of str or None
                 Column names if *X* is a DataFrame.
             ``'feature_frequency'`` : Series
@@ -3071,34 +3230,39 @@ class RQA2_ml:
         if X_arr.ndim == 1:
             X_arr = X_arr.reshape(-1, 1)
         y_arr = np.asarray(y)
+        groups_arr = None if groups is None else np.asarray(groups)
         feature_names = (list(X.columns)
                          if isinstance(X, pd.DataFrame) else None)
 
         if len(np.unique(y_arr)) < 2:
             raise ValueError("y must contain at least two classes.")
-
-        outer_splitter = StratifiedShuffleSplit(
-            n_splits=outer_iterations,
-            test_size=test_fraction,
-            random_state=random_state,
-        )
+        if groups_arr is not None and len(groups_arr) != len(y_arr):
+            raise ValueError(
+                "groups length must match number of samples.")
 
         accuracies = []
+        balanced_accuracies = []
+        f1_macros = []
         roc_aucs = []
         selected_features_list = []
+        best_params_list = []
 
-        for fold_idx, (train_idx, test_idx) in enumerate(
-                outer_splitter.split(X_arr, y_arr)):
+        outer = self._outer_splits(
+            X_arr, y_arr, groups_arr, outer_iterations, test_fraction,
+            random_state)
+
+        for fold_idx, (train_idx, test_idx) in enumerate(outer):
             X_train, X_test = X_arr[train_idx], X_arr[test_idx]
             y_train, y_test = y_arr[train_idx], y_arr[test_idx]
+            groups_train = (None if groups_arr is None
+                            else groups_arr[train_idx])
+
+            inner_splitter = self._inner_splitter(
+                X_train, y_train, groups_train, inner_splits,
+                inner_iterations, random_state + fold_idx)
 
             # Inner CV for feature selection
             if feature_selection is not None:
-                inner_splitter = RepeatedStratifiedKFold(
-                    n_splits=inner_splits,
-                    n_repeats=inner_iterations,
-                    random_state=random_state + fold_idx,
-                )
                 subset = self._select_features(
                     X_train, y_train, inner_splitter, model, scaler,
                     feature_selection, max_subset_size, random_state)
@@ -3107,11 +3271,22 @@ class RQA2_ml:
 
             selected_features_list.append(subset)
 
-            # Train on full training set with selected features
             X_train_sub = X_train[:, list(subset)]
             X_test_sub = X_test[:, list(subset)]
 
+            # Inner CV for hyperparameter tuning on the selected subset
+            if tune:
+                best_params = self._tune_hyperparams(
+                    X_train_sub, y_train, inner_splitter, model, scaler,
+                    param_grid, random_state)
+            else:
+                best_params = {}
+            best_params_list.append(best_params)
+
+            # Train on full training set with selected features/params
             est = self._make_model(model, random_state)
+            if best_params:
+                est.set_params(**best_params)
             if scaler:
                 pipe = make_pipeline(StandardScaler(), est)
             else:
@@ -3120,6 +3295,9 @@ class RQA2_ml:
 
             preds = pipe.predict(X_test_sub)
             accuracies.append(accuracy_score(y_test, preds))
+            balanced_accuracies.append(
+                balanced_accuracy_score(y_test, preds))
+            f1_macros.append(f1_score(y_test, preds, average='macro'))
             roc_aucs.append(
                 self._compute_roc_auc(pipe, X_test_sub, y_test))
 
@@ -3136,8 +3314,11 @@ class RQA2_ml:
 
         return {
             'accuracy': np.array(accuracies),
+            'balanced_accuracy': np.array(balanced_accuracies),
+            'f1_macro': np.array(f1_macros),
             'roc_auc': np.array(roc_aucs),
             'selected_features': selected_features_list,
+            'best_params': best_params_list,
             'feature_names': feature_names,
             'feature_frequency': freq_series,
             'model': model,
@@ -3169,7 +3350,9 @@ class RQA2_ml:
         ----------
         X : array-like of shape (n_samples, n_features)
         y : array-like of shape (n_samples,)
-        models : tuple of str, default ``('knn', 'svm', 'rf')``
+        models : tuple of str or ``'all'``, default ``('knn', 'svm', 'rf')``
+            Model names to benchmark; ``'all'`` runs every registered
+            model.
         cv : int, default 5
         scaler : bool, default True
         random_state : int, default 42
@@ -3183,6 +3366,8 @@ class RQA2_ml:
         best_model : sklearn estimator
             Best classifier refit on all of *X* and *y*.
         """
+        if models == 'all':
+            models = tuple(sorted(self._MODEL_REGISTRY))
         X_arr = np.asarray(X, dtype=float)
         if X_arr.ndim == 1:
             X_arr = X_arr.reshape(-1, 1)
@@ -3241,6 +3426,221 @@ class RQA2_ml:
         best_model.fit(X_arr, y_arr)
 
         return results_df, best_model
+
+    # ------------------------------------------------------------------
+    # Integrated end-to-end pipeline
+    # ------------------------------------------------------------------
+
+    def integrated_benchmark(
+        self,
+        signals_or_dir=None,
+        labels=None,
+        *,
+        features=None,
+        window_size=None,
+        window_step=1,
+        models='all',
+        tune=True,
+        feature_selection='auto',
+        outer_iterations=50,
+        test_fraction=1.0 / 3,
+        inner_splits=2,
+        inner_iterations=5,
+        groups=None,
+        scaler=True,
+        alpha=0.05,
+        random_state=42,
+        rqa_kwargs=None,
+        verbose=True,
+    ):
+        """End-to-end pipeline: signals → features → tuned nested CV →
+        statistical model comparison.
+
+        Runs :meth:`build_feature_table` (unless a precomputed
+        *features* table is supplied), benchmarks every requested model
+        with :meth:`nested_cv_benchmark` (hyperparameter tuning on by
+        default), compares all model pairs with Wilcoxon signed-rank
+        tests under Benjamini–Hochberg correction, and refits the best
+        model on the full dataset.
+
+        Parameters
+        ----------
+        signals_or_dir : str, PathLike, ndarray, list, or tuple, optional
+            Input signals — see :meth:`_load_signals`.  Not needed when
+            *features* is given.
+        labels : array-like, optional
+            Class labels aligned with the signals.  Required unless
+            *features* contains a ``label`` column.
+        features : pandas.DataFrame, optional
+            Precomputed feature table (e.g. from
+            :meth:`build_feature_table`).  Columns ``id`` and ``label``
+            are treated as metadata, everything else as features.
+        window_size : int, optional
+            Sliding-window size forwarded to
+            :meth:`build_feature_table`.  Required when building
+            features from signals.
+        window_step : int, default 1
+            Sliding-window step forwarded to
+            :meth:`build_feature_table`.
+        models : tuple of str or ``'all'``, default ``'all'``
+            Model names to benchmark.
+        tune : bool, default ``True``
+            Grid-search hyperparameters in the inner CV loop.
+        feature_selection : {``'auto'``, ``'exhaustive'``, ``'forward'``,
+                             ``None``}, default ``'auto'``
+        outer_iterations : int, default 50
+        test_fraction : float, default 1/3
+        inner_splits : int, default 2
+        inner_iterations : int, default 5
+        groups : array-like, optional
+            Group labels (one per sample) for leakage-free splitting —
+            see :meth:`nested_cv_benchmark`.
+        scaler : bool, default True
+        alpha : float, default 0.05
+            FDR level for the Benjamini–Hochberg correction of the
+            pairwise model comparisons.
+        random_state : int, default 42
+        rqa_kwargs : dict, optional
+            Forwarded to :meth:`build_feature_table`.
+        verbose : bool, default True
+            Print progress messages.
+
+        Returns
+        -------
+        dict
+            ``'features'`` : DataFrame — the feature table used.
+            ``'results'`` : dict — model name → full
+            :meth:`nested_cv_benchmark` result dict.
+            ``'comparison'`` : DataFrame — one row per model with mean and
+            std of every metric, sorted by mean accuracy.
+            ``'pairwise_tests'`` : DataFrame — Wilcoxon test per model
+            pair with BH-corrected significance.
+            ``'best_model_name'`` : str
+            ``'best_model'`` : fitted sklearn estimator — best model
+            refit on the full dataset.
+        """
+        if features is None:
+            if signals_or_dir is None:
+                raise ValueError(
+                    "Provide either signals_or_dir or features.")
+            if window_size is None:
+                raise ValueError(
+                    "window_size is required when building features "
+                    "from signals.")
+            features = self.build_feature_table(
+                signals_or_dir, labels,
+                window_size=window_size, window_step=window_step,
+                rqa_kwargs=rqa_kwargs)
+
+        meta_cols = [c for c in ('id', 'label') if c in features.columns]
+        X = features.drop(columns=meta_cols)
+        if labels is not None and len(labels) == len(features):
+            y = np.asarray(labels)
+        elif 'label' in features.columns:
+            y = features['label'].to_numpy()
+        else:
+            raise ValueError(
+                "labels must be given or features must contain a "
+                "'label' column.")
+
+        if models == 'all':
+            models = tuple(sorted(self._MODEL_REGISTRY))
+
+        results = {}
+        comparison_rows = []
+        for name in models:
+            if verbose:
+                print(f"[integrated_benchmark] nested CV: {name}")
+            res = self.nested_cv_benchmark(
+                X, y,
+                model=name,
+                outer_iterations=outer_iterations,
+                test_fraction=test_fraction,
+                inner_splits=inner_splits,
+                inner_iterations=inner_iterations,
+                feature_selection=feature_selection,
+                tune=tune,
+                groups=groups,
+                scaler=scaler,
+                random_state=random_state,
+            )
+            results[name] = res
+            comparison_rows.append({
+                'model': name,
+                'accuracy_mean': float(np.mean(res['accuracy'])),
+                'accuracy_std': float(np.std(res['accuracy'])),
+                'balanced_accuracy_mean': float(
+                    np.mean(res['balanced_accuracy'])),
+                'balanced_accuracy_std': float(
+                    np.std(res['balanced_accuracy'])),
+                'f1_macro_mean': float(np.mean(res['f1_macro'])),
+                'f1_macro_std': float(np.std(res['f1_macro'])),
+                'roc_auc_mean': float(np.nanmean(res['roc_auc'])),
+                'roc_auc_std': float(np.nanstd(res['roc_auc'])),
+            })
+
+        comparison = pd.DataFrame(comparison_rows).sort_values(
+            'accuracy_mean', ascending=False).reset_index(drop=True)
+
+        # Pairwise Wilcoxon tests with BH correction
+        pairs = list(combinations(models, 2))
+        pair_rows = []
+        p_values = []
+        for name_a, name_b in pairs:
+            a = results[name_a]['accuracy']
+            b = results[name_b]['accuracy']
+            if np.allclose(a, b):
+                test = {'statistic': np.nan, 'p_value': 1.0,
+                        'effect_size': 0.0, 'n': len(a)}
+            else:
+                test = self.compare_scores(a, b)
+            pair_rows.append({
+                'model_a': name_a,
+                'model_b': name_b,
+                'statistic': test['statistic'],
+                'p_value': test['p_value'],
+                'effect_size': test['effect_size'],
+            })
+            p_values.append(test['p_value'])
+
+        if pair_rows:
+            p_dict = {f"{a}|{b}": p
+                      for (a, b), p in zip(pairs, p_values)}
+            adjusted, rejected = self._benjamini_hochberg(
+                p_dict, alpha=alpha)
+            for row, (name_a, name_b) in zip(pair_rows, pairs):
+                key = f"{name_a}|{name_b}"
+                row['p_adjusted'] = adjusted[key]
+                row['significant'] = rejected[key]
+        pairwise_tests = pd.DataFrame(pair_rows)
+
+        # Refit the best model (by mean accuracy) on the full dataset
+        best_name = comparison.iloc[0]['model']
+        best_est = self._make_model(best_name, random_state)
+        if tune:
+            full_splitter = self._inner_splitter(
+                np.asarray(X, dtype=float), y,
+                None if groups is None else np.asarray(groups),
+                inner_splits, inner_iterations, random_state)
+            best_params = self._tune_hyperparams(
+                np.asarray(X, dtype=float), y, full_splitter,
+                best_name, scaler, None, random_state)
+            if best_params:
+                best_est.set_params(**best_params)
+        if scaler:
+            best_model = make_pipeline(StandardScaler(), best_est)
+        else:
+            best_model = best_est
+        best_model.fit(X, y)
+
+        return {
+            'features': features,
+            'results': results,
+            'comparison': comparison,
+            'pairwise_tests': pairwise_tests,
+            'best_model_name': best_name,
+            'best_model': best_model,
+        }
 
     # ------------------------------------------------------------------
     # Supervised: surrogate null baseline
