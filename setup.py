@@ -47,6 +47,15 @@ setup(
         'PyWavelets',
         'scikit-learn',
         'seaborn'],
+    extras_require={
+        'ui': [
+            'streamlit',
+            'plotly'],
+    },
+    entry_points={
+        'console_scripts': [
+            'smdrqa-ui=SMdRQA.ui:launch'],
+    },
     classifiers=[
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
