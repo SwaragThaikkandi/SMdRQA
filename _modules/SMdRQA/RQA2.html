@@ -2368,6 +2368,66 @@
         <span class="k">return</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">indices</span><span class="p">],</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">indices</span><span class="p">],</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">indices</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="RQA2_simulators.kuramoto">
+<a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.kuramoto">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kuramoto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span>
+                 <span class="n">n_osc</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                 <span class="n">K</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">omega_sd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+                 <span class="n">tmax</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Simulate a network of Kuramoto phase oscillators.</span>
+
+<span class="sd">        The system is defined by::</span>
+
+<span class="sd">            dθ_i/dt = ω_i + (K/N) Σ_j sin(θ_j − θ_i)</span>
+
+<span class="sd">        with natural frequencies ``ω_i ~ Normal(0, omega_sd)`` and</span>
+<span class="sd">        initial phases drawn uniformly from ``[0, 2π)`` using the</span>
+<span class="sd">        instance RNG (seeded via the ``seed`` field).</span>
+
+<span class="sd">        For Gaussian frequencies the critical coupling is</span>
+<span class="sd">        ``K_c = 2 / (π·g(0)) = omega_sd · √(8/π) ≈ 1.596·omega_sd``:</span>
+<span class="sd">        below ``K_c`` the oscillators stay incoherent, above it they</span>
+<span class="sd">        synchronise.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : int, default 2000</span>
+<span class="sd">            Number of output samples (uniform subsample of the</span>
+<span class="sd">            trajectory).</span>
+<span class="sd">        n_osc : int, default 10</span>
+<span class="sd">            Number of oscillators — the output dimensionality.</span>
+<span class="sd">        K : float, default 1.0</span>
+<span class="sd">            Coupling strength.</span>
+<span class="sd">        omega_sd : float, default 1.0</span>
+<span class="sd">            Standard deviation of the natural-frequency distribution.</span>
+<span class="sd">        tmax : float, default 100.0</span>
+<span class="sd">            Integration time.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray of shape (n, n_osc)</span>
+<span class="sd">            ``sin(θ_i(t))`` for each oscillator — a multivariate signal</span>
+<span class="sd">            directly usable with :class:`RQA2`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_osc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_osc</span><span class="p">)</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">omega_sd</span><span class="p">,</span> <span class="n">n_osc</span><span class="p">)</span>
+        <span class="n">theta0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n_osc</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">kuramoto_system</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+            <span class="n">phase_diff</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">theta</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">omega</span> <span class="o">+</span> <span class="p">(</span><span class="n">K</span> <span class="o">/</span> <span class="n">n_osc</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase_diff</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">kuramoto_system</span><span class="p">,</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">tmax</span><span class="p">),</span> <span class="n">theta0</span><span class="p">,</span>
+                        <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span>
+                        <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="RQA2_simulators.generate_test_battery">
 <a class="viewcode-back" href="../../functions/RQA2.html#SMdRQA.RQA2.RQA2_simulators.generate_test_battery">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_test_battery</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -3942,6 +4002,7 @@
         <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
         <span class="n">rqa_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">progress_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;End-to-end pipeline: signals → features → tuned nested CV →</span>
 <span class="sd">        statistical model comparison.</span>
@@ -3994,6 +4055,10 @@
 <span class="sd">            Forwarded to :meth:`build_feature_table`.</span>
 <span class="sd">        verbose : bool, default True</span>
 <span class="sd">            Print progress messages.</span>
+<span class="sd">        progress_callback : callable, optional</span>
+<span class="sd">            Called as ``progress_callback(index, total, model_name)``</span>
+<span class="sd">            before each model&#39;s nested CV run (e.g. to drive a UI</span>
+<span class="sd">            progress bar).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -4038,7 +4103,9 @@
 
         <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">comparison_rows</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">model_idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">progress_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">progress_callback</span><span class="p">(</span><span class="n">model_idx</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[integrated_benchmark] nested CV: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nested_cv_benchmark</span><span class="p">(</span>
