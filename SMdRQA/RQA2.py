@@ -73,6 +73,393 @@ import seaborn as sns
 from tqdm import tqdm
 
 
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import welch, butter, filtfilt
+from typing import Optional, Tuple, Union, List, Dict, Any
+
+
+class RQA2_filters:
+    """
+    Pink-noise detection and filtering for pre-processing time series
+    before recurrence quantification analysis.
+
+    This class estimates the power-law exponent (beta) of the signal's
+    power spectral density (PSD). Pink noise is characterised by beta ~ 1,
+    white noise by beta ~ 0, and brown noise by beta ~ 2. When beta
+    exceeds a user-specified threshold, a high-pass Butterworth filter
+    can be applied to attenuate the low-frequency components responsible
+    for the pink noise, leaving the underlying deterministic dynamics
+    relatively intact.
+
+    Parameters
+    ----------
+    signal : array_like, optional
+        Univariate or multivariate time series of shape ``(N,)`` or
+        ``(N, D)``. If omitted, call :meth:`load_signal` before using
+        other methods.
+    fs : float, default 1.0
+        Sampling frequency. Used only for plotting (the spectral
+        estimation assumes normalised frequency; the filter cutoff is
+        expressed as a fraction of the Nyquist frequency).
+    beta_threshold : float, default 0.5
+        Spectral slope above which pink/brown noise is suspected.
+    cutoff_frac : float, default 0.05
+        High-pass filter cutoff frequency as a fraction of the Nyquist
+        frequency (0 < cutoff_frac < 0.5). Smaller values remove only
+        very low-frequency drift; larger values risk removing slow
+        components of the signal.
+    order : int, default 4
+        Butterworth filter order.
+    """
+
+    def __init__(
+        self,
+        signal: Optional[Union[np.ndarray, List[float]]] = None,
+        fs: float = 1.0,
+        beta_threshold: float = 0.5,
+        cutoff_frac: float = 0.05,
+        order: int = 4,
+    ):
+        self.fs = fs
+        self.beta_threshold = beta_threshold
+        self.cutoff_frac = cutoff_frac
+        self.order = order
+
+        self.signal = None
+        self.original_signal = None
+        self.n_samples = 0
+        self.n_dimensions = 0
+
+        if signal is not None:
+            self.load_signal(signal)
+
+    def load_signal(self, signal: np.ndarray) -> None:
+        """
+        Load a time series, resetting any cached results.
+
+        Parameters
+        ----------
+        signal : array_like
+            Univariate or multivariate data of shape ``(N,)`` or ``(N, D)``.
+        """
+        self.original_signal = np.asarray(signal, dtype=float)
+        if self.original_signal.ndim == 1:
+            self.original_signal = self.original_signal.reshape(-1, 1)
+        self.signal = self.original_signal.copy()
+        self.n_samples, self.n_dimensions = self.signal.shape
+
+    def estimate_noise_color(
+        self,
+        signal: Optional[np.ndarray] = None,
+        method: str = "welch",
+        return_fit: bool = False,
+    ) -> Union[float, Tuple[float, Tuple[np.ndarray, np.ndarray, np.ndarray]]]:
+        """
+        Estimate the power-law exponent (beta) of the signal's power spectrum.
+
+        Parameters
+        ----------
+        signal : array_like, optional
+            1-D time series. If ``None``, uses the first column of the
+            loaded signal (must be univariate for accurate results).
+        method : {'welch', 'fft'}, default 'welch'
+            Spectral estimation method.
+        return_fit : bool, default False
+            If ``True``, also return the frequencies, PSD, and fitted line
+            used for the slope estimate.
+
+        Returns
+        -------
+        beta : float
+            Estimated spectral slope. White noise ≈ 0, pink ≈ 1, brown ≈ 2.
+        fit_info : tuple, optional
+            ``(freqs, psd, fit_line)`` where ``fit_line`` is the linear fit
+            in log‑log space.
+        """
+        if signal is None:
+            if self.signal is None or self.signal.shape[1] != 1:
+                raise ValueError(
+                    "Signal must be univariate; either provide a 1-D array or "
+                    "load a single-channel signal."
+                )
+            x = self.signal[:, 0]
+        else:
+            x = np.asarray(signal, dtype=float).flatten()
+
+        # Remove mean
+        x = x - np.mean(x)
+        n = len(x)
+
+        if method == "welch":
+            freqs, psd = welch(x, fs=1.0, nperseg=min(n, 256))
+        elif method == "fft":
+            fft_vals = np.fft.rfft(x)
+            freqs = np.fft.rfftfreq(n, d=1.0)
+            psd = np.abs(fft_vals) ** 2 / n
+        else:
+            raise ValueError("method must be 'welch' or 'fft'")
+
+        # Keep only positive frequencies and avoid zero
+        mask = freqs > 0
+        freqs = freqs[mask]
+        psd = psd[mask]
+
+        log_f = np.log10(freqs)
+        log_p = np.log10(psd)
+        valid = np.isfinite(log_f) & np.isfinite(log_p)
+        log_f = log_f[valid]
+        log_p = log_p[valid]
+
+        if len(log_f) < 2:
+            return np.nan if not return_fit else (np.nan, (freqs, psd, None))
+
+        slope, intercept = np.polyfit(log_f, log_p, 1)
+        beta = -slope
+
+        if return_fit:
+            fit_line = 10 ** (intercept + slope * log_f)
+            return beta, (10**log_f, 10**log_p, fit_line)
+        return beta
+
+    def is_pink_noise(
+        self,
+        signal: Optional[np.ndarray] = None,
+        beta_threshold: Optional[float] = None,
+    ) -> bool:
+        """
+        Test whether the signal's spectral slope suggests pink/brown noise.
+
+        Parameters
+        ----------
+        signal : array_like, optional
+            1-D time series. If None, uses the first column of loaded signal.
+        beta_threshold : float, optional
+            Override the class threshold.
+
+        Returns
+        -------
+        bool
+            True if beta >= beta_threshold, False otherwise.
+        """
+        beta = self.estimate_noise_color(signal)
+        thresh = beta_threshold if beta_threshold is not None else self.beta_threshold
+        return beta >= thresh
+
+    def filter_pink_noise(
+        self,
+        signal: Optional[np.ndarray] = None,
+        beta_threshold: Optional[float] = None,
+        cutoff_frac: Optional[float] = None,
+        order: Optional[int] = None,
+    ) -> Tuple[np.ndarray, float, bool]:
+        """
+        Detect pink noise and apply a high-pass Butterworth filter if the
+        spectral slope exceeds the threshold.
+
+        Parameters
+        ----------
+        signal : array_like, optional
+            1-D time series. If None, uses the first column of loaded signal.
+        beta_threshold : float, optional
+            Override the default threshold.
+        cutoff_frac : float, optional
+            Override the default cutoff fraction (0 < cutoff_frac < 0.5).
+        order : int, optional
+            Override the default filter order.
+
+        Returns
+        -------
+        filtered_signal : ndarray
+            The filtered signal (1-D array).
+        beta : float
+            Estimated spectral slope before filtering.
+        was_filtered : bool
+            True if the filter was applied (beta >= threshold).
+        """
+        # Determine the signal to filter
+        if signal is None:
+            if self.signal is None or self.signal.shape[1] != 1:
+                raise ValueError(
+                    "Filtering requires a univariate signal. Provide a 1-D "
+                    "array or load a single-channel signal."
+                )
+            x = self.signal[:, 0].copy()
+        else:
+            x = np.asarray(signal, dtype=float).flatten().copy()
+
+        beta = self.estimate_noise_color(x)
+        thresh = beta_threshold if beta_threshold is not None else self.beta_threshold
+        cutoff = cutoff_frac if cutoff_frac is not None else self.cutoff_frac
+        order_val = order if order is not None else self.order
+
+        if beta >= thresh:
+            # Design high-pass Butterworth filter (normalised cutoff)
+            nyq = 0.5  # Nyquist frequency (normalised)
+            b, a = butter(order_val, cutoff * nyq, btype="high", analog=False)
+            filtered = filtfilt(b, a, x)
+            was_filtered = True
+        else:
+            filtered = x
+            was_filtered = False
+
+        return filtered, beta, was_filtered
+
+    def filter_multivariate(
+        self,
+        signals: Optional[np.ndarray] = None,
+        **kwargs,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Apply pink-noise filtering to each dimension of a multivariate signal.
+
+        Parameters
+        ----------
+        signals : array_like of shape (N, D), optional
+            Multivariate time series. If None, uses the loaded signal.
+        **kwargs
+            Passed to :meth:`filter_pink_noise` for each column.
+
+        Returns
+        -------
+        filtered_signals : ndarray of shape (N, D)
+            Filtered multivariate signal.
+        betas : ndarray of shape (D,)
+            Estimated beta for each dimension.
+        was_filtered : ndarray of bool of shape (D,)
+            Whether each dimension was filtered.
+        """
+        if signals is None:
+            if self.signal is None:
+                raise ValueError("No signal loaded.")
+            data = self.signal
+        else:
+            data = np.asarray(signals, dtype=float)
+            if data.ndim == 1:
+                data = data.reshape(-1, 1)
+
+        filtered = np.empty_like(data)
+        betas = np.zeros(data.shape[1])
+        was_filtered = np.zeros(data.shape[1], dtype=bool)
+
+        for d in range(data.shape[1]):
+            filtered[:, d], betas[d], was_filtered[d] = self.filter_pink_noise(
+                data[:, d], **kwargs
+            )
+
+        return filtered, betas, was_filtered
+
+    def plot_spectrum(
+        self,
+        signal: Optional[np.ndarray] = None,
+        filtered_signal: Optional[np.ndarray] = None,
+        save_path: Optional[str] = None,
+        show: bool = True,
+    ) -> None:
+        """
+        Plot the power spectral density of the original and (optionally)
+        filtered signals.
+
+        Parameters
+        ----------
+        signal : array_like, optional
+            Original 1-D signal. If None, uses the first column of loaded signal.
+        filtered_signal : array_like, optional
+            Filtered 1-D signal to overlay.
+        save_path : str or path-like, optional
+            If provided, saves the figure to this path.
+        show : bool, default True
+            Whether to display the figure.
+        """
+        if signal is None:
+            if self.signal is None:
+                raise ValueError("No signal loaded.")
+            x = self.signal[:, 0]
+        else:
+            x = np.asarray(signal, dtype=float).flatten()
+
+        # Estimate PSD
+        freqs_orig, psd_orig = welch(x, fs=self.fs, nperseg=min(len(x), 256))
+
+        plt.figure(figsize=(10, 6))
+        plt.loglog(freqs_orig, psd_orig, alpha=0.7, label="Original")
+
+        if filtered_signal is not None:
+            y = np.asarray(filtered_signal, dtype=float).flatten()
+            freqs_filt, psd_filt = welch(y, fs=self.fs, nperseg=min(len(y), 256))
+            plt.loglog(freqs_filt, psd_filt, alpha=0.8, label="Filtered")
+
+        plt.xlabel("Frequency")
+        plt.ylabel("Power spectral density")
+        plt.title("Power spectral density")
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+
+        if save_path:
+            plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        if show:
+            plt.show()
+
+    def plot_filter_effect(
+        self,
+        signal: Optional[np.ndarray] = None,
+        cutoff_frac: Optional[float] = None,
+        save_path: Optional[str] = None,
+        show: bool = True,
+    ) -> None:
+        """
+        Visualise the effect of pink-noise filtering: time series and
+        power spectrum side by side.
+
+        Parameters
+        ----------
+        signal : array_like, optional
+            1-D time series. If None, uses the first column of loaded signal.
+        cutoff_frac : float, optional
+            Override the default cutoff fraction.
+        save_path : str or path-like, optional
+            If provided, saves the figure to this path.
+        show : bool, default True
+            Whether to display the figure.
+        """
+        if signal is None:
+            if self.signal is None:
+                raise ValueError("No signal loaded.")
+            x = self.signal[:, 0]
+        else:
+            x = np.asarray(signal, dtype=float).flatten()
+
+        filtered, beta, was_filtered = self.filter_pink_noise(
+            x, cutoff_frac=cutoff_frac
+        )
+
+        fig, axes = plt.subplots(2, 1, figsize=(10, 8))
+
+        # Time series
+        axes[0].plot(x, alpha=0.6, label="Original")
+        axes[0].plot(filtered, alpha=0.8, label=f"Filtered (β={beta:.2f})")
+        axes[0].set_title("Time series")
+        axes[0].legend()
+        axes[0].grid(True, alpha=0.3)
+
+        # Power spectra
+        freqs_orig, psd_orig = welch(x, fs=self.fs, nperseg=min(len(x), 256))
+        freqs_filt, psd_filt = welch(filtered, fs=self.fs, nperseg=min(len(filtered), 256))
+        axes[1].loglog(freqs_orig, psd_orig, alpha=0.6, label="Original")
+        axes[1].loglog(freqs_filt, psd_filt, alpha=0.8, label="Filtered")
+        axes[1].set_xlabel("Frequency")
+        axes[1].set_ylabel("Power spectral density")
+        axes[1].set_title("Power spectral density")
+        axes[1].legend()
+        axes[1].grid(True, alpha=0.3)
+
+        plt.tight_layout()
+        if save_path:
+            plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        if show:
+            plt.show()
+
+
 class RQA2:
     """
     Comprehensive Recurrence Quantification Analysis class that handles all RQA computations,
