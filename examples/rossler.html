@@ -450,7 +450,7 @@
 <h1>Rossler Attractor<a class="headerlink" href="#rossler-attractor" title="Link to this heading">#</a></h1>
 <p>Firstly, we will define functions for simulating Rossler attractor</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rossler</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Rössler equations.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The Rössler equations."""</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">X</span>
     <span class="n">xp</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span> <span class="o">-</span> <span class="n">z</span>
     <span class="n">yp</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">a</span><span class="o">*</span><span class="n">y</span>
@@ -464,7 +464,7 @@
     <span class="n">Z</span><span class="o">=</span><span class="p">[</span><span class="n">z</span><span class="p">]</span>
     <span class="n">dt</span><span class="o">=</span><span class="mf">0.0001</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmax</span><span class="p">):</span>
-      <span class="c1">#print(&#39;Xi:&#39;, Xi)</span>
+      <span class="c1">#print('Xi:', Xi)</span>
       <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Xi</span>
       <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">,</span> <span class="n">zp</span><span class="o">=</span><span class="n">rossler</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Xi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
       <span class="n">x_next</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="n">dt</span><span class="o">*</span><span class="n">xp</span>
@@ -481,9 +481,9 @@
     
     <span class="n">step</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">tmax</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">tmax</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
-    <span class="c1">#print(&#39;IS NAN X:&#39;,np.sum(np.isnan(X[indices])))</span>
-    <span class="c1">#print(&#39;IS NAN Y:&#39;,np.sum(np.isnan(Y[indices])))</span>
-    <span class="c1">#print(&#39;IS NAN Z:&#39;,np.sum(np.isnan(Z[indices])))</span>
+    <span class="c1">#print('IS NAN X:',np.sum(np.isnan(X[indices])))</span>
+    <span class="c1">#print('IS NAN Y:',np.sum(np.isnan(Y[indices])))</span>
+    <span class="c1">#print('IS NAN Z:',np.sum(np.isnan(Z[indices])))</span>
     
     <span class="k">return</span> <span class="n">X</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">Z</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
 </pre></div>
@@ -509,7 +509,7 @@
           
           <span class="k">for</span> <span class="n">k2</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">))):</span>                                                   <span class="c1"># Looping over different RP sizes(time series length)</span>
             <span class="n">tmax</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1000000</span><span class="o">*</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span><span class="o">/</span><span class="mi">250</span><span class="p">)),</span> <span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;started model&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'started model'</span><span class="p">)</span>
             <span class="n">Xi</span><span class="o">=</span><span class="p">(</span><span class="n">u0</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span>
             <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">rossler_time_series</span><span class="p">(</span><span class="n">tmax</span><span class="p">,</span><span class="n">n</span><span class="p">,</span> <span class="n">Xi</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
@@ -520,12 +520,12 @@
             <span class="n">u</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">x</span>                                                                             <span class="c1"># Defining the output matrix</span>
             <span class="n">u</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">y</span>
             <span class="n">u</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">z</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/user/swarag/Rossler/signals/(&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">snr</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">v0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">w0</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;)~.npy&#39;</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>  <span class="c1"># Save the data to a numpy file</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">'/user/swarag/Rossler/signals/('</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">snr</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">u0</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">v0</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">w0</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span><span class="o">+</span><span class="s1">')~.npy'</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>  <span class="c1"># Save the data to a numpy file</span>
 </pre></div>
 </div>
 <p>Since we have saved the time series data to a folder, we can repeat the same steps</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Rossler/signals&#39;</span>                                        <span class="c1"># directory to which the signals are saved</span>
-<span class="n">RP_dir</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Rossler/RP&#39;</span>                                                 <span class="c1"># directory to which we want to save the RPs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="s1">'/user/swarag/Rossler/signals'</span>                                        <span class="c1"># directory to which the signals are saved</span>
+<span class="n">RP_dir</span> <span class="o">=</span> <span class="s1">'/user/swarag/Rossler/RP'</span>                                                 <span class="c1"># directory to which we want to save the RPs</span>
 <span class="n">RP_computer</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">RP_dir</span><span class="p">)</span>                                                    <span class="c1"># generating RPs and saving to the specified folder</span>
 <span class="err">``</span>
 
@@ -533,13 +533,13 @@
 
 
 <span class="err">```</span><span class="n">python</span>
-<span class="n">Dict_RPs</span><span class="o">=</span><span class="n">windowed_RP</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">&#39;RP&#39;</span><span class="p">)</span>                                                      <span class="c1"># Specifying window size and folder in which RPs are saved</span>
-<span class="n">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">Dict_RPs</span><span class="p">,</span><span class="s1">&#39;Rossler_data.csv&#39;</span><span class="p">)</span>            <span class="c1"># Saving RQA variables to a csv file</span>
+<span class="n">Dict_RPs</span><span class="o">=</span><span class="n">windowed_RP</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">)</span>                                                      <span class="c1"># Specifying window size and folder in which RPs are saved</span>
+<span class="n">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">Dict_RPs</span><span class="p">,</span><span class="s1">'Rossler_data.csv'</span><span class="p">)</span>            <span class="c1"># Saving RQA variables to a csv file</span>
 </pre></div>
 </div>
 <p>Now we need to add additional columns to the data for later analysis</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Rossler_data.csv&#39;</span><span class="p">)</span>
-<span class="n">FILE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">])</span>                                                      <span class="c1"># In the output data, the field named &#39;group&#39; will have file name which contains details</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'Rossler_data.csv'</span><span class="p">)</span>
+<span class="n">FILE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'group'</span><span class="p">])</span>                                                      <span class="c1"># In the output data, the field named 'group' will have file name which contains details</span>
 <span class="n">SNR</span> <span class="o">=</span><span class="p">[]</span>
 <span class="n">A</span> <span class="o">=</span><span class="p">[]</span>
 <span class="n">U0</span> <span class="o">=</span><span class="p">[]</span>
@@ -555,38 +555,38 @@
   <span class="n">W0</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
   <span class="n">SIZE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
   
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;u0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">U0</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;v0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">V0</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;w0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">W0</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SIZE</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'snr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'a'</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'u0'</span><span class="p">]</span> <span class="o">=</span> <span class="n">U0</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'v0'</span><span class="p">]</span> <span class="o">=</span> <span class="n">V0</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'w0'</span><span class="p">]</span> <span class="o">=</span> <span class="n">W0</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SIZE</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
 
 <span class="n">SYNCH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">A</span><span class="o">&gt;</span><span class="mf">0.2</span><span class="p">)</span>                                                                   <span class="c1"># Defining synchrony condition, parameter value belonging to the chaotic region</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;synch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SYNCH</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'synch'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SYNCH</span>
 </pre></div>
 </div>
 <p>Now, we need to select an SNR value, scale the variables and run the classifier</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">################################################################## Select the value of SNR ################################################################################################</span>
-<span class="n">data_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">data_</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>                   <span class="c1"># mode of RQA variables from the sliding windows</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'snr'</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">==</span> <span class="s1">'mode'</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>                   <span class="c1"># mode of RQA variables from the sliding windows</span>
 <span class="c1">################################################################## Scale the data #########################################################################################################\</span>
-<span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">,</span>
- <span class="s1">&#39;percent_det&#39;</span><span class="p">,</span>
- <span class="s1">&#39;avg_diag&#39;</span><span class="p">,</span>
- <span class="s1">&#39;max_diag&#39;</span><span class="p">,</span>
- <span class="s1">&#39;percent_lam&#39;</span><span class="p">,</span>
- <span class="s1">&#39;avg_vert&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vert_ent&#39;</span><span class="p">,</span>
- <span class="s1">&#39;diag_ent&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vert_max&#39;</span><span class="p">]</span>
+<span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">'recc_rate'</span><span class="p">,</span>
+ <span class="s1">'percent_det'</span><span class="p">,</span>
+ <span class="s1">'avg_diag'</span><span class="p">,</span>
+ <span class="s1">'max_diag'</span><span class="p">,</span>
+ <span class="s1">'percent_lam'</span><span class="p">,</span>
+ <span class="s1">'avg_vert'</span><span class="p">,</span>
+ <span class="s1">'vert_ent'</span><span class="p">,</span>
+ <span class="s1">'diag_ent'</span><span class="p">,</span>
+ <span class="s1">'vert_max'</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
   <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">])</span>
   <span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span>
   
 <span class="c1">################################################################# Run the classification ###################################################################################################</span>
-<span class="n">nested_cv</span><span class="p">(</span><span class="n">data_</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="s1">&#39;synch&#39;</span><span class="p">,</span> <span class="s1">&#39;Kuramotot(SNR=1.0)&#39;</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">nested_cv</span><span class="p">(</span><span class="n">data_</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="s1">'synch'</span><span class="p">,</span> <span class="s1">'Kuramotot(SNR=1.0)'</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="c1">#################################################################   DONE ! ################################################################################################################</span>
 </pre></div>
 </div>

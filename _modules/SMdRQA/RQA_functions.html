@@ -414,7 +414,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepeatedKFold</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
@@ -436,11 +436,11 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">doanes_formula</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Functions for computing number of bins for data using Doane&#39;s formula</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    Functions for computing number of bins for data using Doane's formula</span>
 <span class="sd">    data : input array</span>
 <span class="sd">    n : number of elements in data</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">g1</span> <span class="o">=</span> <span class="n">skew</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">sigma_g1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="p">((</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)))</span>
@@ -456,7 +456,7 @@
 <div class="viewcode-block" id="binscalc">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.binscalc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate number of bins in a multidimensional histogram using a generalised Freedman–Diaconis rule.</span>
 
 <span class="sd">    Parameters</span>
@@ -478,11 +478,11 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Freedman, David, and Persi Diaconis. &quot;On the histogram as a density estimator: L 2 theory.&quot; Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.</span>
-<span class="sd">    - Birgé, Lucien, and Yves Rozenholc. &quot;How many bins should be put in a regular histogram.&quot; ESAIM: Probability and Statistics 10 (2006): 24-45.</span>
+<span class="sd">    - Freedman, David, and Persi Diaconis. "On the histogram as a density estimator: L 2 theory." Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete 57.4 (1981): 453-476.</span>
+<span class="sd">    - Birgé, Lucien, and Yves Rozenholc. "How many bins should be put in a regular histogram." ESAIM: Probability and Statistics 10 (2006): 24-45.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;FD&#39;</span><span class="p">:</span>  <span class="c1"># generalised Freedman–Diaconis rule.</span>
+<span class="sd">    '''</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'FD'</span><span class="p">:</span>  <span class="c1"># generalised Freedman–Diaconis rule.</span>
         <span class="c1"># Generalised Freedman-Diaconis rule with Bins[i] \propto n^(1/(d+2))</span>
         <span class="n">mult_fact</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))))</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -491,39 +491,39 @@
         <span class="n">q25</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">q75</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">IQR</span> <span class="o">=</span> <span class="p">(</span><span class="n">q75</span> <span class="o">-</span> <span class="n">q25</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;IQR:&#39;</span><span class="p">,</span> <span class="n">IQR</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'IQR:'</span><span class="p">,</span> <span class="n">IQR</span><span class="p">)</span>
         <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">mult_fact</span> <span class="o">*</span> <span class="p">(</span><span class="n">sup_arr</span> <span class="o">-</span> <span class="n">inf_arr</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">IQR</span><span class="p">))</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'sqrt'</span><span class="p">:</span>
         <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
         <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;rice&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'rice'</span><span class="p">:</span>
         <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
         <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cbrt</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;sturges&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'sturges'</span><span class="p">:</span>
         <span class="n">ns</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span>
         <span class="n">Bins_1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ns</span><span class="p">))</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;doanes&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'doanes'</span><span class="p">:</span>
         <span class="n">Bins_1</span> <span class="o">=</span> <span class="n">doanes_formula</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="n">Bins_1</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">'default'</span><span class="p">:</span>
         <span class="n">Bins</span> <span class="o">=</span> <span class="mi">15</span>
 
-    <span class="c1"># print(&#39;inf:&#39;,inf)</span>
-    <span class="c1"># print(&#39;sup:&#39;,sup)</span>
-    <span class="c1"># print(&#39;IQR:&#39;,iqr)</span>
+    <span class="c1"># print('inf:',inf)</span>
+    <span class="c1"># print('sup:',sup)</span>
+    <span class="c1"># print('IQR:',iqr)</span>
 
     <span class="k">return</span> <span class="n">Bins</span></div>
 
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">mutualinfo_histdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate mutual information between two time series using multidimensional histogram</span>
 
 <span class="sd">    Parameters</span>
@@ -548,21 +548,21 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;FD&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BINS:&#39;</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
-    <span class="c1"># print(&#39;bins:&#39;,bins.shape)</span>
-    <span class="c1"># print(&#39;points:&#39;,points.shape)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">binscalc</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">'FD'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'BINS:'</span><span class="p">,</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="c1"># print('bins:',bins.shape)</span>
+    <span class="c1"># print('points:',points.shape)</span>
     <span class="c1"># 10^-9 added so that x log x does not diverge when x=0 in the calculation</span>
     <span class="c1"># of mutual information</span>
     <span class="n">p_xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span>
-        <span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">p_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">p_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="s1">'default'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">'default'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">p_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogramdd</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">binscalc</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="s1">'default'</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
     <span class="n">p_xy</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_xy</span><span class="p">)</span>  <span class="c1"># Normalising the probability distribution</span>
     <span class="n">p_x</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_x</span><span class="p">)</span>
     <span class="n">p_y</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">p_y</span><span class="p">)</span>
@@ -571,7 +571,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">mutualinfo_avg</span><span class="p">(</span><span class="n">Xmd</span><span class="p">,</span> <span class="n">Ymd</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate mutual information between two time series by avergaring the mutual information across each dimensions</span>
 
 <span class="sd">    Parameters</span>
@@ -596,9 +596,9 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">mi</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="c1"># Now we can use the same method to compute the mutual information</span>
@@ -611,8 +611,8 @@
 
 <div class="viewcode-block" id="mutualinfo">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mutualinfo">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mutualinfo</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"histdd"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate mutual information between two time series</span>
 
 <span class="sd">    Parameters</span>
@@ -630,8 +630,8 @@
 <span class="sd">        number of measurements or dimensions of the data</span>
 
 <span class="sd">    method : Option between computing the mutual information using:</span>
-<span class="sd">           - multidimensional histogram(&quot;histdd&quot;)</span>
-<span class="sd">           - average mutual information across dimensions(&quot;avg&quot;)</span>
+<span class="sd">           - multidimensional histogram("histdd")</span>
+<span class="sd">           - average mutual information across dimensions("avg")</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -641,12 +641,12 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;histdd&quot;</span><span class="p">:</span>
+<span class="sd">    '''</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"histdd"</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">mutualinfo_histdd</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;avg&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"avg"</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">mutualinfo_avg</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mi</span></div>
@@ -657,8 +657,8 @@
 <div class="viewcode-block" id="KNN_MI_vectorized">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_vectorized">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Vectorized version</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Vectorized version</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -680,10 +680,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 <span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>  <span class="c1"># change the data type to one specified by the user</span>
@@ -699,12 +699,12 @@
     <span class="n">D_sorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># First column would be zero</span>
     <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">D_sorted</span><span class="p">[:,</span> <span class="n">nearest_neighbor</span><span class="p">])</span>
-    <span class="c1"># print(&#39;k nearest vectorized:&#39;, k_nearest)</span>
+    <span class="c1"># print('k nearest vectorized:', k_nearest)</span>
     <span class="n">neigh_matrix_X</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">((</span><span class="n">k_nearest</span> <span class="o">-</span> <span class="n">DX</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">neigh_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing &quot;self neighbour&quot;</span>
+    <span class="n">neigh_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing "self neighbour"</span>
 
     <span class="n">neigh_matrix_Y</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">((</span><span class="n">k_nearest</span> <span class="o">-</span> <span class="n">DY</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">neigh_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing &quot;self neighbour&quot;</span>
+    <span class="n">neigh_Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">neigh_matrix_Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># Removing "self neighbour"</span>
     <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
         <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">neigh_X</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">neigh_Y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
 
@@ -713,8 +713,8 @@
 <div class="viewcode-block" id="KNN_MI_partial_vectorized">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_partial_vectorized">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">KNN_MI_partial_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Partially version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can&#39;t be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used to use a relatively faster version compared to non-vectorized version</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Partially version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used to use a relatively faster version compared to non-vectorized version</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -736,10 +736,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 <span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">assert_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>  <span class="c1"># change the data type to one specified by the user</span>
@@ -767,7 +767,7 @@
         <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="n">nearest_neighbor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">NX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_X</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">))</span>
         <span class="n">NY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">dist_Y</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">))</span>
-        <span class="c1"># print(&#39;k nearest non vectorized:&#39;, k_nearest)</span>
+        <span class="c1"># print('k nearest non vectorized:', k_nearest)</span>
 
     <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
         <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
@@ -777,8 +777,8 @@
 <div class="viewcode-block" id="KNN_MI_non_vectorized">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.KNN_MI_non_vectorized">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can&#39;t be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Non-vectorized version. Vectorized version is faster, however, if size of the time series is large and number of dimensions are much larger, the resulting matrix can't be stored in the physical memory of the system (RAM) depending on the resource available. In that case this version can be used</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -800,10 +800,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 <span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">XY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">NX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">NY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -821,7 +821,7 @@
                 <span class="n">N</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N0</span><span class="p">)</span>
         <span class="n">N</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
         <span class="n">k_nearest</span> <span class="o">=</span> <span class="n">N</span><span class="p">[</span><span class="n">nearest_neighbor</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="c1"># print(&#39;k nearest non vectorized:&#39;, k_nearest)</span>
+        <span class="c1"># print('k nearest non vectorized:', k_nearest)</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">j</span><span class="p">:</span>
@@ -829,8 +829,8 @@
                     <span class="n">NX</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
                 <span class="k">if</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">k_nearest</span><span class="p">:</span>
                     <span class="n">NY</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;neigh_X non vectorised:&#39;</span><span class="p">,</span> <span class="n">NX</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;neigh_Y non vectorised:&#39;</span><span class="p">,</span> <span class="n">NY</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'neigh_X non vectorised:'</span><span class="p">,</span> <span class="n">NX</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'neigh_Y non vectorised:'</span><span class="p">,</span> <span class="n">NY</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">digamma</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">digamma</span><span class="p">(</span><span class="n">nearest_neighbor</span><span class="p">)</span> <span class="o">-</span> \
         <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">digamma</span><span class="p">(</span><span class="n">NY</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span></div>
 
@@ -842,11 +842,11 @@
         <span class="n">X</span><span class="p">,</span>
         <span class="n">Y</span><span class="p">,</span>
         <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-        <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
         <span class="n">memory_limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can&#39;t be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit</span>
+<span class="w">    </span><span class="sd">'''</span>
+<span class="sd">    Function to calculate mutual information between two time series using KNN method for datasets that can't be handled with default binning method. Uses vectorised or non-vectorized version depending on whether the required matrix size is less than the specified memory limit</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -862,19 +862,19 @@
 <span class="sd">    method : str</span>
 <span class="sd">        Specifying options for computing the mutual information using the KNN method. Options are:</span>
 
-<span class="sd">        - &quot;auto&quot; : This will check for two additional variables, namely &quot;dtype&quot; (data type) and &quot;memory_limit&quot;</span>
+<span class="sd">        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit"</span>
 <span class="sd">          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized</span>
 <span class="sd">          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will</span>
 <span class="sd">          compute sequentially.</span>
 
-<span class="sd">        - &quot;vectorized&quot; : This will use the vectorized method by default, without checking the memory requirement</span>
+<span class="sd">        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement</span>
 <span class="sd">          and the limit specified. This option is faster by default.</span>
 
-<span class="sd">        - &quot;sequential&quot; : The algorithm is implemented with for loops instead of vectorization. This could be</span>
+<span class="sd">        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be</span>
 <span class="sd">          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited</span>
-<span class="sd">          and can&#39;t handle huge matrices, this option should be chosen.</span>
+<span class="sd">          and can't handle huge matrices, this option should be chosen.</span>
 
-<span class="sd">        - &quot;partial&quot; : best of both worlds between &quot;vectorized&quot; and &quot;sequential&quot;</span>
+<span class="sd">        - "partial" : best of both worlds between "vectorized" and "sequential"</span>
 
 <span class="sd">    dtype   : dtype</span>
 <span class="sd">        data type, default = np.float64</span>
@@ -891,10 +891,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 <span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">dim1</span><span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">dim3</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">pv1</span> <span class="o">=</span> <span class="n">assert_3D_matrix_size</span><span class="p">(</span>
@@ -911,7 +911,7 @@
         <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
         <span class="n">memory_limit</span><span class="o">=</span><span class="n">memory_limit</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">pv1</span><span class="p">:</span>
             <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">pv1</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pv2</span><span class="p">):</span>
@@ -919,13 +919,13 @@
         <span class="k">elif</span> <span class="p">(</span><span class="n">pv1</span> <span class="o">==</span> <span class="kc">False</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">pv2</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
             <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;vectorized&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"vectorized"</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;sequential&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"sequential"</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_non_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;partial&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"partial"</span><span class="p">:</span>
         <span class="n">mi</span> <span class="o">=</span> <span class="n">KNN_MI_partial_vectorized</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">nearest_neighbor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mi</span></div>
@@ -934,8 +934,8 @@
 
 <div class="viewcode-block" id="timedelayMI">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.timedelayMI">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">timedelayMI</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">"histdd"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
 
 <span class="sd">    Parameters</span>
@@ -960,9 +960,9 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
@@ -976,10 +976,10 @@
     <span class="n">u</span><span class="p">,</span>
     <span class="n">tau</span><span class="p">,</span>
     <span class="n">nearest_neighbor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">method</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
     <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
         <span class="n">memory_limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate mutual information between a time series and a delayed version of itself</span>
 
 <span class="sd">    Parameters</span>
@@ -996,19 +996,19 @@
 <span class="sd">    method : str</span>
 <span class="sd">        Specifying options for computing the mutual information using the KNN method. Options are:</span>
 
-<span class="sd">        - &quot;auto&quot; : This will check for two additional variables, namely &quot;dtype&quot; (data type) and &quot;memory_limit&quot;</span>
+<span class="sd">        - "auto" : This will check for two additional variables, namely "dtype" (data type) and "memory_limit"</span>
 <span class="sd">          (maximum memory allocated for the operation). If, for a given matrix size and data type, the vectorized</span>
 <span class="sd">          algorithm fits within the memory limit, it will proceed with the vectorized version. Otherwise, it will</span>
 <span class="sd">          compute sequentially.</span>
 
-<span class="sd">        - &quot;vectorized&quot; : This will use the vectorized method by default, without checking the memory requirement</span>
+<span class="sd">        - "vectorized" : This will use the vectorized method by default, without checking the memory requirement</span>
 <span class="sd">          and the limit specified. This option is faster by default.</span>
 
-<span class="sd">        - &quot;sequential&quot; : The algorithm is implemented with for loops instead of vectorization. This could be</span>
+<span class="sd">        - "sequential" : The algorithm is implemented with for loops instead of vectorization. This could be</span>
 <span class="sd">          significantly slower than the vectorized version. However, if resources (RAM/physical memory) are limited</span>
-<span class="sd">          and can&#39;t handle huge matrices, this option should be chosen.</span>
+<span class="sd">          and can't handle huge matrices, this option should be chosen.</span>
 
-<span class="sd">        - &quot;partial&quot; : best of both worlds between &quot;vectorized&quot; and &quot;sequential&quot;</span>
+<span class="sd">        - "partial" : best of both worlds between "vectorized" and "sequential"</span>
 
 <span class="sd">    dtype   : dtype</span>
 <span class="sd">        data type, default = np.float64</span>
@@ -1025,10 +1025,10 @@
 
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
-<span class="sd">    - Shannon, Claude Elwood. &quot;A mathematical theory of communication.&quot; The Bell system technical journal 27.3 (1948): 379-423.</span>
+<span class="sd">    - Shannon, Claude Elwood. "A mathematical theory of communication." The Bell system technical journal 27.3 (1948): 379-423.</span>
 <span class="sd">    - Kraskov, A., Stögbauer, H., &amp; Grassberger, P. (2004). Estimating mutual information. Physical Review E—Statistical, Nonlinear, and Soft Matter Physics, 69(6), 066138.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">n</span> <span class="o">-</span> <span class="n">tau</span><span class="p">,</span> <span class="p">:]</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">tau</span><span class="p">:</span><span class="n">n</span><span class="p">,</span> <span class="p">:]</span>
@@ -1039,8 +1039,8 @@
 
 <div class="viewcode-block" id="findtau_default">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_default">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">"histdd"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
 <span class="sd">    Parameters</span>
@@ -1058,9 +1058,9 @@
 <span class="sd">    -------</span>
 
 <span class="sd">    tau : double</span>
-<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn't exist)</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1087,7 +1087,7 @@
         <span class="n">MSE_sub</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">train_idx</span><span class="p">,</span> <span class="n">test_idx</span> <span class="ow">in</span> <span class="n">cv</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
             <span class="c1"># Use pandas-style indexing if available, else NumPy indexing.</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">&#39;iloc&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s1">'iloc'</span><span class="p">):</span>
                 <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
                 <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">test_idx</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -1111,8 +1111,8 @@
 
 <div class="viewcode-block" id="findtau_polynomial">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau_polynomial">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">"histdd"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the polynomial fit of tau vs mutual information curve</span>
 
 <span class="sd">    Parameters</span>
@@ -1133,9 +1133,9 @@
 <span class="sd">    -------</span>
 
 <span class="sd">    tau : double</span>
-<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn't exist)</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">TAU</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">MIARR</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1156,10 +1156,10 @@
     <span class="n">tau_index</span> <span class="o">=</span> <span class="n">find_first_minima_or_global_minima_index</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="s1">&#39;b*&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">&#39;r-&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">MIARR</span><span class="p">,</span> <span class="s1">'b*'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">TAU</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="s1">'r-'</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;TAU-MI-&#39;</span> <span class="o">+</span> <span class="n">grp</span> <span class="o">+</span> <span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">'TAU-MI-'</span> <span class="o">+</span> <span class="n">grp</span> <span class="o">+</span> <span class="s1">'.png'</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">TAU</span><span class="p">[</span><span class="n">tau_index</span><span class="p">]</span></div>
 
@@ -1167,8 +1167,8 @@
 
 <div class="viewcode-block" id="findtau">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findtau">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">&quot;histdd&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">findtau</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'default'</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="s2">"histdd"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on either the first minima of the tau vs mutual information curve or the polynomial fit of tau vs mutual information curve</span>
 
 
@@ -1184,21 +1184,21 @@
 <span class="sd">        number of measurements or dimensions of the data</span>
 
 <span class="sd">    method : method that should be used to find the first local minima in MI vs tau curve.</span>
-<span class="sd">             &quot;default&quot; - first minima of the MI vs TAU plot</span>
-<span class="sd">             &quot;polynomial&quot;- first minima of the polynomial fit to the MI vs TAU plot</span>
+<span class="sd">             "default" - first minima of the MI vs TAU plot</span>
+<span class="sd">             "polynomial"- first minima of the polynomial fit to the MI vs TAU plot</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
 <span class="sd">    tau : double</span>
-<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn&#39;t exist)</span>
+<span class="sd">         optimal amount of delay for which mutual information reaches its first minima(and global minima, in case first minima doesn't exist)</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
-    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;default&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"default"</span><span class="p">:</span>
         <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_default</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
 
-    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;polynomial&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"polynomial"</span><span class="p">:</span>
         <span class="n">tau</span> <span class="o">=</span> <span class="n">findtau_polynomial</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">mi_method</span><span class="o">=</span><span class="n">mi_method</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">tau</span></div>
@@ -1210,7 +1210,7 @@
 <div class="viewcode-block" id="delayseries">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.delayseries">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate correct delay for estimating embedding dimension based on the first minima of the tau vs mutual information curve</span>
 
 <span class="sd">    Parameters</span>
@@ -1240,7 +1240,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
@@ -1252,7 +1252,7 @@
 <div class="viewcode-block" id="nearest">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.nearest">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">nearest</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that would give a nearest neighbour map, the output array(nn) stores indices of nearest neighbours for index values of each observations</span>
 
 <span class="sd">    Parameters</span>
@@ -1282,7 +1282,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Takens, F. (1981). Dynamical systems and turbulence. Warwick, 1980, 366–381.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">nn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">nn</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau</span><span class="p">):</span>
@@ -1297,7 +1297,7 @@
 <div class="viewcode-block" id="fnnratio">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnratio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sig</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that calculates the ratio of false nearest neighbours</span>
 
 <span class="sd">    Parameters</span>
@@ -1333,7 +1333,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Kennel, M. B., Brown, R., &amp; Abarbanel, H. D. (1992). Determining embedding dimension for phase-space reconstruction using a geometrical construction. Physical review A, 45 (6), 3403.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">s1</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>     <span class="c1"># embedding in m dimensions</span>
     <span class="n">s2</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>   <span class="c1"># embedding in m+1 dimensions</span>
     <span class="c1"># containg nearest neghbours after embedding in m dimensions</span>
@@ -1354,7 +1354,7 @@
 <div class="viewcode-block" id="fnnhitszero">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.fnnhitszero">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that finds the value of r at which the FNN ratio can be effectively considered as zero</span>
 
 <span class="sd">    Parameters</span>
@@ -1402,7 +1402,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">Rarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rdiv</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">fnnratio</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">Rarr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sig</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">delta</span><span class="p">:</span>
@@ -1414,7 +1414,7 @@
 <div class="viewcode-block" id="findm">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findm">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">findm</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">,</span> <span class="n">bound</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that finds the value of m whre the r at which FNN ratio hits zero vs m curve flattens(defined by bound value)</span>
 
 <span class="sd">    Parameters</span>
@@ -1465,7 +1465,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Kantz, H., &amp; Schreiber, T. (2004). Nonlinear time series analysis (Vol. 7). Cambridge university press. section 3.3.1</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
 
     <span class="n">mmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="mi">3</span> <span class="o">*</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">11</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
@@ -1476,7 +1476,7 @@
     <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">mmax</span><span class="p">):</span>
         <span class="n">rmp</span> <span class="o">=</span> <span class="n">rm</span>
         <span class="n">rm</span> <span class="o">=</span> <span class="n">fnnhitszero</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">mmax</span> <span class="o">-</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">sd</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">Rmin</span><span class="p">,</span> <span class="n">Rmax</span><span class="p">,</span> <span class="n">rdiv</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;rm-rmp:&#39;</span><span class="p">,</span> <span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'rm-rmp:'</span><span class="p">,</span> <span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">rm</span> <span class="o">-</span> <span class="n">rmp</span> <span class="o">&gt;</span> <span class="n">bound</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">mmax</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">m</span>
 
@@ -1489,7 +1489,7 @@
 <div class="viewcode-block" id="reccplot">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccplot">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reccplot</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
 <span class="sd">    Parameters</span>
@@ -1523,7 +1523,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="c1"># normarr=[]</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
     <span class="n">rplot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -1564,7 +1564,7 @@
 <div class="viewcode-block" id="reccrate">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.reccrate">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reccrate</span><span class="p">(</span><span class="n">rplot</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
 <span class="sd">    Parameters</span>
@@ -1586,7 +1586,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rplot</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span></div>
 
 
@@ -1594,7 +1594,7 @@
 <div class="viewcode-block" id="findeps">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.findeps">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">findeps</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
 <span class="sd">    Parameters</span>
@@ -1640,7 +1640,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">delayseries</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">tau</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epsdiv</span><span class="p">):</span>
@@ -1658,7 +1658,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">findeps_multi</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">Tau</span><span class="p">,</span> <span class="n">reqrr</span><span class="p">,</span> <span class="n">rr_delta</span><span class="p">,</span> <span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function that computes the recurrence plot</span>
 
 <span class="sd">    Parameters</span>
@@ -1704,7 +1704,7 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - Eckmann, J.-P., Kamphorst, S. O., Ruelle, D., et al. (1995). Recurrence plots of dynamical systems. World Scientific Series on Nonlinear Science Series A, 16, 441–446.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">num_series</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
     <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">epsmin</span><span class="p">,</span> <span class="n">epsmax</span><span class="p">,</span> <span class="n">epsdiv</span><span class="p">)</span>
 
@@ -1744,7 +1744,7 @@
 <div class="viewcode-block" id="vert_hist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.vert_hist">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">vert_hist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Functio to calculate vertical line distribution</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to compute vertical line distribution(counts of line lengths)</span>
 
 <span class="sd">    Parameters</span>
@@ -1769,7 +1769,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">nvert</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1803,7 +1803,7 @@
 <div class="viewcode-block" id="diaghist">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.diaghist">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">diaghist</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>  <span class="c1"># Function to calculate diagonal line distribution</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to compute diagonal line distribution(counts of line lengths)</span>
 
 <span class="sd">    Parameters</span>
@@ -1829,7 +1829,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">dghist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
         <span class="n">diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
@@ -1849,7 +1849,7 @@
 <div class="viewcode-block" id="percentmorethan">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.percentmorethan">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">percentmorethan</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to compute determinism and laminarity from the histogram distribution of lines</span>
 
 <span class="sd">    The idea is to see what fraction of rcurrent points are part of a linear structure, which can be either</span>
@@ -1881,7 +1881,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -1895,7 +1895,7 @@
 <div class="viewcode-block" id="mode">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.mode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to find mode of the line distributions</span>
 
 <span class="sd">    Parameters</span>
@@ -1923,7 +1923,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">mini</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">hst</span><span class="p">[</span><span class="n">p</span><span class="p">]:</span>
@@ -1935,7 +1935,7 @@
 <div class="viewcode-block" id="maxi">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.maxi">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">maxi</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    maximum value in the line length distribution</span>
 
 <span class="sd">    Parameters</span>
@@ -1963,7 +1963,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">lmax</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">hst</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
@@ -1975,7 +1975,7 @@
 <div class="viewcode-block" id="average">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.average">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">average</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to find mean of the line distributions</span>
 
 <span class="sd">    Parameters</span>
@@ -2003,7 +2003,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">numer</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">denom</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -2016,7 +2016,7 @@
 <div class="viewcode-block" id="entropy">
 <a class="viewcode-back" href="../../functions/RQA_functions.html#SMdRQA.RQA_functions.entropy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">hst</span><span class="p">,</span> <span class="n">mini</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to find entropy of the line distributions</span>
 
 <span class="sd">    Parameters</span>
@@ -2044,7 +2044,7 @@
 <span class="sd">    - Marwan, N., Schinkel, S., &amp; Kurths, J. (2013). Recurrence plots 25 years later—gaining confidence in dynamical transitions. Europhysics Letters, 101 (2), 20007.</span>
 <span class="sd">    - Marwan, N., Wessel, N., Meyerfeldt, U., Schirdewan, A., &amp; Kurths, J. (2002). Recurrence- plot-based measures of complexity and their application to heart-rate-variability data. Physical review E, 66 (2), 026702.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">summ</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">entr</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mini</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>

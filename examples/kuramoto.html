@@ -477,7 +477,7 @@ python files should be copied to the mail analysis directory</p>
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">overrides</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">isfile</span><span class="p">,</span> <span class="n">join</span>
@@ -581,7 +581,7 @@ about the system. Now, we had seen this we can go through the analysis
 pipeline: First we define a function to add noise to the signals. This
 function will change the signal to noise ratio of the signals</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">add_noise</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">snr</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Add Gaussian noise to a signal with a specific signal-to-noise ratio (SNR).</span>
 
 <span class="sd">    Parameters:</span>
@@ -590,7 +590,7 @@ function will change the signal to noise ratio of the signals</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    noisy_signal (array): Signal with added noise.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Clip signal to maximum value of 1 to prevent overflow errors</span>
 
     <span class="c1"># Calculate signal power</span>
@@ -638,7 +638,7 @@ These files will be later accessed for computing RPs.</p>
       <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>                                                            <span class="c1"># Add noise to the signals</span>
         <span class="n">signals</span><span class="p">[:,</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">add_noise</span><span class="p">(</span><span class="n">signals</span><span class="p">[:,</span><span class="n">j</span><span class="p">],</span> <span class="n">snr</span><span class="p">)</span>
       <span class="n">signals</span> <span class="o">=</span> <span class="n">signals</span><span class="p">[::</span><span class="mi">10</span><span class="p">,:]</span>
-      <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;/user/swarag/Kuramoto/signals/(&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">snr</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Ks</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">K_used</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;,&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;)~.npy&#39;</span><span class="p">,</span><span class="n">signals</span><span class="p">)</span>  <span class="c1"># Save the data to a numpy file</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">'/user/swarag/Kuramoto/signals/('</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">snr</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">Ks</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">K_used</span><span class="p">)</span><span class="o">+</span><span class="s1">','</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">rp_sizes</span><span class="p">[</span><span class="n">k2</span><span class="p">])</span><span class="o">+</span><span class="s1">')~.npy'</span><span class="p">,</span><span class="n">signals</span><span class="p">)</span>  <span class="c1"># Save the data to a numpy file</span>
 </pre></div>
 </div>
 <p>Now we have saved the time series data to a folder, we can access the
@@ -646,8 +646,8 @@ folder for creating RPs. Note that the folder containig the data files
 shouldn’t contain any other files. The function we defined are making
 use of the “listdir” function from os package, and the code doesn’t
 handle exceptions. Now we can generate the RPs</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Kuramoto/signals&#39;</span>                                        <span class="c1"># directory to which the signals are saved</span>
-<span class="n">RP_dir</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Kuramoto/RP&#39;</span>                                                 <span class="c1"># directory to which we want to save the RPs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="s1">'/user/swarag/Kuramoto/signals'</span>                                        <span class="c1"># directory to which the signals are saved</span>
+<span class="n">RP_dir</span> <span class="o">=</span> <span class="s1">'/user/swarag/Kuramoto/RP'</span>                                                 <span class="c1"># directory to which we want to save the RPs</span>
 <span class="n">RP_computer</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">RP_dir</span><span class="p">)</span>                                                     <span class="c1"># generating RPs and saving to the specified folder</span>
 </pre></div>
 </div>
@@ -668,7 +668,7 @@ Sliding_window_whole_data</p>
 <p>windowing_data = Sliding_window_whole_data(RP_dir, ‘percent_det’)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>From this, what we will get is a dataframe, which contains the difference between 95th percentile and 5th percentile for each file. Now we have to plot it for different noise levels.
 ```python
-FILE = np.array(windowing_data[&#39;group&#39;])                                                      # In the output data, the field named &#39;group&#39; will have file name which contains details
+FILE = np.array(windowing_data['group'])                                                      # In the output data, the field named 'group' will have file name which contains details
 SNR =[]
 NUM =[]
 Kc =[]
@@ -682,17 +682,17 @@ for FI in FILE:
   K.append(info[3])
   SIZE.append(info[4])
 
-windowing_data[&#39;snr&#39;] = SNR
-windowing_data[&#39;N&#39;] = NUM
-windowing_data[&#39;Kc&#39;] = Kc
-windowing_data[&#39;K&#39;] = K
-windowing_data[&#39;length&#39;] = SIZE
+windowing_data['snr'] = SNR
+windowing_data['N'] = NUM
+windowing_data['Kc'] = Kc
+windowing_data['K'] = K
+windowing_data['length'] = SIZE
 </pre></div>
 </div>
 <p>Now since we have added these columns to the dataframe, we can use
 seaborn package for plotting</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">windowing_data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;WINSIZE&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;95% quantile- 5% quantile&#39;</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">&#39;snr&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">pointplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">windowing_data</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">'WINSIZE'</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">'95% quantile- 5% quantile'</span><span class="p">,</span> <span class="n">hue</span> <span class="o">=</span> <span class="s1">'snr'</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -701,16 +701,16 @@ took 68 as the window size. Note that, due to monotonously decreasing
 nature of the graph, it is impossible to get an optimal value, which is
 not subjective. Now that we decided about the window size, we can
 estimate RQA variables from the sliding windows having the given size.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dict_RPs</span><span class="o">=</span><span class="n">windowed_RP</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">&#39;RP&#39;</span><span class="p">)</span>                                                      <span class="c1"># Specifying window size and folder in which RPs are saved</span>
-<span class="n">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">Dict_RPs</span><span class="p">,</span><span class="s1">&#39;Kuramoto_data.csv&#39;</span><span class="p">)</span>            <span class="c1"># Saving RQA variables to a csv file</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Dict_RPs</span><span class="o">=</span><span class="n">windowed_RP</span><span class="p">(</span><span class="mi">68</span><span class="p">,</span> <span class="s1">'RP'</span><span class="p">)</span>                                                      <span class="c1"># Specifying window size and folder in which RPs are saved</span>
+<span class="n">First_middle_last_sliding_windows_all_vars</span><span class="p">(</span><span class="n">Dict_RPs</span><span class="p">,</span><span class="s1">'Kuramoto_data.csv'</span><span class="p">)</span>            <span class="c1"># Saving RQA variables to a csv file</span>
 </pre></div>
 </div>
 <p>The resulting dataframe that is getting saved will have a column,
 “group”, which will have the file name(excluding “.npy”). In this code,
 we are coding information regarding synchrony using the file name, as
 given below:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Kuramoto_data.csv&#39;</span><span class="p">)</span>
-<span class="n">FILE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">])</span>                                                      <span class="c1"># In the output data, the field named &#39;group&#39; will have file name which contains details</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'Kuramoto_data.csv'</span><span class="p">)</span>
+<span class="n">FILE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'group'</span><span class="p">])</span>                                                      <span class="c1"># In the output data, the field named 'group' will have file name which contains details</span>
 <span class="n">SNR</span> <span class="o">=</span><span class="p">[]</span>
 <span class="n">NUM</span> <span class="o">=</span><span class="p">[]</span>
 <span class="n">Kc</span> <span class="o">=</span><span class="p">[]</span>
@@ -724,38 +724,38 @@ given below:</p>
   <span class="n">K</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
   <span class="n">SIZE</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
 
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;Kc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Kc</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;K&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SIZE</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'snr'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'N'</span><span class="p">]</span> <span class="o">=</span> <span class="n">NUM</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'Kc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">Kc</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'K'</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'length'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SIZE</span>
 <span class="n">K</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">K</span><span class="p">)</span>
 <span class="n">Kc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Kc</span><span class="p">)</span>
 <span class="n">SYNCH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="p">(</span><span class="n">K</span><span class="o">&gt;</span><span class="n">Kc</span><span class="p">)</span>                                                                   <span class="c1"># Defining synchrony condition, coupling strength grater than that of the critical coupling strength</span>
-<span class="n">data</span><span class="p">[</span><span class="s1">&#39;synch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SYNCH</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">'synch'</span><span class="p">]</span> <span class="o">=</span> <span class="n">SYNCH</span>
 </pre></div>
 </div>
 <p>Now, we need to select an SNR value, scale the variables and run the
 classifier</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">################################################################## Select the value of SNR ################################################################################################</span>
-<span class="n">data_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="n">data_</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">]</span><span class="o">==</span> <span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>                   <span class="c1"># mode of RQA variables from the sliding windows</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'snr'</span><span class="p">]</span><span class="o">==</span><span class="mf">1.0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">data_</span> <span class="o">=</span> <span class="n">data_</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'window'</span><span class="p">]</span><span class="o">==</span> <span class="s1">'mode'</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>                   <span class="c1"># mode of RQA variables from the sliding windows</span>
 <span class="c1">################################################################## Scale the data #########################################################################################################\</span>
-<span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;recc_rate&#39;</span><span class="p">,</span>
- <span class="s1">&#39;percent_det&#39;</span><span class="p">,</span>
- <span class="s1">&#39;avg_diag&#39;</span><span class="p">,</span>
- <span class="s1">&#39;max_diag&#39;</span><span class="p">,</span>
- <span class="s1">&#39;percent_lam&#39;</span><span class="p">,</span>
- <span class="s1">&#39;avg_vert&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vert_ent&#39;</span><span class="p">,</span>
- <span class="s1">&#39;diag_ent&#39;</span><span class="p">,</span>
- <span class="s1">&#39;vert_max&#39;</span><span class="p">]</span>
+<span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="s1">'recc_rate'</span><span class="p">,</span>
+ <span class="s1">'percent_det'</span><span class="p">,</span>
+ <span class="s1">'avg_diag'</span><span class="p">,</span>
+ <span class="s1">'max_diag'</span><span class="p">,</span>
+ <span class="s1">'percent_lam'</span><span class="p">,</span>
+ <span class="s1">'avg_vert'</span><span class="p">,</span>
+ <span class="s1">'vert_ent'</span><span class="p">,</span>
+ <span class="s1">'diag_ent'</span><span class="p">,</span>
+ <span class="s1">'vert_max'</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
   <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">])</span>
   <span class="n">data_</span><span class="p">[</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">))</span>
 
 <span class="c1">################################################################# Run the classification ###################################################################################################</span>
-<span class="n">nested_cv</span><span class="p">(</span><span class="n">data_</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="s1">&#39;synch&#39;</span><span class="p">,</span> <span class="s1">&#39;Kuramotot(SNR=1.0)&#39;</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">nested_cv</span><span class="p">(</span><span class="n">data_</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="s1">'synch'</span><span class="p">,</span> <span class="s1">'Kuramotot(SNR=1.0)'</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="c1">#################################################################   DONE ! ################################################################################################################</span>
 </pre></div>
 </div>

@@ -454,13 +454,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">RP_diagnose</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">RP_maker_diagnose</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_minFNN_distribution_plot</span>
 
-<span class="n">input_path</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Koul et al/data_npy&#39;</span>                                        <span class="c1"># directory to which the signals are saved</span>
-<span class="n">diagnose_dir</span> <span class="o">=</span> <span class="s1">&#39;/user/swarag/Koul et al/diagnose&#39;</span>                                            <span class="c1"># directory in which pickle files from this function are saved</span>
+<span class="n">input_path</span> <span class="o">=</span> <span class="s1">'/user/swarag/Koul et al/data_npy'</span>                                        <span class="c1"># directory to which the signals are saved</span>
+<span class="n">diagnose_dir</span> <span class="o">=</span> <span class="s1">'/user/swarag/Koul et al/diagnose'</span>                                            <span class="c1"># directory in which pickle files from this function are saved</span>
 <span class="n">RP_diagnose</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">diagnose_dir</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now, we have saved the picke files to a directory, we can use those pickle files in the next function. Following function estimates the lower and upper bound (2.5th and 975th percentile) of the distribution of minimum false nearest beighbour(FNN) values for different embedding dimensions. It gives a plot and a CSV file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">get_minFNN_distribution_plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;Koul_et_al_RP_diagnose&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">get_minFNN_distribution_plot</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">'Koul_et_al_RP_diagnose'</span><span class="p">)</span>
 </pre></div>
 </div>
 <div style="position: relative; width: 100%;">

@@ -393,7 +393,7 @@
 <div class="viewcode-block" id="feature_selection">
 <a class="viewcode-back" href="../../functions/cross_validation.html#SMdRQA.cross_validation.feature_selection">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">feature_selection</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">y_name</span><span class="p">,</span> <span class="n">inner_splits</span><span class="p">,</span> <span class="n">select_k</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">repeats</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>  <span class="c1"># inner loop function</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function used for feature selection  using best subset setection and average cross validation accuracy</span>
 
 <span class="sd">    Parameters</span>
@@ -436,9 +436,9 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
 
-<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. "On over-fitting in model selection and subsequent selection bias in performance evaluation." The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
     <span class="c1"># Load the data into a pandas DataFrame</span>
 
@@ -591,7 +591,7 @@
         <span class="n">inner_repeats</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">outer_splits</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">inner_splits</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    This is a function to run nested cross validation. The outer loop is for evaluation and inner loop for feature selection</span>
 
 <span class="sd">    Parameters</span>
@@ -607,7 +607,7 @@
 <span class="sd">        column name for the outcome variable</span>
 
 <span class="sd">    outname : str</span>
-<span class="sd">         name to be included in the output csv file&#39;s name</span>
+<span class="sd">         name to be included in the output csv file's name</span>
 
 <span class="sd">    outer_splits : int</span>
 <span class="sd">        number of cross validation splits for the outer loop</span>
@@ -631,9 +631,9 @@
 <span class="sd">    ----------</span>
 <span class="sd">    - `Scikit-Learn Nested Cross-Validation Example &lt;https://scikit-learn.org/stable/auto_examples/model_selection/plot_nested_cross_validation_iris.html&gt;`__</span>
 
-<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. &quot;On over-fitting in model selection and subsequent selection bias in performance evaluation.&quot; The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
+<span class="sd">    - Cawley, Gavin C., and Nicola LC Talbot. "On over-fitting in model selection and subsequent selection bias in performance evaluation." The Journal of Machine Learning Research 11 (2010): 2079-2107.</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
     <span class="c1"># Load the data into a pandas DataFrame</span>
@@ -668,24 +668,24 @@
         <span class="n">val_ACC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_score</span><span class="p">)</span>
         <span class="n">val_ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_roc_auc</span><span class="p">)</span>
         <span class="n">FEATURES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">best_features</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;selected number of neighbours is:&#39;</span><span class="p">,</span> <span class="n">best_neigh</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'selected number of neighbours is:'</span><span class="p">,</span> <span class="n">best_neigh</span><span class="p">)</span>
         <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsClassifier</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="n">best_neigh</span><span class="p">)</span>
         <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">best_features</span><span class="p">],</span> <span class="n">y_train</span><span class="p">)</span>
         <span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">]))</span>
         <span class="n">ACCURACY</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;accuracy:&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'accuracy:'</span><span class="p">,</span> <span class="n">score</span><span class="p">)</span>
         <span class="n">roc_auc</span> <span class="o">=</span> <span class="n">roc_auc_score</span><span class="p">(</span>
             <span class="n">y_test</span><span class="p">,</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span>
                 <span class="n">X_test</span><span class="p">[</span><span class="n">best_features</span><span class="p">])[</span>
                 <span class="p">:,</span> <span class="mi">1</span><span class="p">])</span>
         <span class="n">ROC_AUC</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roc_auc</span><span class="p">)</span>
 
-    <span class="n">DF_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">&#39;features&#39;</span><span class="p">:</span> <span class="n">FEATURES</span><span class="p">,</span>
-                                     <span class="s1">&#39;validation_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">val_ROC_AUC</span><span class="p">,</span>
-                                     <span class="s1">&#39;validation_accuracy&#39;</span><span class="p">:</span> <span class="n">val_ACC</span><span class="p">,</span>
-                                     <span class="s1">&#39;test_accuracy&#39;</span><span class="p">:</span> <span class="n">ACCURACY</span><span class="p">,</span>
-                                     <span class="s1">&#39;test_ROC_AUC&#39;</span><span class="p">:</span> <span class="n">ROC_AUC</span><span class="p">})</span>
-    <span class="n">DF_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Nested_CV_&#39;</span> <span class="o">+</span> <span class="n">outname</span> <span class="o">+</span> <span class="s1">&#39;_fin_results.csv&#39;</span><span class="p">)</span></div>
+    <span class="n">DF_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s1">'features'</span><span class="p">:</span> <span class="n">FEATURES</span><span class="p">,</span>
+                                     <span class="s1">'validation_ROC_AUC'</span><span class="p">:</span> <span class="n">val_ROC_AUC</span><span class="p">,</span>
+                                     <span class="s1">'validation_accuracy'</span><span class="p">:</span> <span class="n">val_ACC</span><span class="p">,</span>
+                                     <span class="s1">'test_accuracy'</span><span class="p">:</span> <span class="n">ACCURACY</span><span class="p">,</span>
+                                     <span class="s1">'test_ROC_AUC'</span><span class="p">:</span> <span class="n">ROC_AUC</span><span class="p">})</span>
+    <span class="n">DF_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'Nested_CV_'</span> <span class="o">+</span> <span class="n">outname</span> <span class="o">+</span> <span class="s1">'_fin_results.csv'</span><span class="p">)</span></div>
 
 </pre></div>
 

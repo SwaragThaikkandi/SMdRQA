@@ -381,7 +381,7 @@
                 <article class="bd-article">
                   
   <h1>Source code for SMdRQA.ui.simulate</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""</span>
 <span class="sd">Simulation helpers for the SMdRQA UI.</span>
 
 <span class="sd">Provides editable per-system parameter defaults (matching the</span>
@@ -390,7 +390,7 @@
 <span class="sd">sampling for regime-labelled batch generation, and a standalone</span>
 <span class="sd">``simulate_signal`` used both by the UI and by the exported</span>
 <span class="sd">reproducibility scripts.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -398,13 +398,13 @@
 
 <span class="c1">#: Editable parameters per system, mirroring RQA2_simulators defaults.</span>
 <span class="n">SYSTEM_PARAM_DEFAULTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;rossler&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mf">5.7</span><span class="p">},</span>
-    <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sigma&#39;</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mf">8.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">},</span>
-    <span class="s1">&#39;henon&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mf">1.4</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
-    <span class="s1">&#39;chua&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">15.6</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">&#39;m0&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.143</span><span class="p">,</span> <span class="s1">&#39;m1&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.714</span><span class="p">},</span>
-    <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;K&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;omega_sd&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;n_osc&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
-    <span class="s1">&#39;sine&#39;</span><span class="p">:</span> <span class="p">{},</span>
-    <span class="s1">&#39;white_noise&#39;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'rossler'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">:</span> <span class="mf">5.7</span><span class="p">},</span>
+    <span class="s1">'lorenz'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'sigma'</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="s1">'rho'</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">'beta'</span><span class="p">:</span> <span class="mf">8.0</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">},</span>
+    <span class="s1">'henon'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'a'</span><span class="p">:</span> <span class="mf">1.4</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">},</span>
+    <span class="s1">'chua'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'alpha'</span><span class="p">:</span> <span class="mf">15.6</span><span class="p">,</span> <span class="s1">'beta'</span><span class="p">:</span> <span class="mf">28.0</span><span class="p">,</span> <span class="s1">'m0'</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.143</span><span class="p">,</span> <span class="s1">'m1'</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.714</span><span class="p">},</span>
+    <span class="s1">'kuramoto'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'K'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">'omega_sd'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">'n_osc'</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+    <span class="s1">'sine'</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="s1">'white_noise'</span><span class="p">:</span> <span class="p">{},</span>
 <span class="p">}</span>
 
 <span class="c1">#: Bifurcation-parameter metadata per system.  ``threshold`` is the</span>
@@ -413,63 +413,63 @@
 <span class="c1">#: guides taken from the standard literature, not exact bifurcation</span>
 <span class="c1">#: points.</span>
 <span class="n">REGIMES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;rossler&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">,</span>
-        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With a=b=0.2 the Rössler system period-doubles into &quot;</span>
-                 <span class="s2">&quot;chaos as c grows: c≈3.5 gives a simple limit cycle, &quot;</span>
-                 <span class="s2">&quot;chaos onsets near c≈4.2, and c=5.7 is the canonical &quot;</span>
-                 <span class="s2">&quot;chaotic attractor.&quot;</span><span class="p">),</span>
+    <span class="s1">'rossler'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'param'</span><span class="p">:</span> <span class="s1">'c'</span><span class="p">,</span>
+        <span class="s1">'threshold'</span><span class="p">:</span> <span class="mf">4.2</span><span class="p">,</span>
+        <span class="s1">'below_label'</span><span class="p">:</span> <span class="s1">'periodic'</span><span class="p">,</span>
+        <span class="s1">'above_label'</span><span class="p">:</span> <span class="s1">'chaotic'</span><span class="p">,</span>
+        <span class="s1">'note'</span><span class="p">:</span> <span class="p">(</span><span class="s2">"With a=b=0.2 the Rössler system period-doubles into "</span>
+                 <span class="s2">"chaos as c grows: c≈3.5 gives a simple limit cycle, "</span>
+                 <span class="s2">"chaos onsets near c≈4.2, and c=5.7 is the canonical "</span>
+                 <span class="s2">"chaotic attractor."</span><span class="p">),</span>
     <span class="p">},</span>
-    <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;rho&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">24.74</span><span class="p">,</span>
-        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;fixed_point&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With sigma=10, beta=8/3 the Lorenz fixed points lose &quot;</span>
-                 <span class="s2">&quot;stability at rho≈24.74; rho=28 is the canonical &quot;</span>
-                 <span class="s2">&quot;chaotic attractor.&quot;</span><span class="p">),</span>
+    <span class="s1">'lorenz'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'param'</span><span class="p">:</span> <span class="s1">'rho'</span><span class="p">,</span>
+        <span class="s1">'threshold'</span><span class="p">:</span> <span class="mf">24.74</span><span class="p">,</span>
+        <span class="s1">'below_label'</span><span class="p">:</span> <span class="s1">'fixed_point'</span><span class="p">,</span>
+        <span class="s1">'above_label'</span><span class="p">:</span> <span class="s1">'chaotic'</span><span class="p">,</span>
+        <span class="s1">'note'</span><span class="p">:</span> <span class="p">(</span><span class="s2">"With sigma=10, beta=8/3 the Lorenz fixed points lose "</span>
+                 <span class="s2">"stability at rho≈24.74; rho=28 is the canonical "</span>
+                 <span class="s2">"chaotic attractor."</span><span class="p">),</span>
     <span class="p">},</span>
-    <span class="s1">&#39;henon&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">1.06</span><span class="p">,</span>
-        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With b=0.3 the Hénon map is largely periodic below &quot;</span>
-                 <span class="s2">&quot;a≈1.06 and chaotic (with periodic windows) up to the &quot;</span>
-                 <span class="s2">&quot;canonical a=1.4.&quot;</span><span class="p">),</span>
+    <span class="s1">'henon'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'param'</span><span class="p">:</span> <span class="s1">'a'</span><span class="p">,</span>
+        <span class="s1">'threshold'</span><span class="p">:</span> <span class="mf">1.06</span><span class="p">,</span>
+        <span class="s1">'below_label'</span><span class="p">:</span> <span class="s1">'periodic'</span><span class="p">,</span>
+        <span class="s1">'above_label'</span><span class="p">:</span> <span class="s1">'chaotic'</span><span class="p">,</span>
+        <span class="s1">'note'</span><span class="p">:</span> <span class="p">(</span><span class="s2">"With b=0.3 the Hénon map is largely periodic below "</span>
+                 <span class="s2">"a≈1.06 and chaotic (with periodic windows) up to the "</span>
+                 <span class="s2">"canonical a=1.4."</span><span class="p">),</span>
     <span class="p">},</span>
-    <span class="s1">&#39;chua&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="mf">8.8</span><span class="p">,</span>
-        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;periodic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;chaotic&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;With the default beta/m0/m1, Chua&#39;s circuit shows &quot;</span>
-                 <span class="s2">&quot;limit cycles at low alpha and double-scroll chaos &quot;</span>
-                 <span class="s2">&quot;around the canonical alpha=15.6; alpha≈8.8 is an &quot;</span>
-                 <span class="s2">&quot;approximate transition guide.&quot;</span><span class="p">),</span>
+    <span class="s1">'chua'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'param'</span><span class="p">:</span> <span class="s1">'alpha'</span><span class="p">,</span>
+        <span class="s1">'threshold'</span><span class="p">:</span> <span class="mf">8.8</span><span class="p">,</span>
+        <span class="s1">'below_label'</span><span class="p">:</span> <span class="s1">'periodic'</span><span class="p">,</span>
+        <span class="s1">'above_label'</span><span class="p">:</span> <span class="s1">'chaotic'</span><span class="p">,</span>
+        <span class="s1">'note'</span><span class="p">:</span> <span class="p">(</span><span class="s2">"With the default beta/m0/m1, Chua's circuit shows "</span>
+                 <span class="s2">"limit cycles at low alpha and double-scroll chaos "</span>
+                 <span class="s2">"around the canonical alpha=15.6; alpha≈8.8 is an "</span>
+                 <span class="s2">"approximate transition guide."</span><span class="p">),</span>
     <span class="p">},</span>
-    <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="s1">&#39;K&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;threshold&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># depends on omega_sd; use kuramoto_kc()</span>
-        <span class="s1">&#39;below_label&#39;</span><span class="p">:</span> <span class="s1">&#39;incoherent&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;above_label&#39;</span><span class="p">:</span> <span class="s1">&#39;synchronized&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;note&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;For Gaussian natural frequencies the critical &quot;</span>
-                 <span class="s2">&quot;coupling is K_c = omega_sd·sqrt(8/pi) ≈ &quot;</span>
-                 <span class="s2">&quot;1.596·omega_sd: incoherent below, synchronised &quot;</span>
-                 <span class="s2">&quot;above.&quot;</span><span class="p">),</span>
+    <span class="s1">'kuramoto'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">'param'</span><span class="p">:</span> <span class="s1">'K'</span><span class="p">,</span>
+        <span class="s1">'threshold'</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># depends on omega_sd; use kuramoto_kc()</span>
+        <span class="s1">'below_label'</span><span class="p">:</span> <span class="s1">'incoherent'</span><span class="p">,</span>
+        <span class="s1">'above_label'</span><span class="p">:</span> <span class="s1">'synchronized'</span><span class="p">,</span>
+        <span class="s1">'note'</span><span class="p">:</span> <span class="p">(</span><span class="s2">"For Gaussian natural frequencies the critical "</span>
+                 <span class="s2">"coupling is K_c = omega_sd·sqrt(8/pi) ≈ "</span>
+                 <span class="s2">"1.596·omega_sd: incoherent below, synchronised "</span>
+                 <span class="s2">"above."</span><span class="p">),</span>
     <span class="p">},</span>
 <span class="p">}</span>
 
-<span class="n">DISTRIBUTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;fixed&#39;</span><span class="p">)</span>
+<span class="n">DISTRIBUTIONS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'uniform'</span><span class="p">,</span> <span class="s1">'normal'</span><span class="p">,</span> <span class="s1">'fixed'</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="kuramoto_kc">
 <a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.kuramoto_kc">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">kuramoto_kc</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Critical Kuramoto coupling for Gaussian frequencies.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Critical Kuramoto coupling for Gaussian frequencies."""</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">8.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span></div>
 
 
@@ -477,15 +477,15 @@
 <div class="viewcode-block" id="regime_threshold">
 <a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.regime_threshold">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">regime_threshold</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Suggested regime threshold for *system* (None if no regime).&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Suggested regime threshold for *system* (None if no regime)."""</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">REGIMES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'kuramoto'</span><span class="p">:</span>
         <span class="n">omega_sd</span> <span class="o">=</span> <span class="p">(</span><span class="n">params</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s1">&#39;omega_sd&#39;</span><span class="p">,</span> <span class="n">SYSTEM_PARAM_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;kuramoto&#39;</span><span class="p">][</span><span class="s1">&#39;omega_sd&#39;</span><span class="p">])</span>
+            <span class="s1">'omega_sd'</span><span class="p">,</span> <span class="n">SYSTEM_PARAM_DEFAULTS</span><span class="p">[</span><span class="s1">'kuramoto'</span><span class="p">][</span><span class="s1">'omega_sd'</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">kuramoto_kc</span><span class="p">(</span><span class="n">omega_sd</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;threshold&#39;</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s1">'threshold'</span><span class="p">]</span></div>
 
 
 
@@ -493,17 +493,17 @@
 <a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.sample_regime_values">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sample_regime_values</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">dist_params</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span>
                          <span class="n">rng</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw *n* bifurcation-parameter values on one side of *threshold*.</span>
+<span class="w">    </span><span class="sd">"""Draw *n* bifurcation-parameter values on one side of *threshold*.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    distribution : {&#39;uniform&#39;, &#39;normal&#39;, &#39;fixed&#39;}</span>
+<span class="sd">    distribution : {'uniform', 'normal', 'fixed'}</span>
 <span class="sd">    dist_params : dict</span>
-<span class="sd">        ``{&#39;low&#39;, &#39;high&#39;}`` for uniform, ``{&#39;mean&#39;, &#39;sd&#39;}`` for normal,</span>
-<span class="sd">        ``{&#39;value&#39;}`` for fixed.</span>
+<span class="sd">        ``{'low', 'high'}`` for uniform, ``{'mean', 'sd'}`` for normal,</span>
+<span class="sd">        ``{'value'}`` for fixed.</span>
 <span class="sd">    n : int</span>
 <span class="sd">        Number of samples.</span>
-<span class="sd">    side : {&#39;below&#39;, &#39;above&#39;}</span>
+<span class="sd">    side : {'below', 'above'}</span>
 <span class="sd">        Which side of *threshold* the samples must fall on; draws are</span>
 <span class="sd">        clipped to that side so regime labels stay truthful.</span>
 <span class="sd">    threshold : float</span>
@@ -513,31 +513,31 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ndarray of shape (n,)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;uniform&#39;</span><span class="p">:</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;low&#39;</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;normal&#39;</span><span class="p">:</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;sd&#39;</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">&#39;fixed&#39;</span><span class="p">:</span>
-        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]))</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">'uniform'</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">'low'</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">'high'</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">'normal'</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">'mean'</span><span class="p">],</span> <span class="n">dist_params</span><span class="p">[</span><span class="s1">'sd'</span><span class="p">],</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s1">'fixed'</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">dist_params</span><span class="p">[</span><span class="s1">'value'</span><span class="p">]))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unknown distribution &#39;</span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;Available: </span><span class="si">{</span><span class="n">DISTRIBUTIONS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="sa">f</span><span class="s2">"Unknown distribution '</span><span class="si">{</span><span class="n">distribution</span><span class="si">}</span><span class="s2">'. "</span>
+            <span class="sa">f</span><span class="s2">"Available: </span><span class="si">{</span><span class="n">DISTRIBUTIONS</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">margin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;below&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">'below'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">-</span> <span class="n">margin</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">&#39;above&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="s1">'above'</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">+</span> <span class="n">margin</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;side must be &#39;below&#39; or &#39;above&#39;.&quot;</span><span class="p">)</span></div>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"side must be 'below' or 'above'."</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="simulate_signal">
 <a class="viewcode-back" href="../../../functions/ui.html#SMdRQA.ui.simulate.simulate_signal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">simulate_signal</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">system</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">noise_sd</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simulate one signal from *system* with explicit parameters.</span>
+<span class="w">    </span><span class="sd">"""Simulate one signal from *system* with explicit parameters.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -559,31 +559,31 @@
 <span class="sd">    -------</span>
 <span class="sd">    ndarray</span>
 <span class="sd">        1-D for sine/white noise, else (length, n_dims).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">merged</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">SYSTEM_PARAM_DEFAULTS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">system</span><span class="p">,</span> <span class="p">{}))</span>
     <span class="n">merged</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;rossler&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'rossler'</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">rossler</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;lorenz&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'lorenz'</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">lorenz</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;henon&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'henon'</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">henon</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;chua&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'chua'</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">chua</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;kuramoto&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'kuramoto'</span><span class="p">:</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">kuramoto</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">length</span><span class="p">,</span> <span class="o">**</span><span class="n">merged</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;sine&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'sine'</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">&#39;white_noise&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">system</span> <span class="o">==</span> <span class="s1">'white_noise'</span><span class="p">:</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown system &#39;</span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown system '</span><span class="si">{</span><span class="n">system</span><span class="si">}</span><span class="s2">'."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">noise_sd</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span> <span class="o">+</span> <span class="n">noise_sd</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">standard_normal</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>

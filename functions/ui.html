@@ -517,7 +517,7 @@ rerunning the exported file reproduces the session exactly.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span> <span class="o">=</span> <span class="n">ScriptRecorder</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="s2">&quot;x = np.arange(10)&quot;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;Create data&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rec</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="s2">"x = np.arange(10)"</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s2">"Create data"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">script</span><span class="p">())</span>
 </pre></div>
 </div>

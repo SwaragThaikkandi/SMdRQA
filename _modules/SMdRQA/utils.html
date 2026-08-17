@@ -408,13 +408,13 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">numpy.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">overrides</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;Agg&#39;</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'Agg'</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="assert_matrix">
 <a class="viewcode-back" href="../../functions/utils.html#SMdRQA.utils.assert_matrix">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assert_matrix</span><span class="p">(</span><span class="n">input_array</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to assert that an input is a matrix</span>
 
 <span class="sd">    Parameters</span>
@@ -428,10 +428,10 @@
 <span class="sd">    matrix : ndarray</span>
 <span class="sd">         2D matrix</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="c1"># Check if the input is a NumPy array</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input must be a NumPy array.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Input must be a NumPy array."</span><span class="p">)</span>
 
     <span class="c1"># Ensure the array is at least 2D (convert to matrix if necessary)</span>
     <span class="n">matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">input_array</span><span class="p">)</span>
@@ -443,7 +443,7 @@
 <div class="viewcode-block" id="compute_3D_matrix_size">
 <a class="viewcode-back" href="../../functions/utils.html#SMdRQA.utils.compute_3D_matrix_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_3D_matrix_size</span><span class="p">(</span><span class="n">dim1</span><span class="p">,</span> <span class="n">dim2</span><span class="p">,</span> <span class="n">dim3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to calculate memory required(GiB) for storing a 3D matrix of given size and data type</span>
 
 <span class="sd">    Parameters</span>
@@ -466,7 +466,7 @@
 <span class="sd">    size : double</span>
 <span class="sd">         size of the 3D matrix in GiB</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">total_elements</span> <span class="o">=</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span> <span class="o">*</span> <span class="n">dim3</span>
     <span class="n">element_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">itemsize</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">total_elements</span> <span class="o">*</span> <span class="n">element_size</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1024</span><span class="o">**</span><span class="mi">3</span><span class="p">)</span></div>
@@ -476,7 +476,7 @@
 <div class="viewcode-block" id="assert_3D_matrix_size">
 <a class="viewcode-back" href="../../functions/utils.html#SMdRQA.utils.assert_3D_matrix_size">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">assert_3D_matrix_size</span><span class="p">(</span><span class="n">dim1</span><span class="p">,</span> <span class="n">dim2</span><span class="p">,</span> <span class="n">dim3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">memory_limit</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">'''</span>
 <span class="sd">    Function to assert that a 3D matrix of given dimensions and data type is below a specified size</span>
 
 <span class="sd">    Parameters</span>
@@ -502,7 +502,7 @@
 <span class="sd">    output : bool</span>
 <span class="sd">         True if the memory requirement is less than the specified limit</span>
 
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    '''</span>
     <span class="n">req_memory</span> <span class="o">=</span> <span class="n">compute_3D_matrix_size</span><span class="p">(</span><span class="n">dim1</span><span class="p">,</span> <span class="n">dim2</span><span class="p">,</span> <span class="n">dim3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">req_memory</span> <span class="o">&lt;</span> <span class="n">memory_limit</span><span class="p">:</span>
