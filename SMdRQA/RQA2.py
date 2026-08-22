@@ -1839,34 +1839,35 @@ class RQA2:
         return nvert
 
     def _diaghist(self, rplot, n):
-        """Compute diagonal line distribution."""
+        """
+        Compute diagonal line distribution.
+
+        """
         if n == 0:
             return np.array([0])
 
-        rp = np.asarray(rplot)
+        rp = np.asarray(rplot).copy()
+        # Exclude the main diagonal
+        np.fill_diagonal(rp, 0)
 
-        # Row i of M holds the diagonal starting at rplot[i, 0] (zero-padded),
-        # so all lower-triangle diagonals can be run-length encoded in one
-        # pass.
+        # M holds the diagonals starting at rp[i, 0] for i=1..n-1 (lower diagonals)
+        # M[i, :] will contain the (n-i)-length diagonal, zero padded.
         M = np.zeros((n, n), dtype=np.int8)
-        for i in range(n):
+        for i in range(1, n):   # skip i=0 (main diagonal already zero)
             diag = np.diagonal(rp, offset=-i)
             k = min(len(diag), n - i)
             if k > 0:
                 M[i, :k] = (diag[:k] == 1)
 
-        dghist = np.zeros(n + 1)
+        # Compute run lengths across all rows of M
         lengths = self._run_lengths(M)
-        counts = np.bincount(lengths, minlength=n + 1)
-        dghist[1:] = counts[1:n + 1]
-        # Zero-length records from the per-diagonal scan (diagonal i has
-        # n - i cells, n*(n+1)/2 in total).
-        total_cells = n * (n + 1) // 2
-        dghist[0] = (total_cells - int(M.sum())) - len(lengths) + n
 
+        dghist = np.zeros(n + 1)
+        counts = np.bincount(lengths, minlength=n + 1)
+        dghist[1:] = counts[1:n + 1]   # ignore zero-length runs
+
+        # Since we only counted lower diagonals, double to account for upper ones
         dghist *= 2
-        if len(dghist) > n:
-            dghist[n] /= 2
 
         return dghist
 
