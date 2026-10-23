@@ -28,7 +28,7 @@ jobs:
           user: SwaragThaikkandi
           repo: SMdRQA
       - name: Create Repository Tree
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Update Repository Tree
         uses: githubocto/repo-visualizer@0.9.1
         with:
