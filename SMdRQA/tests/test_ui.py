@@ -6,6 +6,11 @@ dependency; the app import smoke test is skipped unless streamlit and
 plotly are installed.
 """
 
+from SMdRQA.ui.simulate import (
+    REGIMES, SYSTEM_PARAM_DEFAULTS, kuramoto_kc, regime_threshold,
+    sample_regime_values, simulate_signal,
+)
+from SMdRQA.RQA2 import RQA2_simulators
 import numpy as np
 import pytest
 
@@ -122,12 +127,6 @@ class TestAppSmoke:
 # ---------------------------------------------------------------------------
 # Simulation helpers (regime sampling, kuramoto)
 # ---------------------------------------------------------------------------
-
-from SMdRQA.RQA2 import RQA2_simulators
-from SMdRQA.ui.simulate import (
-    REGIMES, SYSTEM_PARAM_DEFAULTS, kuramoto_kc, regime_threshold,
-    sample_regime_values, simulate_signal,
-)
 
 
 class TestKuramotoSimulator:

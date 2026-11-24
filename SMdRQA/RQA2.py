@@ -386,7 +386,8 @@ class RQA2_filters:
 
         if filtered_signal is not None:
             y = np.asarray(filtered_signal, dtype=float).flatten()
-            freqs_filt, psd_filt = welch(y, fs=self.fs, nperseg=min(len(y), 256))
+            freqs_filt, psd_filt = welch(
+                y, fs=self.fs, nperseg=min(len(y), 256))
             plt.loglog(freqs_filt, psd_filt, alpha=0.8, label="Filtered")
 
         plt.xlabel("Frequency")
@@ -444,7 +445,9 @@ class RQA2_filters:
 
         # Power spectra
         freqs_orig, psd_orig = welch(x, fs=self.fs, nperseg=min(len(x), 256))
-        freqs_filt, psd_filt = welch(filtered, fs=self.fs, nperseg=min(len(filtered), 256))
+        freqs_filt, psd_filt = welch(
+            filtered, fs=self.fs, nperseg=min(
+                len(filtered), 256))
         axes[1].loglog(freqs_orig, psd_orig, alpha=0.6, label="Original")
         axes[1].loglog(freqs_filt, psd_filt, alpha=0.8, label="Filtered")
         axes[1].set_xlabel("Frequency")
@@ -1575,8 +1578,8 @@ class RQA2:
             p_x /= np.sum(p_x)
             p_y /= np.sum(p_y)
 
-            return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x *
-                                                         np.log2(p_x)) - np.sum(p_y * np.log2(p_y))
+            return np.sum(p_xy * np.log2(p_xy)) - np.sum(p_x * \
+                          np.log2(p_x)) - np.sum(p_y * np.log2(p_y))
         except BaseException:
             return 0.0
 
@@ -1866,7 +1869,8 @@ class RQA2:
         counts = np.bincount(lengths, minlength=n + 1)
         dghist[1:] = counts[1:n + 1]   # ignore zero-length runs
 
-        # Since we only counted lower diagonals, double to account for upper ones
+        # Since we only counted lower diagonals, double to account for upper
+        # ones
         dghist *= 2
 
         return dghist
